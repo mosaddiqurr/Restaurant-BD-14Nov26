@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour Themes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,400..800&family=Archivo:wdth,wght@62..125,400..900&family=Geist+Mono:wght@400;600&family=Onest:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#0f1012;color:#e9e9e6;font:15px/1.55 Onest,system-ui,sans-serif;padding:40px 20px 60px}
+h1{font:800 44px/1 Archivo,sans-serif;font-variation-settings:"wdth" 75;letter-spacing:-.01em;text-transform:uppercase;max-width:1260px;margin:0 auto 6px}
+.sub{color:#9a9ca3;max-width:1260px;margin:0 auto 30px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(600px,1fr));gap:22px;max-width:1260px;margin:0 auto}
+@media(max-width:680px){.grid{grid-template-columns:1fr}.card{grid-template-columns:1fr!important;justify-items:center}}
+.card{display:grid;grid-template-columns:330px 1fr;gap:24px;background:#16171a;border:1px solid #2a2c31;border-radius:22px;padding:20px}
+.info h2{font:800 30px/1 Archivo,sans-serif;font-variation-settings:"wdth" 72;text-transform:uppercase;letter-spacing:.01em}
+.info .n{font:600 12px Geist Mono,monospace;color:#8d8f96}
+.info .mood{color:#b9bac0;font-size:13.5px;margin:4px 0 12px}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px}
+.sw div{border-radius:10px;padding:26px 8px 7px;font:600 10.5px/1.25 Geist Mono,monospace;border:1px solid #ffffff14}
+.sw div span{display:block;opacity:.8;font-weight:400}
+.info h4{font-size:12px;color:#8d8f96;font-weight:600;margin:10px 0 4px;letter-spacing:.04em}
+.info ul{padding-left:18px;font-size:13.5px;color:#d6d7db}
+.info li{margin:4px 0}
+.info .warn{font-size:13px;color:#b9bac0;border-left:2px solid #555;padding-left:10px;margin-top:10px}
+/* phone */
+.phn{width:330px;height:690px;border-radius:40px;padding:9px;background:#060607;box-shadow:0 0 0 1px #33353b,0 30px 60px -30px #000}
+.scr{width:100%;height:100%;border-radius:32px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg);color:var(--tx);font:14px/1.45 Archivo,"Anek Bangla",sans-serif}
+.url{flex:none;height:34px;display:flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--tx) 8%,var(--bg));font:12px system-ui,sans-serif;color:var(--mu)}
+.url span{display:inline-flex;gap:5px;align-items:center;background:color-mix(in srgb,var(--tx) 7%,var(--bg));border-radius:999px;padding:5px 22px}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:12px 18px 6px;position:relative;z-index:2}
+.wm{font-weight:900;font-size:24px;font-variation-settings:"wdth" 70;text-transform:uppercase;letter-spacing:.01em;color:var(--br)}
+.hd .r{display:flex;gap:12px;align-items:center;font-size:13px}
+.hd .r b{font-family:"Anek Bangla";font-weight:600;border:1px solid var(--ln);border-radius:999px;padding:3px 10px}
+.loc{display:flex;justify-content:center;gap:6px;align-items:center;font-size:12.5px;color:var(--mu);position:relative;z-index:2;margin-top:6px}
+.stage{position:relative;padding:20px 16px 0;z-index:2}
+.glow{position:absolute;left:50%;top:-40px;width:420px;height:420px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--br) var(--gs,30%),transparent),transparent 72%);pointer-events:none;z-index:-1}
+.ring{position:absolute;left:50%;top:-6px;width:290px;height:290px;transform:translateX(-50%);border-radius:50%;border:1px dashed color-mix(in srgb,var(--br) 40%,transparent);z-index:-1}
+.sbar{display:flex;align-items:center;gap:10px;height:58px;border-radius:999px;background:var(--el);border:1px solid color-mix(in srgb,var(--br) 45%,var(--ln));padding:0 6px 0 18px;box-shadow:0 18px 40px -20px color-mix(in srgb,var(--br) 70%,transparent);color:var(--mu);font-size:14.5px}
+.sbar i{font-size:20px;color:var(--br)}
+.sbar span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbar .go{flex:none;width:46px;height:46px;border-radius:50%;background:var(--br);color:var(--ob);display:grid;place-items:center;font-size:19px}
+.chips{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.chips span{font-size:12px;padding:6px 11px;border-radius:999px;border:1px solid var(--ln);color:var(--tx);background:color-mix(in srgb,var(--sf) 70%,transparent)}
+.or{display:flex;align-items:center;gap:10px;margin:16px 4px 12px;font-size:11px;color:var(--mu);letter-spacing:.14em;text-transform:uppercase}
+.or::before,.or::after{content:"";flex:1;height:1px;background:var(--ln)}
+.ai{background:var(--sf);border:1px solid var(--ln);border-radius:22px;padding:14px}
+.ai .t{display:flex;gap:6px;align-items:center;font-weight:700;font-size:13px;color:var(--ac)}
+.ai .q{margin:8px 0 12px;color:var(--mu);font-size:14px;font-family:"Anek Bangla",Archivo,sans-serif}
+.ai .b{display:flex;justify-content:space-between;align-items:center}
+.ai .b .ic{display:flex;gap:12px;color:var(--mu);font-size:18px}
+.ai .send{border:0;height:38px;padding:0 14px;border-radius:999px;background:var(--ac);color:var(--oa);font:700 13px Archivo,sans-serif;display:inline-flex;gap:6px;align-items:center}
+.proof{display:flex;gap:8px;overflow:hidden;padding:16px 16px 0;position:relative;z-index:2}
+.pc{flex:none;width:196px;background:var(--el);border:1px solid var(--ln);border-radius:16px;padding:9px 11px}
+.pc b{display:block;font-size:13px}
+.pc .m{font-size:11px;color:var(--mu)}
+.pc .p{display:flex;justify-content:space-between;align-items:baseline;margin-top:3px}
+.pc .p span{font-weight:800;font-size:17px;color:var(--pr);font-variant-numeric:tabular-nums}
+.pc .p small{font-size:10.5px;color:var(--ok)}
+.sky{position:absolute;left:0;right:0;bottom:56px;height:110px;z-index:1}
+.bb{margin-top:auto;position:relative;z-index:3;display:grid;grid-template-columns:repeat(5,1fr);background:color-mix(in srgb,var(--sf) 92%,transparent);border-top:1px solid var(--ln);padding:6px 2px 12px;backdrop-filter:blur(8px)}
+.bb a{display:flex;flex-direction:column;align-items:center;font-size:10.5px;color:var(--mu);gap:1px}
+.bb a i{font-size:21px}
+.bb a.on{color:var(--br);font-weight:700}
+</style>
+</head>
+<body>
+<h1>10 colour themes</h1>
+<p class="sub">Same Spice Night home page in each. Search is the main action, AI sits right below it.</p>
+<div class="grid" id="g"></div>
+<script>
+const T=[
+{name:'Saffron Night',mood:'Warm, hungry, premium night out',bg:'#120C08',sf:'#1C140E',el:'#241A12',tx:'#F7EBDC',mu:'#BFA996',ln:'#3A2A1D',br:'#F4A62A',ob:'#1A1007',ac:'#FF7A45',oa:'#1A0A04',pr:'#F6B640',ok:'#7BD88F',
+why:['Saffron is the colour of kacchi and biryani, the dishes Bangladeshis eat out for.','Warm orange-gold on near-black is the strongest appetite signal and makes food photos glow.','No food app in Bangladesh owns saffron on black; foodpanda is pink, Pathao is red.'],warn:'Dark-first; needs a full light mode for daytime and older users.'},
+{name:'Neel & Marigold',mood:'Proud, trusted, unmistakably Bengali',bg:'#0B1030',sf:'#141A42',el:'#1B2252',tx:'#EFEADB',mu:'#A9AFCB',ln:'#2A3266',br:'#F2C14E',ob:'#14100A',ac:'#FF8A65',oa:'#1A0A04',pr:'#F2C14E',ok:'#6FE0A4',
+why:['Indigo (neel) is Bengal\'s own colour, with a deep history in this land.','Marigold is the flower of every Bangladeshi celebration, weddings to Pohela Boishakh.','Blue reads as trust, which is the whole promise: real prices.'],warn:'Blue is not an appetite colour; the marigold and the food photos must carry hunger.'},
+{name:'Sorshe Field',mood:'Bright, optimistic, impossible to miss',bg:'#12160C',sf:'#1B2113',el:'#232B19',tx:'#F4F1DC',mu:'#B5B39A',ln:'#2F3824',br:'#FFCC33',ob:'#141006',ac:'#9BD15F',oa:'#0E1A06',pr:'#FFD24D',ok:'#9BD15F',
+why:['Winter mustard fields are one of the most loved images of rural Bangladesh.','Yellow is the most visible colour on a cheap phone screen in sunlight.','Yellow plus leaf green says fresh and affordable, good for Bogura and students.'],warn:'Yellow text needs dark backgrounds; never use it for small text on white.'},
+{name:'Ilish Silver',mood:'Calm, modern, quietly luxurious',bg:'#0E1319',sf:'#161D25',el:'#1D2631',tx:'#E9EEF3',mu:'#9FAAB7',ln:'#243040',br:'#BFD5EC',ob:'#0E1319',ac:'#FF7461',oa:'#1A0805',pr:'#E9EEF3',ok:'#6BD49B',
+why:['Hilsa is the national fish; its silver is a premium, cool tone few brands use.','The coral accent (the hilsa gill) gives one warm, appetising pop.','Neutral silver lets every restaurant\'s photos look their best.'],warn:'Can feel cold; keep the coral visible on every screen.'},
+{name:'Jamdani Black',mood:'Timeless, elegant, gallery-like',bg:'#111111',sf:'#1A1918',el:'#22211F',tx:'#F1EEE6',mu:'#ABA79C',ln:'#2E2C29',br:'#F1EEE6',ob:'#111111',ac:'#FF5A70',oa:'#1A0509',pr:'#F1EEE6',ok:'#7AD69C',
+why:['Inspired by jamdani muslin: ivory thread on black, Bangladesh\'s finest craft.','Black and ivory never date; it will still look right in ten years.','Food photography pops the most on a neutral base.'],warn:'Very restrained; relies on great photos and the pomegranate accent for warmth.'},
+{name:'Sundarbans',mood:'Bold, natural, full of energy',bg:'#0C1A14',sf:'#12231B',el:'#183025',tx:'#ECF2EC',mu:'#A3B5A8',ln:'#1F3529',br:'#F28C28',ob:'#1A0D02',ac:'#5BC28F',oa:'#04140C',pr:'#F7A54F',ok:'#5BC28F',
+why:['Royal Bengal tiger orange on mangrove green: the two colours of the Sundarbans.','Orange triggers hunger; deep green signals fresh and halal-friendly food.','A national symbol that also grows beyond food (cafés, salons, shops).'],warn:'Orange is common in food brands; the deep green base is what makes it ours.'},
+{name:'Lal Sobuj',mood:'Patriotic, trustworthy, home-grown',bg:'#0F1412',sf:'#161C19',el:'#1E2622',tx:'#ECF1EE',mu:'#A3ADA7',ln:'#26302B',br:'#3CC48F',ob:'#04140D',ac:'#FF5A6A',oa:'#1A0508',pr:'#ECF1EE',ok:'#3CC48F',
+why:['The flag\'s green and red: instant pride and a "made in Bangladesh" feeling.','Green means fresh, open and go, the right signal for "open now".','Red used only as a small accent, like the sun on the flag.'],warn:'Can feel governmental if red and green are used equally; keep red small.'},
+{name:'Terracotta',mood:'Warm, crafted, heritage',light:1,bg:'#F1E7DB',sf:'#F9F3EB',el:'#FFFBF6',tx:'#22303A',mu:'#53606A',ln:'#DCC9B4',br:'#9C3F1A',ob:'#FFF6EE',ac:'#2F5D62',oa:'#F2FAFA',pr:'#9C3F1A',ok:'#346E43',
+why:['Terracotta of Mahasthangarh and Paharpur, right next to your Bogura launch.','Clay tones are earthy and appetising, like a clay handi.','Light mode by default: easiest to read in daylight and for older diners.'],warn:'Can look old-fashioned; modern type and clean layouts keep it fresh.'},
+{name:'Monsoon Teal',mood:'Fresh, clean, calm',light:1,bg:'#EEF4F0',sf:'#F8FBF9',el:'#FFFFFF',tx:'#0F2E2A',mu:'#48625C',ln:'#CFE0D9',br:'#0B6B63',ob:'#F2FBF9',ac:'#B8590A',oa:'#FFF6EC',pr:'#0B6B63',ok:'#2B7139',
+why:['River teal and rain green: Bangladesh is a land of rivers and monsoon.','Teal signals clean and hygienic, which families care about.','Almost no food brand in Bangladesh uses teal, so it stands out.'],warn:'Less appetising on its own; the mango accent and photos add warmth.'},
+{name:'Rickshaw Pop',mood:'Joyful, young, pure Dhaka',bg:'#160E22',sf:'#20152F',el:'#2A1C3D',tx:'#FFF1E0',mu:'#CDBFD9',ln:'#3A2A50',br:'#FFC22E',ob:'#1A1206',ac:'#2BD9C3',oa:'#05201C',pr:'#FFC22E',ok:'#6EE7A0',
+why:['Rickshaw art is on UNESCO\'s heritage list and is instantly recognised as Dhaka.','Bright yellow and teal feel fun and youthful, strong for students and friend groups.','Very shareable on social media.'],warn:'Ages faster than calmer palettes; can feel loud for premium restaurants.'}
+];
+const ic=(n,f)=>`<i class="ph${f?'-fill':''} ph-${n}"></i>`;
+const P=['photo-1589302168068-964664d93dc0','photo-1781243680771-1fea4521e196','photo-1652954008429-ce394eacbd7f'];
+function sky(t){let s='',x=0,r=7;const R=()=>(r=r*16807%2147483647)/2147483647;while(x<330){const w=18+R()*26,h=26+R()*60;s+=`<rect x="${x}" y="${110-h}" width="${w}" height="${h}" fill="${t.light?'color-mix(in srgb,'+t.br+' 18%,'+t.bg+')':t.sf}"/>`;for(let y=110-h+8;y<104;y+=11)for(let k=x+4;k<x+w-5;k+=8)if(R()<.35)s+=`<rect x="${k}" y="${y}" width="3" height="5" fill="${t.br}" opacity=".75"/>`;x+=w+2}return `<svg class="sky" viewBox="0 0 330 110" preserveAspectRatio="none"><path d="M150,40 q14,-26 28,0 z" fill="${t.light?'color-mix(in srgb,'+t.br+' 18%,'+t.bg+')':t.sf}"/>${s}</svg>`}
+function phone(t){const v=`--bg:${t.bg};--sf:${t.sf};--el:${t.el};--tx:${t.tx};--mu:${t.mu};--ln:${t.ln};--br:${t.br};--ob:${t.ob};--ac:${t.ac};--oa:${t.oa};--pr:${t.pr};--ok:${t.ok};--gs:${t.light?'22%':'30%'}`;
+return `<div class="phn"><div class="scr" style="${v}"><div class="url"><span>${ic('lock-simple',1)} khabo.com</span></div>
+<div class="hd"><span class="wm">Khabo</span><span class="r"><b>বাংলা</b>${ic('list')}</span></div>
+<div class="loc">${ic('map-pin',1)} Dhanmondi, Dhaka ${ic('caret-down')}</div>
+<div class="stage"><div class="glow"></div><div class="ring"></div>
+<div class="sbar">${ic('magnifying-glass')}<span>Dish, restaurant or area</span><span class="go">${ic('arrow-right')}</span></div>
+<div class="chips"><span>Open now</span><span>Under ৳500</span><span>Family cabin</span></div>
+<div class="or">or</div>
+<div class="ai"><div class="t">${ic('sparkle',1)} Ask AI</div><div class="q">৳২,৫০০, ৪ জন, ফ্যামিলি, ধানমন্ডি…</div><div class="b"><span class="ic">${ic('microphone')}${ic('camera')}</span><button class="send">Plan it ${ic('arrow-up-right')}</button></div></div></div>
+<div class="proof">${[['Kacchi Biryani','Shahi Handi House',380,'2d ago'],['Fuchka','Lake Road Fuchka',120,'today']].map(([d,r,p,u])=>`<div class="pc"><b>${d}</b><span class="m">${r}</span><div class="p"><span>৳${p}</span><small>${ic('seal-check',1)} ${u}</small></div></div>`).join('')}</div>
+${sky(t)}
+<nav class="bb">${[['house','Home',1],['magnifying-glass','Search'],['sparkle','Ask AI'],['tag','Deals'],['user-circle','Account']].map(([i,l,o])=>`<a class="${o?'on':''}">${ic(i,o)}${l}</a>`).join('')}</nav></div></div>`}
+const swatch=(c,l)=>{const d=parseInt(c.slice(1,3),16)*.299+parseInt(c.slice(3,5),16)*.587+parseInt(c.slice(5,7),16)*.114>150;return `<div style="background:${c};color:${d?'#111':'#fff'}">${c}<span>${l}</span></div>`};
+document.getElementById('g').innerHTML=T.map((t,i)=>`<div class="card">${phone(t)}<div class="info"><span class="n">${String(i+1).padStart(2,'0')}${t.light?' · light':' · dark'}</span><h2>${t.name}</h2><p class="mood">${t.mood}</p><div class="sw">${swatch(t.bg,'Background')}${swatch(t.sf,'Surface')}${swatch(t.tx,'Text')}${swatch(t.br,'Brand')}${swatch(t.ac,'Accent')}${swatch(t.ok,'Verified')}</div><h4>WHY IT WORKS AS YOUR IDENTITY</h4><ul>${t.why.map(w=>`<li>${w}</li>`).join('')}</ul><p class="warn">${t.warn}</p></div></div>`).join('');
+</script>
+</body>
+</html>

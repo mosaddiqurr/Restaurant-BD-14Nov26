@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dish · khabo</title>
+<meta name="theme-color" content="#0A0E26">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="rpage has-abar">
+<div id="hdr-slot"></div>
+<main id="main"></main>
+<div id="ftr-slot"></div>
+<script src="assets/viewer.js"></script>
+<script>
+(function () {
+  const { D, t, addT, N, tk, L, img, ic, R, href, openState, Bill, stars } = APP;
+  const lang = APP.lang();
+  addT({
+    en: { menu:'Menu', billShort:'Bill', photos:'Photos', video:'Video', d3:'3D', back:'Back', portion:'Portion', spice:'Spice', type:'Type', nonveg:'Non-veg', veg:'Veg', addBill:'Add to bill', inBill:'In your bill',
+      viewBill:'View bill', inside:"What's in it", hist:'Price history', histSub:'Every price change is saved. This dish went up {d} in 6 months.', histSame:'Every price change is saved. No change in 6 months.',
+      same:'Same dish at other places', sameSub:'Real prices, checked by our team', thisOne:'This restaurant', lowest:'Lowest', revs:'What people say about it', moreFrom:'More from {r}',
+      spiceN:['Not spicy','Mild','Medium','Hot'], drag:'Drag to turn the plate', d3note:'3D model from real photos of this dish', months:['May','Jun','Jul','Aug','Sep','Oct'], noRev:'No reviews mention this dish yet.' },
+    bn: { menu:'মেনু', billShort:'বিল', photos:'ছবি', video:'ভিডিও', d3:'3D', back:'ফিরে যান', portion:'পরিমাণ', spice:'ঝাল', type:'ধরন', nonveg:'আমিষ', veg:'নিরামিষ', addBill:'বিলে যোগ করুন', inBill:'আপনার বিলে',
+      viewBill:'বিল দেখুন', inside:'কী কী আছে', hist:'দামের ইতিহাস', histSub:'প্রতিটি দাম পরিবর্তন সংরক্ষিত থাকে। ৬ মাসে দাম বেড়েছে {d}।', histSame:'প্রতিটি দাম পরিবর্তন সংরক্ষিত থাকে। ৬ মাসে দাম বদলায়নি।',
+      same:'অন্য জায়গায় একই খাবার', sameSub:'আসল দাম, আমাদের টিমের যাচাই করা', thisOne:'এই রেস্টুরেন্ট', lowest:'সবচেয়ে কম', revs:'মানুষ যা বলছে', moreFrom:'{r}-এর আরও খাবার',
+      spiceN:['ঝাল নেই','হালকা ঝাল','মাঝারি ঝাল','বেশি ঝাল'], drag:'প্লেট ঘোরাতে টানুন', d3note:'এই খাবারের আসল ছবি থেকে তৈরি 3D মডেল', months:['মে','জুন','জুলাই','আগস্ট','সেপ্টে','অক্টো'], noRev:'এই খাবার নিয়ে এখনো কোনো রিভিউ নেই।' }
+  });
+  const arr = k => ({ en: { spiceN:['Not spicy','Mild','Medium','Hot'], months:['May','Jun','Jul','Aug','Sep','Oct'] }, bn: { spiceN:['ঝাল নেই','হালকা ঝাল','মাঝারি ঝাল','বেশি ঝাল'], months:['মে','জুন','জুলাই','আগস্ট','সেপ্টে','অক্টো'] } })[lang][k];
+
+  const r = R(APP.qs.get('r') || 'shahi-handi') || R('shahi-handi');
+  const m = r.menu.find(x => x.id === APP.qs.get('d')) || r.menu[0];
+  APP.shell({ active: '', bnav: false, title: L(m.name) + ' · ' + L(r.name) });
+
+  /* media */
+  const extra = { biryani: ['bp', 'hd', 'b3', 'k'], kebab: ['sk', 'ch', 'kc2'], curry: ['b3', 'b4'], bread: ['na', 'kc5', 'kc2'], fish: ['fi', 'pl'], platters: ['pl', 'tb'], drinks: ['sm'], dessert: ['bw'], thali: ['th'], snacks: ['fu', 'sm'] };
+  const photos = [m.p, ...(extra[m.cat] || []).filter(k => k !== m.p)].slice(0, 5);
+  const vsrc = m.media.indexOf('v') > -1 ? (m.cat === 'kebab' || m.cat === 'bread' ? D.VIDEO.grill : D.VIDEO.serve) : null;
+  const has3 = m.media.indexOf('3') > -1;
+  const tabs = [['photos', 'images', t('photos'), N(photos.length)]];
+  if (vsrc) tabs.push(['video', 'play-circle', t('video'), '']);
+  if (has3) tabs.push(['d3', 'cube-focus', t('d3'), '']);
+
+  /* ingredients by category */
+  const ING = {
+    biryani: [['Rice', 'চাল'], ['Mutton', 'মাটন'], ['Aloo', 'আলু'], ['Ghee', 'ঘি'], ['Saffron', 'জাফরান'], ['Fried onion', 'বেরেস্তা'], ['Plum', 'আলুবোখারা']],
+    kebab: [['Meat', 'মাংস'], ['Ginger-garlic', 'আদা-রসুন'], ['Green chilli', 'কাঁচা মরিচ'], ['Charcoal', 'কয়লার আঁচ'], ['Lime', 'লেবু']],
+    curry: [['Mutton', 'মাটন'], ['Yoghurt', 'টক দই'], ['Cashew', 'কাজু'], ['Ghee', 'ঘি'], ['Cardamom', 'এলাচ']],
+    bread: [['Flour', 'ময়দা'], ['Butter', 'মাখন'], ['Clay tandoor', 'মাটির তন্দুর']],
+    drinks: [['Yoghurt', 'টক দই'], ['Mint', 'পুদিনা'], ['Black salt', 'বিট লবণ'], ['Green chilli', 'কাঁচা মরিচ']],
+    dessert: [['Rice', 'চাল'], ['Milk', 'দুধ'], ['Sugar', 'চিনি'], ['Pistachio', 'পেস্তা']],
+    fish: [['Hilsa', 'ইলিশ'], ['Mustard', 'সর্ষে'], ['Mustard oil', 'সর্ষের তেল'], ['Green chilli', 'কাঁচা মরিচ']]
+  };
+  const ing = (ING[m.cat] || ING.biryani).map(([en, bn]) => `<span class="badge">${lang === 'bn' ? bn : en}</span>`).join('');
+
+  /* price history */
+  const hist = [m.price - 40, m.price - 40, m.price - 20, m.price - 20, m.price - 20, m.price].map(p => Math.max(10, p));
+  const maxP = Math.max(...hist), minP = Math.min(...hist);
+  const histHTML = `<div class="hist">${hist.map((p, i) => `<div class="${i === 5 ? 'now' : ''}"><span>${tk(p)}</span><i style="height:${30 + (p - minP) / Math.max(1, maxP - minP) * 50}%"></i><span>${arr('months')[i]}</span></div>`).join('')}</div>`;
+
+  /* same dish elsewhere */
+  const KEYS = ['kacchi', 'biryani', 'tehari', 'polao', 'chap', 'seekh', 'naan', 'ilish', 'thali', 'platter', 'borhani', 'firni', 'fuchka', 'roast', 'rezala', 'doi'];
+  const key = KEYS.find(k => m.name.en.toLowerCase().indexOf(k) > -1);
+  const same = [];
+  if (key) D.restaurants.forEach(x => (x.menu || []).forEach(d => { if (d.name.en.toLowerCase().indexOf(key) > -1 && !/for 4/i.test(d.name.en)) same.push({ x, d }); }));
+  same.sort((a, b) => a.d.price - b.d.price);
+  const low = same.length ? same[0].d.price : 0;
+  const sameHTML = same.length > 1 ? `<div class="dsec"><h2>${t('same')}</h2><p class="t2" style="font-size:13.5px;margin:-6px 0 12px">${t('sameSub')}</p><div class="cmp">${same.slice(0, 6).map(({ x, d }) => `<a href="${href('dish.html?r=' + x.id + '&d=' + d.id)}" class="${d === m ? 'me' : ''}"><img src="${img(d.p, 140, 140)}" alt="" loading="lazy"><div class="n"><b>${L(x.name)}</b><span>${L(APP.areaOf(x.area))} · ${N(x.dist)} ${t('km')}${d === m ? ' · ' + t('thisOne') : ''}</span></div><div style="text-align:right"><span class="price">${tk(d.price)}</span>${d.price === low ? `<div class="fresh" style="font-size:11.5px;margin-top:4px;justify-content:flex-end">${t('lowest')}</div>` : ''}</div></a>`).join('')}</div></div>` : '';
+
+  /* reviews mentioning */
+  const kw = (key || m.name.en.split(' ')[0]).toLowerCase();
+  const rv = D.reviews.filter(v => v.r === r.id && ((v.ord || []).some(o => o.toLowerCase().indexOf(kw) > -1) || v.t.toLowerCase().indexOf(kw) > -1 || v.t.indexOf(m.name.bn.split(' ').pop()) > -1));
+  const rvHTML = rv.length ? rv.map(v => `<div class="revq"><div class="who"><b>${v.who}</b>${v.vf ? `<span class="vf" style="color:var(--ok);font-weight:700">${ic('seal-check', 1)}</span>` : ''}<span class="st">${stars(v.st)}</span><span>${L(v.when)}</span></div>${v.t}</div>`).join('') : `<p class="t2">${t('noRev')}</p>`;
+
+  const more = r.menu.filter(x => x !== m).slice(0, 4);
+  const st = openState(r);
+  const sp = n => `<span class="sp" style="display:inline-flex;gap:1px;color:var(--deal)">${[1, 2, 3].map(i => `<i class="ph-fill ph-pepper" style="${i <= n ? '' : 'color:var(--ln2)'}"></i>`).join('')}</span>`;
+
+  document.getElementById('main').innerHTML = `
+  <div class="wrap rtopw"><nav class="crumbs" aria-label="Breadcrumb"><a href="${href('index.html')}">${L(D.cities[r.city])}</a>${ic('caret-right')}<a href="${href('restaurant.html?id=' + r.id)}">${L(r.name)}</a>${ic('caret-right')}<a href="${href('restaurant.html?id=' + r.id + '#menu')}">${t('menu')}</a>${ic('caret-right')}<span>${L(m.name)}</span></nav>
+  <div class="dlay">
+    <div class="stage" id="stage">
+      <div class="pane on" data-pane="photos"><div class="sl" id="dsl">${photos.map((k, i) => `<img src="${img(k, 1100, 1100)}" alt="${i ? '' : APP.esc(L(m.name))}" ${i ? 'loading="lazy"' : ''} data-gal="${photos.join(',')}" data-i="${i}" data-title="${APP.esc(L(m.name))}">`).join('')}</div></div>
+      ${vsrc ? `<div class="pane" data-pane="video"><video src="${vsrc}" muted loop playsinline preload="none" poster="${img(m.p, 1100, 1100)}"></video></div>` : ''}
+      ${has3 ? `<div class="pane" data-pane="d3"><div class="d3bg"></div><div id="d3" style="position:absolute;inset:0"></div><span class="mbadge hint3">${ic('hand-grabbing')}${t('drag')}</span></div>` : ''}
+      <div class="top"><a class="gb" href="${href('restaurant.html?id=' + r.id + '#menu')}" aria-label="${t('back')}">${ic('arrow-left')}</a><span class="sp"></span><button class="gb" data-share aria-label="${t('share')}">${ic('share-network')}</button><button class="gb" data-save aria-pressed="false" aria-label="${t('save')}">${ic('heart')}</button></div>
+      ${tabs.length > 1 ? `<div class="dtabs" role="tablist" style="grid-template-columns:repeat(${tabs.length},1fr)">${tabs.map(([k, i, l, n], j) => `<button role="tab" aria-selected="${j === 0}" data-tab="${k}">${ic(i, j === 0)}${l}${n ? ` <small>${n}</small>` : ''}</button>`).join('')}</div>` : ''}
+    </div>
+    <div class="dbody"><div class="wrap" id="dwrap">
+      <h1>${L(m.name)}</h1><div class="bnn">${lang === 'bn' ? m.name.en : m.name.bn}</div>
+      <div class="dprice"><span class="price">${tk(m.price)}</span><span class="fresh">${t('checkedLong', { n: N(r.checked) })}</span></div>
+      ${m.desc ? `<p style="margin-top:14px;font-size:15.5px;color:var(--tx2);max-width:560px">${m.desc}</p>` : ''}
+      <div class="dfacts"><div>${t('portion')}<b>${L(m.por).split('·')[0]}</b></div><div>${t('spice')}<b style="display:flex;align-items:center;gap:6px">${sp(m.spice)}</b><span style="font-size:12px">${arr('spiceN')[m.spice]}</span></div><div>${t('type')}<b>${['drinks', 'dessert', 'bread'].indexOf(m.cat) > -1 ? t('veg') : t('nonveg')}</b></div></div>
+      <div class="dbtns hide-m"><span data-add="${m.id}">${APP.addBtn(r.id, m.id)}</span><button class="btn line" data-openbill style="height:52px">${ic('receipt')}${t('viewBill')}</button></div>
+      <a class="drest" href="${href('restaurant.html?id=' + r.id)}"><img src="${img(r.hero[0], 120, 120)}" alt=""><div><b>${L(r.name)}</b><span>${L(APP.areaOf(r.area))} · <span class="${st.open ? 'open' : 'closed'}">${st.short}</span> · ${ic('star', 1).replace('<i ', '<i style="color:var(--mar)" ')} ${N(r.rating.toFixed(1))}</span></div>${ic('caret-right')}</a>
+      <div class="dsec"><h2>${t('inside')}</h2><div class="ing">${ing}</div></div>
+      <div class="dsec"><h2>${t('hist')}</h2><p class="t2" style="font-size:13.5px;margin:-6px 0 14px">${hist[0] === m.price ? t('histSame') : t('histSub', { d: tk(m.price - hist[0]) })}</p>${histHTML}</div>
+      ${sameHTML}
+      <div class="dsec"><h2>${t('revs')}</h2>${rvHTML}</div>
+      <div class="dsec"><h2>${t('moreFrom', { r: L(r.name) })}</h2><div class="rail sm">${more.map(x => `<a class="dcard" href="${href('dish.html?r=' + r.id + '&d=' + x.id)}"><div class="im"><img src="${img(x.p, 400, 400)}" alt="" loading="lazy"></div><b>${L(x.name)}</b><span class="price">${tk(x.price)}</span></a>`).join('')}</div></div>
+    </div></div>
+  </div></div>
+  <div class="abar dbar"><div class="dp"><b>${tk(m.price)}</b><small>${L(m.por).split('·')[0]}</small></div><span data-add="${m.id}">${APP.addBtn(r.id, m.id)}</span><button class="btn line" data-openbill>${ic('receipt')}<span data-bcount></span></button></div>`;
+
+  const main = document.getElementById('main');
+  /* tabs */
+  let mounted = false;
+  main.querySelectorAll('.dtabs [data-tab]').forEach(b => b.addEventListener('click', () => {
+    const k = b.dataset.tab;
+    main.querySelectorAll('.dtabs [data-tab]').forEach(x => { const on = x === b; x.setAttribute('aria-selected', String(on)); const i = x.querySelector('i'); i.className = i.className.replace(/ph(-fill)? /, on ? 'ph-fill ' : 'ph '); });
+    main.querySelectorAll('.stage .pane').forEach(p => p.classList.toggle('on', p.dataset.pane === k));
+    const v = main.querySelector('.pane[data-pane=video] video');
+    if (v) { if (k === 'video') { v.play().catch(() => {}); } else v.pause(); }
+    if (k === 'd3' && !mounted) { mounted = true; VIEW.mountDish(main.querySelector('#d3'), m.p); main.querySelector('#d3').addEventListener('kb:touch', () => { const h = main.querySelector('.hint3'); h && (h.style.opacity = 0); }); }
+  }));
+  /* bill */
+  const sync = () => {
+    main.querySelectorAll('[data-add]').forEach(s => s.innerHTML = APP.addBtn(r.id, s.dataset.add));
+    const c = Bill.calc(r.id); main.querySelector('[data-bcount]').textContent = c.count ? tk(c.tot) : t('billShort');
+  };
+  Bill.on(id => { if (id === r.id) sync(); }); sync();
+  main.addEventListener('click', e => { if (e.target.closest('[data-openbill]')) APP.openBill(r.id); });
+  if (APP.qs.get('tab')) { const b = main.querySelector('.dtabs [data-tab="' + APP.qs.get('tab') + '"]'); b && b.click(); }
+})();
+</script>
+</body>
+</html>

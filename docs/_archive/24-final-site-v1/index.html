@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>khabo</title>
+<meta name="description" content="Real menus, real prices and real photos of restaurants in Dhaka and Bogura.">
+<meta name="theme-color" content="#2A3DB8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+<div id="hdr-slot"></div>
+<main id="main"></main>
+<div id="ftr-slot"></div>
+<script src="assets/viewer.js"></script>
+<script src="assets/ai.js"></script>
+<script>
+(function () {
+  const { D, t, addT, N, tk, L, img, ic, R, href, rcard, openState } = APP;
+  const lang = APP.lang();
+  addT({
+    en: { hq:'Where do you want to eat today?', askAI:'Ask AI', go:'Search', what:'What', whatPh:'Restaurant, dish or cuisine', where:'Where', bpp:'Budget per person',
+      onNow:'On khabo now', onNowSub:'{n} restaurants in Dhaka and Bogura', craving:'What are you craving?', more:'More', less:'Less',
+      openNear:'Open now near you', openNearSub:'Near {a}, closest first', noNear:'Nothing open in this budget near you right now.',
+      aiTitle:'Ask khabo AI', aiLead:'Type the way you talk: Bangla, English or Banglish. Answers come only from real menus and prices on khabo.',
+      aiPh:'Ask about food, budget or places', aiNote:'Only from verified menus. Never made-up prices.', voice:'Speak your question', send:'Send',
+      exBn:'বাংলা', exEn:'English', exBl:'Banglish', checkedAgo:'Prices checked {n}d ago', openMenu:'Open menu', addAll:'Put this in my bill', cheaper:'Cheaper option', each:'{p} each', total:'Total', vatSvc:'VAT and service',
+      dealT:'Deal of the week', seeDeal:'See the deal', toursT:'3D tours', toursSub:'Look inside before you go. Drag the picture to look around.', fullTour:'Open full tour', roomsN:'{n} rooms', captured:'Captured {d}',
+      areasT:'Explore by area', bizBadge:'For restaurant owners', bizT:'Own a restaurant?', bizLead:'Get a full page with photos, menu, 3D tour, video and WhatsApp. No website to build. Diners see your real prices before they come.',
+      biz1:'We shoot your photos, video and 3D tour', biz2:'QR table cards and a print menu that always match', biz3:'Monthly report with views, calls and nearby prices', bizCta:'See plans', bizCta2:'Book a visit',
+      st1v:'৳67', st1:'a day for Starter in Dhaka', st2v:'৳50,000+', st2:'one-time cost of a typical agency website', st3v:'0', st3:'websites to build or host',
+      metaA:'{n} restaurants', metaB:'Menus checked every month', metaC:'Dhaka and Bogura', qcabin:'Family cabin', qroof:'Rooftop', qpark:'Parking', qbuffet:'Buffet', qkids:'Kids zone', q500:'Under ৳500',
+      ex1:'৪ জন, ২৫০০ টাকা, ধানমন্ডিতে কোথায় খাবো?', ex2:'Rooftop dinner for 6 in Banani, about ৳1000 each', ex3:'Mirpur e family cabin ache emon kacchi place?' },
+    bn: { hq:'আজ কোথায় খাবেন?', askAI:'AI', go:'খুঁজুন', what:'কী খাবেন', whatPh:'রেস্টুরেন্ট, খাবার বা ধরন', where:'কোথায়', bpp:'জনপ্রতি বাজেট',
+      onNow:'এখন khabo-তে', onNowSub:'ঢাকা ও বগুড়ায় {n}টি রেস্টুরেন্ট', craving:'কী খেতে ইচ্ছে করছে?', more:'আরও', less:'কম',
+      openNear:'আপনার কাছে এখন খোলা', openNearSub:'{a}-এর কাছে, কাছেরগুলো আগে', noNear:'এই বাজেটে এখন কাছে কিছু খোলা নেই।',
+      aiTitle:'khabo AI-কে জিজ্ঞেস করুন', aiLead:'যেভাবে কথা বলেন সেভাবেই লিখুন: বাংলা, English বা Banglish। উত্তর আসে শুধু khabo-র আসল মেনু আর দাম থেকে।',
+      aiPh:'খাবার, বাজেট বা জায়গা নিয়ে জিজ্ঞেস করুন', aiNote:'শুধু যাচাই করা মেনু থেকে। বানানো দাম নয়।', voice:'বলে জিজ্ঞেস করুন', send:'পাঠান',
+      exBn:'বাংলা', exEn:'English', exBl:'Banglish', checkedAgo:'দাম যাচাই {n} দিন আগে', openMenu:'মেনু দেখুন', addAll:'এটা আমার বিলে রাখুন', cheaper:'আরও কম দামে', each:'জনপ্রতি {p}', total:'সর্বমোট', vatSvc:'ভ্যাট ও সার্ভিস',
+      dealT:'সপ্তাহের অফার', seeDeal:'অফারটি দেখুন', toursT:'3D ট্যুর', toursSub:'যাওয়ার আগেই ভেতরটা দেখুন। ছবি টেনে চারপাশ ঘুরে দেখুন।', fullTour:'পুরো ট্যুর খুলুন', roomsN:'{n}টি জায়গা', captured:'ধারণ {d}',
+      areasT:'এলাকা অনুযায়ী', bizBadge:'রেস্টুরেন্ট মালিকদের জন্য', bizT:'আপনার রেস্টুরেন্ট আছে?', bizLead:'ছবি, মেনু, 3D ট্যুর, ভিডিও আর হোয়াটসঅ্যাপসহ পুরো একটি পেজ পান। ওয়েবসাইট বানাতে হবে না। আসার আগেই কাস্টমার আপনার আসল দাম দেখে নেয়।',
+      biz1:'ছবি, ভিডিও আর 3D ট্যুর আমরা তুলে দিই', biz2:'টেবিলের QR কার্ড আর প্রিন্ট মেনু, সবসময় এক দাম', biz3:'মাসিক রিপোর্ট: ভিউ, কল আর আশেপাশের দাম', bizCta:'প্ল্যান দেখুন', bizCta2:'ভিজিট বুক করুন',
+      st1v:'৳৬৭', st1:'দিনে, ঢাকায় স্টার্টার প্ল্যান', st2v:'৳৫০,০০০+', st2:'একটি সাধারণ এজেন্সি ওয়েবসাইটের এককালীন খরচ', st3v:'০', st3:'ওয়েবসাইট বানানো বা হোস্ট করার ঝামেলা',
+      metaA:'{n}টি রেস্টুরেন্ট', metaB:'প্রতি মাসে মেনু যাচাই', metaC:'ঢাকা ও বগুড়া', qcabin:'ফ্যামিলি কেবিন', qroof:'রুফটপ', qpark:'পার্কিং', qbuffet:'বুফে', qkids:'শিশুদের জায়গা', q500:'৳৫০০-এর নিচে',
+      ex1:'৪ জন, ২৫০০ টাকা, ধানমন্ডিতে কোথায় খাবো?', ex2:'Rooftop dinner for 6 in Banani, about ৳1000 each', ex3:'Mirpur e family cabin ache emon kacchi place?' }
+  });
+  APP.shell({ active: 'home' });
+  const total = D.areas.reduce((s, a) => s + a.n, 0);
+  const featR = R('shahi-handi');
+
+  const quick = [['filters', 'sliders-horizontal'], ['open', 'clock', t('openNow')], ['u500', 'currency-circle-dollar', t('q500')], ['cabin', 'users-three', t('qcabin')], ['3d', 'cube-focus', t('tour3d')], ['rooftop', 'buildings', t('qroof')], ['parking', 'car', t('qpark')], ['buffet', 'fork-knife', t('qbuffet')], ['kids', 'baby', t('qkids')]];
+  const quickHTML = quick.map(([k, i, l]) => k === 'filters'
+    ? `<button class="chip flt" data-filters-open>${ic(i)}${t('filters')}${APP.activeCount() ? `<span class="ct">${N(APP.activeCount())}</span>` : ''}</button>`
+    : `<button class="chip" data-quick="${k}">${ic(i)}${l}</button>`).join('');
+
+  const pill = r => `<a class="fpill" href="${href('restaurant.html?id=' + r.id)}"><img src="${img(r.hero[0], 160, 160)}" alt="" loading="lazy"><div><b>${L(r.name)}</b><span>${L(APP.areaOf(r.area))}${r.has3d ? `<span class="dot"></span>${ic('cube-focus')}3D` : ''}${r.hasVideo ? `<span class="dot"></span>${ic('play', 1)}` : ''}</span></div></a>`;
+  const pills = D.restaurants.map(pill).join('');
+
+  const budgets = [['all', t('anyBudget')], ['b1', t('under', { p: tk(300) })], ['b2', tk(300) + '–' + N('600')], ['b3', tk(600) + '–' + N('1,200')], ['b4', tk(1200) + '+']];
+  const tours = D.restaurants.filter(r => r.has3d);
+
+  const main = document.getElementById('main');
+  main.innerHTML = `
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-m">
+        <div class="loc"><button class="locb" data-area-open aria-label="${t('chooseArea')}">${ic('map-pin', 1)}<span data-area-label>${APP.areaLabel()}</span>${ic('caret-down')}</button></div>
+        <h1>${t('hq')}</h1>
+        <form class="sbar" action="search.html" data-search role="search">${ic('magnifying-glass')}<input name="q" type="search" placeholder="${t('searchPh')}" aria-label="${t('search')}" autocomplete="off" enterkeyhint="search"><a class="askb" href="#ask" data-ask>${ic('sparkle', 1)}${t('askAI')}</a></form>
+      </div>
+      <div class="hero-d">
+        <h1>${t('hq')}</h1>
+        <form class="scard" action="search.html" data-search role="search">
+          <div class="fld"><label for="qd">${t('what')}</label><input id="qd" name="q" type="search" placeholder="${t('whatPh')}" autocomplete="off"></div>
+          <div class="fld" data-area-open role="button" tabindex="0" aria-label="${t('chooseArea')}"><label>${t('where')}</label><span class="v"><span data-area-label>${APP.areaLabel()}</span>${ic('caret-down')}</span></div>
+          <div class="fld"><label for="bd">${t('bpp')}</label><select id="bd" name="max"><option value="2000">${t('anyBudget')}</option><option value="300">${t('under', { p: tk(300) })}</option><option value="600">${t('under', { p: tk(600) })}</option><option value="1200">${t('under', { p: tk(1200) })}</option></select></div>
+          <div class="acts"><button class="btn" type="submit">${ic('magnifying-glass')}${t('go')}</button><a class="askb" href="#ask" data-ask>${ic('sparkle', 1)}${t('askAI')}</a></div>
+        </form>
+      </div>
+      <div class="chips hero-chips" role="group" aria-label="${t('filters')}">${quickHTML}</div>
+      <div class="meta hide-m"><span>${ic('storefront')} ${t('metaA', { n: N(total) })}</span><span>${ic('seal-check')} ${t('metaB')}</span><span>${ic('map-pin')} ${t('metaC')}</span></div>
+    </div>
+  </section>
+
+  <section class="sec" style="padding-top:6px">
+    <div class="wrap"><div class="sh small"><div><h2>${t('onNow')}</h2><p>${t('onNowSub', { n: N(total) })}</p></div><a class="lnk" href="${href('search.html')}">${t('seeAll')}${ic('arrow-right')}</a></div></div>
+    <div class="flow" aria-label="${t('onNow')}"><div class="tr">${pills}${pills.replace(/<a /g, '<a tabindex="-1" aria-hidden="true" ')}</div></div>
+  </section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sh"><h2>${t('craving')}</h2></div>
+    <div class="cats">${D.cats.map(c => `<a class="cat" href="${href('search.html?q=' + encodeURIComponent(c.en))}"><span class="ci"><img src="${img(c.p, 240, 240)}" alt="" loading="lazy"></span>${L(c)}</a>`).join('')}
+      <button class="cat more" aria-expanded="false" aria-controls="morecats" data-more><span class="ci">+${N(D.moreCats.length)}</span><span data-morelbl>${t('more')}</span></button></div>
+    <div class="morecats" id="morecats">${D.moreCats.map(([id, en, bn, i, n]) => `<a class="mc" href="${href('search.html?q=' + encodeURIComponent(en))}">${ic(i)}${lang === 'bn' ? bn : en}<small>${N(n)}</small></a>`).join('')}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sh"><div><h2>${t('openNear')}</h2><p>${t('openNearSub', { a: '<span data-area-label>' + APP.areaLabel() + '</span>' })}</p></div><a class="lnk" href="${href('search.html')}">${t('seeAll')}${ic('arrow-right')}</a></div>
+    <div class="chips" role="group" aria-label="${t('budget')}" style="margin-bottom:16px">${budgets.map(([k, l], i) => `<button class="chip" data-bud="${k}" aria-pressed="${i === 0}">${l}</button>`).join('')}</div>
+    <div class="rail" id="near"></div>
+  </div></section>
+
+  <section class="sec" id="ask"><div class="wrap"><div class="aib">
+    <svg class="kantha" viewBox="0 0 1200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M0 7H1200" stroke="#F5A300" stroke-width="2" stroke-dasharray="8 8"/></svg>
+    <div class="intro">
+      <span class="badge" style="background:rgba(255,255,255,.08);color:#FFC044">${ic('sparkle', 1)}khabo AI</span>
+      <h2 style="margin-top:14px">${t('aiTitle')}</h2>
+      <p class="lead">${t('aiLead')}</p>
+      <div class="exs">${[['exBn', 'ex1'], ['exEn', 'ex2'], ['exBl', 'ex3']].map(([l, e]) => `<button class="ex" data-ex="${t(e)}">${ic('chat-circle-dots')}<span><small>${t(l)}</small>${t(e)}</span></button>`).join('')}</div>
+    </div>
+    <div class="chatbox">
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <form class="aiin" id="aiForm"><input id="aiQ" placeholder="${t('aiPh')}" aria-label="${t('aiPh')}" autocomplete="off" enterkeyhint="send"><button type="button" class="mic" aria-label="${t('voice')}" data-demo>${ic('microphone')}</button><button class="go" aria-label="${t('send')}">${ic('paper-plane-right', 1)}</button></form>
+      <p class="note">${ic('shield-check', 1)}${t('aiNote')}</p>
+    </div>
+  </div></div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sh"><div><h2>${t('toursT')}</h2><p>${t('toursSub')}</p></div></div>
+    <div class="tgrid">
+      <div class="tt" id="ttile">
+        <div class="poster" style="background-image:url('${D.PANO(featR.tour[0].pano)(512)}')"></div>
+        <div class="tp"><span class="mbadge lt">${ic('cube-focus')}${t('tour3d')}</span><button class="gb" data-tour="${featR.id}" aria-label="${t('fullTour')}">${ic('arrows-out-simple')}</button></div>
+        <div class="bt"><b>${L(featR.name)}</b><span>${L(featR.spot)} · ${t('roomsN', { n: N(featR.tour.length) })} · ${t('captured', { d: featR.photosDate })}</span>
+          <div class="rooms">${featR.tour.map(x => `<button data-tour="${featR.id}" data-room="${x.id}">${L(x)}</button>`).join('')}</div></div>
+      </div>
+      <div class="tlist">${tours.filter(r => r.id !== featR.id).map(r => `<button class="trow" data-tour="${r.id}"><span class="tb" style="background-image:url('${D.PANO(r.tour[0].pano)(256)}')"></span><span><b>${L(r.name)}</b><span>${L(APP.areaOf(r.area))} · ${t('roomsN', { n: N(r.tour.length) })}</span></span><span class="go">${ic('arrow-right')}</span></button>`).join('')}</div>
+    </div>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sh"><h2>${t('dealT')}</h2><span class="badge out">${ic('push-pin')}${t('featured')}</span></div>
+    <a class="deal" href="${href('restaurant.html?id=' + featR.id + '#menu')}">
+      <div class="im"><img src="${img(featR.deal.p, 1000, 640)}" alt="" loading="lazy"><span class="off">−${N(featR.deal.off)}</span></div>
+      <div class="bd"><span class="t2" style="font-size:14px">${L(featR.name)} · ${L(APP.areaOf(featR.area))}</span><h3>${L(featR.deal)}</h3>
+        <div class="row"><span class="price lg">${tk(featR.deal.price)}</span><span class="was">${tk(featR.deal.was)}</span></div>
+        <p class="t2" style="margin-top:8px;font-size:14px">${L(featR.deal.when)}</p>
+        <div class="row" style="margin-top:16px"><span class="btn">${t('seeDeal')}${ic('arrow-right')}</span><span class="fresh">${t('checkedShort', { n: N(featR.checked) })}</span></div></div>
+    </a>
+  </div></section>
+
+  <section class="sec"><div class="wrap">
+    <div class="sh"><h2>${t('areasT')}</h2></div>
+    ${['dhaka', 'bogura'].map(c => `<div class="cityh">${L(D.cities[c])}</div><div class="areas">${D.areas.filter(a => a.city === c).map(a => `<a class="area" href="${href('search.html?area=' + a.id)}"><b>${L(a)}</b><span>${t('restaurantsN', { n: N(a.n) })}</span></a>`).join('')}</div>`).join('')}
+  </div></section>
+
+  <section class="sec"><div class="wrap"><div class="bizb">
+    <div><span class="badge pri">${ic('storefront')}${t('bizBadge')}</span><h2 style="margin-top:14px">${t('bizT')}</h2><p class="lead">${t('bizLead')}</p>
+      <ul><li>${ic('camera')}${t('biz1')}</li><li>${ic('qr-code')}${t('biz2')}</li><li>${ic('chart-line-up')}${t('biz3')}</li></ul>
+      <div class="cta"><a class="btn" href="${href('business.html')}">${t('bizCta')}</a><a class="btn line" href="${href('business.html#join')}">${t('bizCta2')}</a></div></div>
+    <div class="stat"><div><b>${t('st1v')}</b><span>${t('st1')}</span></div><div><b>${t('st2v')}</b><span>${t('st2')}</span></div><div><b>${t('st3v')}</b><span>${t('st3')}</span></div></div>
+  </div></div></section>`;
+
+  /* search forms */
+  main.querySelectorAll('[data-search]').forEach(f => f.addEventListener('submit', e => {
+    e.preventDefault(); const q = (f.querySelector('[name=q]').value || '').trim(); const mx = f.querySelector('[name=max]');
+    if (mx) { const F = APP.getF(); F.max = Number(mx.value); APP.setF(F); }
+    location.href = href('search.html' + (q ? '?q=' + encodeURIComponent(q) : ''));
+  }));
+  main.querySelectorAll('.scard [data-area-open]').forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); APP.openArea(); } }));
+
+  /* quick chips → search with that filter */
+  main.addEventListener('click', e => {
+    const q = e.target.closest('[data-quick]'); if (!q) return;
+    const F = APP.F0(); const k = q.dataset.quick;
+    if (k === 'open') F.open = true; else if (k === 'u500') F.max = 500; else if (k === '3d') F.media = ['3d']; else if (k === 'buffet') F.offers = ['buffet']; else F.fac = [k];
+    APP.setF(F); location.href = href('search.html');
+  });
+
+  /* categories more */
+  const moreBtn = main.querySelector('[data-more]'), moreBox = main.querySelector('#morecats');
+  moreBtn.addEventListener('click', () => { const open = !moreBox.classList.contains('open'); moreBox.classList.toggle('open', open); moreBtn.setAttribute('aria-expanded', String(open)); moreBtn.querySelector('.ci').innerHTML = open ? ic('caret-up') : '+' + N(D.moreCats.length); moreBtn.querySelector('[data-morelbl]').textContent = open ? t('less') : t('more'); });
+
+  /* open now near you */
+  const nearEl = main.querySelector('#near'); let bud = 'all';
+  const inBud = r => bud === 'all' || (bud === 'b1' && r.ppl[0] < 300) || (bud === 'b2' && r.ppl[0] >= 300 && r.ppl[0] < 600) || (bud === 'b3' && r.ppl[0] >= 600 && r.ppl[0] < 1200) || (bud === 'b4' && r.ppl[1] >= 1200);
+  function drawNear() {
+    const home = APP.areaOf(APP.getArea());
+    const list = D.restaurants.filter(r => openState(r).open && inBud(r)).sort((a, b) => (a.area === home.id ? -1 : 0) - (b.area === home.id ? -1 : 0) || a.dist - b.dist);
+    nearEl.innerHTML = list.length ? list.map(r => rcard(r)).join('') : `<div class="empty-s" style="grid-column:1/-1">${ic('moon-stars')}<b>${t('noNear')}</b></div>`;
+  }
+  main.querySelectorAll('[data-bud]').forEach(b => b.addEventListener('click', () => { bud = b.dataset.bud; main.querySelectorAll('[data-bud]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawNear(); }));
+  document.addEventListener('kb:area', drawNear); drawNear();
+
+  /* Ask AI scroll + focus */
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-ask]'); if (!a) return;
+    const tgt = document.getElementById('ask'); if (!tgt) return; e.preventDefault();
+    tgt.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    history.replaceState(null, '', '#ask'); setTimeout(() => document.getElementById('aiQ').focus({ preventScroll: true }), 500);
+  });
+
+  /* AI chat */
+  const chat = main.querySelector('#chat');
+  const planCard = res => {
+    const r = res.r, pl = res.pl, st = openState(r);
+    return `<div class="plan"><div class="ph-top"><img src="${img(r.hero[0], 160, 160)}" alt=""><div><b>${L(r.name)}</b><span>${L(APP.areaOf(r.area))} · ${N(r.dist)} ${t('km')} · ${st.short}</span></div></div>
+      <ul>${pl.lines.map(l => `<li><span>${L(l.m.name)} × ${N(l.q)}</span><span>${tk(l.m.price * l.q)}</span></li>`).join('')}${pl.vat + pl.svc ? `<li><span>${t('vatSvc')} (${N(r.vat + r.service)}%)</span><span>${tk(pl.vat + pl.svc)}</span></li>` : ''}</ul>
+      <div class="tot"><div>${t('total')}<div class="pp">${t('each', { p: tk(pl.each) })}</div></div><span class="price">${tk(pl.tot)}</span></div>
+      <div class="pf"><span style="color:#4ED69A;font-weight:700">● ${t('checkedAgo', { n: N(r.checked) })}</span><a href="${href('restaurant.html?id=' + r.id + '#menu')}">${t('openMenu')} →</a></div></div>
+      <div class="fu"><button data-addall='${JSON.stringify({ r: r.id, l: pl.lines.map(l => [l.m.id, l.q]) })}'>${ic('receipt')}${t('addAll')}</button><a href="tel:${r.phone.replace(/[^+\d]/g, '')}">${ic('phone')}${t('call')}</a>${res.p.budget ? `<button data-ex="${(res.lg === 'bn' ? '' : '') + (res.p.people) + (res.lg === 'en' ? ' people, ' : ' jon, ') + Math.round(res.p.budget * 0.7) + (res.lg === 'en' ? ' taka total' : ' taka')}">${ic('trend-down')}${t('cheaper')}</button>` : ''}</div>`;
+  };
+  function ask(q, instant) {
+    if (!q) return;
+    chat.insertAdjacentHTML('beforeend', `<div class="msg me">${APP.esc(q)}</div>`);
+    const typing = document.createElement('div'); typing.className = 'msg bot'; typing.innerHTML = '<span class="typing"><i></i><i></i><i></i></span>'; typing.style.padding = '0';
+    if (!instant) chat.appendChild(typing);
+    const done = () => {
+      typing.remove(); const res = KAI.respond(q);
+      chat.insertAdjacentHTML('beforeend', `<div class="msg bot">${res.text}</div>${res.r ? planCard(res) : ''}`);
+      if (!instant) chat.lastElementChild.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    };
+    instant ? done() : setTimeout(done, 750);
+  }
+  main.querySelector('#aiForm').addEventListener('submit', e => { e.preventDefault(); const i = main.querySelector('#aiQ'); const q = i.value.trim(); i.value = ''; chat.innerHTML = ''; ask(q); });
+  main.addEventListener('click', e => {
+    const ex = e.target.closest('[data-ex]'); if (ex) { chat.innerHTML = ''; ask(ex.dataset.ex); return; }
+    const aa = e.target.closest('[data-addall]'); if (aa) { const d = JSON.parse(aa.dataset.addall); d.l.forEach(([id, q]) => APP.Bill.add(d.r, id, q)); location.href = href('restaurant.html?id=' + d.r + '#menu'); }
+  });
+  ask(t('ex1'), true);
+
+  /* live 3D tile */
+  if (window.IntersectionObserver) {
+    const tile = main.querySelector('#ttile');
+    const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); VIEW.mountTourTile(tile, featR.tour[0].pano); } }, { rootMargin: '200px' });
+    io.observe(tile);
+  }
+})();
+</script>
+</body>
+</html>

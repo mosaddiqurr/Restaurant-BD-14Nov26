@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo · Final design preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#0B0D14;color:#E8E9EF;font:14px/1.5 Figtree,"Noto Sans Bengali",system-ui,sans-serif;min-height:100vh}
+.bar{position:sticky;top:0;z-index:5;background:rgba(11,13,20,.92);backdrop-filter:blur(12px);border-bottom:1px solid #1E2130}
+.bar .in{max-width:1720px;margin:0 auto;padding:12px 20px;display:flex;flex-wrap:wrap;gap:12px 18px;align-items:center}
+.ttl{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;letter-spacing:-.02em;margin-right:auto}
+.ttl svg{width:28px;height:28px}
+.ttl small{font-weight:600;color:#8C90A3;font-size:12.5px;letter-spacing:0}
+.tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tabs button,.seg button{height:36px;padding:0 13px;border-radius:999px;border:0;background:transparent;color:#A6AABD;font:600 13.5px Figtree,"Noto Sans Bengali",sans-serif;cursor:pointer;white-space:nowrap}
+.tabs button:hover{background:#1A1D2A;color:#fff}
+.tabs button[aria-pressed=true]{background:#fff;color:#12163A}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:#171A26}
+.seg button{height:30px}
+.seg button[aria-pressed=true]{background:#2A3DB8;color:#fff}
+a.open{color:#A9B6FF;font-weight:700;text-decoration:none;font-size:13.5px}
+.stage{max-width:1720px;margin:0 auto;padding:26px 20px 60px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:34px;align-items:start}
+@media(max-width:1100px){.stage{grid-template-columns:1fr}}
+.lbl{font:600 11.5px Figtree,sans-serif;letter-spacing:.08em;color:#7E8296;margin-bottom:10px;text-transform:uppercase}
+.phone{width:410px;height:864px;border-radius:52px;padding:10px;background:#050608;box-shadow:0 0 0 1px #2B2F3D,0 40px 80px -40px #000;margin:0 auto}
+.phone iframe{width:390px;height:844px;border:0;border-radius:42px;background:#fff;display:block}
+.lapw{position:relative;width:100%}
+.lap{position:absolute;left:0;top:0;width:1280px;height:840px;transform-origin:0 0;border-radius:14px;overflow:hidden;background:#1A1D29;box-shadow:0 0 0 1px #2B2F3D,0 40px 80px -40px #000}
+.lap .chrome{height:40px;display:flex;align-items:center;gap:8px;padding:0 14px;background:#1A1D29}
+.lap .chrome i{width:11px;height:11px;border-radius:50%;background:#3A3E4E;display:block}
+.lap .chrome span{margin-left:14px;flex:1;max-width:520px;height:26px;border-radius:8px;background:#0F111A;color:#8C90A3;font-size:12px;display:flex;align-items:center;padding:0 12px;white-space:nowrap;overflow:hidden}
+.lap iframe{width:1280px;height:800px;border:0;display:block;background:#fff}
+.note{max-width:1720px;margin:0 auto;padding:0 20px 40px;color:#8C90A3;font-size:13px}
+.note b{color:#E8E9EF}
+</style>
+</head>
+<body>
+<div class="bar"><div class="in">
+  <div class="ttl"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="#2A3DB8"/><circle cx="17.5" cy="10.5" r="4.6" fill="#F5A300"/><path d="M7 19.5h14" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/></svg>khabo <small>Final design v1 · phone + laptop</small></div>
+  <div class="tabs" id="tabs" role="group" aria-label="Page"></div>
+  <div class="seg" role="group" aria-label="Theme"><button data-theme="light" aria-pressed="true">Light</button><button data-theme="dark" aria-pressed="false">Dark</button></div>
+  <div class="seg" role="group" aria-label="Language"><button data-lang="en" aria-pressed="true">English</button><button data-lang="bn" aria-pressed="false">বাংলা</button></div>
+  <a class="open" id="open" href="index.html" target="_blank" rel="noopener">Open full page ↗</a>
+</div></div>
+<div class="stage">
+  <div><div class="lbl">Phone · 390 px</div><div class="phone"><iframe id="pm" title="Phone preview"></iframe></div></div>
+  <div><div class="lbl">Laptop · 1280 px</div><div class="lapw" id="lapw"><div class="lap" id="lap"><div class="chrome"><i></i><i></i><i></i><span id="url">khabo.com</span></div><iframe id="pd" title="Laptop preview"></iframe></div></div></div>
+</div>
+<p class="note"><b>Both frames are the real website</b>, not pictures. Scroll inside them, open the 3D tour, play the videos, add dishes to the bill, try the filters and the AI. Restaurant names, prices and reviews are demo data. “khabo” is a working name until the brand is chosen.</p>
+<script>
+const PAGES = [
+  ['Home', 'index.html', 'khabo.com'],
+  ['Restaurant · 3D + video', 'restaurant.html?id=shahi-handi', 'khabo.com/dhaka/dhanmondi/shahi-handi-house'],
+  ['Restaurant · photos only', 'restaurant.html?id=mirpur-bawarchi', 'khabo.com/dhaka/mirpur/mirpur-bawarchi'],
+  ['Dish', 'dish.html?r=shahi-handi&d=mutton-kacchi', 'khabo.com/dhaka/dhanmondi/shahi-handi-house/mutton-kacchi'],
+  ['Search', 'search.html?q=kacchi', 'khabo.com/search?q=kacchi'],
+  ['For restaurants', 'business.html', 'khabo.com/business']
+];
+const q = new URLSearchParams(location.search);
+let page = Number(q.get('p') || 0), theme = q.get('theme') || 'light', lang = q.get('lang') || 'en';
+const tabs = document.getElementById('tabs');
+tabs.innerHTML = PAGES.map((p, i) => `<button data-p="${i}" aria-pressed="${i === page}">${p[0]}</button>`).join('');
+function src(i) { const u = PAGES[i][1]; return u + (u.indexOf('?') > -1 ? '&' : '?') + 'theme=' + theme + '&lang=' + lang + '&frame=1'; }
+function load() {
+  document.getElementById('pm').src = src(page); document.getElementById('pd').src = src(page);
+  document.getElementById('open').href = src(page).replace('&frame=1', ''); document.getElementById('url').textContent = PAGES[page][2];
+  document.querySelectorAll('[data-p]').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.p) === page)));
+  document.querySelectorAll('[data-theme]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.theme === theme)));
+  document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === lang)));
+  history.replaceState(null, '', '?p=' + page + '&theme=' + theme + '&lang=' + lang);
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.p != null) page = Number(b.dataset.p); else if (b.dataset.theme) theme = b.dataset.theme; else if (b.dataset.lang) lang = b.dataset.lang; else return;
+  load();
+});
+function fit() { const w = document.getElementById('lapw').clientWidth; const s = Math.min(1, w / 1280); const l = document.getElementById('lap'); l.style.transform = 'scale(' + s + ')'; document.getElementById('lapw').style.height = (840 * s) + 'px'; }
+addEventListener('resize', fit); fit(); load();
+</script>
+</body>
+</html>

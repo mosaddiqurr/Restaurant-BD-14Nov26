@@ -1,0 +1,8 @@
+[
+  { "name": "rh-kg", "url": "http://localhost:8765/index.html?theme=light#/r/kathgolap", "wait": 3500 },
+  { "name": "rh-sh", "url": "http://localhost:8765/index.html?theme=dark#/r/shahi-handi", "wait": 3500 },
+  { "name": "rh-ca", "url": "http://localhost:8765/index.html?theme=light#/r/cha-adda", "wait": 3500 },
+  { "name": "rh-phone", "url": "http://localhost:8765/index.html?theme=light#/r/kathgolap", "w": 390, "h": 844, "mobile": true, "wait": 3500 },
+  { "name": "rh-stuck", "url": "http://localhost:8765/index.html?theme=light#/r/kathgolap", "wait": 3000, "js": "(async()=>{ scrollTo(0, 2400); await new Promise(r=>setTimeout(r,1500)); const l=document.querySelector('.rp-nav-lead'); return { lw: getComputedStyle(l).maxWidth, var: l.style.getPropertyValue('--lead-w'), p: document.querySelector('.rp-prog').style.getPropertyValue('--p'), sbw: innerWidth - document.documentElement.clientWidth }; })()" },
+  { "name": "rh-bn", "url": "http://localhost:8765/index.html?theme=dark&lang=bn#/r/kathgolap", "wait": 3500 }
+]

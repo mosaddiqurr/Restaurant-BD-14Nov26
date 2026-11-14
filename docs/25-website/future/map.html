@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant map · khabo</title>
+<meta name="description" content="Restaurants on a map, filtered by city and budget per person.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%232A3DB8'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Ccircle cx='19.2' cy='13' r='3.1' fill='%23F5A300'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&family=Noto+Sans+Bengali:wght@400..600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="future.css">
+<style>
+  .split { display: grid; grid-template-columns: 400px minmax(0, 1fr); height: calc(100vh - var(--bar)); }
+  .panel { display: flex; flex-direction: column; min-height: 0; background: var(--surface); border-right: 1px solid var(--line); }
+  .panel-h { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); display: grid; gap: 12px; }
+  .panel-h h1 { font-size: 20px; }
+  .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .filters .select { width: 100%; }
+  .meta-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-3); }
+  .list { overflow-y: auto; flex: 1; min-height: 0; }
+  .item { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--line); cursor: pointer; position: relative; outline: none; }
+  .item:hover, .item.hl { background: var(--surface-2); }
+  .item.hl::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--indigo); }
+  .item:focus-visible { box-shadow: inset 0 0 0 2px var(--indigo); }
+  .item .ph { width: 64px; height: 64px; border-radius: var(--r); object-fit: cover; background: var(--sunk); }
+  .item b { font-weight: 650; display: flex; align-items: center; gap: 8px; }
+  .item .pin-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 2px var(--d); flex: none; }
+  .item .l2 { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+  .item .l3 { font-size: 13px; color: var(--ink-2); margin-top: 4px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .item .l3 .ico { color: var(--gold); width: 14px; height: 14px; }
+  .mapbox { position: relative; min-height: 0; }
+  #map { position: absolute; inset: 0; background: #E9ECF3; }
+  .map-msg { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; padding: 24px; color: var(--ink-3); }
+  .loc-note { position: absolute; left: 12px; bottom: 12px; z-index: 500; background: rgba(255, 255, 255, .94); border: 1px solid var(--line); border-radius: var(--r); padding: 6px 10px; font-size: 12px; color: var(--ink-2); max-width: calc(100% - 24px); }
+
+  /* pins */
+  .pin-wrap { background: none; border: 0; }
+  .pin { position: absolute; left: 0; top: 0; width: 26px; height: 26px; background: var(--c); border: 2px solid var(--d); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: 0 2px 6px rgba(14, 18, 48, .3); transition: transform .15s ease, box-shadow .15s ease; }
+  .pin::after { content: ""; position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--d); left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .pin-wrap.hl .pin { transform: rotate(-45deg) scale(1.3); box-shadow: 0 0 0 4px rgba(42, 61, 184, .28), 0 4px 10px rgba(14, 18, 48, .35); }
+
+  /* popup */
+  .leaflet-container { font-family: var(--font); }
+  .leaflet-popup-content-wrapper { border-radius: var(--r-card); box-shadow: var(--pop); padding: 0; }
+  .leaflet-popup-content { margin: 0; width: 240px !important; }
+  .pop img { width: 100%; height: 110px; object-fit: cover; border-radius: var(--r-card) var(--r-card) 0 0; display: block; background: var(--sunk); }
+  .pop .pb { padding: 12px 14px 14px; display: grid; gap: 4px; font-size: 13px; color: var(--ink-2); }
+  .pop .pb b { font-size: 15px; color: var(--ink); font-weight: 650; }
+  .pop .pb .ico { color: var(--gold); width: 14px; height: 14px; }
+  .pop .acts { display: flex; gap: 8px; margin-top: 8px; }
+  .pop .acts a { flex: 1; }
+  .pop .btn.primary, .pop .btn.primary:hover { color: #fff; }
+  .leaflet-popup-close-button { z-index: 2; background: rgba(255, 255, 255, .9) !important; border-radius: var(--r-tag); top: 6px !important; right: 6px !important; }
+
+  @media (max-width: 860px) {
+    .split { display: flex; flex-direction: column; height: auto; }
+    .mapbox { order: -1; height: 52vh; min-height: 300px; position: sticky; top: var(--bar); z-index: 1; }
+    .panel { border-right: 0; }
+    .list { overflow: visible; }
+    .panel-h { padding: 14px 16px 12px; }
+    .item { padding: 12px 16px; }
+    .loc-note { top: 10px; right: 10px; left: auto; bottom: auto; max-width: calc(100% - 64px); }
+  }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div class="split">
+  <section class="panel" aria-label="Restaurants">
+    <div class="panel-h">
+      <h1>Restaurants on the map</h1>
+      <div class="filters">
+        <label><span class="sr">City</span><select class="select" id="city"></select></label>
+        <label><span class="sr">Budget per person</span><select class="select" id="bud"></select></label>
+      </div>
+      <div class="meta-line" id="count" aria-live="polite"></div>
+    </div>
+    <div class="list" id="list"></div>
+  </section>
+  <div class="mapbox"><div id="map" role="region" aria-label="Map"></div><div class="loc-note">Restaurants are fictional. Pins sit near the area centre, not at a real address.</div></div>
+</div>
+<noscript><p style="padding:24px">This prototype needs JavaScript.</p></noscript>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script defer src="../assets/js/data.js"></script>
+<script defer src="../assets/js/icons.js"></script>
+<script defer src="future.js"></script>
+<script defer src="map.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+[
+  { "name": "h-load", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 4000, "js": "(() => ({ y: scrollY, ae: document.activeElement && (document.activeElement.className || document.activeElement.tagName), sr: history.scrollRestoration }))()" },
+  { "name": "h-top", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3000, "js": "(async()=>{scrollTo(0,0); await new Promise(r=>setTimeout(r,800)); return scrollY})()" }
+]

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>For restaurants · khabo</title>
+<meta name="theme-color" content="#2A3DB8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+<div id="hdr-slot"></div>
+<main id="main"></main>
+<div id="ftr-slot"></div>
+<script>
+(function () {
+  const { D, t, addT, N, tk, L, img, ic, href } = APP;
+  const lang = APP.lang();
+  const E = {
+    badge:'For restaurant owners', h1:'A full restaurant website, without building one', lead:'We photograph and film your place, put your full menu with real prices online, and bring you diners who already know what they will pay.',
+    from:'From {d} a month in Dhaka and {b} in Bogura.', cta1:'Book a free visit', cta2:'See plans', k1:'We shoot everything', k2:'We keep your menu updated', k3:'Monthly report on WhatsApp',
+    tag1:'3D tour of your restaurant', tag2:'Prices checked 2 days ago', live:'This is a real page. Scroll it.',
+    vsT:'Why not just build a website?', vsSub:'A website on its own has no visitors. A khabo page comes with diners who are already searching.',
+    a_t:'Agency website', a_p:'৳50,000 – 1,50,000', a_s:'one time, plus hosting every year', a1:'Nobody visits unless you pay for ads', a2:'Menu and prices go out of date', a3:'You arrange and pay for photos', a4:'Diners still can’t compare or plan a budget',
+    u_t:'Your page on khabo', u_p:'৳1,999 / month', u_s:'Starter in Dhaka, about ৳67 a day', u1:'Diners already search here by area, dish and budget', u2:'Our team updates your menu and prices', u3:'Photos, video and 3D tour shot by us (Pro)', u4:'Call, WhatsApp and directions in one tap',
+    jT:'Diners who already know your prices', jSub:'This is how a diner finds you, decides, and walks in without surprises.',
+    j1:'They search', j1p:'By dish, area and budget, in Bangla or English.', j1x:'“kacchi under ৳400 in Dhanmondi”',
+    j2:'They see inside', j2p:'3D tour, kitchen video and verified reviews. No guessing.', j2x:'3D tour · Kitchen video · 4.6 ★',
+    j3:'They contact you', j3p:'One tap to call or WhatsApp you from your page.', j3x:'Call · WhatsApp · Directions',
+    j4:'They arrive ready', j4p:'The bill calculator shows the total with VAT before they leave home.', j4x:'4 people · ৳1,955 · ৳489 each',
+    fT:'Everything you get', fSub:'You run the restaurant. We run your page.',
+    f1:'Restaurant page', f1p:'Works as your website. Share the link anywhere.', f2:'Professional photos', f2p:'Inside, outside, kitchen and every dish.',
+    f3:'Promo video', f3p:'20–30 sec on Pro, 45–60 sec on Premium.', f4:'3D tour', f4p:'Diners walk through your place before they come.',
+    f5:'QR table cards and print menu', f5p:'Paper menu and online menu always show the same prices.', f6:'Verified reviews', f6p:'Real visits only. You can reply.',
+    f7:'Monthly report', f7p:'Views, QR scans, calls, top dishes and nearby prices.', f8:'Kitchen photos and video', f8p:'Professional and dated, so diners can trust what they see.',
+    f9:'Featured placement and Deal of the Week', f9p:'Top of your area and the home page. Always labelled Featured.',
+    tAll:'All plans', tPro:'Pro and Premium', tPrem:'Premium',
+    rT:'Your monthly report', rSub:'Sent on WhatsApp and as a PDF at the start of every month.', rEx:'Example report · October 2026',
+    r1:'Page views', r2:'QR scans', r3:'Calls and WhatsApp', r4:'Directions', rTop:'Top dishes viewed', rCmp:'Nearby prices for Mutton Kacchi', you:'You', avgA:'Dhanmondi average', lowA:'Lowest nearby',
+    pT:'Plans and prices', pSub:'Diners always use khabo for free. Restaurants choose a plan.', dhaka:'Dhaka', bogura:'Bogura', mo:'/month', day:'about {d} a day',
+    popular:'Most popular', choose:'Choose {p}',
+    s_for:'Small restaurants and cafés that need a professional online menu', p_for:'Restaurants that want to stand out with video, 3D tour and insights', m_for:'Restaurants that want the most visibility and promotion',
+    incl:'Everything in {p}, plus:',
+    sf:['Restaurant page with full menu and real prices','Professional dish photos','QR table cards and print menu','Verified reviews and facility filters','Menu and price updates by our team','Monthly report'],
+    pf:['Promo video, 20–30 sec','3D tour','Kitchen photos and video','Video dish menu','Nearby price insights','Deals on your page'],
+    mf:['Extended promo video, 45–60 sec','3D dish menu','Featured placement in search','Deal of the Week slot','Promotion on our social pages','Same-day menu changes'],
+    founding:'Founding Partner badge for the first 50 restaurants. Ask us about the founding offer.',
+    faqT:'Questions owners ask', q1:'Do I still need my own website?', a1x:'No. Your khabo page works as your website. You get a short link to share on Facebook, Google Maps and your printed menus.',
+    q2:'Who takes the photos and video?', a2x:'Our team visits, shoots your place, kitchen and dishes, and makes the 3D tour. You just keep the restaurant open as usual.',
+    q3:'How do menu and price changes work?', a3x:'Send changes on WhatsApp. Our team updates your page, and your QR menu and print menu change with it.',
+    q4:'Can diners order food through khabo?', a4x:'Not now. khabo helps diners choose where to eat and walk in. Ordering from the table comes later.',
+    q5:'How are reviews checked?', a5x:'Reviews are checked against real visits, and suspicious reviews are held for our team. Fake reviews are removed. You can reply to any review.',
+    q6:'How do I pay?', a6x:'Monthly by bKash, Nagad or bank transfer. Prices are the same for every restaurant in a city.',
+    formT:'Book a free visit', formSub:'Leave your number. Someone from our team will call you and visit at a time that suits you.',
+    fn1:'Restaurant name', fn2:'Area', fn3:'Your name', fn4:'Phone (WhatsApp)', fn5:'Plan you are interested in', notSure:'Not sure yet', send:'Request a visit', thanks:'Thank you. Our team will call you within one working day.'
+  };
+  const B = {
+    badge:'রেস্টুরেন্ট মালিকদের জন্য', h1:'ওয়েবসাইট না বানিয়েই রেস্টুরেন্টের পুরো ওয়েবসাইট', lead:'আমরা আপনার রেস্টুরেন্টের ছবি ও ভিডিও তুলি, আসল দামসহ পুরো মেনু অনলাইনে দিই, আর এমন কাস্টমার আনি যারা আগে থেকেই জানে কত খরচ হবে।',
+    from:'ঢাকায় মাসে {d} থেকে, বগুড়ায় {b} থেকে।', cta1:'ফ্রি ভিজিট বুক করুন', cta2:'প্ল্যান দেখুন', k1:'সব শুট আমরা করি', k2:'মেনু আপডেট আমরা রাখি', k3:'হোয়াটসঅ্যাপে মাসিক রিপোর্ট',
+    tag1:'আপনার রেস্টুরেন্টের 3D ট্যুর', tag2:'দাম যাচাই ২ দিন আগে', live:'এটা একটা আসল পেজ। স্ক্রল করে দেখুন।',
+    vsT:'শুধু একটা ওয়েবসাইট বানালে হয় না কেন?', vsSub:'শুধু ওয়েবসাইটে কেউ আসে না। khabo পেজে কাস্টমার আগে থেকেই খুঁজছে।',
+    a_t:'এজেন্সি ওয়েবসাইট', a_p:'৳৫০,০০০ – ১,৫০,০০০', a_s:'এককালীন, সাথে প্রতি বছর হোস্টিং', a1:'বিজ্ঞাপন না দিলে কেউ দেখে না', a2:'মেনু আর দাম পুরনো হয়ে যায়', a3:'ছবি তোলার ব্যবস্থা ও খরচ আপনার', a4:'কাস্টমার তুলনা বা বাজেট করতে পারে না',
+    u_t:'khabo-তে আপনার পেজ', u_p:'৳১,৯৯৯ / মাস', u_s:'ঢাকায় স্টার্টার, দিনে প্রায় ৳৬৭', u1:'কাস্টমার এলাকা, খাবার আর বাজেট দিয়ে এখানেই খোঁজে', u2:'মেনু আর দাম আপডেট করে আমাদের টিম', u3:'ছবি, ভিডিও ও 3D ট্যুর আমরা তুলি (প্রো)', u4:'এক চাপে কল, হোয়াটসঅ্যাপ আর পথ',
+    jT:'যে কাস্টমার আগেই আপনার দাম জানে', jSub:'একজন কাস্টমার কীভাবে আপনাকে খুঁজে পায়, সিদ্ধান্ত নেয় আর কোনো চমক ছাড়াই আসে।',
+    j1:'খোঁজে', j1p:'খাবার, এলাকা আর বাজেট দিয়ে, বাংলা বা ইংরেজিতে।', j1x:'“ধানমন্ডিতে ৪০০ টাকার নিচে কাচ্চি”',
+    j2:'ভেতরটা দেখে', j2p:'3D ট্যুর, রান্নাঘরের ভিডিও আর যাচাই করা রিভিউ। আন্দাজ নয়।', j2x:'3D ট্যুর · রান্নাঘর · ৪.৬ ★',
+    j3:'যোগাযোগ করে', j3p:'আপনার পেজ থেকে এক চাপে কল বা হোয়াটসঅ্যাপ।', j3x:'কল · হোয়াটসঅ্যাপ · পথ',
+    j4:'তৈরি হয়ে আসে', j4p:'বিল হিসাব থেকে ভ্যাটসহ মোট খরচ বাসা থেকেই জানে।', j4x:'৪ জন · ৳১,৯৫৫ · জনপ্রতি ৳৪৮৯',
+    fT:'আপনি যা যা পাবেন', fSub:'আপনি রেস্টুরেন্ট চালান। পেজ চালাই আমরা।',
+    f1:'রেস্টুরেন্ট পেজ', f1p:'এটাই আপনার ওয়েবসাইট। লিংক যেকোনো জায়গায় শেয়ার করুন।', f2:'প্রফেশনাল ছবি', f2p:'ভেতর, বাইরে, রান্নাঘর আর প্রতিটি খাবার।',
+    f3:'প্রোমো ভিডিও', f3p:'প্রোতে ২০–৩০ সেকেন্ড, প্রিমিয়ামে ৪৫–৬০ সেকেন্ড।', f4:'3D ট্যুর', f4p:'আসার আগেই কাস্টমার আপনার রেস্টুরেন্টে ঘুরে দেখে।',
+    f5:'টেবিলের QR কার্ড ও প্রিন্ট মেনু', f5p:'কাগজের মেনু আর অনলাইন মেনুতে সবসময় একই দাম।', f6:'যাচাই করা রিভিউ', f6p:'শুধু আসল ভিজিট। আপনি উত্তর দিতে পারবেন।',
+    f7:'মাসিক রিপোর্ট', f7p:'ভিউ, QR স্ক্যান, কল, জনপ্রিয় খাবার আর আশেপাশের দাম।', f8:'রান্নাঘরের ছবি ও ভিডিও', f8p:'প্রফেশনাল ও তারিখসহ, তাই কাস্টমার ভরসা পায়।',
+    f9:'ফিচার্ড প্লেসমেন্ট ও সপ্তাহের অফার', f9p:'এলাকার সার্চ আর হোম পেজের ওপরে। সবসময় "ফিচার্ড" লেখা থাকে।',
+    tAll:'সব প্ল্যানে', tPro:'প্রো ও প্রিমিয়ামে', tPrem:'প্রিমিয়ামে',
+    rT:'আপনার মাসিক রিপোর্ট', rSub:'প্রতি মাসের শুরুতে হোয়াটসঅ্যাপ ও PDF-এ পাঠানো হয়।', rEx:'নমুনা রিপোর্ট · অক্টোবর ২০২৬',
+    r1:'পেজ ভিউ', r2:'QR স্ক্যান', r3:'কল ও হোয়াটসঅ্যাপ', r4:'পথ দেখা', rTop:'সবচেয়ে বেশি দেখা খাবার', rCmp:'মাটন কাচ্চির আশেপাশের দাম', you:'আপনি', avgA:'ধানমন্ডির গড়', lowA:'কাছের সবচেয়ে কম',
+    pT:'প্ল্যান ও দাম', pSub:'কাস্টমারের জন্য khabo সবসময় ফ্রি। রেস্টুরেন্ট একটি প্ল্যান বেছে নেয়।', dhaka:'ঢাকা', bogura:'বগুড়া', mo:'/মাস', day:'দিনে প্রায় {d}',
+    popular:'সবচেয়ে জনপ্রিয়', choose:'{p} বেছে নিন',
+    s_for:'ছোট রেস্টুরেন্ট ও ক্যাফে, যাদের প্রফেশনাল অনলাইন মেনু দরকার', p_for:'যারা ভিডিও, 3D ট্যুর আর তথ্য দিয়ে আলাদা হতে চায়', m_for:'যারা সবচেয়ে বেশি পরিচিতি আর প্রচার চায়',
+    incl:'{p}-এর সবকিছু, সাথে:',
+    sf:['পুরো মেনু ও আসল দামসহ রেস্টুরেন্ট পেজ','খাবারের প্রফেশনাল ছবি','টেবিলের QR কার্ড ও প্রিন্ট মেনু','যাচাই করা রিভিউ ও সুবিধার ফিল্টার','মেনু ও দাম আপডেট আমাদের টিম করে','মাসিক রিপোর্ট'],
+    pf:['প্রোমো ভিডিও, ২০–৩০ সেকেন্ড','3D ট্যুর','রান্নাঘরের ছবি ও ভিডিও','ভিডিও ডিশ মেনু','আশেপাশের দামের তথ্য','পেজে অফার'],
+    mf:['বড় প্রোমো ভিডিও, ৪৫–৬০ সেকেন্ড','3D ডিশ মেনু','সার্চে ফিচার্ড প্লেসমেন্ট','সপ্তাহের অফারের জায়গা','আমাদের সোশ্যাল পেজে প্রচার','একই দিনে মেনু পরিবর্তন'],
+    founding:'প্রথম ৫০টি রেস্টুরেন্ট পাবে ফাউন্ডিং পার্টনার ব্যাজ। ফাউন্ডিং অফার জানতে যোগাযোগ করুন।',
+    faqT:'মালিকেরা যা জানতে চান', q1:'আমার কি আলাদা ওয়েবসাইট লাগবে?', a1x:'না। khabo পেজই আপনার ওয়েবসাইট। একটা ছোট লিংক পাবেন, যা ফেসবুক, গুগল ম্যাপ আর প্রিন্ট মেনুতে দিতে পারবেন।',
+    q2:'ছবি আর ভিডিও কে তোলে?', a2x:'আমাদের টিম এসে রেস্টুরেন্ট, রান্নাঘর আর খাবারের শুট করে এবং 3D ট্যুর বানায়। আপনি শুধু স্বাভাবিকভাবে রেস্টুরেন্ট চালান।',
+    q3:'মেনু আর দাম কীভাবে বদলায়?', a3x:'হোয়াটসঅ্যাপে পরিবর্তন পাঠান। আমাদের টিম পেজ আপডেট করে, সাথে QR মেনু আর প্রিন্ট মেনুও বদলে যায়।',
+    q4:'কাস্টমার কি khabo দিয়ে অর্ডার করতে পারবে?', a4x:'এখন না। khabo কাস্টমারকে কোথায় খাবে তা ঠিক করতে আর রেস্টুরেন্টে আসতে সাহায্য করে। টেবিল থেকে অর্ডার পরে আসবে।',
+    q5:'রিভিউ কীভাবে যাচাই হয়?', a5x:'রিভিউ আসল ভিজিটের সাথে মিলিয়ে দেখা হয়, সন্দেহজনক রিভিউ আমাদের টিম আটকে রাখে। ভুয়া রিভিউ সরিয়ে দেওয়া হয়। যেকোনো রিভিউয়ের উত্তর দিতে পারবেন।',
+    q6:'টাকা কীভাবে দেব?', a6x:'প্রতি মাসে বিকাশ, নগদ বা ব্যাংক ট্রান্সফারে। একটি শহরে সব রেস্টুরেন্টের জন্য দাম একই।',
+    formT:'ফ্রি ভিজিট বুক করুন', formSub:'আপনার নম্বর দিন। আমাদের টিম কল করে আপনার সুবিধামতো সময়ে আসবে।',
+    fn1:'রেস্টুরেন্টের নাম', fn2:'এলাকা', fn3:'আপনার নাম', fn4:'ফোন (হোয়াটসঅ্যাপ)', fn5:'কোন প্ল্যানে আগ্রহী', notSure:'এখনো ঠিক করিনি', send:'ভিজিটের অনুরোধ পাঠান', thanks:'ধন্যবাদ। আমাদের টিম এক কর্মদিবসের মধ্যে কল করবে।'
+  };
+  const C = lang === 'bn' ? B : E; const c = k => C[k] != null ? C[k] : E[k];
+  APP.shell({ active: 'biz', title: c('badge') });
+
+  const price = { dhaka: [1999, 4999, 9999], bogura: [1499, 4499, 9499] };
+  let city = 'dhaka';
+  const plans = () => {
+    const names = ['Starter', 'Pro', 'Premium'], fors = [c('s_for'), c('p_for'), c('m_for')], feats = [c('sf'), c('pf'), c('mf')];
+    return names.map((nm, i) => `<div class="plan-c${i === 1 ? ' pop' : ''}">${i === 1 ? `<span class="popb">${c('popular')}</span>` : ''}
+      <h3>${nm}</h3><p class="for">${fors[i]}</p><div class="amt"><b>${tk(price[city][i])}</b><span>${c('mo')}</span></div><div class="day">${c('day').replace('{d}', tk(Math.round(price[city][i] / 30)))}</div>
+      <ul>${i ? `<li class="inh">${ic('check')}${c('incl').replace('{p}', names[i - 1])}</li>` : ''}${feats[i].map(f => `<li>${ic('check-circle', 1)}${f}</li>`).join('')}</ul>
+      <a class="btn ${i === 1 ? '' : 'line'} blk" href="#join" data-plan="${nm}">${c('choose').replace('{p}', nm)}</a></div>`).join('');
+  };
+  const feat = (i, k, tier) => `<div class="feat-c"><span class="fi">${ic(i)}</span><h3>${c(k)}</h3><p>${c(k + 'p')}</p><span class="tier">${c(tier)}</span></div>`;
+
+  document.getElementById('main').innerHTML = `
+  <section class="wrap"><div class="bhero">
+    <div><span class="badge pri">${ic('storefront')}${c('badge')}</span><h1 style="margin-top:16px">${c('h1')}</h1><p class="lead">${c('lead')} <b style="color:var(--tx)">${c('from').replace('{d}', tk(1999)).replace('{b}', tk(1499))}</b></p>
+      <div class="cta"><a class="btn lg" href="#join">${ic('calendar-check')}${c('cta1')}</a><a class="btn lg line" href="#plans">${c('cta2')}</a></div>
+      <div class="kk"><span>${ic('check-circle', 1)}${c('k1')}</span><span>${ic('check-circle', 1)}${c('k2')}</span><span>${ic('check-circle', 1)}${c('k3')}</span></div></div>
+    <div><div class="phone"><iframe src="${href('restaurant.html?id=shahi-handi&frame=1')}" title="${APP.esc(c('live'))}" loading="lazy"></iframe>
+      <span class="tag">${ic('cube-focus')}${c('tag1')}</span><span class="tag t2">${ic('seal-check', 1)}${c('tag2')}</span></div>
+      <p class="t2" style="text-align:center;font-size:13px;margin-top:12px">${ic('hand-pointing')} ${c('live')}</p></div>
+  </div></section>
+
+  <section class="sec"><div class="wrap"><div class="sh"><div><h2>${c('vsT')}</h2><p>${c('vsSub')}</p></div></div>
+    <div class="vs"><div class="vsc"><h3>${c('a_t')}</h3><div class="big">${c('a_p')}</div><span class="t2" style="font-size:13.5px">${c('a_s')}</span><ul>${['a1', 'a2', 'a3', 'a4'].map(k => `<li>${ic('x-circle', 1).replace('<i ', '<i class="x" ').replace('class="x" class="', 'class="x ')}${c(k)}</li>`).join('')}</ul></div>
+      <div class="vsc us"><h3 style="color:#fff">${c('u_t')}</h3><div class="big">${c('u_p')}</div><span style="font-size:13.5px;color:var(--inkTx2)">${c('u_s')}</span><ul>${['u1', 'u2', 'u3', 'u4'].map(k => `<li>${ic('check-circle', 1)}${c(k)}</li>`).join('')}</ul></div></div>
+  </div></section>
+
+  <section class="sec"><div class="wrap"><div class="sh"><div><h2>${c('jT')}</h2><p>${c('jSub')}</p></div></div>
+    <div class="journey">${[['j1', 'magnifying-glass'], ['j2', 'cube-focus'], ['j3', 'whatsapp-logo'], ['j4', 'receipt']].map(([k, i], n) => `<div class="jstep"><span class="n">${N(n + 1)}</span><h3>${c(k)}</h3><p>${c(k + 'p')}</p><div class="ex">${ic(i)} ${c(k + 'x')}</div></div>`).join('')}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap"><div class="sh"><div><h2>${c('fT')}</h2><p>${c('fSub')}</p></div></div>
+    <div class="feats">${feat('browser', 'f1', 'tAll')}${feat('camera', 'f2', 'tAll')}${feat('qr-code', 'f5', 'tAll')}${feat('seal-check', 'f6', 'tAll')}${feat('chart-line-up', 'f7', 'tAll')}${feat('video-camera', 'f3', 'tPro')}${feat('cube-focus', 'f4', 'tPro')}${feat('cooking-pot', 'f8', 'tPro')}${feat('push-pin', 'f9', 'tPrem')}</div>
+  </div></section>
+
+  <section class="sec"><div class="wrap"><div class="bizb" style="align-items:start">
+    <div><h2>${c('rT')}</h2><p class="lead">${c('rSub')}</p>
+      <ul><li>${ic('eye')}${c('r1')}, ${c('r2')}, ${c('r3')}</li><li>${ic('bowl-food')}${c('rTop')}</li><li>${ic('scales')}${c('rCmp')}</li></ul></div>
+    <div class="rep"><div class="hd"><span>${c('rEx')}</span><span class="badge">${ic('file-pdf')}PDF</span></div><h3>Shahi Handi House</h3>
+      <div class="kpis">${[['r1', 4820, 18], ['r2', 1236, 9], ['r3', 312, 22], ['r4', 198, 6]].map(([k, v, g]) => `<div><b>${N(APP.fmt(v))}</b><span>${c(k)}</span><em> ▲ ${N(g)}%</em></div>`).join('')}</div>
+      <h4 style="font-size:14px;margin-top:16px">${c('rTop')}</h4><div class="cmpt">${[['Mutton Kacchi Biryani', 1240], ['Kacchi Handi for 4', 806], ['Chicken Chap', 512]].map(([n, v], i) => `<div><span>${N(i + 1)}. ${n}</span><span></span><b>${N(APP.fmt(v))}</b></div>`).join('')}</div>
+      <h4 style="font-size:14px;margin-top:16px">${c('rCmp')}</h4><div class="cmpt"><div class="you"><span>${c('you')}</span><span></span><b>${tk(380)}</b></div><div><span>${c('avgA')}</span><span></span><b>${tk(352)}</b></div><div><span>${c('lowA')}</span><span></span><b>${tk(320)}</b></div></div></div>
+  </div></div></section>
+
+  <section class="sec" id="plans"><div class="wrap"><div class="sh"><div><h2>${c('pT')}</h2><p>${c('pSub')}</p></div><div class="seg" role="group" aria-label="City"><button data-city="dhaka" aria-pressed="true">${c('dhaka')}</button><button data-city="bogura" aria-pressed="false">${c('bogura')}</button></div></div>
+    <div class="plans" id="plancards" style="margin-top:26px">${plans()}</div>
+    <p class="trust" style="margin-top:18px">${ic('seal-check', 1)}<span>${c('founding')}</span></p>
+  </div></section>
+
+  <section class="sec"><div class="wrap" style="max-width:900px"><div class="sh"><h2>${c('faqT')}</h2></div>
+    <div class="faq">${[1, 2, 3, 4, 5, 6].map(i => `<details${i === 1 ? ' open' : ''}><summary>${c('q' + i)}${ic('plus')}</summary><p>${c('a' + i + 'x')}</p></details>`).join('')}</div>
+  </div></section>
+
+  <section class="sec" id="join"><div class="wrap"><div class="bizb" style="align-items:start">
+    <div><h2>${c('formT')}</h2><p class="lead">${c('formSub')}</p></div>
+    <form class="form" id="lead">
+      <label>${c('fn1')}<input required name="rn" autocomplete="organization"></label>
+      <label>${c('fn2')}<select name="area">${D.areas.map(a => `<option>${L(a)}, ${L(D.cities[a.city])}</option>`).join('')}</select></label>
+      <label>${c('fn3')}<input required name="nm" autocomplete="name"></label>
+      <label>${c('fn4')}<input required name="ph" type="tel" inputmode="tel" autocomplete="tel" placeholder="01XXXXXXXXX"></label>
+      <label class="full">${c('fn5')}<select name="plan" id="planSel"><option>${c('notSure')}</option><option>Starter</option><option>Pro</option><option>Premium</option></select></label>
+      <button class="btn lg full" type="submit">${ic('paper-plane-right', 1)}${c('send')}</button>
+    </form>
+  </div></div></section>`;
+
+  const main = document.getElementById('main');
+  main.querySelectorAll('[data-city]').forEach(b => b.addEventListener('click', () => { city = b.dataset.city; main.querySelectorAll('[data-city]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); main.querySelector('#plancards').innerHTML = plans(); }));
+  main.addEventListener('click', e => { const p = e.target.closest('[data-plan]'); if (p) main.querySelector('#planSel').value = p.dataset.plan; });
+  main.querySelector('#lead').addEventListener('submit', e => { e.preventDefault(); APP.toast(c('thanks')); e.target.reset(); });
+})();
+</script>
+</body>
+</html>

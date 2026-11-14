@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo mobile</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font: 14px/1.4 Figtree, system-ui, sans-serif; background: radial-gradient(120% 80% at 50% 0%, #1C2462 0%, #070A1C 70%); color: #EEF0FF; display: flex; flex-direction: column; align-items: center; }
+  /* on a real phone, show the site full screen with no frame */
+  @media (max-width: 500px) { .bar, .phone-wrap { display: none !important; } #full { display: block !important; } }
+  #full { display: none; position: fixed; inset: 0; width: 100%; height: 100%; border: 0; }
+  .bar { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 14px 16px 10px; }
+  .bar b { width: 100%; text-align: center; font-size: 16px; margin-bottom: 2px; }
+  .bar button { border: 1px solid rgba(255,255,255,.18); background: rgba(255,255,255,.08); color: #fff; font: inherit; font-weight: 650; padding: 7px 12px; border-radius: 99px; cursor: pointer; }
+  .bar button.on { background: #F5A300; border-color: #F5A300; color: #241800; }
+  .phone-wrap { display: flex; align-items: flex-start; justify-content: center; padding: 6px 0 20px; flex: none; width: 100%; }
+  .phone { width: 410px; height: 864px; border-radius: 54px; border: 10px solid #000; background: #000; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.12); transform-origin: top center; }
+  .phone iframe { width: 390px; height: 844px; border: 0; display: block; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>khabo · mobile</b>
+  <span id="pages"></span>
+  <span><button data-t="light" class="on">Light</button> <button data-t="dark">Dark</button></span>
+  <span><button data-l="en" class="on">English</button> <button data-l="bn">বাংলা</button></span>
+</div>
+<div class="phone-wrap"><div class="phone" id="phone"><iframe id="f" title="Phone view"></iframe></div></div>
+<iframe id="full" title="khabo"></iframe>
+<script>
+  const PAGES = [['Home', '/'], ['Restaurants', '/restaurants'], ['Dishes', '/dishes?type=kacchi'], ['Restaurant', '/r/shahi-handi'], ['Café 3D', '/r/cha-adda'], ['Table menu', '/t/shahi-handi?table=5'], ['For restaurants', '/business']];
+  const Q = new URLSearchParams(location.search);
+  let page = '/', theme = 'light', lang = Q.get('lang') || 'en';
+  const extra = ['hero', 'hl'].filter(k => Q.get(k)).map(k => `&${k}=${encodeURIComponent(Q.get(k))}`).join('');
+  document.getElementById('pages').innerHTML = PAGES.map(([l, p], i) => `<button data-p="${p}" class="${i ? '' : 'on'}">${l}</button>`).join(' ');
+  if (lang === 'bn') document.querySelectorAll('[data-l]').forEach(b => b.classList.toggle('on', b.dataset.l === 'bn'));
+  const load = () => { const u = `index.html?theme=${theme}&lang=${lang}${extra}#${page}`; f.src = u; if (innerWidth <= 500) full.src = u; };
+  document.querySelector('.bar').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    b.parentNode.querySelectorAll('button').forEach(x => x.classList.toggle('on', x === b));
+    if (b.dataset.p) page = b.dataset.p; if (b.dataset.t) theme = b.dataset.t; if (b.dataset.l) lang = b.dataset.l; load();
+  });
+  const fit = () => { const ph = document.getElementById('phone'); const avail = innerHeight - document.querySelector('.bar').offsetHeight - 30; const s = Math.min(1, avail / 864, (innerWidth - 24) / 410); ph.style.transform = `scale(${s})`; ph.parentNode.style.height = 864 * s + 30 + 'px'; };
+  addEventListener('resize', fit); fit(); load();
+</script>
+</body>
+</html>

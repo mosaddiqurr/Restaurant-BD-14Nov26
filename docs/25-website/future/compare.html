@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare restaurants · khabo</title>
+<meta name="description" content="Compare two or three restaurants side by side: price per person, rating, VAT and service, hours, facilities and media.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%232A3DB8'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Ccircle cx='19.2' cy='13' r='3.1' fill='%23F5A300'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&family=Noto+Sans+Bengali:wght@400..600&display=swap">
+<link rel="stylesheet" href="future.css">
+<style>
+  .cont { max-width: 1120px; margin: 0 auto; padding: 28px 20px 64px; }
+  .intro { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .intro > div { flex: 1 1 320px; }
+  .intro h1 { font-size: 26px; }
+  .intro p { color: var(--ink-3); margin-top: 6px; max-width: 640px; }
+  .cmp { --n: 3; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card); }
+  .cmp-row { display: grid; grid-template-columns: 200px repeat(var(--n), minmax(0, 1fr)); border-bottom: 1px solid var(--line); }
+  .cmp-row:last-child { border-bottom: 0; }
+  .cmp-row > * { padding: 14px 16px; min-width: 0; }
+  .cmp-row > * + * { border-left: 1px solid var(--line); }
+  .cmp-row .lab { font-weight: 600; color: var(--ink-2); font-size: 13.5px; }
+  .cmp-row .lab .sub { font-weight: 400; margin-top: 2px; }
+  .cmp-row.sub-row > * { padding-top: 9px; padding-bottom: 9px; }
+  .cmp-row.sub-row .lab { font-weight: 500; padding-left: 28px; color: var(--ink-2); display: flex; gap: 8px; align-items: center; }
+  .cmp-row.sub-row .lab .ico { color: var(--ink-3); }
+  .cmp-row.head { position: sticky; top: var(--bar); z-index: 5; background: var(--surface); border-radius: var(--r-card) var(--r-card) 0 0; box-shadow: 0 1px 0 var(--line); }
+  .cmp-row.sect > * { background: var(--surface-2); padding-top: 10px; padding-bottom: 10px; }
+  .hd { display: grid; gap: 8px; }
+  .hd-top { display: flex; gap: 10px; align-items: center; min-width: 0; }
+  .hd-top .thumb { width: 44px; height: 44px; }
+  .hd-top > div { min-width: 0; flex: 1; }
+  .hd .select { width: 100%; font-weight: 600; }
+  .hd .acts { display: flex; gap: 4px; flex-wrap: wrap; }
+  .v { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .v.big { font-size: 18px; }
+  .best { display: inline-flex; margin-top: 6px; }
+  .yes { color: var(--green); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 13.5px; }
+  .no { color: var(--ink-3); font-size: 13px; }
+  .open { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; margin-top: 4px; }
+  .open .dot { color: var(--green); }
+  .open.closed .dot { color: var(--ink-3); }
+  .cmp-foot { margin-top: 14px; color: var(--ink-3); font-size: 12.5px; }
+  @media (max-width: 760px) {
+    .cont { padding: 20px 16px 48px; }
+    .cmp-row { grid-template-columns: repeat(var(--n), minmax(0, 1fr)); }
+    .cmp-row .lab { grid-column: 1 / -1; border-left: 0 !important; padding-bottom: 0; }
+    .cmp-row > :nth-child(2) { border-left: 0; }
+    .cmp-row.head .lab { display: none; }
+    .cmp-row > * { padding: 10px 10px; }
+    .cmp-row .lab { padding: 12px 10px 2px; }
+    .cmp-row.sub-row .lab { padding-left: 10px; }
+    .cmp-row.sect > * { padding: 8px 10px; }
+    .cmp-row.sect > :not(.lab) { display: none; }
+    .hd-top .thumb { display: none; }
+    .hd .select { font-size: 13px; padding-left: 8px; padding-right: 24px; background-position: right 6px center; }
+    .v.big { font-size: 16px; }
+    .v { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<main class="cont" id="main">
+  <div class="intro"><div><h1>Compare restaurants</h1><p>Pick two or three places to see price per person, rating, charges, hours, facilities and what you can see before you go.</p></div>
+    <div class="row"><button class="btn" type="button" id="add" hidden><svg class="ico" aria-hidden="true"><use href="#i-plus"/></svg>Add a third</button><button class="btn" type="button" id="copy"><svg class="ico" aria-hidden="true"><use href="#i-share-network"/></svg>Copy link</button></div></div>
+  <div class="cmp" id="cmp"></div>
+  <p class="cmp-foot">Prices come from each restaurant's menu on khabo. All restaurants here are fictional demo data. "Open now" uses your device clock.</p>
+</main>
+<noscript><p style="padding:24px">This prototype needs JavaScript.</p></noscript>
+<script defer src="../assets/js/data.js"></script>
+<script defer src="../assets/js/icons.js"></script>
+<script defer src="future.js"></script>
+<script defer src="compare.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+[
+  { "name": "rp-d", "url": "http://localhost:8765/#/r/shahi-handi", "wait": 3500 },
+  { "name": "rp-m", "url": "http://localhost:8765/#/r/shahi-handi", "w": 390, "h": 844, "mobile": true, "wait": 3500 },
+  { "name": "home-d", "url": "http://localhost:8765/", "wait": 3500 },
+  { "name": "tm-m", "url": "http://localhost:8765/#/t/shahi-handi?table=5", "w": 390, "h": 844, "mobile": true, "wait": 3000 },
+  { "name": "tm-m2", "url": "http://localhost:8765/#/t/shahi-handi?table=5", "w": 390, "h": 844, "mobile": true, "wait": 3000, "js": "scrollTo(0, 900)" },
+  { "name": "pm-d", "url": "http://localhost:8765/#/r/shahi-handi/print", "w": 1000, "h": 1300, "wait": 3500 },
+  { "name": "pc-d", "url": "http://localhost:8765/#/r/shahi-handi/print?cards=1", "w": 1000, "h": 1300, "wait": 3500 },
+  { "name": "qrs-d", "url": "http://localhost:8765/#/r/shahi-handi", "wait": 3000, "js": "document.querySelector('#menu').scrollIntoView(); setTimeout(()=>document.querySelector('[data-qrmenu]').click(),300); 1", "after": 2000 }
+]

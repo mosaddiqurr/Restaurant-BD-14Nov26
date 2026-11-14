@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Restaurant · khabo</title>
+<meta name="theme-color" content="#0A0E26">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body class="rpage has-abar">
+<div id="hdr-slot"></div>
+<main id="main"></main>
+<div id="ftr-slot"></div>
+<script src="assets/viewer.js"></script>
+<script>
+(function () {
+  const { D, t, addT, N, tk, L, img, ic, R, href, rcard, openState, Bill, stars } = APP;
+  const lang = APP.lang();
+  addT({
+    en: { back:'Back', walk:'Walk inside', roomsN:'{n} rooms', watch:'Watch · {l}', photosBtn:'Photos', photosN:'{n} photos', allPhotos:'See all {n} photos',
+      ov:'Overview', menu:'Menu', photos:'Photos', reviewsT:'Reviews', info:'Info', seeInside:'See inside', seeInsideSub:'Real footage from the restaurant. Nothing here is AI-generated.',
+      promo:'Restaurant video', kitchen:'The kitchen', kitchenSub:'Professional photos and video, with the date they were taken.', inside:'Inside', outside:'Outside', food:'Food',
+      here:"What's here", seatsN:'{n} seats', mostOrdered:'Most ordered', searchMenu:'Search the menu', printMenu:'Print menu', all:'All', noDish:'No dish matches that search.',
+      menuNote:'VAT {v}% and service charge {s}% are added in the bill calculator.', menuNoteNone:'VAT {v}% is added in the bill calculator.',
+      c_biryani:'Kacchi, biryani and polao', c_kebab:'Kebab and grill', c_curry:'Curry and roast', c_bread:'Naan and bread', c_drinks:'Drinks', c_dessert:'Dessert', c_fish:'Fish', c_platters:'Platters', c_thali:'Thali', c_snacks:'Snacks',
+      best:'Best seller', share:'For sharing', serves:'Portion', spiceN:['Not spicy','Mild','Medium','Hot'],
+      photosBy:'Photos by the khabo team, {d}', reviewsN:'{n} reviews', verifiedN:'{n} verified', s_food:'Food', s_service:'Service', s_value:'Value for money', s_clean:'Cleanliness',
+      mention:'People mention', f_all:'All', f_ver:'Verified', f_pic:'With photos', f_bn:'বাংলা', f_en:'English', verifiedVisit:'Verified visit', ordered:'Ordered', helpful:'Helpful ({n})', report:'Report',
+      replyFrom:'Reply from {r}', writeReview:'Write a review', allReviews:'See all {n} reviews', hours:'Opening hours', today:'Today', afterJummah:'after Jummah',
+      location:'Location', openMaps:'Open in Maps', facilities:'Facilities', payment:'Contact and payment', phone:'Phone', payBy:'Pay by', vatsvc:'VAT and service', reportWrong:'Report wrong information',
+      similar:'Similar places nearby', days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], visit:'Plan your visit', totalNote:'per person, before VAT', capt:'Captured {d}', takeTour:'Take the tour',
+      dealT:'Deal', m_cabin:'Family cabins', m_kitchen:'Kitchen video', planStarter:'Photo menu', mention1:'Kacchi', mention2:'Family cabin', mention3:'Parking', mention4:'Borhani', mention5:'Wait on Fridays' },
+    bn: { back:'ফিরে যান', walk:'ভেতরে ঘুরে দেখুন', roomsN:'{n}টি জায়গা', watch:'দেখুন · {l}', photosBtn:'ছবি', photosN:'{n}টি ছবি', allPhotos:'সব {n}টি ছবি',
+      ov:'ওভারভিউ', menu:'মেনু', photos:'ছবি', reviewsT:'রিভিউ', info:'তথ্য', seeInside:'ভেতরটা দেখুন', seeInsideSub:'রেস্টুরেন্টের আসল ফুটেজ। এখানে কিছুই AI দিয়ে বানানো নয়।',
+      promo:'রেস্টুরেন্টের ভিডিও', kitchen:'রান্নাঘর', kitchenSub:'প্রফেশনাল ছবি ও ভিডিও, তোলার তারিখসহ।', inside:'ভেতর', outside:'বাইরে', food:'খাবার',
+      here:'যা যা আছে', seatsN:'{n}টি আসন', mostOrdered:'সবচেয়ে বেশি অর্ডার', searchMenu:'মেনুতে খুঁজুন', printMenu:'মেনু প্রিন্ট', all:'সব', noDish:'এই নামে কোনো খাবার নেই।',
+      menuNote:'ভ্যাট {v}% ও সার্ভিস চার্জ {s}% বিল হিসাবে যোগ হয়।', menuNoteNone:'ভ্যাট {v}% বিল হিসাবে যোগ হয়।',
+      c_biryani:'কাচ্চি, বিরিয়ানি ও পোলাও', c_kebab:'কাবাব ও গ্রিল', c_curry:'কারি ও রোস্ট', c_bread:'নান ও রুটি', c_drinks:'পানীয়', c_dessert:'ডেজার্ট', c_fish:'মাছ', c_platters:'প্ল্যাটার', c_thali:'থালি', c_snacks:'নাস্তা',
+      best:'বেস্ট সেলার', share:'ভাগ করে খাওয়ার', serves:'পরিমাণ', spiceN:['ঝাল নেই','হালকা ঝাল','মাঝারি ঝাল','বেশি ঝাল'],
+      photosBy:'ছবি তুলেছে khabo টিম, {d}', reviewsN:'{n}টি রিভিউ', verifiedN:'{n}টি যাচাই করা', s_food:'খাবার', s_service:'সার্ভিস', s_value:'দাম অনুযায়ী মান', s_clean:'পরিচ্ছন্নতা',
+      mention:'মানুষ যা বলছে', f_all:'সব', f_ver:'যাচাই করা', f_pic:'ছবিসহ', f_bn:'বাংলা', f_en:'English', verifiedVisit:'যাচাই করা ভিজিট', ordered:'অর্ডার', helpful:'কাজে লেগেছে ({n})', report:'রিপোর্ট',
+      replyFrom:'{r}-এর উত্তর', writeReview:'রিভিউ লিখুন', allReviews:'সব {n}টি রিভিউ', hours:'খোলার সময়', today:'আজ', afterJummah:'জুমার পরে',
+      location:'লোকেশন', openMaps:'ম্যাপে খুলুন', facilities:'সুবিধা', payment:'যোগাযোগ ও পেমেন্ট', phone:'ফোন', payBy:'পেমেন্ট', vatsvc:'ভ্যাট ও সার্ভিস', reportWrong:'ভুল তথ্য জানান',
+      similar:'কাছাকাছি একই রকম', days:['রবি','সোম','মঙ্গল','বুধ','বৃহস্পতি','শুক্র','শনি'], visit:'ভিজিটের পরিকল্পনা', totalNote:'জনপ্রতি, ভ্যাট ছাড়া', capt:'ধারণ {d}', takeTour:'ট্যুর শুরু করুন',
+      dealT:'অফার', m_cabin:'ফ্যামিলি কেবিন', m_kitchen:'রান্নাঘরের ভিডিও', planStarter:'ছবির মেনু', mention1:'কাচ্চি', mention2:'ফ্যামিলি কেবিন', mention3:'পার্কিং', mention4:'বোরহানি', mention5:'শুক্রবারে অপেক্ষা' }
+  });
+  const T2 = k => { const v = (APP.lang() === 'bn' ? null : null); return t(k); };
+  const arr = k => { const en = { spiceN:['Not spicy','Mild','Medium','Hot'], days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'] }, bn = { spiceN:['ঝাল নেই','হালকা ঝাল','মাঝারি ঝাল','বেশি ঝাল'], days:['রবি','সোম','মঙ্গল','বুধ','বৃহস্পতি','শুক্র','শনি'] }; return (lang === 'bn' ? bn : en)[k]; };
+
+  const r = R(APP.qs.get('id') || 'shahi-handi') || R('shahi-handi');
+  APP.shell({ active: '', bnav: false, title: L(r.name) });
+  const a = APP.areaOf(r.area), st = openState(r);
+  const rich = !!(r.has3d || r.hasVideo);
+  const ph = r.photos, all = [...ph.inside, ...ph.outside, ...ph.kitchen, ...ph.food];
+  const galAttr = (list, i, title) => `data-gal="${list.join(',')}" data-i="${i || 0}" data-title="${APP.esc(title || L(r.name))}"`;
+  const tel = 'tel:' + r.phone.replace(/[^+\d]/g, ''), wa = 'https://wa.me/' + r.phone.replace(/[^\d]/g, '');
+  const maps = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(r.name.en + ' ' + r.address.en);
+  const otherName = o => lang === 'bn' ? o.en : o.bn;
+
+  /* ---------- hero ---------- */
+  const tourBtn = r.has3d ? `<button class="mbtn tour" data-tour="${r.id}"><span class="ic">${ic('cube-focus')}<span class="pulse"></span></span><span><b>${t('tour3d')}</b><small>${t('walk')} · ${t('roomsN', { n: N(r.tour.length) })}</small></span></button>` : '';
+  const vidBtn = r.hasVideo ? `<button class="mbtn vid" data-video="${r.video.src}" data-title="${APP.esc(L(r.name))}" data-sub="${t('promo')}" data-poster="${img(r.video.poster, 1280)}"><span class="ic">${ic('play', 1)}</span><span><b>${t('video')}</b><small>${t('watch', { l: N(r.video.len) })}</small></span></button>` : '';
+  const phBtn = `<button class="mbtn vid" ${galAttr(all, 0)}><span class="ic">${ic('images')}</span><span><b>${t('photosBtn')}</b><small>${t('photosN', { n: N(all.length) })}</small></span></button>`;
+  const topBar = `<div class="rh-top"><a class="gb" href="${href('index.html')}" aria-label="${t('back')}">${ic('arrow-left')}</a><span class="sp"></span><button class="gb" data-share aria-label="${t('share')}">${ic('share-network')}</button><button class="gb" data-save aria-pressed="false" aria-label="${t('save')}">${ic('heart')}</button></div>`;
+  let hero;
+  if (rich) {
+    const heroList = r.hero.slice();
+    hero = `<div class="rh" id="rh"><div class="rh-sl" id="rhsl">
+        ${heroList.map((k, i) => i === 0 && r.hasVideo
+          ? `<figure class="vfig"><img class="vposter" src="${img(k, 1400, 1000)}" alt="${APP.esc(L(r.name))}"><video muted loop playsinline preload="none" data-src="${r.video.src}" aria-hidden="true"></video></figure>`
+          : `<figure ${i ? galAttr(heroList, i) : ''}><img src="${img(k, i ? 800 : 1400, i ? 600 : 1000)}" alt="" ${i > 1 ? 'loading="lazy"' : ''}></figure>`).join('')}
+      </div>${topBar}
+      <div class="rh-dots" aria-hidden="true">${heroList.map((x, i) => `<i class="${i ? '' : 'on'}"></i>`).join('')}</div>
+      <div class="rh-media">${tourBtn}${vidBtn}${r.has3d && r.hasVideo ? '' : phBtn}</div>
+      <button class="btn line sm rh-all" ${galAttr(all, 0)}>${ic('squares-four')}${t('allPhotos', { n: N(all.length) })}</button>
+    </div>`;
+  } else {
+    const hl = r.hero.slice(0, 5);
+    hero = `<div class="rh2">${hl.map((k, i) => `<button ${galAttr(hl, i)} class="${i > 2 ? 'hide-m' : ''}"><img src="${img(k, i ? 700 : 1200, i ? 520 : 900)}" alt=""></button>`).join('')}${topBar.replace('rh-top', 'rh-top')}
+      <button class="btn line sm allp" ${galAttr(all, 0)}>${ic('squares-four')}${t('allPhotos', { n: N(all.length) })}</button></div>`;
+  }
+
+  /* ---------- overview ---------- */
+  const facHTML = (r.fac || []).map(k => { const f = D.fac[k]; const extra = k === 'cabin' ? (lang === 'bn' ? '৬টি' : '6') : k === 'parking' ? (lang === 'bn' ? '১২টি গাড়ি' : '12 cars') : ''; return `<div>${ic(f.i)}<span>${L(f)}${extra ? `<small>${extra}</small>` : ''}</span></div>`; }).join('') + `<div>${ic('chair')}<span>${t('seatsN', { n: N(r.seats) })}</span></div>`;
+  const deal = r.deal ? `<div class="rdeal"><div class="pc">−${N(r.deal.off)}</div><div><b>${L(r.deal)}</b><span>${L(r.deal.when)} · ${tk(r.deal.price)} <s>${tk(r.deal.was)}</s></span></div></div>` : '';
+  const popular = r.menu.slice(0, 6);
+  const dishUrl = m => href('dish.html?r=' + r.id + '&d=' + m.id);
+  const mb = m => (m.media.indexOf('v') > -1 ? `<span class="mbadge">${ic('play', 1)}</span>` : '') + (m.media.indexOf('3') > -1 ? `<span class="mbadge">${ic('cube-focus')}3D</span>` : '');
+  let inside = '';
+  if (rich || r.hasKitchen) {
+    const left = r.has3d
+      ? `<div class="tt" id="rtile"><div class="poster" style="background-image:url('${D.PANO(r.tour[0].pano)(512)}')"></div>
+          <div class="tp"><span class="mbadge lt">${ic('cube-focus')}${t('tour3d')}</span><button class="gb" data-tour="${r.id}" aria-label="${t('takeTour')}">${ic('arrows-out-simple')}</button></div>
+          <div class="bt"><b>${t('walk')}</b><span>${t('roomsN', { n: N(r.tour.length) })}${r.photosDate ? ' · ' + t('capt', { d: r.photosDate }) : ''}</span><div class="rooms">${r.tour.map(x => `<button data-tour="${r.id}" data-room="${x.id}">${L(x)}</button>`).join('')}</div></div></div>`
+      : (r.hasVideo ? `<button class="vt" data-video="${r.video.src}" data-title="${APP.esc(L(r.name))}" data-sub="${t('promo')}"><img src="${img(r.video.poster, 900, 640)}" alt=""><span class="pl">${ic('play', 1)}</span><span class="cap"><b>${t('promo')}</b><span>${N(r.video.len)}</span></span></button>` : '');
+    const right = [];
+    if (r.has3d && r.hasVideo) right.push(`<button class="vt" data-video="${r.video.src}" data-title="${APP.esc(L(r.name))}" data-sub="${t('promo')}"><img src="${img(r.video.poster, 800, 500)}" alt="" loading="lazy"><span class="pl">${ic('play', 1)}</span><span class="cap"><b>${t('promo')}</b><span>${N(r.video.len)}</span></span></button>`);
+    if (r.hasKitchen && r.kitchenVideo) right.push(`<div class="kit"><h3>${ic('cooking-pot')}${t('kitchen')}</h3><p>${t('kitchenSub')} ${L(r.kitchenVideo.date)}</p>
+      <div class="kgrid"><button class="vt" data-video="${r.kitchenVideo.src}" data-title="${t('kitchen')} · ${APP.esc(L(r.name))}" data-sub="${L(r.kitchenVideo.date)}"><img src="${img(r.kitchenVideo.poster, 400, 400)}" alt="" loading="lazy"><span class="pl">${ic('play', 1)}</span></button>${ph.kitchen.slice(0, 2).map((k, i) => `<button ${galAttr(ph.kitchen, i, t('kitchen'))}><img src="${img(k, 300, 300)}" alt="" loading="lazy"></button>`).join('')}</div></div>`);
+    inside = `<h2 style="margin-top:28px">${t('seeInside')}</h2><p class="rsub">${t('seeInsideSub')}</p><div class="inside">${left}<div class="vstack">${right.join('')}</div></div>`;
+  }
+
+  /* ---------- menu ---------- */
+  const cats = [...new Set(r.menu.map(m => m.cat))];
+  const spice = n => `<span class="sp" title="${arr('spiceN')[n]}" aria-label="${arr('spiceN')[n]}">${[1, 2, 3].map(i => ic('pepper', 1).replace('ph-fill', i <= n ? 'ph-fill' : 'ph-fill off')).join('')}</span>`;
+  const item = m => `<div class="mi" data-name="${APP.esc((m.name.en + ' ' + m.name.bn).toLowerCase())}">
+      <a class="th" href="${dishUrl(m)}" aria-hidden="true" tabindex="-1"><img src="${img(m.p, 240, 240)}" alt="" loading="lazy"><span class="mb">${m.media.indexOf('v') > -1 ? `<span>${ic('play', 1)}</span>` : ''}${m.media.indexOf('3') > -1 ? `<span>${ic('cube-focus')}</span>` : ''}</span></a>
+      <div><a class="nm" href="${dishUrl(m)}">${L(m.name)}</a><div class="bn">${otherName(m.name)}</div>${m.desc ? `<p class="ds">${m.desc}</p>` : ''}
+        ${m.tags.length ? `<div class="tags">${m.tags.map(x => `<span class="badge pri" style="height:22px;font-size:11px">${t(x === 'best' ? 'best' : 'share')}</span>`).join('')}</div>` : ''}
+        <div class="ft"><span class="price">${tk(m.price)}</span><span class="por">${L(m.por)}</span>${m.spice ? spice(m.spice) : ''}<span data-add="${m.id}" style="margin-left:auto">${APP.addBtn(r.id, m.id)}</span></div></div></div>`;
+  const menuHTML = cats.map(c => `<div class="mgrp" data-cat="${c}"><h3 id="cat-${c}">${t('c_' + c)} <small>${N(r.menu.filter(m => m.cat === c).length)}</small></h3><div class="mlist">${r.menu.filter(m => m.cat === c).map(item).join('')}</div></div>`).join('');
+
+  /* ---------- reviews ---------- */
+  const revs = D.reviews.filter(x => x.r === r.id);
+  const dist = [62, 24, 8, 4, 2];
+  const revCard = v => `<article class="rv" data-v="${v.vf ? 1 : 0}" data-p="${v.pics ? 1 : 0}" data-l="${v.lang}">
+      <div class="who"><span class="av">${v.ini}</span><div><b>${v.who}</b><span>${L(v.when)}${v.vf ? ` · <span class="vf">${ic('seal-check', 1)}${t('verifiedVisit')}</span>` : ''}</span></div></div>
+      <div class="st" aria-label="${v.st} / 5">${stars(v.st)}</div><p>${v.t}</p>
+      ${v.pics ? `<div class="pics">${v.pics.map((k, i) => `<button ${galAttr(v.pics, i, v.who)}><img src="${img(k, 200, 200)}" alt="" loading="lazy"></button>`).join('')}</div>` : ''}
+      ${v.ord ? `<div class="ord"><span class="t2" style="font-size:12.5px;font-weight:700">${t('ordered')}:</span>${v.ord.map(o => `<span class="badge">${o}</span>`).join('')}</div>` : ''}
+      <div class="help"><button data-demo>${ic('thumbs-up')}${t('helpful', { n: N(v.help) })}</button><button data-demo>${ic('flag')}${t('report')}</button></div>
+      ${v.reply ? `<div class="reply"><b>${t('replyFrom', { r: L(r.name) })}</b>${L(v.reply)}</div>` : ''}</article>`;
+  const reviewsHTML = `<div class="rvsum">
+      <div class="rvbig"><b>${N(r.rating.toFixed(1))}</b><div class="st">${stars(r.rating)}</div><span>${t('reviewsN', { n: N(r.reviews) })} · ${t('verifiedN', { n: N(r.verified) })}</span></div>
+      <div class="dist">${dist.map((p, i) => `<div><span>${N(5 - i)}</span><i><b style="width:${p}%"></b></i><span>${N(p)}%</span></div>`).join('')}</div>
+      <div class="subr">${[['s_food', 4.7], ['s_service', 4.3], ['s_value', 4.5], ['s_clean', 4.6]].map(([k, v]) => `<div><b>${N(v.toFixed(1))}</b>${t(k)}</div>`).join('')}</div></div>
+    <div class="mention"><h4>${t('mention')}</h4><div class="chips">${[['mention1', 128, 'thumbs-up'], ['mention2', 64, 'thumbs-up'], ['mention3', 41, 'thumbs-up'], ['mention4', 33, 'thumbs-up'], ['mention5', 12, 'warning-circle', 1]].map(([k, n, i, neg]) => `<span class="chip${neg ? ' neg' : ''}">${ic(i)}${t(k)} <small>${N(n)}</small></span>`).join('')}</div></div>
+    <div class="chips rvf" role="group">${[['all', 'f_all'], ['ver', 'f_ver'], ['pic', 'f_pic'], ['bn', 'f_bn'], ['en', 'f_en']].map(([k, l], i) => `<button class="chip" data-rf="${k}" aria-pressed="${i === 0}">${t(l)}</button>`).join('')}</div>
+    <div id="rvlist">${revs.map(revCard).join('')}</div>
+    <div class="rv-more"><button class="btn" data-demo>${ic('pencil-simple')}${t('writeReview')}</button><button class="btn line" data-demo>${t('allReviews', { n: N(r.reviews) })}</button></div>`;
+
+  /* ---------- info ---------- */
+  const fri = (() => { const h = Number(r.hours[0].split(':')[0]); return h >= 10 && h < 14 ? '14:00' : r.hours[0]; })();
+  const hoursHTML = arr('days').map((d, i) => { const o = i === 5 ? fri : r.hours[0]; return `<div class="${i === APP.NOW.dow ? 'td' : ''}${i === 5 ? ' fri' : ''}"><span>${d}${i === APP.NOW.dow ? ' · ' + t('today') : ''}</span><span>${APP.fmtTime(o)} – ${APP.fmtTime(r.hours[1])}${i === 5 && o !== r.hours[0] ? `<small>${t('afterJummah')}</small>` : ''}</span></div>`; }).join('');
+  const mapSVG = `<svg viewBox="0 0 400 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="400" height="180" fill="var(--sf2)"/>
+      <path d="M40 120c30-30 70-10 100-30s60-40 110-20 70 30 110 10v60H40z" fill="color-mix(in srgb,var(--pri) 18%,transparent)"/>
+      <g stroke="var(--sf)" stroke-linecap="round"><path d="M0 60H400M0 140H400M120 0V180M290 0V180" stroke-width="12"/><path d="M0 100H400M60 0V180M200 0V180M350 0V180M0 20L400 170" stroke-width="5"/></g></svg>`;
+  const allFac = Object.keys(D.fac);
+  const infoHTML = `<div class="info">
+      <div class="icard"><h3>${ic('clock')}${t('hours')}</h3><div class="hrs">${hoursHTML}</div></div>
+      <div class="icard mapcard"><h3>${ic('map-pin')}${t('location')}</h3><div class="map">${mapSVG}<i class="ph-fill ph-map-pin pin"></i></div><p style="font-size:14px">${L(r.address)}</p><a class="btn line sm" style="margin-top:12px" href="${maps}" target="_blank" rel="noopener">${ic('navigation-arrow')}${t('openMaps')}</a></div>
+      <div class="icard"><h3>${ic('check-circle')}${t('facilities')}</h3><div class="fac">${allFac.map(k => `<div class="${(r.fac || []).indexOf(k) > -1 ? '' : 'no'}">${ic(D.fac[k].i)}${L(D.fac[k])}</div>`).join('')}</div></div>
+      <div class="icard"><h3>${ic('phone')}${t('payment')}</h3><div class="kv"><div><span>${t('phone')}</span><a href="${tel}" class="lnk">${N(r.phone)}</a></div><div><span>${t('whatsapp')}</span><a href="${wa}" class="lnk" target="_blank" rel="noopener">${N(r.phone)}</a></div>
+        <div><span>${t('vatsvc')}</span><b>${N(r.vat)}% · ${N(r.service)}%</b></div><div><span>${t('payBy')}</span><span class="pay">${r.pay.map(p => `<span class="badge">${p}</span>`).join('')}</span></div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px"><button class="btn line sm" data-demo>${ic('printer')}${t('printMenu')}</button><button class="btn line sm" data-demo>${ic('flag')}${t('reportWrong')}</button></div></div>
+    </div>`;
+
+  /* ---------- aside (desktop) ---------- */
+  const aside = `<aside class="aside"><div class="vcard">
+      <div class="pr"><b>${tk(r.ppl[0])}–${N(APP.fmt(r.ppl[1]))}</b><span class="rate">${ic('star', 1)}${N(r.rating.toFixed(1))}</span></div>
+      <div class="hrs" style="display:block"><span class="t2" style="font-size:13px">${t('totalNote')}</span></div>
+      <div class="${st.open ? 'open' : 'closed'}" style="margin-top:10px">${st.label}</div>
+      <div class="bt"><a class="btn" href="${tel}">${ic('phone', 1)}${t('call')} ${N(r.phone)}</a><div class="bt2"><a class="btn wa" href="${wa}" target="_blank" rel="noopener">${ic('whatsapp-logo', 1)}${t('whatsapp')}</a><a class="btn line" href="${maps}" target="_blank" rel="noopener">${ic('navigation-arrow')}${t('directions')}</a></div></div>
+      <hr><h4>${ic('receipt')} ${t('bill')}</h4><div class="bscroll" id="abill"></div>
+      <div class="fresh" style="margin-top:12px">${t('checkedLong', { n: N(r.checked) })}</div></div></aside>`;
+
+  const similar = APP.sortList(D.restaurants.filter(x => x.id !== r.id && x.city === r.city)).slice(0, 4);
+
+  /* ---------- page ---------- */
+  document.getElementById('main').innerHTML = `
+    <div class="wrap rtopw"><nav class="crumbs" aria-label="Breadcrumb"><a href="${href('index.html')}">${L(D.cities[r.city])}</a>${ic('caret-right')}<a href="${href('search.html?area=' + r.area)}">${L(a)}</a>${ic('caret-right')}<span>${L(r.name)}</span></nav>${hero}</div>
+    <div class="rbody"><div class="wrap"><div class="rlay"><div class="rmain">
+      <section class="rhead"><div class="rlogo" aria-hidden="true">${r.mono}</div><h1>${L(r.name)}</h1><div class="cu">${r.cuisines.map(L).join(' · ')}</div></section>
+      <div class="rfacts"><span class="rate">${ic('star', 1)}${N(r.rating.toFixed(1))} <small>(${N(r.reviews)})</small></span><span class="price">${APP.pplText(r)}</span><span class="t2">${L(a)} · ${N(r.dist)} ${t('km')}</span></div>
+      <div class="rmeta-row"><span class="${st.open ? 'open' : 'closed'}">${st.label}</span></div>
+      ${(r.featured || r.founding) ? `<div class="rbadges">${r.featured ? `<span class="badge out">${ic('push-pin')}${t('featured')}</span>` : ''}${r.founding ? `<span class="badge pri">${ic('seal-check', 1)}${t('founding')}</span>` : ''}</div>` : ''}
+      <div class="racts"><a href="${tel}">${ic('phone', 1)}${t('call')}</a><a class="wa" href="${wa}" target="_blank" rel="noopener">${ic('whatsapp-logo', 1)}${t('whatsapp')}</a><a href="${maps}" target="_blank" rel="noopener">${ic('navigation-arrow', 1)}${t('directions')}</a><button data-save aria-pressed="false">${ic('heart')}${t('save')}</button></div>
+      <div class="trust">${ic('seal-check', 1)}<span><b>${t('checkedLong', { n: N(r.checked) })}</b>${r.photosDate ? ' · ' + t('photosBy', { d: r.photosDate }) : ''}</span></div>
+      <nav class="rtabs" aria-label="Sections"><div class="in">${[['overview', 'ov'], ['menu', 'menu'], ['photos', 'photos'], ['reviews', 'reviewsT'], ['info', 'info']].map(([id, k], i) => `<a href="#${id}" class="${i ? '' : 'on'}" data-tab="${id}">${t(k)}</a>`).join('')}</div></nav>
+      <section class="rsec" id="overview">${deal}<h2 style="font-size:18px;margin-bottom:12px">${t('here')}</h2><div class="hl">${facHTML}</div>${inside}
+        <h2 style="margin-top:28px;font-size:18px;margin-bottom:12px">${t('mostOrdered')}</h2><div class="rail sm">${popular.map(m => `<a class="dcard" href="${dishUrl(m)}"><div class="im"><img src="${img(m.p, 400, 400)}" alt="" loading="lazy"><div class="bl">${mb(m)}</div></div><b>${L(m.name)}</b><span class="price">${tk(m.price)}</span></a>`).join('')}</div></section>
+      <section class="rsec" id="menu"><h2>${t('menu')}<button class="btn line sm" data-demo>${ic('printer')}${t('printMenu')}</button></h2>
+        <div class="mnote"><span class="fresh">${t('checkedLong', { n: N(r.checked) })}</span><span>${r.service ? t('menuNote', { v: N(r.vat), s: N(r.service) }) : t('menuNoteNone', { v: N(r.vat) })}</span></div>
+        <div class="mtools"><label class="sbar">${ic('magnifying-glass')}<input id="msearch" type="search" placeholder="${t('searchMenu')}" aria-label="${t('searchMenu')}"></label></div>
+        <div class="mcats"><div class="chips" role="group">${['all', ...cats].map((c, i) => `<button class="chip" data-mc="${c}" aria-pressed="${i === 0}">${c === 'all' ? t('all') : t('c_' + c)}</button>`).join('')}</div></div>
+        <div id="mbody">${menuHTML}</div><p class="empty-s" id="mnone" hidden>${t('noDish')}</p></section>
+      <section class="rsec" id="photos"><h2>${t('photos')} <span class="t2" style="font-size:14px;font-weight:600">${t('photosN', { n: N(all.length) })}</span></h2>
+        <div class="chips gtabs" role="group">${[['inside', ph.inside], ['outside', ph.outside], ['kitchen', ph.kitchen], ['food', ph.food]].filter(x => x[1].length).map(([k, l], i) => `<button class="chip" data-gt="${k}" aria-pressed="${i === 0}">${t(k)} <small>${N(l.length)}</small></button>`).join('')}</div>
+        <div class="gal" id="gal"></div><p class="t2" style="font-size:13px;margin-top:10px">${r.photosDate ? t('photosBy', { d: r.photosDate }) : ''}</p></section>
+      <section class="rsec" id="reviews"><h2>${t('reviewsT')}</h2>${reviewsHTML}</section>
+      <section class="rsec" id="info"><h2>${t('info')}</h2>${infoHTML}</section>
+    </div>${aside}</div>
+    <section class="sec"><div class="sh"><h2>${t('similar')}</h2></div><div class="rail">${similar.map(x => rcard(x)).join('')}</div></section>
+    </div></div>
+    <div class="billfab" id="bfab" role="region" aria-label="${t('bill')}">${ic('receipt')}<div><b id="bfabT"></b></div><span class="sp" id="bfabS"></span><button class="btn sm" data-openbill>${t('viewBill')}</button></div>
+    <div class="abar"><a class="btn" href="${tel}">${ic('phone', 1)}${t('call')}</a><a class="btn wa" href="${wa}" target="_blank" rel="noopener">${ic('whatsapp-logo', 1)}${t('whatsapp')}</a><a class="btn line" href="${maps}" target="_blank" rel="noopener">${ic('navigation-arrow')}${t('directions')}</a></div>`;
+
+  const main = document.getElementById('main');
+
+  /* hero slides: counter + desktop autoplay */
+  const sl = main.querySelector('#rhsl');
+  if (sl) {
+    const dots = main.querySelectorAll('.rh-dots i');
+    sl.addEventListener('scroll', () => { const i = Math.round(sl.scrollLeft / sl.clientWidth); dots.forEach((d, k) => d.classList.toggle('on', k === i)); }, { passive: true });
+    const vid = sl.querySelector('video');
+    const conn = navigator.connection || {};
+    if (vid && matchMedia('(min-width:1024px)').matches && !conn.saveData && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      vid.src = vid.dataset.src; vid.play().then(() => vid.closest('figure').classList.add('playing')).catch(() => {});
+    }
+  }
+
+  /* menu: categories, search, add buttons */
+  const mbody = main.querySelector('#mbody'), mnone = main.querySelector('#mnone'), ms = main.querySelector('#msearch');
+  let mcat = 'all';
+  const filt = () => {
+    const q = ms.value.trim().toLowerCase(); let shown = 0;
+    mbody.querySelectorAll('.mgrp').forEach(g => {
+      let n = 0; g.querySelectorAll('.mi').forEach(m => { const ok = (!q || m.dataset.name.indexOf(q) > -1); m.hidden = !ok; if (ok) n++; });
+      g.hidden = !(n && (mcat === 'all' || g.dataset.cat === mcat)); if (!g.hidden) shown += n;
+    });
+    mnone.hidden = !!shown;
+  };
+  ms.addEventListener('input', filt);
+  main.querySelectorAll('[data-mc]').forEach(b => b.addEventListener('click', () => { mcat = b.dataset.mc; main.querySelectorAll('[data-mc]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); filt(); main.querySelector('#menu').scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+
+  /* gallery tabs */
+  const gal = main.querySelector('#gal');
+  const drawGal = k => { const list = ph[k]; gal.innerHTML = list.map((x, i) => `<button ${galAttr(list, i, t(k))}><img src="${img(x, 400, 400)}" alt="" loading="lazy"></button>`).join(''); };
+  main.querySelectorAll('[data-gt]').forEach(b => b.addEventListener('click', () => { main.querySelectorAll('[data-gt]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); drawGal(b.dataset.gt); }));
+  const firstG = main.querySelector('[data-gt]'); if (firstG) drawGal(firstG.dataset.gt);
+
+  /* review filters */
+  main.querySelectorAll('[data-rf]').forEach(b => b.addEventListener('click', () => {
+    main.querySelectorAll('[data-rf]').forEach(x => x.setAttribute('aria-pressed', String(x === b))); const f = b.dataset.rf;
+    main.querySelectorAll('#rvlist .rv').forEach(v => { v.hidden = !(f === 'all' || (f === 'ver' && v.dataset.v === '1') || (f === 'pic' && v.dataset.p === '1') || (f === 'bn' && v.dataset.l === 'bn') || (f === 'en' && v.dataset.l === 'en')); });
+  }));
+
+  /* bill: aside, fab, add buttons */
+  const abill = main.querySelector('#abill'), fab = main.querySelector('#bfab');
+  const syncBill = () => {
+    abill.innerHTML = APP.billHTML(r.id);
+    const c = Bill.calc(r.id);
+    fab.classList.toggle('on', c.count > 0);
+    main.querySelector('#bfabT').textContent = (c.count === 1 ? t('item1') : t('items', { n: N(c.count) })) + ' · ' + tk(c.tot);
+    main.querySelector('#bfabS').textContent = t('each') + ' ' + tk(c.each);
+    main.querySelectorAll('[data-add]').forEach(s => { s.innerHTML = APP.addBtn(r.id, s.dataset.add); });
+  };
+  Bill.on(id => { if (id === r.id) syncBill(); }); syncBill();
+  main.querySelector('[data-openbill]').addEventListener('click', () => APP.openBill(r.id));
+
+  /* tabs scrollspy */
+  const tabs = [...main.querySelectorAll('[data-tab]')];
+  const io = new IntersectionObserver(es => { es.forEach(e => { if (e.isIntersecting) { tabs.forEach(tb => tb.classList.toggle('on', tb.dataset.tab === e.target.id)); const on = tabs.find(tb => tb.dataset.tab === e.target.id); on && on.parentElement.scrollTo({ left: on.offsetLeft - 16, behavior: 'smooth' }); } }); }, { rootMargin: '-40% 0px -55% 0px' });
+  main.querySelectorAll('.rsec').forEach(s => io.observe(s));
+
+  /* live 3D tile */
+  const tile = main.querySelector('#rtile');
+  if (tile) { const o = new IntersectionObserver(es => { if (es[0].isIntersecting) { o.disconnect(); VIEW.mountTourTile(tile, r.tour[0].pano); } }, { rootMargin: '200px' }); o.observe(tile); }
+
+  if (location.hash) { const el = document.querySelector(location.hash); el && setTimeout(() => el.scrollIntoView(), 50); }
+  /* share links that open media directly: ?open=tour | video | bill */
+  const op = APP.qs.get('open');
+  if (op === 'tour' && r.has3d) setTimeout(() => VIEW.openTour(r, APP.qs.get('room')), 300);
+  else if (op === 'video' && r.hasVideo) setTimeout(() => VIEW.openVideo(r.video.src, L(r.name), t('promo')), 300);
+  else if (op === 'bill') setTimeout(() => APP.openBill(r.id), 300);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* khabo motion: page-to-page transitions, reveals and small touches shared by every page.
+   One set of curves for the whole site. Everything here switches off under "reduce motion". */
+:root {
+  --ease-out: cubic-bezier(.16, 1, .3, 1);   /* long, soft landing: things arriving */
+  --ease-in: cubic-bezier(.55, 0, .75, .2);  /* quick, quiet exits */
+  --ease-move: cubic-bezier(.7, 0, .2, 1);   /* one thing travelling from A to B */
+}
+
+/* ---------- page to page (View Transitions; browsers without it simply swap) ---------- */
+/* the header and tab bar stay put while the page under them changes */
+.hdr { view-transition-name: site-hdr; }
+.tabbar { view-transition-name: site-tabs; }
+::view-transition-group(site-hdr), ::view-transition-group(site-tabs) { animation-duration: .45s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* forward: the old page lifts away, the new one rises into place */
+  ::view-transition-old(root) { animation: vtOut .24s cubic-bezier(.55, 0, .75, .2) both; }
+  ::view-transition-new(root) { animation: vtIn .62s cubic-bezier(.16, 1, .3, 1) .05s both; }
+  /* back: the same movement in the other direction */
+  html[data-vt="back"]::view-transition-old(root) { animation-name: vtOutBack; }
+  html[data-vt="back"]::view-transition-new(root) { animation-name: vtInBack; }
+  /* into a restaurant from its card: the page fades while the photo travels */
+  html[data-vt="morph"]::view-transition-old(root) { animation: vtFadeOut .32s ease both; }
+  html[data-vt="morph"]::view-transition-new(root) { animation: vtFadeIn .5s ease .08s both; }
+  /* a switch inside one page: a short crossfade, the new content animates itself in */
+  html[data-vt="cat"]::view-transition-old(root) { animation: vtFadeOut .22s ease both; }
+  html[data-vt="cat"]::view-transition-new(root) { animation: vtFadeIn .3s ease both; }
+}
+@keyframes vtOut { to { opacity: 0; transform: translateY(-10px) scale(.994); } }
+@keyframes vtIn { from { opacity: 0; transform: translateY(26px); } }
+@keyframes vtOutBack { to { opacity: 0; transform: translateY(12px) scale(.994); } }
+@keyframes vtInBack { from { opacity: 0; transform: translateY(-18px); } }
+@keyframes vtFadeOut { to { opacity: 0; } }
+@keyframes vtFadeIn { from { opacity: 0; } }
+
+/* restaurant photo: grows out of the card you tapped (and shrinks back into it on the way back) */
+::view-transition-group(hero-morph) { animation-duration: .78s; animation-timing-function: cubic-bezier(.7, 0, .2, 1); }
+::view-transition-image-pair(hero-morph) { overflow: hidden; animation: morphRound .78s cubic-bezier(.7, 0, .2, 1) both; }
+::view-transition-old(hero-morph), ::view-transition-new(hero-morph) { height: 100%; object-fit: cover; animation-duration: .5s; }
+html[data-vt="back"]::view-transition-image-pair(hero-morph) { animation-direction: reverse; }
+/* no card to land in (scrolled away): the photo just fades */
+::view-transition-old(hero-morph):only-child { animation: vtFadeOut .25s ease both; }
+@keyframes morphRound { from { clip-path: inset(0 round 18px); } to { clip-path: inset(0 round 0); } }
+/* the hero's shade, text and buttons ride above the travelling photo instead of popping in after it */
+html[data-vt-hero] .rp-shade { view-transition-name: rp-shade; }
+html[data-vt-hero] .rp-top { view-transition-name: rp-top; }
+html[data-vt-hero] .rp-hin { view-transition-name: rp-hin; }
+html[data-vt-hero] .rp-dots { view-transition-name: rp-dots; }
+::view-transition-new(rp-hin), ::view-transition-new(rp-top) { animation: none; }
+::view-transition-new(rp-shade) { animation: vtFadeIn .7s ease both; }
+::view-transition-old(rp-hin), ::view-transition-old(rp-top), ::view-transition-old(rp-shade), ::view-transition-old(rp-dots) { animation: vtFadeOut .2s ease both; }
+
+/* Dishes: switching category spins the old plate away and slides the ring to the new chip */
+html[data-vt="cat"] .dh-pic { view-transition-name: dh-plate; }
+html[data-vt="cat"] .cr-ind { view-transition-name: cr-ind; }
+::view-transition-old(dh-plate) { animation: plateOut .42s cubic-bezier(.55, 0, .75, .2) both; }
+::view-transition-new(dh-plate) { animation: none; }
+::view-transition-group(dh-plate) { animation-duration: .01s; }
+::view-transition-group(cr-ind) { animation-duration: .55s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+::view-transition-old(cr-ind) { animation: none; opacity: 0; }
+::view-transition-new(cr-ind) { animation: none; }
+@keyframes plateOut { to { transform: rotate(60deg) scale(.78); opacity: 0; } }
+
+/* Lists (Restaurants, and Dishes inside one category): when filters change, cards that stay slide to their
+   new places, new ones grow in, removed ones shrink away */
+html[data-vt="list"] .ls-main .rc, html[data-vt="list"] .dish-grid .dc { view-transition-name: var(--vtn); view-transition-class: card; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-vt="list"]::view-transition-old(root) { animation: vtFadeOut .2s ease both; }
+  html[data-vt="list"]::view-transition-new(root) { animation: vtFadeIn .3s ease .04s both; }
+}
+::view-transition-group(*.card) { animation-duration: .6s; animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+::view-transition-new(*.card):only-child { animation: cardIn .5s cubic-bezier(.16, 1, .3, 1) .12s both; }
+::view-transition-old(*.card):only-child { animation: cardOut .22s ease both; }
+@keyframes cardIn { from { opacity: 0; transform: scale(.92); } }
+@keyframes cardOut { to { opacity: 0; transform: scale(.92); } }
+
+/* ---------- text: a soft fade in place, never sliding, rising or blurring ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* only cards and photos rise into place; headings, paragraphs, lists, buttons and menu rows just fade */
+  :is(h1, h2, h3, h4, p, ul, ol, dl, .btn, .mi, .rp-story, .rv-top, .vinfo, .ai-ex, .pc, .own-btns, .biz-btns, .biz-form)[data-rv],
+  .rp-body :is(h1, h2, h3, h4, p, ul, ol, dl, .btn, .mi, .rp-story, .rv-top, .vinfo)[data-rv] { transform: none; transition: opacity .8s ease; transition-delay: calc(var(--d, 0) * 60ms); }
+}
+
+/* ---------- photos settle as they come into view ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  [data-rv]:not(.in) .ph img, [data-rv]:not(.in) .rc-media img { transform: scale(1.08); }
+}
+
+/* ---------- touch and hover ---------- */
+@media (hover: hover) {
+  .rc .rc-media { transition: box-shadow .5s var(--ease-out), transform .5s var(--ease-out); }
+  .rc:hover .rc-media { transform: translateY(-4px); box-shadow: 0 22px 44px -18px rgba(20, 27, 94, .35); }
+  [data-theme="dark"] .rc:hover .rc-media { box-shadow: 0 22px 44px -18px rgba(0, 0, 0, .7); }
+  .dc .ph { transition: transform .5s var(--ease-out), box-shadow .5s var(--ease-out); }
+  .dc:hover .ph { transform: translateY(-4px); box-shadow: 0 20px 40px -18px rgba(20, 27, 94, .35); }
+  [data-theme="dark"] .dc:hover .ph { box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .7); }
+}
+.rc:active .rc-media, .dc:active .ph { transform: scale(.985); transition-duration: .12s; }
+
+/* ---------- sheets: content follows the sheet up ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .sheet.enter .sheet-b > * { animation: sheetIn .5s ease backwards; animation-delay: calc(.1s + var(--si, 0) * 40ms); }
+}
+@keyframes sheetIn { from { opacity: 0; } }

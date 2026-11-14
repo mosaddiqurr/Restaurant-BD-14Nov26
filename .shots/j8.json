@@ -1,0 +1,8 @@
+[
+  { "name": "v-refresh", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3000, "js": "(async()=>{ const E=[]; addEventListener('error',e=>E.push(e.message)); scrollTo(0,3000); await new Promise(r=>setTimeout(r,500)); location.reload(); return 'reloading'; })()", "after": 3500 },
+  { "name": "v-price", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3500, "js": "(async()=>{ for (let y=0;y<6300;y+=500){scrollTo(0,y); await new Promise(r=>setTimeout(r,150));} scrollTo(0,6150); await new Promise(r=>setTimeout(r,1500)); return 1})()" },
+  { "name": "v-bento", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3500, "js": "(async()=>{ for (let y=0;y<4900;y+=500){scrollTo(0,y); await new Promise(r=>setTimeout(r,150));} document.querySelector('.bx-bill').scrollIntoView({block:'center'}); await new Promise(r=>setTimeout(r,1500)); const b=document.querySelector('.bx-bill'); return b.scrollHeight - b.clientHeight })()" },
+  { "name": "v-ai", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3000, "js": "(async()=>{ document.querySelector('.hm-ai-demo').scrollIntoView({block:'center'}); await new Promise(r=>setTimeout(r,2600)); return document.querySelector('.ai-demo-body').innerText.slice(0,80) })()", "after": 0 },
+  { "name": "v-ai-end", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3000, "js": "(async()=>{ document.querySelector('.hm-ai-demo').scrollIntoView({block:'center'}); await new Promise(r=>setTimeout(r,6000)); return !!document.querySelector('.ai-demo-body .ai-msg.bot.done') })()" },
+  { "name": "v-rp", "url": "http://localhost:8765/index.html?theme=light#/r/shahi-handi", "wait": 3500, "js": "(()=>document.querySelector('.rp-fact b').textContent)()" }
+]

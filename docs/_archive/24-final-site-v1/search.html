@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Search · khabo</title>
+<meta name="theme-color" content="#2A3DB8">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<link rel="stylesheet" href="assets/site.css">
+<script src="assets/data.js"></script>
+<script src="assets/app.js"></script>
+</head>
+<body>
+<div id="hdr-slot"></div>
+<main id="main"></main>
+<div id="ftr-slot"></div>
+<script src="assets/viewer.js"></script>
+<script>
+(function () {
+  const { D, t, addT, N, tk, L, img, ic, href, rcard, openState } = APP;
+  const lang = APP.lang();
+  addT({
+    en: { rTab:'Restaurants', dTab:'Dishes', askAI:'Ask AI', resN:'{n} restaurants', resOne:'1 restaurant', dishN:'{n} dishes', dealsT:'Deals this week', found:'for “{q}”',
+      dsum:'{n} places serve {q}', low:'Lowest', avg:'Average', high:'Highest', lowest:'Lowest price', noRes:'No restaurant matches yet', noResSub:'Try fewer filters or a wider budget.', clearF:'Clear filters',
+      more:'All filters', filtersT:'Filters', applied:'{n} filters on', anyQ:'All dishes', open:'Open now', budgetB:'Budget' },
+    bn: { rTab:'রেস্টুরেন্ট', dTab:'খাবার', askAI:'AI', resN:'{n}টি রেস্টুরেন্ট', resOne:'১টি রেস্টুরেন্ট', dishN:'{n}টি খাবার', dealsT:'এই সপ্তাহের অফার', found:'“{q}”-এর জন্য',
+      dsum:'{n}টি জায়গায় {q} পাওয়া যায়', low:'সবচেয়ে কম', avg:'গড়', high:'সবচেয়ে বেশি', lowest:'সবচেয়ে কম দাম', noRes:'এখনো কোনো রেস্টুরেন্ট মিলছে না', noResSub:'কম ফিল্টার বা বড় বাজেট দিয়ে দেখুন।', clearF:'ফিল্টার মুছুন',
+      more:'সব ফিল্টার', filtersT:'ফিল্টার', applied:'{n}টি ফিল্টার চালু', anyQ:'সব খাবার', open:'এখন খোলা', budgetB:'বাজেট' }
+  });
+  const deals = APP.qs.get('deals') === '1';
+  APP.shell({ active: deals ? 'deals' : 'search', title: deals ? t('dealsT') : t('search') });
+
+  let F = APP.getF();
+  if (APP.qs.get('area')) { F = APP.F0(); F.areas = [APP.qs.get('area')]; APP.setF(F); }
+  if (deals) { F.offers = F.offers.indexOf('deal') > -1 ? F.offers : F.offers.concat('deal'); }
+  let q = (APP.qs.get('q') || '').trim();
+
+  const norm = s => (s || '').toLowerCase();
+  const dishList = () => { const out = []; D.restaurants.forEach(r => (r.menu || []).forEach(d => out.push({ r, d }))); return out; };
+  const qHitR = r => !q || [r.name.en, r.name.bn, ...r.cuisines.map(c => c.en + ' ' + c.bn), APP.areaOf(r.area).en, APP.areaOf(r.area).bn, ...(r.menu || []).map(d => d.name.en + ' ' + d.name.bn + ' ' + d.cat)].some(s => norm(s).indexOf(norm(q)) > -1);
+  const qHitD = ({ d }) => !q || norm(d.name.en + ' ' + d.name.bn + ' ' + d.cat).indexOf(norm(q)) > -1;
+  let tab = APP.qs.get('tab') || (q && dishList().some(qHitD) && !D.restaurants.some(r => norm(r.name.en + r.name.bn).indexOf(norm(q)) > -1) ? 'dishes' : 'rest');
+
+  const CUIS = [['bangladeshi', 'Bangladeshi', 'বাংলাদেশি'], ['mughlai', 'Mughlai', 'মোগলাই'], ['kacchi', 'Kacchi', 'কাচ্চি'], ['kebab', 'Kebab', 'কাবাব'], ['bengali', 'Bengali', 'বাঙালি'], ['fish', 'Fish', 'মাছ'], ['chinese', 'Chinese', 'চাইনিজ'], ['thai', 'Thai', 'থাই'], ['café', 'Café', 'ক্যাফে']];
+  const fchip = (g, v, label, icon) => `<button class="chip" data-sf="${g}" data-v="${v}" aria-pressed="${Array.isArray(F[g]) ? F[g].indexOf(v) > -1 : String(F[g]) === String(v)}">${icon ? ic(icon) : ''}${label}</button>`;
+  const side = () => `
+    <div class="fg" style="padding-top:0"><h4>${t('budgetPP')} <small data-maxlbl>${F.max >= 2000 ? t('anyBudget') : t('upTo', { p: tk(F.max) })}</small></h4><input class="rng" type="range" min="100" max="2000" step="50" value="${F.max}" data-smax aria-label="${t('budgetPP')}"><div class="rngv"><span>${tk(100)}</span><span>${tk(2000)}+</span></div></div>
+    <div class="fg"><h4>${t('when')}</h4><div class="chips"><button class="chip" data-sb="open" aria-pressed="${F.open}">${ic('clock')}${t('openNow')}</button><button class="chip" data-sb="late" aria-pressed="${F.late}">${ic('moon-stars')}${t('openLate')}</button></div></div>
+    <div class="fg"><h4>${t('seeBefore')}</h4><div class="chips">${fchip('media', '3d', t('hasTour'), 'cube-focus')}${fchip('media', 'video', t('hasVideo'), 'play')}${fchip('media', 'kitchen', t('hasKitchen'), 'cooking-pot')}</div></div>
+    <div class="fg"><h4>${t('area')}</h4><div class="chips">${D.areas.map(a => fchip('areas', a.id, L(a))).join('')}</div></div>
+    <div class="fg"><h4>${t('cuisine')}</h4><div class="chips">${CUIS.map(([v, en, bn]) => fchip('cuisines', v, lang === 'bn' ? bn : en)).join('')}</div></div>
+    <div class="fg"><h4>${t('rating')}</h4><div class="chips">${fchip('rating', 0, t('any'))}${fchip('rating', 4, N('4.0') + '+', 'star')}${fchip('rating', 4.5, N('4.5') + '+', 'star')}</div></div>
+    <div class="fg"><h4>${t('facilities')}</h4><div class="chips">${Object.keys(D.fac).map(k => fchip('fac', k, L(D.fac[k]), D.fac[k].i)).join('')}</div></div>
+    <div class="fg"><button class="btn line blk" data-filters-open>${ic('sliders-horizontal')}${t('more')}</button><button class="btn line blk" data-sclear style="margin-top:8px">${t('clearF')}</button></div>`;
+
+  const quick = () => {
+    const n = APP.activeCount(F);
+    return `<button class="chip flt" data-filters-open>${ic('sliders-horizontal')}${t('filters')}${n ? `<span class="ct">${N(n)}</span>` : ''}</button>
+      <button class="chip" data-sb="open" aria-pressed="${F.open}">${ic('clock')}${t('openNow')}</button>
+      <button class="chip" data-qmax aria-pressed="${F.max < 2000}">${ic('wallet')}${F.max < 2000 ? t('upTo', { p: tk(F.max) }) : t('budgetB')}${ic('caret-down')}</button>
+      ${fchip('media', '3d', t('hasTour'), 'cube-focus')}${fchip('fac', 'cabin', L(D.fac.cabin), 'users-three')}${fchip('fac', 'rooftop', L(D.fac.rooftop), 'buildings')}${fchip('rating', 4.5, N('4.5') + '+', 'star')}`;
+  };
+
+  document.getElementById('main').innerHTML = `<div class="wrap"><div class="slay">
+      <aside class="sfil" aria-label="${t('filtersT')}"><h3 style="font-size:18px;margin:4px 0 6px">${t('filtersT')}</h3><div id="side">${side()}</div></aside>
+      <div class="sresw">
+        <div class="stop"><form class="sbar" id="sf" role="search">${ic('magnifying-glass')}<input name="q" type="search" value="${APP.esc(q)}" placeholder="${t('searchPh')}" aria-label="${t('search')}" autocomplete="off" enterkeyhint="search"><a class="askb" href="${href('index.html#ask')}">${ic('sparkle', 1)}${t('askAI')}</a></form>
+          <div class="chips" id="quick" style="margin-top:10px" role="group" aria-label="${t('filters')}">${quick()}</div></div>
+        ${deals ? `<h1 style="font-size:24px;margin-top:14px">${t('dealsT')}</h1>` : ''}
+        <div class="stabs" role="tablist"><button role="tab" data-t="rest" aria-selected="${tab === 'rest'}">${ic('storefront')}${t('rTab')} <small data-cr></small></button><button role="tab" data-t="dishes" aria-selected="${tab === 'dishes'}">${ic('bowl-food')}${t('dTab')} <small data-cd></small></button></div>
+        <div class="sbarline"><span data-sum></span><select aria-label="${t('sort')}" data-sort>${[['best', 'sBest'], ['price', 'sPrice'], ['rating', 'sRating'], ['dist', 'sDist'], ['fresh', 'sFresh']].map(([v, k]) => `<option value="${v}" ${F.sort === v ? 'selected' : ''}>${t(k)}</option>`).join('')}</select></div>
+        <div id="res"></div>
+      </div></div></div>`;
+
+  const main = document.getElementById('main'), res = main.querySelector('#res');
+  function draw() {
+    const rs = APP.sortList(D.restaurants.filter(r => APP.matches(r, F) && qHitR(r)), F);
+    const ds = dishList().filter(x => qHitD(x) && APP.matches(x.r, F) && (F.max >= 2000 || x.d.price <= F.max * 1.6)).sort((a, b) => a.d.price - b.d.price);
+    main.querySelector('[data-cr]').textContent = N(rs.length); main.querySelector('[data-cd]').textContent = N(ds.length);
+    main.querySelector('[data-sum]').textContent = (tab === 'rest' ? (rs.length === 1 ? t('resOne') : t('resN', { n: N(rs.length) })) : t('dishN', { n: N(ds.length) })) + (q ? ' ' + t('found', { q }) : '');
+    const empty = `<div class="empty-s">${ic('magnifying-glass')}<b>${t('noRes')}</b><p>${t('noResSub')}</p><button class="btn line" data-sclear style="margin-top:14px">${t('clearF')}</button></div>`;
+    if (tab === 'rest') { res.innerHTML = rs.length ? `<div class="sres">${rs.map(r => rcard(r, { feat: true })).join('')}</div>` : empty; return; }
+    if (!ds.length) { res.innerHTML = empty; return; }
+    const single = ds.filter(x => !/serves [3-9]|for 4/i.test(x.d.por.en + ' ' + x.d.name.en)); const p = (single.length ? single : ds).map(x => x.d.price), lo = Math.min(...p), hi = Math.max(...p), av = Math.round(p.reduce((s, x) => s + x, 0) / p.length);
+    const places = new Set(ds.map(x => x.r.id)).size;
+    res.innerHTML = `${q ? `<div class="dsum"><div><b>${t('dsum', { n: N(places), q: APP.esc(q) })}</b></div><div class="st"><div>${t('low')}<b>${tk(lo)}</b></div><div>${t('avg')}<b>${tk(av)}</b></div><div>${t('high')}<b>${tk(hi)}</b></div></div></div>` : ''}
+      <div class="dlist">${ds.map(({ r, d }) => `<a class="drow" href="${href('dish.html?r=' + r.id + '&d=' + d.id)}"><img src="${img(d.p, 200, 200)}" alt="" loading="lazy"><div style="min-width:0"><b>${L(d.name)}</b><span>${L(r.name)} · ${L(APP.areaOf(r.area))}</span><span style="margin-top:4px">${L(d.por)}</span></div><div class="r"><span class="price">${tk(d.price)}</span>${d.price === lo ? `<span class="low">${t('lowest')}</span>` : ''}<span class="fresh" style="font-size:11.5px">${t('checkedShort', { n: N(r.checked) })}</span></div></a>`).join('')}</div>`;
+  }
+  const refresh = () => { APP.setF(F); main.querySelector('#quick').innerHTML = quick(); main.querySelector('#side').innerHTML = side(); draw(); };
+  window.KB_onFilters = f => { F = f; refresh(); };
+
+  main.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.sf) { const g = b.dataset.sf, v = b.dataset.v; if (Array.isArray(F[g])) { const i = F[g].indexOf(v); i > -1 ? F[g].splice(i, 1) : F[g].push(v); } else { const nv = isNaN(Number(v)) ? v : Number(v); F[g] = String(F[g]) === String(nv) && g === 'rating' ? 0 : nv; } refresh(); }
+    else if (b.dataset.sb) { F[b.dataset.sb] = !F[b.dataset.sb]; refresh(); }
+    else if (b.hasAttribute('data-sclear')) { F = APP.F0(); if (deals) F.offers = ['deal']; refresh(); }
+    else if (b.hasAttribute('data-qmax')) { APP.openFilters(window.KB_onFilters); }
+    else if (b.dataset.t) { tab = b.dataset.t; main.querySelectorAll('[data-t]').forEach(x => x.setAttribute('aria-selected', String(x === b))); draw(); }
+  });
+  main.addEventListener('input', e => { if (e.target.hasAttribute('data-smax')) { F.max = Number(e.target.value); main.querySelector('[data-maxlbl]').textContent = F.max >= 2000 ? t('anyBudget') : t('upTo', { p: tk(F.max) }); APP.setF(F); main.querySelector('#quick').innerHTML = quick(); draw(); } });
+  main.querySelector('[data-sort]').addEventListener('change', e => { F.sort = e.target.value; APP.setF(F); draw(); });
+  main.querySelector('#sf').addEventListener('submit', e => { e.preventDefault(); q = e.target.q.value.trim(); const u = new URLSearchParams(location.search); q ? u.set('q', q) : u.delete('q'); history.replaceState(null, '', '?' + u.toString()); draw(); });
+  draw();
+  if (APP.qs.get('open') === 'filters') setTimeout(() => APP.openFilters(window.KB_onFilters), 300);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Business Canvases</title>
+<style>
+  :root {
+    --bg: #f6f5f2; --card: #ffffff; --ink: #1d1d1b; --muted: #66625c; --line: #dcd8d0;
+    --accent: #3a3a38; --vp: #fff7e8; --vp-line: #e8cf9e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #171716; --card: #222220; --ink: #eeece7; --muted: #a8a49c; --line: #3a3835; --accent: #d9d6cf; --vp: #2b261c; --vp-line: #6b5a36; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 20px; margin: 48px 0 4px; }
+  .sub { color: var(--muted); margin: 0 0 20px; }
+  .cell { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .cell h3 { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; margin: 0 0 8px; color: var(--muted); }
+  .cell ul { margin: 0; padding-left: 18px; }
+  .cell li { margin: 3px 0; }
+  .tag { font-size: 11px; color: var(--muted); font-style: italic; }
+  .vp { background: var(--vp); border-color: var(--vp-line); }
+  /* Business Model Canvas grid */
+  .bmc { display: grid; gap: 10px;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-areas:
+      "kp kp ka ka vp vp cr cr cs cs"
+      "kp kp kr kr vp vp ch ch cs cs"
+      "co co co co co rv rv rv rv rv"; }
+  .kp{grid-area:kp}.ka{grid-area:ka}.kr{grid-area:kr}.vpc{grid-area:vp}.cr{grid-area:cr}.ch{grid-area:ch}.cs{grid-area:cs}.co{grid-area:co}.rv{grid-area:rv}
+  /* Value proposition canvas */
+  .vpcanvas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .side { display: grid; gap: 10px; }
+  .side > .label { font-weight: 600; }
+  .fit { grid-column: 1 / -1; }
+  @media (max-width: 860px) {
+    .bmc { grid-template-columns: 1fr; grid-template-areas: "vp" "cs" "cr" "ch" "ka" "kr" "kp" "rv" "co"; }
+    .vpcanvas { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>[Brand] — Business Canvases</h1>
+  <p class="sub">Draft 1 · Launch markets: Dhaka &amp; Bogura · Brand name not decided</p>
+
+  <h2>Business Model Canvas</h2>
+  <p class="sub">Value proposition sits in the centre: what we create for both sides.</p>
+  <div class="bmc">
+    <div class="cell kp"><h3>Key Partners</h3><ul>
+      <li>Restaurants (supply)</li><li>Print shop: QR / NFC table cards</li><li>Freelance photographers &amp; videographers</li>
+      <li>Food bloggers &amp; media (Food Price Index)</li><li>Hosting &amp; AI providers</li><li>bKash / Nagad (payment collection)</li><li>Later: POS companies</li></ul></div>
+    <div class="cell ka"><h3>Key Activities</h3><ul>
+      <li>Signing restaurants (field sales)</li><li>Content shoots: photo, video, 360°, 3D</li><li><b>Keeping menus &amp; prices current</b></li>
+      <li>Building the platform &amp; AI</li><li>Food Price Index</li><li>Marketing &amp; SEO</li><li>Monthly restaurant reports</li></ul></div>
+    <div class="cell kr"><h3>Key Resources</h3><ul>
+      <li>Platform + AI assistant</li><li>Verified menu &amp; price database</li><li>Content library</li><li>Shoot equipment</li><li>Sales &amp; content team</li><li>Brand</li></ul></div>
+    <div class="cell vp vpc"><h3>Value Propositions</h3>
+      <p><b>Diners (free):</b> see the real menu, real prices, real place and real reviews before going. AI finds the right place for your group and budget.</p>
+      <p><b>Restaurants:</b> a complete online presence seen by people choosing where to eat; QR + print menu; professional photo, video, 360° &amp; 3D content; data and competitor price insights, from ৳1,999/month.</p>
+      <p class="tag">Others sell restaurants software. We bring them customers and trust.</p></div>
+    <div class="cell cr"><h3>Customer Relationships</h3><ul>
+      <li>Diners: self-serve, AI assistant</li><li>Restaurants: personal account manager</li><li>WhatsApp support</li><li>Monthly report</li><li>Founding partner status</li></ul></div>
+    <div class="cell ch"><h3>Channels</h3><ul>
+      <li>Website (installable)</li><li>Table QR (+ NFC in phase 2)</li><li>Google search</li><li>Our social media</li><li>Food Price Index press</li><li>Field sales</li><li>Later: native app</li></ul></div>
+    <div class="cell cs"><h3>Customer Segments</h3><ul>
+      <li><b>Diners:</b> families, friend groups, young people, office groups</li>
+      <li><b>Restaurants:</b> independents, cafés, chains, food courts</li>
+      <li>Launch: Dhaka &amp; Bogura</li><li>Long term: all 64 districts, then other local businesses</li></ul></div>
+    <div class="cell co"><h3>Cost Structure</h3><ul>
+      <li>Development &amp; hosting · AI usage · media storage &amp; streaming</li>
+      <li>Equipment: camera, gimbal, lights</li><li>Field team: sales, shoots, data updates</li>
+      <li>Printing (QR cards) · Marketing</li><li>Trade licence, domains, legal</li></ul></div>
+    <div class="cell rv"><h3>Revenue Streams</h3><ul>
+      <li>Subscriptions: Starter ৳1,999 · Pro ৳4,999 · Premium ৳9,999 per month (Dhaka)</li>
+      <li>Bogura: ৳500 less per tier</li>
+      <li>Setup / shoot fee <span class="tag">(open question)</span></li>
+      <li>Add-ons: extra shoots, NFC (phase 2)</li>
+      <li>Later: sponsored placement, bookings, data reports</li></ul></div>
+  </div>
+
+  <h2>Value Proposition Canvas: Diners</h2>
+  <div class="vpcanvas">
+    <div class="side"><div class="label">Our product (value map)</div>
+      <div class="cell vp"><h3>Products &amp; services</h3><ul><li>Search with many filters</li><li>Full menus with real prices</li><li>Photo / video / 3D dish menus</li><li>Promo video, kitchen media, 360° tour</li><li>Bill calculator</li><li>AI assistant + budget planning</li><li>Verified reviews + linked Facebook posts</li><li>Deals, Food Price Index</li></ul></div>
+      <div class="cell vp"><h3>Pain relievers</h3><ul><li>Prices shown with "updated X days ago"</li><li>VAT &amp; service charge included in estimates</li><li>Real, dated photos and video</li><li>Reviews from verified diners</li><li>Filters for family, group, prayer room, parking</li></ul></div>
+      <div class="cell vp"><h3>Gain creators</h3><ul><li>Plan a meal to a budget in seconds</li><li>Compare dish prices across restaurants</li><li>See inside before going</li><li>Discover new places and deals</li></ul></div>
+    </div>
+    <div class="side"><div class="label">Diner profile</div>
+      <div class="cell"><h3>Jobs to be done</h3><ul><li>Choose where to eat</li><li>Fit the meal to a budget and group</li><li>Avoid a bad experience</li><li>Find a place for an occasion</li></ul></div>
+      <div class="cell"><h3>Pains</h3><ul><li>Unknown final bill</li><li>Old or fake photos</li><li>Paid or fake reviews</li><li>Hard to find family or group-friendly places</li><li>Delivery prices ≠ dine-in prices</li></ul></div>
+      <div class="cell"><h3>Gains</h3><ul><li>Confidence before going</li><li>Saving money</li><li>A good experience for family and friends</li><li>Something new to try</li></ul></div>
+    </div>
+  </div>
+
+  <h2>Value Proposition Canvas: Restaurants</h2>
+  <div class="vpcanvas">
+    <div class="side"><div class="label">Our product (value map)</div>
+      <div class="cell vp"><h3>Products &amp; services</h3><ul><li>Listing + full menu page</li><li>QR menu + Print menu</li><li>Photo, video, 360°, 3D content</li><li>Monthly report</li><li>Competitor price insights</li><li>Deals, featured placement, Deal of the Week</li><li>Social promotion</li></ul></div>
+      <div class="cell vp"><h3>Pain relievers</h3><ul><li>No ৳50,000 website needed</li><li>No reprinting: paper always matches online</li><li>We shoot everything</li><li>Verified reviews reduce unfair attacks</li></ul></div>
+      <div class="cell vp"><h3>Gain creators</h3><ul><li>Seen by people deciding where to eat</li><li>Know which dishes people want</li><li>Know how prices compare in the area</li><li>Professional brand image</li></ul></div>
+    </div>
+    <div class="side"><div class="label">Restaurant profile</div>
+      <div class="cell"><h3>Jobs to be done</h3><ul><li>Fill tables</li><li>Look professional online</li><li>Keep menus and prices up to date</li><li>Stay competitive</li></ul></div>
+      <div class="cell"><h3>Pains</h3><ul><li>Expensive websites nobody visits</li><li>Menu reprinting costs</li><li>No time or skill for content</li><li>Fake or unfair reviews</li><li>No customer data</li></ul></div>
+      <div class="cell"><h3>Gains</h3><ul><li>More customers</li><li>Trust and reputation</li><li>Insight into customers and competitors</li><li>Low, predictable monthly cost</li></ul></div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

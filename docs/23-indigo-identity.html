@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Indigo Identity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&family=Geist+Mono:wght@400;600&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/fill/style.css">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#0c0d10;color:#e8e9ec;font:15px/1.55 Figtree,system-ui,sans-serif;padding:36px 22px 70px}
+.pg{max-width:1290px;margin:0 auto}
+.pg>h1{font-size:40px;letter-spacing:-.03em;font-weight:800}
+.pg>p{color:#9a9ca3;margin:4px 0 26px}
+.sec{font:600 12px Geist Mono,monospace;color:#8d8f96;letter-spacing:.06em;margin:40px 0 14px}
+/* palette */
+.pal{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:900px){.pal{grid-template-columns:1fr}}
+.pal>div{border-radius:20px;padding:20px;border:1px solid #ffffff14}
+.pal h3{font-size:17px;margin-bottom:12px}
+.chipz{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.chipz div{border-radius:12px;padding:30px 9px 8px;font:600 10.5px/1.3 Geist Mono,monospace;border:1px solid #8882}
+.chipz span{display:block;font-weight:400;opacity:.85}
+.chg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:16px}
+@media(max-width:900px){.chg{grid-template-columns:1fr 1fr}}
+.chg div{background:#16171b;border:1px solid #26282e;border-radius:16px;padding:14px;font-size:13.5px;color:#b9bac0}
+.chg b{display:block;color:#fff;font-size:14.5px;margin-bottom:2px}
+/* frames */
+.phones{display:flex;gap:30px;justify-content:center;flex-wrap:wrap}
+.pf{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;color:#8d8f96}
+.phn{width:372px;height:800px;border-radius:44px;padding:9px;background:#050506;box-shadow:0 0 0 1px #34363c,0 30px 60px -30px #000}
+.fit{position:relative;width:100%;margin-bottom:8px}
+.lap{position:absolute;top:0;left:0;width:1280px;transform-origin:0 0;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px #34363c,0 40px 80px -40px #000}
+.lbl{font-size:13px;color:#8d8f96;margin:22px 0 8px}
+
+/* ===== THEME TOKENS ===== */
+.L{--bg:#F6F7FB;--sf:#FFFFFF;--sf2:#EEF0F8;--tx:#12163A;--tx2:#545A7C;--tx3:#7E84A2;--ln:#E2E5F0;--pri:#2A3DB8;--prT:#FFFFFF;--priS:#E9ECFF;--priTx:#2A3DB8;--mar:#F5A300;--marS:#FFF1CC;--marT:#7A4A00;--ok:#0E7A4E;--deal:#D9472B;--sh:0 1px 2px #12163A0F,0 10px 28px -16px #12163A40;--chrome:#E7E8EE;--url:#FFFFFF;--urlT:#3B3F55}
+.D{--bg:#0A0E26;--sf:#121838;--sf2:#1A2149;--tx:#EEF0FA;--tx2:#A9B0D2;--tx3:#7880A6;--ln:#252D5A;--pri:#8FA0FF;--prT:#0A0E26;--priS:#1E2763;--priTx:#A9B6FF;--mar:#FFC044;--marS:#2B2412;--marT:#FFCB5C;--ok:#4ED69A;--deal:#FF7A5C;--sh:0 1px 2px #0006,0 14px 30px -18px #000c;--chrome:#16182A;--url:#22253A;--urlT:#C5C8DA}
+
+/* ===== APP ===== */
+.app{background:var(--bg);color:var(--tx);font-family:Figtree,"Noto Sans Bengali",sans-serif;font-size:14px;line-height:1.45;height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;position:relative}
+.app::-webkit-scrollbar{display:none}
+.scr{width:100%;height:100%;border-radius:35px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
+.urlb{flex:none;height:38px;display:flex;align-items:center;justify-content:center;background:var(--chrome);font:12px system-ui,sans-serif;color:var(--urlT)}
+.urlb span{display:inline-flex;gap:5px;align-items:center;background:var(--url);border-radius:999px;padding:5px 26px}
+.mob{flex:1;overflow-y:auto;scrollbar-width:none;position:relative}
+.mob::-webkit-scrollbar{display:none}
+.f{display:flex}.ac{align-items:center}.jb{justify-content:space-between}.g6{gap:6px}.g8{gap:8px}.g12{gap:12px}
+.t2{color:var(--tx2)}.t3{color:var(--tx3)}.b{font-weight:700}.s12{font-size:12px}.s13{font-size:13px}
+.num{font-variant-numeric:tabular-nums}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:21px;letter-spacing:-.03em;color:var(--tx)}
+.logo svg{width:28px;height:28px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 12px;border-radius:999px;background:var(--sf2);color:var(--tx);font-size:13px;font-weight:600;border:0;white-space:nowrap}
+.av{width:34px;height:34px;border-radius:50%;background:var(--priS);color:var(--priTx);display:grid;place-items:center;font-weight:700;font-size:12px}
+/* flowing wall */
+.wall{overflow:hidden;position:relative}
+.row{display:flex;gap:8px;width:max-content;animation:flow 52s linear infinite}
+.row.rv{animation-direction:reverse;animation-duration:64s}
+.row.r3{animation-duration:72s}
+@keyframes flow{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.row{animation:none}}
+.wall:hover .row{animation-play-state:paused}
+.tile{position:relative;flex:none;border-radius:14px;overflow:hidden;background:var(--sf2)}
+.tile img{width:100%;height:100%;object-fit:cover;display:block}
+.tile .c{position:absolute;left:0;right:0;bottom:0;padding:22px 9px 7px;background:linear-gradient(transparent,rgba(8,10,30,.78));color:#fff;line-height:1.2}
+.tile .c b{display:block;font-size:12.5px;font-weight:700}
+.tile .c span{font-size:11px;opacity:.9}
+.fade{position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(transparent,var(--bg));pointer-events:none}
+/* search */
+.sb{display:flex;align-items:center;gap:10px;height:54px;background:var(--sf);border:1px solid var(--ln);border-radius:999px;padding:0 6px 0 18px;box-shadow:var(--sh);color:var(--tx3);font-size:14.5px}
+.sb>i{font-size:19px;color:var(--tx2)}
+.sb span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai{flex:none;display:inline-flex;align-items:center;gap:4px;height:40px;padding:0 12px;border:0;border-radius:999px;background:var(--priS);color:var(--priTx);font:700 12.5px Figtree,sans-serif}
+.ai i{color:var(--mar)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 20px;border:0;border-radius:999px;background:var(--pri);color:var(--prT);font:700 14px Figtree,sans-serif;white-space:nowrap}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:5px;height:36px;padding:0 13px;border-radius:999px;border:1px solid var(--ln);background:var(--sf);font-size:13px;color:var(--tx);white-space:nowrap}
+.chip i{color:var(--tx2)}
+.hd2{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 10px}
+.hd2 b{font-size:17px;letter-spacing:-.01em}
+.hd2 a{font-size:13px;color:var(--priTx);font-weight:600}
+.cat{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12.5px;font-weight:600;flex:none}
+.cat .ci{border-radius:50%;overflow:hidden;background:var(--sf2);box-shadow:0 0 0 2px var(--bg),0 0 0 3px var(--ln)}
+.cat .ci img{width:100%;height:100%;object-fit:cover}
+.rc{flex:none}
+.rc .ph{position:relative;border-radius:14px;overflow:hidden;background:var(--sf2)}
+.rc .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.rc .sv{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.92);color:#12163A;display:grid;place-items:center;font-size:16px}
+.rc .op{position:absolute;left:8px;top:8px;font-size:11px;font-weight:700;background:rgba(255,255,255,.92);color:#0E7A4E;padding:3px 8px;border-radius:999px}
+.rc .nm{display:flex;justify-content:space-between;gap:6px;margin-top:8px}
+.rc .nm b{font-size:14.5px}
+.rt{display:inline-flex;align-items:center;gap:3px;font-weight:700;font-size:13px;white-space:nowrap}
+.rt i{color:var(--mar)}
+.pp{display:inline-block;margin-top:5px;font-weight:700;font-size:13px;background:var(--marS);color:var(--marT);padding:2px 8px;border-radius:7px}
+.ck{font-size:11.5px;color:var(--ok);font-weight:600;margin-left:6px}
+.feat{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:var(--tx);background:var(--sf);border:1px solid var(--ln);padding:3px 9px;border-radius:999px}
+.deal{border-radius:18px;overflow:hidden;background:var(--sf);border:1px solid var(--ln)}
+.deal .dp{position:relative}
+.deal .dp img{width:100%;height:100%;object-fit:cover;display:block}
+.off{position:absolute;right:10px;top:10px;background:var(--deal);color:#fff;font-weight:800;font-size:13px;padding:4px 9px;border-radius:8px}
+.idx{border-radius:18px;background:var(--sf);border:1px solid var(--ln);padding:18px}
+.bar{display:grid;grid-template-columns:96px 1fr 54px;gap:10px;align-items:center;font-size:13px;margin:8px 0}
+.bar i{display:block;height:10px;border-radius:5px;background:var(--pri)}
+.bar i.hi{background:var(--mar)}
+.bnav{position:sticky;bottom:0;display:grid;grid-template-columns:repeat(5,1fr);background:color-mix(in srgb,var(--sf) 94%,transparent);backdrop-filter:blur(10px);border-top:1px solid var(--ln);padding:7px 2px 14px;z-index:5}
+.bnav a{display:flex;flex-direction:column;align-items:center;gap:1px;font-size:10.5px;color:var(--tx3)}
+.bnav a i{font-size:22px}
+.bnav a.on{color:var(--priTx);font-weight:700}
+/* desktop */
+.dn{display:flex;align-items:center;gap:30px;padding:16px 48px;background:var(--bg);position:sticky;top:0;z-index:6;border-bottom:1px solid var(--ln)}
+.dn nav{display:flex;gap:26px;font-size:14.5px;font-weight:500;flex:1;color:var(--tx2)}
+.dhero{position:relative;padding-top:18px}
+.scard{position:relative;z-index:3;width:860px;margin:-64px auto 0;background:var(--sf);border:1px solid var(--ln);border-radius:999px;box-shadow:var(--sh);display:flex;align-items:center;padding:8px 8px 8px 28px;height:76px}
+.scard .fld{flex:1;display:flex;flex-direction:column;justify-content:center;padding-right:18px}
+.scard .fld+.fld{border-left:1px solid var(--ln);padding-left:22px}
+.scard .fld b{font-size:12px;color:var(--tx)}
+.scard .fld span{font-size:15px;color:var(--tx3)}
+</style>
+</head>
+<body>
+<div class="pg">
+<h1>Indigo + Marigold, refined</h1>
+<p>Light and dark, mobile and laptop. Home page only.</p>
+
+<div class="sec">COLOUR SYSTEM</div>
+<div class="pal" id="pal"></div>
+<div class="chg">
+<div><b>Cleaner indigo</b>Moved from a dull purple-navy to a clear neel blue (#2A3DB8) that stays rich on screens and prints crisp.</div>
+<div><b>Text in indigo ink</b>Text is a deep indigo-black (#12163A) instead of plain black, so every screen feels on-brand.</div>
+<div><b>Marigold has one job</b>Prices and ratings only, as a soft tag with dark text. Readable, warm, never shouting.</div>
+<div><b>Real dark mode</b>Deep indigo night (#0A0E26), not black, with a lighter indigo so buttons stay readable.</div>
+</div>
+
+<div class="sec">MOBILE · LIGHT AND DARK</div>
+<div class="phones" id="phones"></div>
+
+<div class="sec">LAPTOP · LIGHT</div>
+<div class="fit" id="dl"></div>
+<div class="sec">LAPTOP · DARK</div>
+<div class="fit" id="dd"></div>
+</div>
+<script>
+const U=id=>`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=500&q=70`;
+const P={kt:'1589302168068-964664d93dc0',k:'1563379091339-03b21ab4a4f8',te:'1631515243349-e0cb75fb8d3a',po:'1588644525273-f37b60d78512',th:'1743674453123-93356ade2891',ch:'1599487488170-d11ec9c172f0',na:'1565557623262-b51c2513a641',fi:'1652954008429-ce394eacbd7f',fu:'1781243680771-1fea4521e196',pl:'1633945274405-b6c8069047b0',in:'1517248135467-4c7edcad34c4',ro:'1526069631228-723c945bea6b',di:'1709548145082-04d0cde481d4',i2:'1667388969250-1c7220bf3f37',i3:'1538334421852-687c439c92f4',i4:'1570560258879-af7f8e1447ac',i5:'1636405189493-181ecf851006',sk:'1603360946369-dc9bb6258143',sm:'1786603449553-d94235e87fe5',bw:'1712757248842-04f6e3844374',tb:'1698751963561-f567afae288e'};
+const im=(k,alt='')=>`<img src="${U(P[k])}" alt="${alt}" loading="lazy">`;
+const ic=(n,f)=>`<i class="ph${f?'-fill':''} ph-${n}"></i>`;
+const logo=()=>`<span class="logo"><svg viewBox="0 0 28 28" aria-hidden="true"><rect width="28" height="28" rx="8" fill="var(--pri)"/><circle cx="17.5" cy="10.5" r="4.6" fill="var(--mar)"/><path d="M7 19.5h14" stroke="var(--prT)" stroke-width="2.6" stroke-linecap="round"/></svg>khabo</span>`;
+const W1=[['kt','Kacchi Biryani','৳380 · Shahi Handi House'],['i5','Kathgolap Rooftop','Banani 11'],['fu','Fuchka','৳120 · Lake Road'],['in','Shahi Handi House','Dhanmondi 27'],['sk','Kabab platter','৳450 · Kabab Ghor'],['i3','Cha Adda','Dhanmondi 9/A'],['fi','Shorshe Ilish','৳650 · Nodir Paar']];
+const W2=[['i2','Nodir Paar','Gulshan 2'],['th','Bengali thali','৳320 · Shamiana'],['sm','Samosa and chai','৳90 · Cha Adda'],['di','Mirpur Bawarchi','Mirpur 10'],['ch','Chicken Chap','৳180 · Kabab Ghor'],['i4','Lake View Café','Dhanmondi Lake'],['bw','Iftar platter','৳1,450 · Nodir Paar']];
+const W3=[['tb','Family feast','৳1,990 · Shahi Handi'],['ro','Garden Rooftop','Uttara 7'],['te','Beef Tehari','৳220 · Mirpur Bawarchi'],['i5','Mahasthan Bhoj','Bogura'],['po','Morog Polao','৳290 · Shahi Handi'],['pl','Mezban platter','৳1,690 · Nodir Paar'],['na','Butter Naan','৳50 · Kabab Ghor']];
+const row=(a,w,h,cls='')=>`<div class="row ${cls}">${a.concat(a).map(([k,t,s])=>`<div class="tile" style="width:${w}px;height:${h}px">${im(k,t)}<div class="c"><b>${t}</b><span>${s}</span></div></div>`).join('')}</div>`;
+const CATS=[['kt','Biryani'],['ch','Kabab'],['fu','Fuchka'],['fi','Fish'],['sm','Snacks'],['th','Thali'],['po','Polao'],['bw','Iftar']];
+const RS=[['k','Shahi Handi House','Dhanmondi 27 · 18 min','৳450-650','4.6','2d'],['i2','Nodir Paar','Gulshan 2 · 31 min','৳900-1,400','4.7','1d'],['sk','Kabab Ghor','Mohammadpur · 21 min','৳300-500','4.5','3d'],['ro','Kathgolap Rooftop','Banani 11 · 28 min','৳700-1,100','4.4','2d']];
+const rc=(r,w,h)=>`<div class="rc" style="width:${w}"><div class="ph" style="height:${h}px">${im(r[0],r[1])}<span class="op">Open now</span><span class="sv">${ic('heart')}</span></div><div class="nm"><b>${r[1]}</b><span class="rt">${ic('star',1)}${r[4]}</span></div><div class="s13 t2">${r[2]}</div><span class="pp num">${r[3]} / person</span><span class="ck">${ic('seal-check',1)} checked ${r[5]} ago</span></div>`;
+
+function mobile(){
+return `<div class="mob">
+<header class="f ac jb" style="padding:12px 16px 10px">${logo()}<span class="f ac g8"><button class="pill">${ic('map-pin',1)}Dhanmondi ${ic('caret-down')}</button><span class="av">AR</span></span></header>
+<section class="wall" style="padding:2px 0 34px"><div style="display:flex;flex-direction:column;gap:8px">${row(W1,128,104)}${row(W2,128,104,'rv')}</div><div class="fade"></div></section>
+<div style="padding:0 14px;margin-top:-30px;position:relative;z-index:2"><div class="sb">${ic('magnifying-glass')}<span>Kacchi, rooftop, Dhanmondi…</span><button class="ai">${ic('sparkle',1)}Ask AI</button></div></div>
+<div class="chips" style="padding:12px 14px 0">${[['clock','Open now'],['wallet','Under ৳500'],['users-three','Family cabin'],['buildings','Rooftop'],['moon-stars','Iftar']].map(([i,t])=>`<span class="chip">${ic(i)}${t}</span>`).join('')}</div>
+<div style="padding:0 14px"><div class="hd2"><b>What are you craving?</b></div></div>
+<div class="chips" style="padding:0 14px;gap:14px">${CATS.map(([k,n])=>`<span class="cat"><span class="ci" style="width:64px;height:64px">${im(k,n)}</span>${n}</span>`).join('')}</div>
+<div style="padding:0 14px"><div class="hd2"><b>Open now near you</b><a>See all</a></div></div>
+<div class="chips" style="padding:0 14px;gap:12px">${RS.map(r=>rc(r,'236px',150)).join('')}</div>
+<div style="padding:0 14px 20px"><div class="hd2"><b>Deal of the week</b><span class="feat">${ic('push-pin',1)}Featured</span></div>
+<div class="deal"><div class="dp" style="height:150px">${im('pl','Family platter')}<span class="off">-15%</span></div><div style="padding:12px 14px"><div class="f jb ac"><b style="font-size:15px">Family platter for 4</b><span class="pp num" style="margin:0">৳1,690</span></div><div class="s13 t2">Nodir Paar, Gulshan 2 · Sunday to Thursday</div></div></div></div>
+<nav class="bnav">${[['house','Home',1],['magnifying-glass','Search'],['bookmark-simple','Saved'],['tag','Deals'],['user-circle','Account']].map(([i,l,o])=>`<a class="${o?'on':''}">${ic(i,o)}${l}</a>`).join('')}</nav>
+</div>`}
+
+function desktop(){
+return `<div class="app" style="height:820px">
+<header class="dn">${logo()}<button class="pill">${ic('map-pin',1)}Dhanmondi, Dhaka ${ic('caret-down')}</button><nav><span>Explore</span><span>Deals</span><span>Price Index</span><span>Guides</span><span>For restaurants</span></nav><span class="f ac g12"><span class="b s13" style="font-family:'Noto Sans Bengali'">বাংলা</span>${ic('bookmark-simple')}<button class="btn" style="height:40px">Sign in</button></span></header>
+<section class="dhero"><div class="wall" style="padding-bottom:84px"><div style="display:flex;flex-direction:column;gap:10px">${row(W1,250,150)}${row(W2,250,150,'rv')}${row(W3,250,150,'r3')}</div><div class="fade" style="height:120px"></div></div>
+<div class="scard"><div class="fld"><b>What</b><span>Kacchi, rooftop, family dinner…</span></div><div class="fld"><b>Where</b><span>Dhanmondi, Dhaka</span></div><button class="ai" style="height:46px;margin-right:8px">${ic('sparkle',1)}Ask AI</button><button class="btn" style="height:58px;padding:0 30px">${ic('magnifying-glass')}Search</button></div>
+<div class="chips" style="justify-content:center;margin-top:14px">${[['clock','Open now'],['wallet','Under ৳500'],['users-three','Family cabin'],['buildings','Rooftop'],['mosque','Prayer room'],['moon-stars','Iftar']].map(([i,t])=>`<span class="chip">${ic(i)}${t}</span>`).join('')}</div></section>
+<section style="padding:6px 48px 0"><div class="hd2" style="margin-top:28px"><b style="font-size:20px">What are you craving?</b><a>All dishes</a></div><div class="f jb">${CATS.map(([k,n])=>`<span class="cat" style="font-size:14px"><span class="ci" style="width:96px;height:96px">${im(k,n)}</span>${n}</span>`).join('')}</div></section>
+<section style="padding:0 48px"><div class="hd2" style="margin-top:30px"><b style="font-size:20px">Open now near you</b><a>See all</a></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">${RS.map(r=>rc(r,'auto',190)).join('')}</div></section>
+<section style="padding:30px 48px 44px;display:grid;grid-template-columns:1.45fr 1fr;gap:22px">
+<div class="deal" style="display:grid;grid-template-columns:1.1fr 1fr"><div class="dp" style="min-height:250px">${im('pl','Family platter')}<span class="off" style="font-size:16px">-15%</span></div><div style="padding:24px;display:flex;flex-direction:column;gap:8px"><span class="feat" style="align-self:flex-start">${ic('push-pin',1)}Featured · Deal of the week</span><b style="font-size:26px;letter-spacing:-.02em;line-height:1.1">Family platter for 4</b><span class="t2">Nodir Paar, Gulshan 2<br>Sunday to Thursday</span><span class="f ac g8" style="margin-top:auto"><span class="pp num" style="font-size:17px;margin:0">৳1,690</span><s class="t3">৳1,990</s></span><button class="btn" style="align-self:flex-start">Get deal</button></div></div>
+<div class="idx"><div class="f jb ac"><b style="font-size:17px">Kacchi price this month</b><span class="s12 t3">Price Index</span></div><div class="s13 t2" style="margin-bottom:8px">Average per plate, November 2026</div>${[['Gulshan',486,1],['Banani',452],['Dhanmondi',384],['Uttara',362],['Mirpur',318],['Bogura',265]].map(([a,p,h])=>`<div class="bar"><span>${a}</span><i class="${h?'hi':''}" style="width:${(p/486*100).toFixed(0)}%"></i><b class="num">৳${p}</b></div>`).join('')}</div>
+</section></div>`}
+
+/* palette panels */
+const TK={Light:['L',[['#F6F7FB','Background'],['#FFFFFF','Surface'],['#12163A','Text, indigo ink'],['#545A7C','Text secondary'],['#2A3DB8','Indigo, brand'],['#E9ECFF','Indigo soft'],['#F5A300','Marigold'],['#FFF1CC','Price tag']]],Dark:['D',[['#0A0E26','Background'],['#121838','Surface'],['#EEF0FA','Text'],['#A9B0D2','Text secondary'],['#8FA0FF','Indigo, brand'],['#1E2763','Indigo soft'],['#FFC044','Marigold'],['#4ED69A','Verified']]]};
+const lum=h=>{const c=[1,3,5].map(i=>parseInt(h.substr(i,2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2]};
+document.getElementById('pal').innerHTML=Object.entries(TK).map(([n,[c,a]])=>`<div class="${c}" style="background:var(--bg);color:var(--tx)"><h3>${n} mode</h3><div class="chipz">${a.map(([h,l])=>`<div style="background:${h};color:${lum(h)>.4?'#12163A':'#fff'}">${h}<span>${l}</span></div>`).join('')}</div></div>`).join('');
+document.getElementById('phones').innerHTML=['L','D'].map(t=>`<div class="pf"><div class="phn"><div class="scr ${t}"><div class="urlb"><span>${ic('lock-simple',1)} khabo.com</span></div>${mobile()}</div></div>${t==='L'?'Light':'Dark'}</div>`).join('');
+const lap=t=>`<div class="lap ${t}"><div class="f ac" style="height:40px;background:var(--chrome);padding:0 14px;gap:8px"><i style="width:12px;height:12px;border-radius:50%;background:#ff5f57"></i><i style="width:12px;height:12px;border-radius:50%;background:#febc2e"></i><i style="width:12px;height:12px;border-radius:50%;background:#28c840"></i><span style="margin:0 auto;background:var(--url);color:var(--urlT);border-radius:8px;height:26px;width:520px;display:flex;align-items:center;justify-content:center;gap:6px;font:12.5px system-ui">${ic('lock-simple',1)} khabo.com</span></div>${desktop()}</div>`;
+document.getElementById('dl').innerHTML=lap('L');document.getElementById('dd').innerHTML=lap('D');
+function fit(){document.querySelectorAll('.fit').forEach(f=>{const s=Math.min(1,f.clientWidth/1280),l=f.firstElementChild;l.style.transform=`scale(${s})`;f.style.height=(860*s)+'px'})}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>

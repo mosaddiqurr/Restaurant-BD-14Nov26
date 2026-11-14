@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo Future Features</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%232A3DB8'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Ccircle cx='19.2' cy='13' r='3.1' fill='%23F5A300'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&family=Noto+Sans+Bengali:wght@400..600&display=swap">
+<link rel="stylesheet" href="future.css">
+<style>
+  .cont { max-width: 960px; margin: 0 auto; padding: 40px 20px 24px; }
+  .intro h1 { font-size: 28px; }
+  .intro p { color: var(--ink-2); margin-top: 8px; max-width: 640px; font-size: 15px; }
+  .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+  .proto { display: grid; grid-template-rows: auto 1fr auto; gap: 12px; padding: 20px; color: var(--ink); transition: border-color .15s, box-shadow .15s; }
+  .proto:hover { text-decoration: none; border-color: var(--line-2); box-shadow: 0 6px 20px rgba(14, 18, 48, .06); }
+  .proto .top { display: flex; align-items: center; gap: 12px; }
+  .proto .ic { width: 40px; height: 40px; border-radius: var(--r); background: var(--indigo-soft); color: var(--indigo); display: grid; place-items: center; flex: none; }
+  .proto .ic .ico { width: 22px; height: 22px; }
+  .proto h2 { font-size: 18px; }
+  .proto p { color: var(--ink-2); }
+  .proto .tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .proto .go { display: inline-flex; align-items: center; gap: 6px; color: var(--indigo); font-weight: 600; font-size: 13.5px; margin-left: auto; }
+  .proto .go .ico { width: 16px; height: 16px; }
+  .notes { margin-top: 24px; display: grid; gap: 10px; }
+  @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } .cont { padding: 28px 16px 16px; } .intro h1 { font-size: 24px; } }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="../index.html" aria-label="khabo home"><svg class="mk" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#2A3DB8"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F5A300"/></svg><span>khabo</span><span class="brand-ctx">Future features</span></a>
+  <span class="grow"></span>
+  <a class="btn sm ghost" href="../index.html">Diner site</a>
+</header>
+<main class="cont">
+  <div class="intro">
+    <h1>Future features</h1>
+    <p>Clickable prototypes, kept apart from the diner site. They use the same fictional restaurants. There is no backend: anything you change is saved in this browser only.</p>
+  </div>
+  <div class="grid">
+    <a class="card proto" href="admin.html">
+      <div class="top"><span class="ic"><svg class="ico" aria-hidden="true"><use href="#i-squares-four"/></svg></span><h2>Admin panel</h2></div>
+      <p>Our team's tool: restaurants, menus with inline price edits and price history, bulk paste, review queue, leads pipeline and stale menu alerts.</p>
+      <div class="tags"><span class="tag">PRD 4.10, AD-1 to AD-12</span><span class="tag indigo">P0</span><span class="go">Open<svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></div>
+    </a>
+    <a class="card proto" href="dashboard.html">
+      <div class="top"><span class="ic"><svg class="ico" aria-hidden="true"><use href="#i-storefront"/></svg></span><h2>Owner dashboard</h2></div>
+      <p>What a restaurant owner sees: the monthly report, price insights against the same city, menu with sold-out toggles, deals and review replies.</p>
+      <div class="tags"><span class="tag">RD-1 to RD-4</span><span class="tag indigo">P0 report and insights</span><span class="tag">P2 self-serve</span><span class="go">Open<svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></div>
+    </a>
+    <a class="card proto" href="compare.html">
+      <div class="top"><span class="ic"><svg class="ico" aria-hidden="true"><use href="#i-sliders-horizontal"/></svg></span><h2>Compare restaurants</h2></div>
+      <p>Two or three restaurants side by side: price per person, rating, VAT and service, hours, cheapest main dish, facilities and media.</p>
+      <div class="tags"><span class="tag">D-6</span><span class="tag">P1</span><span class="go">Open<svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></div>
+    </a>
+    <a class="card proto" href="map.html">
+      <div class="top"><span class="ic"><svg class="ico" aria-hidden="true"><use href="#i-map-trifold"/></svg></span><h2>Map view</h2></div>
+      <p>Restaurants on an OpenStreetMap map with city and budget filters. Pins use each restaurant's colour and light up with the list.</p>
+      <div class="tags"><span class="tag">D-7</span><span class="tag">P1</span><span class="go">Open<svg class="ico" aria-hidden="true"><use href="#i-arrow-right"/></svg></span></div>
+    </a>
+  </div>
+  <div class="notes">
+    <div class="note"><svg class="ico" aria-hidden="true"><use href="#i-arrows-clockwise"/></svg><span>The admin panel and the owner dashboard share their saved data. Change a price or mark a dish sold out in one and it shows in the other and in Compare. Use "Reset demo data" in the admin panel to start again.</span></div>
+    <div class="note"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span>Numbers marked "Sample" are made up for the layout. Menus, prices, ratings, hours and facilities come from the demo data. Build notes for developers are in <a href="README.md">README.md</a>.</span></div>
+  </div>
+</main>
+<p class="foot">khabo prototypes. All restaurants are fictional.</p>
+<script defer src="../assets/js/icons.js"></script>
+</body>
+</html>
