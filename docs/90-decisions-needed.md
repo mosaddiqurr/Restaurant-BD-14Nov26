@@ -33,8 +33,8 @@ Waits for the name. **Decision:** ___
 
 ## 2. Design (for Brand Guide & Design System)
 Options are ready to compare in two files (open in a browser):
-- **How it looks:** [18-design-directions.html](18-design-directions.html): 11 visual directions, 16 palettes, 10 Bangla + English font pairings, scored.
-- **How it works:** [19-experience-concepts.html](19-experience-concepts.html): 10 experience concepts (home layout, navigation, flows), compared on ease of use.
+- **How it looks:** [18-design-directions.html](3-design/18-design-directions.html): 11 visual directions, 16 palettes, 10 Bangla + English font pairings, scored.
+- **How it works:** [19-experience-concepts.html](3-design/19-experience-concepts.html): 10 experience concepts (home layout, navigation, flows), compared on ease of use.
 - Recommendation (not decided): *Neel Calm* look + *One Box + Lenses* structure.
 - Also open: keep "Ask AI" as its own bottom-bar tab, or merge it into search and add a "Plans" tab.
 
@@ -43,16 +43,16 @@ Areas to decide:
 - Fonts (must support Bangla + English)
 - UI style and components
 **Decision (14 Nov 2026):**
-- ✅ **Colours:** Indigo + Marigold ([23-indigo-identity.html](23-indigo-identity.html)), light and dark mode. Founder approved.
-- ✅ **Fonts:** Figtree (English) + Noto Sans Bengali (Bangla). Founder liked #3 "Clear and complete" best and asked the design team to pick the best performer; reasons in [24-final-build-tracker.md](24-final-build-tracker.md).
+- ✅ **Colours:** Indigo + Marigold ([23-indigo-identity.html](3-design/23-indigo-identity.html)), light and dark mode. Founder approved.
+- ✅ **Fonts:** Figtree (English) + Noto Sans Bengali (Bangla). Founder liked #3 "Clear and complete" best and asked the design team to pick the best performer.
 - ✅ **Ask AI:** small button beside the search; it jumps to the AI section in the middle of the home page. Bottom bar keeps an Ask AI tab.
-- ✅ **Final design v1:** [24-final-site/preview.html](24-final-site/preview.html). Founder to review and give feedback.
+- ✅ **Final design v1:** [_archive/24-final-site-v1/preview.html](_archive/24-final-site-v1/preview.html). Founder to review and give feedback.
 - Still open: time-of-day themes (dawn / dusk / night) are a future idea, see the tracker backlog.
 
 ---
 
 ## 3. Tech stack (for Architecture & CLAUDE.md)
-**Decision:** ✅ Next.js on InsForge Sites + InsForge Pro backend + Cloudflare in front + Cloudflare R2 for media. See [17-tech-stack.md](17-tech-stack.md).
+**Decision:** ✅ Next.js on InsForge Sites + InsForge Pro backend + Cloudflare in front + Cloudflare R2 for media. See [17-tech-stack.md](4-tech/17-tech-stack.md).
 Still open: AI model (Haiku 5.5 vs Sonnet 5.5, to be decided by testing) · Cloudflare free vs Pro plan · SMS provider · payment gateway (later).
 
 ---

@@ -1,4 +1,0 @@
-[
-  { "name": "m-dh-bn", "url": "http://localhost:8765/index.html?theme=light&lang=bn#/dishes?type=kacchi", "wait": 3500 },
-  { "name": "m-dh-bn-phone", "url": "http://localhost:8765/index.html?theme=dark&lang=bn#/dishes?type=kacchi", "w": 390, "h": 844, "mobile": true, "wait": 3500 }
-]

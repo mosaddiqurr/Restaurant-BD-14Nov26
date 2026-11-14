@@ -11,14 +11,14 @@ Master list of every document the company needs, with status.
 
 | # | Document | Why we need it | Status | File |
 |---|---|---|---|---|
-| A1 | Product Vision Document | Why we exist, where we're going, how we win | ✅ | [01-product-vision.md](01-product-vision.md) |
-| A2 | Business Model Canvas | Whole business on one page | ✅ | [02-business-model-canvas.md](02-business-model-canvas.md) · [canvases.html](canvases.html) |
-| A3 | Value Proposition Canvas | Pains and gains for diners and restaurants | ✅ | [03-value-proposition-canvas.md](03-value-proposition-canvas.md) · [canvases.html](canvases.html) |
-| A4 | Competitor Analysis | Local + international competitors and lessons | ✅ | [04-competitor-analysis.md](04-competitor-analysis.md) |
-| A5 | Pricing & Packages Sheet | Tiers, city pricing, offers | ✅ (open questions inside) | [05-pricing-and-packages.md](05-pricing-and-packages.md) |
-| A6 | Restaurant Approach Guide | How to talk to owners, questions to ask | ✅ | [06-restaurant-approach-guide.md](06-restaurant-approach-guide.md) |
-| A7 | Sales One-Pager | What we hand a restaurant owner | ✅ (needs name/logo) | [07-sales-one-pager.md](07-sales-one-pager.md) |
-| A8 | Strategic Product Roadmap | Phases from validation to 64 districts | ✅ | [14-product-roadmap.md](14-product-roadmap.md) |
+| A1 | Product Vision Document | Why we exist, where we're going, how we win | ✅ | [01-product-vision.md](1-business/01-product-vision.md) |
+| A2 | Business Model Canvas | Whole business on one page | ✅ | [02-business-model-canvas.md](1-business/02-business-model-canvas.md) · [canvases.html](1-business/canvases.html) |
+| A3 | Value Proposition Canvas | Pains and gains for diners and restaurants | ✅ | [03-value-proposition-canvas.md](1-business/03-value-proposition-canvas.md) · [canvases.html](1-business/canvases.html) |
+| A4 | Competitor Analysis | Local + international competitors and lessons | ✅ | [04-competitor-analysis.md](1-business/04-competitor-analysis.md) |
+| A5 | Pricing & Packages Sheet | Tiers, city pricing, offers | ✅ (open questions inside) | [05-pricing-and-packages.md](1-business/05-pricing-and-packages.md) |
+| A6 | Restaurant Approach Guide | How to talk to owners, questions to ask | ✅ | [06-restaurant-approach-guide.md](1-business/06-restaurant-approach-guide.md) |
+| A7 | Sales One-Pager | What we hand a restaurant owner | ✅ (needs name/logo) | [07-sales-one-pager.md](1-business/07-sales-one-pager.md) |
+| A8 | Strategic Product Roadmap | Phases from validation to 64 districts | ✅ | [14-product-roadmap.md](2-product/14-product-roadmap.md) |
 | A9 | Go-to-Market Plan | Launch marketing, channels, Price Index PR | ⏳ | |
 | A10 | KPI / Metrics Plan | What we track, targets | ⏳ | |
 | A11 | Financial Model | Costs, revenue, break-even, 3-year projection | ⏳ | |
@@ -29,24 +29,24 @@ Master list of every document the company needs, with status.
 
 | # | Document | Why we need it | Status | File |
 |---|---|---|---|---|
-| B1 | Product Requirements Document (PRD) | Exactly what we build | ✅ | [09-prd.md](09-prd.md) |
-| B2 | Epics & User Stories | Features broken into buildable work | ✅ | [10-epics-and-user-stories.md](10-epics-and-user-stories.md) |
-| B3 | User Flows | Step-by-step journeys | ✅ | [11-user-flows.md](11-user-flows.md) |
-| B4 | Sitemap / Information Architecture | Every page and how they connect | ✅ | [12-sitemap.md](12-sitemap.md) |
-| B5 | Business & Billing Logic Spec | Plans, trials, payments, grace periods | ✅ (open questions inside) | [13-business-billing-logic.md](13-business-billing-logic.md) |
-| B6 | ERD (conceptual data model) | What data we store and how it connects | ✅ (physical schema after tech stack) | [15-erd.md](15-erd.md) |
-| B7 | Tech Stack (decision record) | Technologies, hosting, costs, AI model process | ✅ Decided | [17-tech-stack.md](17-tech-stack.md) |
+| B1 | Product Requirements Document (PRD) | Exactly what we build | ✅ | [09-prd.md](2-product/09-prd.md) |
+| B2 | Epics & User Stories | Features broken into buildable work | ✅ | [10-epics-and-user-stories.md](2-product/10-epics-and-user-stories.md) |
+| B3 | User Flows | Step-by-step journeys | ✅ | [11-user-flows.md](2-product/11-user-flows.md) |
+| B4 | Sitemap / Information Architecture | Every page and how they connect | ✅ | [12-sitemap.md](2-product/12-sitemap.md) |
+| B5 | Business & Billing Logic Spec | Plans, trials, payments, grace periods | ✅ (open questions inside) | [13-business-billing-logic.md](2-product/13-business-billing-logic.md) |
+| B6 | ERD (conceptual data model) | What data we store and how it connects | ✅ (physical schema after tech stack) | [15-erd.md](2-product/15-erd.md) |
+| B7 | Tech Stack (decision record) | Technologies, hosting, costs, AI model process | ✅ Decided | [17-tech-stack.md](4-tech/17-tech-stack.md) |
 | B7a | System Architecture | Detailed technical design | 🟡 After design direction | |
-| B8 | Brand Guide & Design System | Colours ✅ Indigo + Marigold, fonts ✅ Figtree + Noto Sans Bengali, components in `25-website/assets/css/base.css` (name + logo later) | 🟡 Name and logo open | [90-decisions-needed.md](90-decisions-needed.md) |
-| B8a | Design Exploration Prompts (v2) | Context pack + prompts to explore, demo, rank and hand off the design | ✅ | [16-design-exploration-prompts.md](16-design-exploration-prompts.md) |
-| B8b | Design Directions (how it looks) | 11 visual directions shown live on real screens, palettes, Bangla/English fonts, scenes, scores | 🟡 Founder decision | [18-design-directions.html](18-design-directions.html) |
-| B8c | Experience Concepts (how it works) | 10 ways the product could work (home layout, navigation, flows) + recommended blueprint and test plan | 🟡 Founder decision | [19-experience-concepts.html](19-experience-concepts.html) |
-| B8d | Layout Variations (mobile) | 20 home / restaurant / menu layouts as a mobile website | 🟡 Founder decision | [20-layout-variations.html](20-layout-variations.html) |
-| B8e | Laptop Variations | Laptop versions of the shortlisted layouts (1, 3, 4, 10, 14 ×3 colours, 19, 20) | 🟡 Founder decision | [21-laptop-variations.html](21-laptop-variations.html) |
-| B8f | Colour Themes | 10 identity palettes on the Spice Night home page, with reasons | 🟡 Founder decision | [22-colour-themes.html](22-colour-themes.html) |
-| B8g | Indigo Identity (refined) | Indigo + Marigold home page, light and dark, mobile and laptop | 🟡 Founder decision | [23-indigo-identity.html](23-indigo-identity.html) |
-| B8h | **Website v2** | Diner site + For Restaurants page. Home (city-wide hero with area + search + AI, partner strip, all categories, near you, browse every way, AI with options to compare, see-before-you-go, deal, price check), Restaurants page with side filters, Dishes page by category/cuisine, restaurant pages in each restaurant's own colours (Google map, write a review), sign-in by phone (demo), QR table menu (`#/t/<id>`) and printable QR table cards, dish sheet with photo/video/3D, 360° tour, bill calculator. Light/dark, English/Bangla. v1 is in `_archive/24-final-site-v1` | 🔨 v3 layout pass, founder to pick hero + headline | [25-website/preview.html](25-website/preview.html), [options](25-website/options.html) |
-| B8i | **Future prototypes** | Clickable prototypes kept apart from the live site: admin panel (AD-1 to AD-12), restaurant dashboard (RD-1 to RD-4), compare (D-6), map view (D-7) | 🧪 Prototype, not linked from the site | [25-website/future/](25-website/future/index.html) |
+| B8 | Brand Guide & Design System | Colours ✅ Indigo + Marigold, fonts ✅ Figtree + Noto Sans Bengali, components in `website/styles/base.css` (name + logo later) | 🟡 Name and logo open | [90-decisions-needed.md](90-decisions-needed.md) |
+| B8a | Design Exploration Prompts (v2) | Context pack + prompts to explore, demo, rank and hand off the design | ✅ | [16-design-exploration-prompts.md](3-design/16-design-exploration-prompts.md) |
+| B8b | Design Directions (how it looks) | 11 visual directions shown live on real screens, palettes, Bangla/English fonts, scenes, scores | 🟡 Founder decision | [18-design-directions.html](3-design/18-design-directions.html) |
+| B8c | Experience Concepts (how it works) | 10 ways the product could work (home layout, navigation, flows) + recommended blueprint and test plan | 🟡 Founder decision | [19-experience-concepts.html](3-design/19-experience-concepts.html) |
+| B8d | Layout Variations (mobile) | 20 home / restaurant / menu layouts as a mobile website | 🟡 Founder decision | [20-layout-variations.html](3-design/20-layout-variations.html) |
+| B8e | Laptop Variations | Laptop versions of the shortlisted layouts (1, 3, 4, 10, 14 ×3 colours, 19, 20) | 🟡 Founder decision | [21-laptop-variations.html](3-design/21-laptop-variations.html) |
+| B8f | Colour Themes | 10 identity palettes on the Spice Night home page, with reasons | 🟡 Founder decision | [22-colour-themes.html](3-design/22-colour-themes.html) |
+| B8g | Indigo Identity (refined) | Indigo + Marigold home page, light and dark, mobile and laptop | 🟡 Founder decision | [23-indigo-identity.html](3-design/23-indigo-identity.html) |
+| B8h | **Website v2** | Diner site + For Restaurants page. Home (city-wide hero with area + search + AI, partner strip, all categories, near you, browse every way, AI with options to compare, see-before-you-go, deal, price check), Restaurants page with side filters, Dishes page by category/cuisine, restaurant pages in each restaurant's own colours (Google map, write a review), sign-in by phone (demo), QR table menu (`#/t/<id>`) and printable QR table cards, dish sheet with photo/video/3D, 360° tour, bill calculator. Light/dark, English/Bangla. v1 is in `_archive/24-final-site-v1` | 🔨 v3 layout pass, founder to pick hero + headline | [website/preview.html](../website/design-options/preview.html), [options](../website/design-options/options.html) |
+| B8i | **Future prototypes** | Clickable prototypes kept apart from the live site: admin panel (AD-1 to AD-12), restaurant dashboard (RD-1 to RD-4), compare (D-6), map view (D-7) | 🧪 Prototype, not linked from the site | [website/future/](../website/future/index.html) |
 | B9 | Wireframes & UI/UX Design | Screen layouts (now covered by B8h; dashboard/admin prototypes in B8i) | 🟡 After B8h review | |
 | B10 | CLAUDE.md | Instructions for Claude Code in the codebase | 🟡 After B7 | |
 | B11 | API Specification | How frontend and backend talk | ⏳ After B7 | |
@@ -68,7 +68,7 @@ Master list of every document the company needs, with status.
 
 | # | Document | Why we need it | Status | File |
 |---|---|---|---|---|
-| D1 | Co-founder Agreement Guide | Roles, equity, vesting, leaving | ✅ (guide + questions) | [08-cofounder-agreement-guide.md](08-cofounder-agreement-guide.md) |
+| D1 | Co-founder Agreement Guide | Roles, equity, vesting, leaving | ✅ (guide + questions) | [08-cofounder-agreement-guide.md](1-business/08-cofounder-agreement-guide.md) |
 | D2 | Co-founder Agreement (signed, by lawyer) | Legal version of D1 | ⏳ | |
 | D3 | Trade Licence | Legal right to operate | ⏳ | |
 | D4 | Company formation (RJSC, limited company) | Needed before taking investment | ⏳ | |

@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home page options</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<style>
+  :root { --bg: #F5F6FB; --surface: #fff; --ink: #0E1230; --ink-2: #444A6A; --ink-3: #62688A; --line: rgba(14,18,48,.1); --indigo: #2A3DB8; --soft: #E7EAFC; --gold: #F5A300; --night: #070A1C; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 Figtree, "Noto Sans Bengali", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  header.top { padding: 48px 0 24px; }
+  h1 { font-size: clamp(32px, 4vw, 48px); letter-spacing: -.03em; line-height: 1.1; margin: 0 0 10px; }
+  h2 { font-size: 26px; letter-spacing: -.02em; margin: 0 0 6px; }
+  p.lead { color: var(--ink-2); max-width: 70ch; margin: 0; }
+  section { padding: 36px 0 20px; border-top: 1px solid var(--line); margin-top: 24px; }
+  .sub { color: var(--ink-2); margin: 0 0 20px; max-width: 72ch; }
+  .heroes { display: grid; gap: 20px; }
+  @media (min-width: 1100px) { .heroes { grid-template-columns: repeat(3, 1fr); } }
+  .hc { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; display: grid; }
+  .hc.rec { border: 2px solid var(--indigo); }
+  .frame { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--night); }
+  .frame iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .hc-b { padding: 18px 20px 20px; display: grid; gap: 8px; }
+  .hc-b h3 { margin: 0; font-size: 19px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .tag { font-size: 12px; font-weight: 750; color: var(--indigo); background: var(--soft); border-radius: 99px; padding: 3px 10px; }
+  .hc-b p { margin: 0; color: var(--ink-2); font-size: 14.5px; }
+  .hc-b ul { margin: 2px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 14px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+  .btn { display: inline-flex; align-items: center; height: 38px; padding: 0 16px; border-radius: 99px; border: 1.5px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; font-weight: 650; font-size: 14px; cursor: pointer; text-decoration: none; }
+  .btn:hover { border-color: var(--ink-3); }
+  .btn.pri { background: var(--indigo); border-color: var(--indigo); color: #fff; }
+  .seg { display: inline-flex; padding: 4px; border-radius: 99px; background: #E6E9F4; gap: 2px; }
+  .seg button { border: 0; background: none; font: inherit; font-weight: 650; font-size: 14px; padding: 0 14px; height: 34px; border-radius: 99px; color: var(--ink-2); cursor: pointer; }
+  .seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
+  .hl-wrap { display: grid; gap: 24px; }
+  @media (min-width: 1100px) { .hl-wrap { grid-template-columns: 1fr 1.1fr; align-items: start; } .hl-prev { position: sticky; top: 16px; } }
+  .hl-prev .frame { border-radius: 18px; }
+  .hl-tools { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  ol.hl { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  ol.hl li button { width: 100%; display: grid; grid-template-columns: 34px 1fr auto; gap: 12px; align-items: center; text-align: left; padding: 12px 14px; border-radius: 14px; border: 1.5px solid transparent; background: var(--surface); font: inherit; color: inherit; cursor: pointer; }
+  ol.hl li button:hover { border-color: var(--line); }
+  ol.hl li button.on { border-color: var(--indigo); background: var(--soft); }
+  .n { font-weight: 750; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .en { font-weight: 700; font-size: 17px; letter-spacing: -.01em; }
+  .bn { font-family: "Noto Sans Bengali", sans-serif; color: var(--ink-2); font-size: 14.5px; }
+  .star { font-size: 13px; font-weight: 700; color: var(--ink-3); border: 1.5px solid var(--line); border-radius: 99px; padding: 4px 10px; white-space: nowrap; }
+  .star.on { background: var(--gold); border-color: var(--gold); color: #241800; }
+  .note { font-size: 13.5px; color: var(--ink-3); margin-top: 10px; }
+  .picks { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: var(--surface); border: 1px dashed var(--line); font-size: 14.5px; }
+  .picks b { color: var(--indigo); }
+  footer { padding: 40px 0 60px; color: var(--ink-3); font-size: 14px; }
+</style>
+</head>
+<body>
+<header class="top wrap">
+  <h1>Home page options</h1>
+  <p class="lead">Two decisions for you: which hero sits behind the search, and which headline goes on top. Every preview below is the real site, so the motion, the search and the area picker all work when you open it full size.</p>
+</header>
+
+<main class="wrap">
+  <section id="hero">
+    <h2>1. The hero</h2>
+    <p class="sub">The old hero played one restaurant's 360° room, which does not work once there are many restaurants. All three options below show the whole city instead. Option A is what the site uses now.</p>
+    <div class="heroes" id="heroes"></div>
+  </section>
+
+  <section id="headline">
+    <h2>2. The headline</h2>
+    <p class="sub">40 options, each in English and Bangla. Click one to see it in the hero, and tap the star to shortlist it. Tell me the numbers of your favourites, or copy your shortlist from the box below the list.</p>
+    <div class="hl-wrap">
+      <div>
+        <div class="hl-tools">
+          <div class="seg" id="lang"><button class="on" data-l="en">English</button><button data-l="bn">বাংলা</button></div>
+          <div class="seg" id="concept"><button class="on" data-h="wall">A: Food wall</button><button data-h="plate">B: Plate</button><button data-h="map">C: City map</button></div>
+        </div>
+        <ol class="hl" id="hl"></ol>
+        <div class="picks" id="picks">Your shortlist: <b>none yet</b></div>
+        <p class="note">Number 33 uses the working name "khabo". The brand name is still open, so it changes if the name changes.</p>
+      </div>
+      <div class="hl-prev">
+        <div class="frame" id="pf"><iframe id="pv" title="Headline preview" loading="lazy"></iframe></div>
+        <div class="row"><a class="btn pri" id="open" target="_blank" rel="noopener">Open full size</a><a class="btn" id="openm" target="_blank" rel="noopener">Open on phone size</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap">These previews read the same live data as the site. Nothing here changes the site until you pick.</footer>
+
+<script>
+  const HEROES = [
+    { id: 'wall', name: 'A: Food wall', rec: true, about: 'Slow columns of real dishes and dining rooms from every partner restaurant, drifting past the search.', pros: ['Shows the whole city, not one place', 'Food first: makes people hungry', 'Light: plain photos and a CSS animation'], cons: ['Needs good photos from many restaurants'] },
+    { id: 'plate', name: 'B: The plate', about: 'One large plate that turns slowly and changes every few seconds: kacchi, biryani, kebab, fuchka. Each links to its category.', pros: ['Very calm and premium', 'Each craving links straight to its dishes'], cons: ['One dish at a time, so less sense of choice'] },
+    { id: 'map', name: 'C: City map', about: 'A drawn map of Dhaka with every partner restaurant as a pin. A different restaurant lights up every few seconds.', pros: ['Says "this is your city" at a glance', 'Pins grow with every restaurant you sign'], cons: ['Less food on screen', 'Bogura needs its own map view'] }
+  ];
+  const HL = [
+    ['Eat out without|the guesswork.', 'আন্দাজ ছাড়াই|বাইরে খান।'],
+    ['See the menu.|Know the bill.', 'মেনু দেখুন।|বিল জানুন।'],
+    ['Every menu. Every price.|One place.', 'সব মেনু। সব দাম।|এক জায়গায়।'],
+    ['Find your next|favourite table.', 'আপনার পরের|প্রিয় টেবিল খুঁজুন।'],
+    ['Where Dhaka decides|what to eat.', 'ঢাকা এখানেই ঠিক করে|কী খাবে।'],
+    ['Hungry?|Start here.', 'খিদে পেয়েছে?|এখান থেকে শুরু।'],
+    ['The real price of dinner,|before dinner.', 'ডিনারের আসল দাম,|ডিনারের আগেই।'],
+    ['Menus you|can trust.', 'যে মেনুতে|ভরসা রাখা যায়।'],
+    ['No surprises|on the bill.', 'বিলে কোনো|চমক নেই।'],
+    ['Look inside.|Then go.', 'ভেতরটা দেখুন।|তারপর যান।'],
+    ['Your table is waiting.|Pick it.', 'আপনার টেবিল অপেক্ষায়।|বেছে নিন।'],
+    ['Every kacchi in town,|side by side.', 'শহরের সব কাচ্চি,|পাশাপাশি।'],
+    ['Decide dinner|in a minute.', 'এক মিনিটে|ডিনার ঠিক করুন।'],
+    ['Good food,|honestly priced.', 'ভালো খাবার,|সৎ দামে।'],
+    ["What's for dinner?|Sorted.", 'ডিনারে কী?|ঠিক হয়ে গেল।'],
+    ['Dine out,|smarter.', 'বাইরে খান,|বুঝেশুনে।'],
+    ['Real menus. Real prices.|Real rooms.', 'আসল মেনু। আসল দাম।|আসল জায়গা।'],
+    ["The city's menus,|in your pocket.", 'শহরের সব মেনু,|আপনার পকেটে।'],
+    ['Know the place before|you get there.', 'পৌঁছানোর আগেই|জায়গাটা চিনে নিন।'],
+    ['Find a table that fits|your budget.', 'বাজেটের সাথে মেলে|এমন টেবিল খুঁজুন।'],
+    ['From craving|to table.', 'খিদে থেকে|টেবিলে।'],
+    ['Plan the meal,|not the maths.', 'হিসাব নয়,|খাবারের প্ল্যান করুন।'],
+    ['See it. Price it.|Go.', 'দেখুন। দাম জানুন।|চলে যান।'],
+    ["Dhaka's tables,|open to you.", 'ঢাকার সব টেবিল,|আপনার জন্য খোলা।'],
+    ['Choose with|your eyes open.', 'চোখ খোলা রেখে|বেছে নিন।'],
+    ["Tonight's dinner|starts here.", 'আজ রাতের ডিনার|এখান থেকে শুরু।'],
+    ['Every restaurant,|the whole story.', 'প্রতিটি রেস্টুরেন্টের|পুরো গল্প।'],
+    ['Find it. Price it.|Love it.', 'খুঁজুন। দাম জানুন।|ভালোবাসুন।'],
+    ['The honest guide|to eating out.', 'বাইরে খাওয়ার|সৎ গাইড।'],
+    ['Craving something?|We know where.', 'কিছু খেতে ইচ্ছে করছে?|কোথায় পাবেন, জানি।'],
+    ['Dinner,|decided.', 'ডিনার,|ঠিক।'],
+    ['All the menus.|None of the guessing.', 'সব মেনু।|কোনো আন্দাজ নয়।'],
+    ['Before you go,|khabo.', 'যাওয়ার আগে,|খাবো।'],
+    ["Pick the place.|We'll do the bill.", 'জায়গা বাছুন।|বিলের হিসাব আমাদের।'],
+    ['Every plate has a price.|Now you know it.', 'প্রতিটি প্লেটের দাম আছে।|এখন আপনি জানেন।'],
+    ['Eat well in Dhaka|and Bogura.', 'ঢাকা আর বগুড়ায়|ভালো খান।'],
+    ['The menu, the room, the bill.|All before you leave.', 'মেনু, জায়গা, বিল।|সব বের হওয়ার আগেই।'],
+    ["Find food you'll|talk about.", 'এমন খাবার খুঁজুন|যা নিয়ে গল্প হবে।'],
+    ['Your city,|one menu at a time.', 'আপনার শহর,|একেকটা মেনু করে।'],
+    ["Search the city's|kitchens.", 'শহরের সব রান্নাঘর|খুঁজে দেখুন।']
+  ];
+  const site = (hero, hl, lang, w) => `../index.html?hero=${hero}&lang=${lang}${hl ? '&hl=' + encodeURIComponent(hl) : ''}#/`;
+  const scaleFrames = () => document.querySelectorAll('.frame').forEach(f => { const ifr = f.querySelector('iframe'); ifr.style.transform = `scale(${f.clientWidth / 1440})`; });
+
+  document.getElementById('heroes').innerHTML = HEROES.map(h => `<article class="hc ${h.rec ? 'rec' : ''}">
+    <div class="frame"><iframe src="${site(h.id, '', 'en')}" title="${h.name}" loading="lazy"></iframe></div>
+    <div class="hc-b"><h3>${h.name}${h.rec ? '<span class="tag">My pick, live now</span>' : ''}</h3><p>${h.about}</p>
+      <ul>${h.pros.map(x => `<li>${x}</li>`).join('')}${h.cons.map(x => `<li>Watch out: ${x.charAt(0).toLowerCase() + x.slice(1)}</li>`).join('')}</ul>
+      <div class="row"><a class="btn pri" href="${site(h.id, '', 'en')}" target="_blank" rel="noopener">Open full size</a><a class="btn" href="mobile.html?hero=${h.id}" target="_blank" rel="noopener">Phone view</a></div></div></article>`).join('');
+
+  let lang = 'en', hero = 'wall', cur = 0;
+  let stars = []; try { stars = JSON.parse(localStorage.getItem('kh2.opt.stars') || '[]'); } catch (e) { }
+  const list = document.getElementById('hl'), pv = document.getElementById('pv');
+  const paintList = () => list.innerHTML = HL.map(([en, bn], i) => `<li><button class="${i === cur ? 'on' : ''}" data-i="${i}"><span class="n">${i + 1}</span><span><span class="en">${en.replace('|', ' ')}</span><br><span class="bn">${bn.replace('|', ' ')}</span></span><span class="star ${stars.includes(i + 1) ? 'on' : ''}" data-star="${i + 1}" role="button" aria-label="Shortlist ${i + 1}">${stars.includes(i + 1) ? 'Shortlisted' : 'Shortlist'}</span></button></li>`).join('');
+  const paintPicks = () => document.getElementById('picks').innerHTML = `Your shortlist: <b>${stars.length ? stars.sort((a, b) => a - b).join(', ') : 'none yet'}</b>`;
+  const show = () => {
+    const hl = HL[cur][lang === 'bn' ? 1 : 0];
+    pv.src = site(hero, hl, lang);
+    document.getElementById('open').href = site(hero, hl, lang);
+    document.getElementById('openm').href = `mobile.html?hero=${hero}&lang=${lang}&hl=${encodeURIComponent(hl)}`;
+  };
+  list.addEventListener('click', e => {
+    const s = e.target.closest('[data-star]');
+    if (s) { e.stopPropagation(); const n = Number(s.dataset.star); stars = stars.includes(n) ? stars.filter(x => x !== n) : [...stars, n]; try { localStorage.setItem('kh2.opt.stars', JSON.stringify(stars)); } catch (er) { } paintList(); paintPicks(); return; }
+    const b = e.target.closest('[data-i]'); if (!b) return; cur = Number(b.dataset.i); paintList(); show();
+  });
+  document.getElementById('lang').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; lang = b.dataset.l; document.querySelectorAll('#lang button').forEach(x => x.classList.toggle('on', x === b)); show(); });
+  document.getElementById('concept').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; hero = b.dataset.h; document.querySelectorAll('#concept button').forEach(x => x.classList.toggle('on', x === b)); show(); });
+  paintList(); paintPicks(); show();
+  addEventListener('resize', scaleFrames); scaleFrames(); setTimeout(scaleFrames, 300);
+</script>
+</body>
+</html>

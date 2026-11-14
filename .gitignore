@@ -1,5 +1,2 @@
-# Browser automation session data and cached binaries.
-/.shots/prof/
-
-# Browser automation temporary files.
-/.shots/tmp/
+# Local test screenshots, scripts, browser profiles, and temporary files.
+/.shots/

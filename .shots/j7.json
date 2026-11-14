@@ -1,6 +1,0 @@
-[
-  { "name": "z-strip", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3500, "js": "(async()=>{scrollTo(0,700); await new Promise(r=>setTimeout(r,1500)); return 1})()" },
-  { "name": "z-bento", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3500, "js": "(async()=>{ for (let y=0;y<4900;y+=500){scrollTo(0,y); await new Promise(r=>setTimeout(r,200));} scrollTo(0,4700); await new Promise(r=>setTimeout(r,1800)); return 1})()" },
-  { "name": "z-price", "url": "http://localhost:8765/index.html?theme=light#/", "wait": 3500, "js": "(async()=>{ for (let y=0;y<6300;y+=500){scrollTo(0,y); await new Promise(r=>setTimeout(r,200));} scrollTo(0,6150); await new Promise(r=>setTimeout(r,1800)); return 1})()" },
-  { "name": "z-price-d", "url": "http://localhost:8765/index.html?theme=dark#/", "wait": 3500, "js": "(async()=>{ for (let y=0;y<6300;y+=500){scrollTo(0,y); await new Promise(r=>setTimeout(r,200));} scrollTo(0,6150); await new Promise(r=>setTimeout(r,1800)); return 1})()" }
-]

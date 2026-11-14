@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo preview</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap">
+<style>
+  :root { --bg: #EDEFF7; --ink: #0E1230; --line: rgba(14,18,48,.12); }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.4 Figtree, system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+  header { position: sticky; top: 0; z-index: 2; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; padding: 12px 20px; background: rgba(237,239,247,.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--line); }
+  header b { font-size: 17px; margin-right: 8px; }
+  .seg { display: inline-flex; padding: 3px; border-radius: 99px; background: #fff; border: 1px solid var(--line); flex-wrap: wrap; }
+  .seg button { border: 0; background: none; font: inherit; font-weight: 650; padding: 7px 13px; border-radius: 99px; cursor: pointer; color: #555B7E; }
+  .seg button.on { background: #0E1230; color: #fff; }
+  a.open { margin-left: auto; color: #2A3DB8; font-weight: 700; text-decoration: none; }
+  main { display: flex; gap: 36px; align-items: flex-start; justify-content: center; padding: 28px 20px 60px; flex-wrap: wrap; }
+  .dev { display: grid; gap: 10px; justify-items: center; }
+  .dev span { font-weight: 650; color: #555B7E; }
+  .phone { width: 410px; height: 864px; border-radius: 52px; border: 10px solid #0B0D1E; background: #000; overflow: hidden; box-shadow: 0 30px 80px rgba(8,11,30,.3); }
+  .phone iframe { width: 390px; height: 844px; border: 0; display: block; }
+  .laptop { width: 1000px; }
+  .screen { width: 1000px; height: 625px; border: 12px solid #0B0D1E; border-bottom-width: 18px; border-radius: 18px 18px 0 0; overflow: hidden; background: #000; }
+  .screen iframe { width: 1440px; height: 900px; border: 0; transform: scale(.677); transform-origin: 0 0; }
+  .base { height: 16px; background: linear-gradient(#C9CCD8, #9EA2B5); border-radius: 0 0 14px 14px; margin: 0 -40px; }
+</style>
+</head>
+<body>
+<header>
+  <b>khabo · preview</b>
+  <div class="seg" id="pages"></div>
+  <div class="seg" id="theme"><button data-v="light" class="on">Light</button><button data-v="dark">Dark</button></div>
+  <div class="seg" id="lang"><button data-v="en" class="on">English</button><button data-v="bn">বাংলা</button></div>
+  <a class="open" href="../index.html" target="_blank">Open full site ↗</a>
+</header>
+<main>
+  <div class="dev"><div class="phone"><iframe id="f1" title="Phone"></iframe></div><span>Phone · 390 px</span></div>
+  <div class="dev laptop"><div class="screen"><iframe id="f2" title="Laptop"></iframe></div><div class="base"></div><span>Laptop · 1440 px</span></div>
+</main>
+<script>
+  const PAGES = [['Home', '/'], ['Restaurant', '/r/shahi-handi'], ['Café with 3D', '/r/cha-adda'], ['Photos-only page', '/r/mirpur-bawarchi'], ['Restaurants', '/restaurants'], ['Dishes by cuisine', '/dishes'], ['Kacchi prices', '/dishes?type=kacchi'], ['QR table menu', '/t/shahi-handi?table=5'], ['Deals', '/deals'], ['For restaurants', '/business'], ['Print menu', '/r/shahi-handi/print']];
+  let page = '/', theme = 'light', lang = 'en';
+  const pg = document.getElementById('pages');
+  pg.innerHTML = PAGES.map(([l, p], i) => `<button data-v="${p}" class="${i ? '' : 'on'}">${l}</button>`).join('');
+  const load = () => { const u = `../index.html?theme=${theme}&lang=${lang}#${page}`; f1.src = u; f2.src = u; };
+  const wire = (id, set) => document.getElementById(id).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; [...b.parentNode.children].forEach(x => x.classList.toggle('on', x === b)); set(b.dataset.v); load(); });
+  wire('pages', v => page = v); wire('theme', v => theme = v); wire('lang', v => lang = v);
+  const fit = () => { const w = Math.min(1000, innerWidth - 40); document.querySelector('.laptop').style.width = w + 'px'; const s = document.querySelector('.screen'); s.style.width = w + 'px'; s.style.height = w * .625 + 'px'; f2.style.transform = `scale(${(w - 24) / 1440})`; };
+  addEventListener('resize', fit); fit(); load();
+</script>
+</body>
+</html>

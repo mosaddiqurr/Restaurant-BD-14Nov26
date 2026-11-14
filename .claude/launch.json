@@ -4,13 +4,13 @@
     {
       "name": "website",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "docs/25-website"],
+      "runtimeArgs": ["website/serve.py", "8765"],
       "port": 8765
     },
     {
       "name": "mobile",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "docs/25-website"],
+      "runtimeArgs": ["website/serve.py", "8766"],
       "port": 8766
     }
   ]
