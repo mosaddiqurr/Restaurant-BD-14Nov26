@@ -9,11 +9,11 @@ Written 16 Nov 2026 after the founder picked new ideas from a look at food apps 
 ## Rules for every feature here
 
 - **Diners never pay.** Every diner feature is free and works without an account, except where an account is needed to save something (lists, stamp cards, reviews).
-- **Real data only.** No made-up numbers, prices, visits or trends on the live site. The prototype may use the demo data in `website/data/` and `website/restaurants/`.
+- **Real data only.** No made-up numbers, prices, visits or trends on the live site. The prototype may use the demo data in `archive/prototype/data/` and `archive/prototype/restaurants/`.
 - **Prices:** menu price only, shown as ৳420 with a smaller taka sign. VAT and service only on the bill.
 - **Bangla and English** for every word. **Light and dark mode.** **Works at 390px wide** with no sideways scroll.
-- **Built for thousands of restaurants:** everything comes from data, nothing is written for one restaurant. Reuse the shared parts in `website/code/`.
-- **Where to build in the prototype:** Phase 1 and 1.5 features go in the main site (`website/code/pages/`) and the panels (`website/panel/`). Phase 2 and later go in `website/future/` as clickable prototypes, not linked from the main site, until the founder says so.
+- **Built for thousands of restaurants:** everything comes from data, nothing is written for one restaurant. Reuse the shared parts in `archive/prototype/code/`.
+- **Where to build in the prototype:** Phase 1 and 1.5 features go in the main site (`archive/prototype/code/pages/`) and the panels (`archive/prototype/panel/`). Phase 2 and later go in `archive/prototype/future/` as clickable prototypes, not linked from the main site, until the founder says so.
 - **Featured** (paid) items are always labelled and never pushed into "real" lists like Trending or price averages.
 
 ---
@@ -50,7 +50,7 @@ Written 16 Nov 2026 after the founder picked new ideas from a look at food apps 
 
 **What:** its own page where anyone can check how dish prices change.
 
-**Already there:** the general dish sheet (`website/code/pages/dish.js`) already has a small six-month price line. A restaurant's own page and its QR menu do not show price history, on purpose, and that stays.
+**Already there:** the general dish sheet (`archive/prototype/code/pages/dish.js`) already has a small six-month price line. A restaurant's own page and its QR menu do not show price history, on purpose, and that stays.
 
 **Page (`/prices`), shares one page with the Food Price Index:**
 1. Search or pick a dish type (kacchi, biryani, tehari, burger, coffee...) and an area.
@@ -71,7 +71,7 @@ Written 16 Nov 2026 after the founder picked new ideas from a look at food apps 
 
 **Data for each buffet:** branch, name (Bangla/English), price per person, child price, days, start and end time, season (all year / Ramadan iftar / Eid), what is included (list of dishes), photos.
 
-**Screens:** a Buffets page with filters (area, price, day, iftar), buffet cards (photo, ৳1,499 per person, days, time), a buffet detail sheet with the full list of dishes, and compare 2 or 3 buffets side by side (reuse the Compare prototype in `website/future/compare.js`). Owners add and edit buffets in the panel.
+**Screens:** a Buffets page with filters (area, price, day, iftar), buffet cards (photo, ৳1,499 per person, days, time), a buffet detail sheet with the full list of dishes, and compare 2 or 3 buffets side by side (reuse the Compare prototype in `archive/prototype/future/compare.js`). Owners add and edit buffets in the panel.
 
 ### Trending this week (D-11)
 
@@ -152,7 +152,7 @@ Written 16 Nov 2026 after the founder picked new ideas from a look at food apps 
 
 ### Own web address (RD-9)
 
-**Already there:** every restaurant's khabo page is already its own website ("Your website" in the panel, `website/panel/site.js`).
+**Already there:** every restaurant's khabo page is already its own website ("Your website" in the panel, `archive/prototype/panel/site.js`).
 
 **What is new:** the page can open on the restaurant's own name, e.g. `shahihandi.com`.
 

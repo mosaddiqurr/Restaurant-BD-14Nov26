@@ -43,7 +43,7 @@ Areas to decide:
 - Fonts (must support Bangla + English)
 - UI style and components
 **Decision (14 Nov 2026):**
-- ✅ **Colours:** Green + Marigold, light and dark mode. Founder confirmed on 16 Nov 2026 after comparing the redesign previews ([website/design-options/final.html](../website/design-options/final.html)). This replaces the earlier Indigo + Marigold choice ([23-indigo-identity.html](3-design/23-indigo-identity.html), kept for the record).
+- ✅ **Colours:** Green + Marigold, light and dark mode. Founder confirmed on 16 Nov 2026 after comparing the redesign previews ([archive/prototype/design-options/final.html](../archive/prototype/design-options/final.html)). This replaces the earlier Indigo + Marigold choice ([23-indigo-identity.html](3-design/23-indigo-identity.html), kept for the record).
 - ✅ **Deal order (16 Nov 2026):** Premium-plan restaurants' deals and dishes always show first, then Pro, then Starter. Inside each plan the khabo team can set the order. See [25-design-rules.md](3-design/25-design-rules.md) section 6.
 - ✅ **Fonts:** Figtree (English) + Noto Sans Bengali (Bangla). Founder liked #3 "Clear and complete" best and asked the design team to pick the best performer.
 - ✅ **Ask AI:** small button beside the search; it jumps to the AI section in the middle of the home page. Bottom bar keeps an Ask AI tab.

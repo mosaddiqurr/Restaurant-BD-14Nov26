@@ -24,8 +24,8 @@ Full detail: [docs/1-business/01-product-vision.md](docs/1-business/01-product-v
 ## Where things are
 
 - `docs/` plans and research. Start at [docs/00-document-index.md](docs/00-document-index.md).
-- `website/` the working prototype (plain HTML, CSS and JavaScript). It is the reference for the real build.
-- `web/` the real front end in Next.js + TypeScript (diner site, owner panel, khabo team panel, QR table menu). Backend not connected yet; read [web/BUILDING.md](web/BUILDING.md) before changing it.
+- The main folder is the real website in Next.js + TypeScript (diner site, owner panel, khabo team panel, QR table menu): `app/`, `components/`, `lib/`, `data/`, `public/` and the rest. Backend not connected yet; read [BUILDING.md](BUILDING.md) before changing it. Connecting this repo to Netlify deploys it, and every push to `main` goes live (settings in `netlify.toml`).
+- `archive/` old files that are not used any more. `archive/prototype/` is the first prototype (plain HTML, CSS and JavaScript), kept as a reference.
 - Design rules, including how prices are shown: [docs/3-design/25-design-rules.md](docs/3-design/25-design-rules.md).
 - Tech stack: [docs/4-tech/17-tech-stack.md](docs/4-tech/17-tech-stack.md). Who can change what: [docs/4-tech/18-security-and-access.md](docs/4-tech/18-security-and-access.md).
 

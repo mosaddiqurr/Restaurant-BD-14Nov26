@@ -1,6 +1,6 @@
 # Design Rules
 
-Rules for the real build, learned from the prototype in `website/`. When the prototype and this doc disagree, this doc wins.
+Rules for the real build, learned from the prototype in `archive/prototype/`. When the prototype and this doc disagree, this doc wins.
 
 ---
 
@@ -58,7 +58,7 @@ The "What you get" grid on the For restaurants page was rebuilt because the old 
 
 ## 4. Motion
 
-Shared animations live in one file, `website/code/feel.js`, used by the site and the panels. Ideas from transitions.dev, rewritten without React. All of them stop when a phone or computer asks for reduced motion.
+Shared animations live in one file, `archive/prototype/code/feel.js`, used by the site and the panels. Ideas from transitions.dev, rewritten without React. All of them stop when a phone or computer asks for reduced motion.
 
 | Animation | Where it is used |
 |---|---|

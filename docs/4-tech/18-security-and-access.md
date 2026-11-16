@@ -2,7 +2,7 @@
 
 Who can see and change what in khabo, and how sign-in is kept safe. Decided with the founder on 15 Nov 2026.
 
-The prototype in [`website/panel/`](../../website/panel/) already follows these rules, so they can be tried. In the prototype everything runs in the browser, so a technical person could still get around it. In the real build (Step 3 of the [build plan](../2-product/26-build-plan.md)) every rule below is checked again on the server and in the database, which is what actually keeps data safe.
+The prototype in [`archive/prototype/panel/`](../../archive/prototype/panel/) already follows these rules, so they can be tried. In the prototype everything runs in the browser, so a technical person could still get around it. In the real build (Step 3 of the [build plan](../2-product/26-build-plan.md)) every rule below is checked again on the server and in the database, which is what actually keeps data safe.
 
 ---
 

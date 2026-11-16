@@ -31,7 +31,7 @@ Claude API: AI assistant (reads only from our database)
 | Security & domain | **Cloudflare** | DDoS protection, firewall, SSL, bot protection; fast in Bangladesh |
 | Media storage | **Cloudflare R2** from day one | Very cheap storage (~$0.015/GB/month) and free to send files to visitors; works like Amazon S3, so files can move later. Uploads go through our server first, which checks the Supabase login and that the file belongs to the person's own restaurant, then hands out a short-lived upload link |
 | Films | **Cloudflare Stream** | Plays smoothly on slow phone connections, makes poster frames |
-| 3D / 360° / motion | **Three.js** (360° tours and 3D dish viewer; the v1 prototype used it; the current prototype in `website/` uses its own 8 KB WebGL 360 viewer, which can move to Three.js in the real build if needed) · `<model-viewer>` for real 3D dish captures (GLB, with AR on phones) · CSS motion first, **Motion** (`motion/react`) only where needed | Proven, browser-only, no app needed. Three.js loads only on pages with 3D, after the page is ready |
+| 3D / 360° / motion | **Three.js** (360° tours and 3D dish viewer; the v1 prototype used it; the current prototype in `archive/prototype/` uses its own 8 KB WebGL 360 viewer, which can move to Three.js in the real build if needed) · `<model-viewer>` for real 3D dish captures (GLB, with AR on phones) · CSS motion first, **Motion** (`motion/react`) only where needed | Proven, browser-only, no app needed. Three.js loads only on pages with 3D, after the page is ready |
 | Page transitions & motion | The browser's **View Transitions API** + CSS, kept in one shared layer (`motion.css`, `motion.js` in the prototype). Each page style has its own move: pages slide up or back, a restaurant photo grows out of its card and shrinks back on Back, list cards slide when filters change, a dish category swaps its plate | No library to download. Browsers without View Transitions simply swap pages. Everything turns off under "reduce motion". Moves use only `transform`, `opacity` and `clip-path`, so they stay smooth on cheap Android phones |
 | Fonts | **Figtree** + **Noto Sans Bengali**, self-hosted with `next/font` | Variable fonts (one file per script); Noto Sans Bengali matches the Android system Bangla font |
 | Icons | **Phosphor Icons** (`@phosphor-icons/react`) | One family, regular + fill weights |
@@ -50,7 +50,7 @@ Claude API: AI assistant (reads only from our database)
 ---
 
 ### Added for the final design (14 Nov 2026)
-- The final design prototype is plain HTML/CSS/JS in `website/` (one folder per restaurant under `website/restaurants/`) so it opens anywhere. It is written to port straight into Next.js: tokens become CSS variables in a global stylesheet, `assets/app.js` pieces become React components, `assets/data.js` matches the shape of our database tables.
+- The final design prototype is plain HTML/CSS/JS in `archive/prototype/` (one folder per restaurant under `archive/prototype/restaurants/`) so it opens anywhere. It is written to port straight into Next.js: tokens become CSS variables in a global stylesheet, `assets/app.js` pieces become React components, `assets/data.js` matches the shape of our database tables.
 - 360° tours in the prototype use free CC0 panoramas from Poly Haven; production uses our own 360° captures.
 
 ## 2. Monthly cost at launch (estimate)

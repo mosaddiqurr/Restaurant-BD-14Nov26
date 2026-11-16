@@ -8,7 +8,7 @@ The roadmap ([14-product-roadmap.md](14-product-roadmap.md)) says **what** goes 
 
 ## Step 1: Design the whole product as a prototype
 
-Plain HTML, CSS and JavaScript in [`website/`](../../website/README.md). Fast to change, opens anywhere, fake data. This is the blueprint for the real build.
+Plain HTML, CSS and JavaScript in [`archive/prototype/`](../../archive/prototype/README.md). Fast to change, opens anywhere, fake data. This is the blueprint for the real build.
 
 | Part | Status |
 |---|---|
@@ -33,7 +33,7 @@ Using the approved design as the blueprint ([tech stack](../4-tech/17-tech-stack
 
 **3a. Accounts (founders, about 1 day).** Cloudflare, Supabase, GitHub, the domain (on Cloudflare), an SMS provider. Apply to SSLCommerz now, as approval takes the longest.
 
-**Status (16 Nov 2026):** the whole front end is built in `web/` (Next.js + TypeScript, Tailwind, Motion, Base UI) on local demo data: diner site, owner panel, khabo team panel, QR table menu (works offline after the first scan) and print menus. What is left in Step 3 is the backend: Supabase tables, real login, file uploads to R2, then swapping `web/lib/data/catalog.ts` and `web/lib/demo-db.ts` for real database calls.
+**Status (16 Nov 2026):** the whole front end is built in the main folder (Next.js + TypeScript, Tailwind, Motion, Base UI) on local demo data: diner site, owner panel, khabo team panel, QR table menu (works offline after the first scan) and print menus. What is left in Step 3 is the backend: Supabase tables, real login, file uploads to R2, then swapping `lib/data/catalog.ts` and `lib/demo-db.ts` for real database calls.
 
 **3b. Foundation (about 1 week).**
 - New Next.js + TypeScript project, live on Cloudflare from day one (every push to GitHub goes live by itself)

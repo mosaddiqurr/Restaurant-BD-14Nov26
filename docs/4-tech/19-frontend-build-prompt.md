@@ -3,6 +3,8 @@
 Copy everything below the line into a new Claude Code session opened in `E:\1. Startup\Restaurant`.
 Written 16 Nov 2026. Backend comes later (Supabase, see [17-tech-stack.md](17-tech-stack.md)).
 
+Kept for the record. The front end is now built. Since 16 Nov 2026 it lives in the main folder of the project (not `web/`), and the old prototype that this prompt calls `website/` is in `archive/prototype/`.
+
 ---
 
 You are building the real front end of **khabo**, a restaurant discovery site for Bangladesh. Diners see the real menu, real prices and the real place before they go out. Restaurants pay for plans; diners never pay.

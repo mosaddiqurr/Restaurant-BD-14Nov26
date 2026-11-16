@@ -1,6 +1,6 @@
 # Redesign B: direction contract
 
-A design exploration only. Preview: `website/design-options/redesign-b.html`. Nothing here is on the live site.
+A design exploration only. Preview: `archive/prototype/design-options/redesign-b.html`. Nothing here is on the live site.
 Made with the Impeccable skill's process (new visual world, Persuade mode for the diner pages, Operate mode for the dashboard). The skill's own helper program was not run; its steps were done by hand.
 
 ## How the direction was chosen

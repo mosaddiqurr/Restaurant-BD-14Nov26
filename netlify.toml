@@ -1,0 +1,10 @@
+# Netlify: connect this GitHub repo and every push to main goes live by itself.
+# Netlify sees the Next.js site in the main folder and sets up the rest (its Next.js support turns on automatically).
+# docs/ and archive/ are not part of the website.
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "24"
