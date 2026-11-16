@@ -1,7 +1,7 @@
 # Pricing & Packages
 
 **Status:** Draft. Items marked *(open)* need a founder decision (see [90-decisions-needed.md](../90-decisions-needed.md)).
-Diners always use [Brand] for free. Restaurants pay. There is no free plan.
+Diners (B2C) always use [Brand] for free: no fees, no paid diner plans, ever. Restaurants (B2B) are the only paying customers. There is no free restaurant plan.
 
 ---
 
@@ -45,6 +45,7 @@ Rule: Bogura = Dhaka price minus ৳500 per tier. New cities get their own price
 | Deals & offers on the page | | ✅ | ✅ |
 | **Featured placement** (top of area / cuisine search, labelled "Featured") | | | ✅ |
 | **Deal of the Week** slot (homepage + deals page) | | | ✅ |
+| **Deals and dishes listed first** (Deals page, home deals, Best match) | | | ✅ |
 | **Dedicated social promotion** on our pages *(open: e.g. 2 posts/reels a month)* | | | ✅ |
 | Seasonal refresh shoot (every 3–6 months) *(open)* | | | ✅ |
 | NFC table cards *(phase 2)* | | add-on | ✅ |

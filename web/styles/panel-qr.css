@@ -1,0 +1,21 @@
+/* What the Next.js Table QR, Your website, Print menu and Menu photo pages add to styles/panel.css.
+   Everything sits under .pnl. Motion: transform and opacity only, short and ease-out. */
+
+/* a framed code sits straight in its box */
+.pnl .pq-fr { display: contents; }
+.pnl .qr-box, .pnl .ws-qr-box, .pnl .st-q { line-height: 0; }
+/* words drawn inside a shape use the site's own fonts (the print window falls back to the named ones) */
+.pnl .qf.qf { font-family: var(--font-figtree, Figtree), var(--font-bangla, "Noto Sans Bengali"), system-ui, sans-serif; }
+
+/* the diner styles (khabo.css) stretch .seg buttons; in the panel they sit at their own width like the prototype */
+.pnl .pq .seg button, .pnl .stk-opts .seg button, .pnl .pmk .seg button { flex: 0 0 auto; }
+.pnl .pq .seg, .pnl .stk-opts .seg, .pnl .pmk .seg { overflow: visible; }
+
+/* "Menu from a photo" opens in the panel dialog: a wide one, with the draft scrolling inside */
+.pnl.pnl-md:has(.mp-box) { width: min(1120px, calc(100vw - 24px)); max-height: calc(100dvh - 24px); overflow: hidden; }
+.pnl.pnl-md:has(.mp-box) .dw-b { overflow-x: hidden; min-width: 0; }
+.pnl .mp-box { display: grid; min-width: 0; }
+@media (max-width: 760px) {
+  .pnl.pnl-md:has(.mp-box) { width: calc(100vw - 16px); }
+  .pnl.pnl-md:has(.mp-box) .dw-f { flex-wrap: wrap; }
+}

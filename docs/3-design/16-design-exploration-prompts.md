@@ -61,7 +61,7 @@ Home · Search results · Dish comparison · City / Area / Cuisine / Occasion pa
 Mobile bottom bar: Home · Search · Ask AI · Deals · Account.
 
 === TECH (decided) ===
-Website: Next.js (React, TypeScript), hosted on InsForge. Backend: InsForge (PostgreSQL). Cloudflare in front; media on Cloudflare R2.
+Website: Next.js (React, TypeScript), hosted on Cloudflare Workers. Backend: Supabase (PostgreSQL). Cloudflare in front; media on Cloudflare R2.
 Motion/3D likely via GSAP or Motion (Framer Motion), Three.js or <model-viewer> for 3D dishes, Pannellum for 360° tours. React component libraries such as 21st.dev are usable.
 Design outputs must be implementable in React/Next.js: express colours, type and spacing as design tokens (CSS variables).
 

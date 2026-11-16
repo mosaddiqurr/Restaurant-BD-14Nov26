@@ -35,6 +35,9 @@ addRestaurant(({ e, D, pv, P, FILM, R, ago }) => ({
     D('kg-lassi', 'drink', 'Sweet Lassi', 'মিষ্টি লাচ্ছি', 90, null, ['1 glass', '১ গ্লাস'], 0, { cat: 'sweet', veg: true })
   ],
   deal: { id: 'midnight', ...e('After 11pm chap combo', 'রাত ১১টার পর চাপ কম্বো'), desc: e('Beef chap, 2 garlic naan and a lassi.', 'বিফ চাপ, ২টি গার্লিক নান আর একটি লাচ্ছি।'), when: e('Every night after 11pm', 'প্রতি রাতে ১১টার পর'), price: 360, was: 430, p: 'sk' },
+  events: [
+    { id: 'bpl-final', ...e('Cricket on the big screen', 'বড় পর্দায় ক্রিকেট'), type: 'match', start: '2026-11-28T18:00', end: '2026-11-28T23:00', p: 'ch', desc: e('Every evening match on a 100-inch screen. Chap and naan combos all night.', 'প্রতিটি সন্ধ্যার খেলা ১০০ ইঞ্চি পর্দায়। সারা রাত চাপ আর নানের কম্বো।') }
+  ],
   reviewList: [
     R('kabab-ghor', 'Arif Hossain', 5, true, ago('1 day ago', '১ দিন আগে'), 'Raat 12 tay gesilam, tikka ekdom gorom gorom. Garlic naan must.', ['Chicken Tikka Skewers', 'Garlic Naan']),
     R('kabab-ghor', 'Mehnaz Rahman', 4, true, ago('1 week ago', '১ সপ্তাহ আগে'), 'Smoky, loud, fun. Not the place for a quiet dinner, perfect for friends.', ['Beef Seekh with Fries']),

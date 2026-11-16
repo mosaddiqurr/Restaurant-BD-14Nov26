@@ -1,0 +1,368 @@
+{
+ "id": "nodir-paar",
+ "name": {
+  "en": "Nodir Paar",
+  "bn": "নদীর পাড়"
+ },
+ "mono": "NP",
+ "since": 2015,
+ "area": "gulshan",
+ "city": "dhaka",
+ "geo": [
+  23.7983,
+  90.415
+ ],
+ "spot": {
+  "en": "Road 90, Gulshan 2",
+  "bn": "রোড ৯০, গুলশান ২"
+ },
+ "address": {
+  "en": "House 14, Road 90, Gulshan 2, Dhaka 1212",
+  "bn": "বাড়ি ১৪, রোড ৯০, গুলশান ২, ঢাকা ১২১২"
+ },
+ "phone": "+8801700000233",
+ "cuisines": [
+  "bangladeshi"
+ ],
+ "theme": {
+  "deep": "#062B33",
+  "accent": "#86D3C6",
+  "font": "serif"
+ },
+ "tagline": {
+  "en": "Twelve bhortas, river fish and rice the way your nani made it.",
+  "bn": "বারো রকম ভর্তা, নদীর মাছ আর নানুর হাতের মতো ভাত।"
+ },
+ "story": {
+  "en": "Fish comes in from Chandpur and Khulna every morning. If it is not good that day, it is not on the menu.",
+  "bn": "প্রতিদিন সকালে চাঁদপুর আর খুলনা থেকে মাছ আসে। সেদিন ভালো না হলে মেনুতে থাকে না।"
+ },
+ "rating": 4.5,
+ "reviews": 241,
+ "verified": 158,
+ "ppl": [
+  600,
+  1100
+ ],
+ "hours": [
+  "12:00",
+  "23:00"
+ ],
+ "vat": 10,
+ "service": 5,
+ "seats": 90,
+ "fac": [
+  "ac",
+  "parking",
+  "cabin",
+  "wifi",
+  "wheelchair"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Card"
+ ],
+ "plan": "pro",
+ "founding": true,
+ "checked": 4,
+ "mediaDate": {
+  "en": "Oct 2026",
+  "bn": "অক্টোবর ২০২৬"
+ },
+ "hero": [
+  "i5",
+  "pv:bush_restaurant:a",
+  "i2"
+ ],
+ "film": {
+  "src": "https://assets.mixkit.co/videos/4385/4385-720.mp4",
+  "poster": "i5",
+  "len": "0:15"
+ },
+ "kitchen": {
+  "src": "https://assets.mixkit.co/videos/15875/15875-720.mp4",
+  "poster": "kc4",
+  "date": {
+   "en": "Filmed 3 Oct 2026",
+   "bn": "ধারণ ৩ অক্টোবর ২০২৬"
+  },
+  "photos": [
+   "kc4"
+  ]
+ },
+ "gallery": {
+  "inside": [
+   "i5",
+   "pv:bush_restaurant:a",
+   "i2",
+   "pv:bush_restaurant:b"
+  ],
+  "outside": [
+   "pv:veranda:a",
+   "pv:veranda:b"
+  ],
+  "kitchen": [
+   "kc4"
+  ],
+  "food": [
+   "fi",
+   "po"
+  ]
+ },
+ "tour": [
+  {
+   "id": "dining",
+   "en": "Dining room",
+   "bn": "ডাইনিং রুম",
+   "pano": "bush_restaurant",
+   "yaw": 40,
+   "spots": [
+    {
+     "to": "veranda",
+     "yaw": 95,
+     "pitch": -4
+    },
+    {
+     "info": {
+      "en": "Window tables look onto the garden",
+      "bn": "জানালার পাশের টেবিল থেকে বাগান দেখা যায়"
+     },
+     "yaw": 0,
+     "pitch": -8
+    }
+   ]
+  },
+  {
+   "id": "veranda",
+   "en": "Garden veranda",
+   "bn": "বাগানের বারান্দা",
+   "pano": "veranda",
+   "yaw": 40,
+   "spots": [
+    {
+     "to": "dining",
+     "yaw": 160,
+     "pitch": -4
+    }
+   ]
+  }
+ ],
+ "signature": [
+  "rupchanda-fry",
+  "bhorta-thali",
+  "shorshe-ilish"
+ ],
+ "cats": [
+  {
+   "id": "fish",
+   "en": "Fish",
+   "bn": "মাছ"
+  },
+  {
+   "id": "rice",
+   "en": "Rice & bhorta",
+   "bn": "ভাত ও ভর্তা"
+  },
+  {
+   "id": "sweet",
+   "en": "Sweet & tea",
+   "bn": "মিষ্টি ও চা"
+  }
+ ],
+ "menu": [
+  {
+   "id": "rupchanda-fry",
+   "type": "fish",
+   "name": {
+    "en": "Rupchanda Fry",
+    "bn": "রূপচাঁদা ফ্রাই"
+   },
+   "price": 560,
+   "p": "fi",
+   "por": {
+    "en": "1 whole fish",
+    "bn": "১টি আস্ত মাছ"
+   },
+   "spice": 1,
+   "cat": "fish",
+   "best": true,
+   "desc": {
+    "en": "Silver pomfret, turmeric and chilli, shallow-fried in mustard oil.",
+    "bn": "রূপচাঁদা, হলুদ-মরিচে মেখে সরিষার তেলে ভাজা।"
+   }
+  },
+  {
+   "id": "shorshe-ilish",
+   "type": "fish",
+   "name": {
+    "en": "Shorshe Ilish",
+    "bn": "সর্ষে ইলিশ"
+   },
+   "price": 690,
+   "p": null,
+   "por": {
+    "en": "1 large piece",
+    "bn": "১টি বড় পিস"
+   },
+   "spice": 2,
+   "cat": "fish",
+   "desc": {
+    "en": "Padma hilsa steamed in mustard paste and green chilli.",
+    "bn": "পদ্মার ইলিশ, সর্ষে বাটা আর কাঁচা মরিচে ভাপা।"
+   }
+  },
+  {
+   "id": "chingri-malai",
+   "type": "fish",
+   "name": {
+    "en": "Chingri Malaikari",
+    "bn": "চিংড়ি মালাইকারি"
+   },
+   "price": 640,
+   "p": null,
+   "por": {
+    "en": "2 large prawns",
+    "bn": "২টি বড় চিংড়ি"
+   },
+   "spice": 1,
+   "cat": "fish"
+  },
+  {
+   "id": "bhorta-thali",
+   "type": "thali",
+   "name": {
+    "en": "Bhorta Bhaat Thali",
+    "bn": "ভর্তা ভাত থালি"
+   },
+   "price": 480,
+   "p": "po",
+   "por": {
+    "en": "Serves 1 · 6 bhortas, dal, rice",
+    "bn": "১ জন · ৬ রকম ভর্তা, ডাল, ভাত"
+   },
+   "spice": 2,
+   "cat": "rice",
+   "best": true,
+   "desc": {
+    "en": "Six bhortas that change with the season, dal, rice and a fried egg.",
+    "bn": "মৌসুম বুঝে ছয় রকম ভর্তা, ডাল, ভাত আর ডিম ভাজি।"
+   }
+  },
+  {
+   "id": "mezbani",
+   "type": "curry",
+   "name": {
+    "en": "Mezbani Beef",
+    "bn": "মেজবানি গরুর মাংস"
+   },
+   "price": 420,
+   "p": null,
+   "por": {
+    "en": "Serves 1 to 2",
+    "bn": "১-২ জন"
+   },
+   "spice": 3,
+   "cat": "rice"
+  },
+  {
+   "id": "dal-bhaat",
+   "type": "thali",
+   "name": {
+    "en": "Dal Bhaat Set",
+    "bn": "ডাল ভাত সেট"
+   },
+   "price": 260,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 0,
+   "cat": "rice",
+   "veg": true
+  },
+  {
+   "id": "mishti-doi",
+   "type": "dessert",
+   "name": {
+    "en": "Mishti Doi",
+    "bn": "মিষ্টি দই"
+   },
+   "price": 120,
+   "p": null,
+   "por": {
+    "en": "1 clay pot",
+    "bn": "১টি মাটির পাত্র"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  },
+  {
+   "id": "lebu-cha",
+   "type": "tea",
+   "name": {
+    "en": "Lebu Cha",
+    "bn": "লেবু চা"
+   },
+   "price": 50,
+   "p": null,
+   "por": {
+    "en": "1 cup",
+    "bn": "১ কাপ"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  }
+ ],
+ "events": [
+  {
+   "id": "iftar-27",
+   "en": "Ramadan iftar platter",
+   "bn": "রমজানের ইফতার প্ল্যাটার",
+   "type": "iftar",
+   "start": "2027-02-08T17:30",
+   "end": "2027-03-09T19:30",
+   "p": "pl",
+   "price": 650,
+   "desc": {
+    "en": "Every day of Ramadan, from maghrib. Book a table a day ahead.",
+    "bn": "রমজানের প্রতিদিন, মাগরিব থেকে। এক দিন আগে টেবিল বুক করুন।"
+   }
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "nodir-paar",
+   "who": "Farhana Akter",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "4 days ago",
+    "bn": "৪ দিন আগে"
+   },
+   "t": "ভর্তার থালাটা অসাধারণ, প্রতিটা ভর্তার স্বাদ আলাদা। দাম একটু বেশি, তবে মাছ একদম তাজা।",
+   "ord": [
+    "Bhorta Bhaat Thali",
+    "Rupchanda Fry"
+   ]
+  },
+  {
+   "r": "nodir-paar",
+   "who": "Imran Chowdhury",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "2 weeks ago",
+    "bn": "২ সপ্তাহ আগে"
+   },
+   "t": "Good for taking guests from abroad. The veranda is lovely in winter. Service charge is 5% on top of 10% VAT, so check the bill estimate first.",
+   "ord": [
+    "Shorshe Ilish"
+   ]
+  }
+ ]
+}

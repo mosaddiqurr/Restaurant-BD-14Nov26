@@ -1,0 +1,66 @@
+/* Scroll bars across the whole site.
+   1. Every scroll bar is thin, rounded and takes its colour from the text around it (works in light and dark).
+   2. Small lists (drop-downs, search results) hide the bar and fade their top and bottom edges instead,
+      so you can see there is more to scroll without a grey bar.
+   3. The restaurant filter column hides the bar and shows a cutlery line on top (see components/ui/cutlery-scroll.tsx). */
+
+* { scrollbar-width: thin; scrollbar-color: color-mix(in srgb, currentColor 22%, transparent) transparent; }
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: color-mix(in srgb, currentColor 22%, transparent); border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
+*::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, currentColor 38%, transparent); }
+*::-webkit-scrollbar-corner { background: transparent; }
+
+/* lists with no bar at all */
+.pop, [cmdk-list], .side-f, .cs-body, .no-bar { scrollbar-width: none; }
+.pop::-webkit-scrollbar, [cmdk-list]::-webkit-scrollbar, .side-f::-webkit-scrollbar, .cs-body::-webkit-scrollbar, .no-bar::-webkit-scrollbar { display: none; }
+
+/* soft edges that appear only where there is more to scroll */
+@property --fade-t { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --fade-b { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@keyframes edge-fade {
+  0% { --fade-t: 0px; --fade-b: 32px; }
+  8% { --fade-t: 32px; }
+  92% { --fade-b: 32px; }
+  100% { --fade-t: 32px; --fade-b: 0px; }
+}
+@supports (animation-timeline: scroll()) {
+  .pop, [cmdk-list], .fade-edges {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 var(--fade-t), #000 calc(100% - var(--fade-b)), transparent);
+    mask-image: linear-gradient(to bottom, transparent, #000 var(--fade-t), #000 calc(100% - var(--fade-b)), transparent);
+    animation: edge-fade linear both; animation-timeline: scroll(self);
+  }
+}
+
+/* the cutlery line: a fork at the start, a knife at the end, and a plate that rolls along as you scroll */
+.cs { position: relative; display: flex; flex-direction: column; min-height: 0; }
+.cs-meter { flex: none; display: flex; align-items: center; gap: 8px; height: 30px; padding: 0 2px; color: var(--ink-3); transition: opacity .2s var(--ease); }
+.cs:not(.can) .cs-meter { opacity: 0; pointer-events: none; }
+.cs-meter .pm-fork, .cs-meter .pm-knife { width: 7px; height: 18px; flex: none; display: block; }
+.cs-track { position: relative; flex: 1; height: 2px; border-radius: 2px; background: var(--line); }
+.cs-fill { position: absolute; inset: 0 auto 0 0; width: 100%; border-radius: 2px; background: var(--hl, #E0A42E); transform-origin: left; transform: scaleX(var(--p, 0)); }
+.cs-plate { position: absolute; top: 50%; left: 0; width: 20px; height: 20px; margin: -10px 0 0 -10px; transform: translateX(calc(var(--p, 0) * var(--w, 0px))) rotate(calc(var(--p, 0) * 540deg)); }
+.cs-plate .pm-plate { width: 20px; height: 20px; }
+.cs-body { flex: 1 1 auto; min-height: 0; overflow: auto; overscroll-behavior: contain; }
+@media (prefers-reduced-motion: reduce) { .cs-plate { transform: translateX(calc(var(--p, 0) * var(--w, 0px))); } }
+
+/* "more below": a fade over the last lines and a small button saying so; both go once you reach the end */
+.cs-body { -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 64px), transparent); }
+.cs:not(.can) .cs-body, .cs.end .cs-body { -webkit-mask-image: none; mask-image: none; }
+.cs-more { position: absolute; left: 50%; bottom: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 14px 0 16px; border-radius: 999px; border: 0; font: 600 13px/1 inherit; font-family: inherit; color: var(--ink); background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 6px 16px rgba(14, 23, 18, .14); cursor: pointer; white-space: nowrap; transform: translateX(-50%); transition: opacity var(--t, .2s) var(--ease), transform var(--t, .2s) var(--ease); }
+.cs-more svg { width: 14px; height: 14px; animation: cs-nudge 1.4s var(--ease) infinite; }
+@keyframes cs-nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+.cs-more:active { transform: translateX(-50%) scale(.97); }
+.cs:not(.can) .cs-more, .cs.end .cs-more { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(6px); }
+@media (prefers-reduced-motion: reduce) { .cs-more svg { animation: none; } }
+
+/* the restaurant filter column: the column itself no longer scrolls, the list inside it does */
+.side-f.cs-host { overflow: hidden; display: flex; flex-direction: column; padding-right: 0; }
+.side-f.cs-host > .cs { flex: 1 1 auto; min-height: 0; }
+.side-f.cs-host .cs-body > div { padding-right: 6px; padding-bottom: 12px; }
+/* phones and small tablets: the filter column stays hidden; the "Filters" button opens them in a sheet */
+@media (max-width: 860px) { .side-f.cs-host { display: none; } }
+
+/* the loading placeholder of the filter column: hidden on phones like the real one */
+.sk-sidef { display: grid; gap: 14px; padding-top: 12px; }
+@media (max-width: 860px) { .sk-sidef { display: none; } }

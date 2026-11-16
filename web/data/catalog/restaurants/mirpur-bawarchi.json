@@ -1,0 +1,234 @@
+{
+ "id": "mirpur-bawarchi",
+ "name": {
+  "en": "Mirpur Bawarchi",
+  "bn": "মিরপুর বাবুর্চি"
+ },
+ "mono": "MB",
+ "since": 2009,
+ "area": "mirpur",
+ "city": "dhaka",
+ "geo": [
+  23.8069,
+  90.3687
+ ],
+ "spot": {
+  "en": "Section 10, Mirpur",
+  "bn": "সেকশন ১০, মিরপুর"
+ },
+ "address": {
+  "en": "Plot 14, Section 10, Mirpur, Dhaka 1216",
+  "bn": "প্লট ১৪, সেকশন ১০, মিরপুর, ঢাকা ১২১৬"
+ },
+ "phone": "+8801700000604",
+ "cuisines": [
+  "bangladeshi",
+  "mughlai"
+ ],
+ "theme": {
+  "deep": "#3A120A",
+  "accent": "#F2B33D",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Beef tehari in mustard oil, the Mirpur way, since 2009.",
+  "bn": "সরিষার তেলে বিফ তেহারি, মিরপুরের নিজস্ব স্বাদে, ২০০৯ থেকে।"
+ },
+ "story": {
+  "en": "A busy family place. Lunch rush is 1pm to 3pm, so come a little early for a table.",
+  "bn": "ব্যস্ত পারিবারিক জায়গা। দুপুর ১টা থেকে ৩টা ভিড়, তাই একটু আগে আসুন।"
+ },
+ "rating": 4.2,
+ "reviews": 689,
+ "verified": 377,
+ "ppl": [
+  180,
+  350
+ ],
+ "hours": [
+  "10:30",
+  "23:00"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 60,
+ "fac": [
+  "ac",
+  "generator",
+  "kids"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Nagad"
+ ],
+ "plan": "starter",
+ "checked": 3,
+ "hero": [
+  "iC",
+  "b3"
+ ],
+ "gallery": {
+  "inside": [
+   "iC"
+  ],
+  "outside": [],
+  "kitchen": [],
+  "food": [
+   "b3"
+  ]
+ },
+ "signature": [
+  "beef-tehari",
+  "mb-kacchi",
+  "mb-polao"
+ ],
+ "cats": [
+  {
+   "id": "rice",
+   "en": "Rice",
+   "bn": "ভাত"
+  },
+  {
+   "id": "side",
+   "en": "Sides & drinks",
+   "bn": "সাইড ও পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "beef-tehari",
+   "type": "tehari",
+   "name": {
+    "en": "Beef Tehari",
+    "bn": "বিফ তেহারি"
+   },
+   "price": 230,
+   "p": "b3",
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 2,
+   "cat": "rice",
+   "best": true,
+   "desc": {
+    "en": "Small beef cubes, mustard oil and green chilli through fragrant rice.",
+    "bn": "ছোট ছোট গরুর মাংস, সরিষার তেল আর কাঁচা মরিচ।"
+   }
+  },
+  {
+   "id": "mb-kacchi",
+   "type": "kacchi",
+   "name": {
+    "en": "Mutton Kacchi",
+    "bn": "মাটন কাচ্চি"
+   },
+   "price": 340,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 1,
+   "cat": "rice"
+  },
+  {
+   "id": "mb-polao",
+   "type": "polao",
+   "name": {
+    "en": "Chicken Polao",
+    "bn": "চিকেন পোলাও"
+   },
+   "price": 250,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 0,
+   "cat": "rice"
+  },
+  {
+   "id": "mb-roast",
+   "type": "curry",
+   "name": {
+    "en": "Chicken Roast",
+    "bn": "চিকেন রোস্ট"
+   },
+   "price": 190,
+   "p": null,
+   "por": {
+    "en": "1 quarter",
+    "bn": "১ কোয়ার্টার"
+   },
+   "spice": 0,
+   "cat": "side"
+  },
+  {
+   "id": "mb-jali",
+   "type": "kebab",
+   "name": {
+    "en": "Jali Kabab",
+    "bn": "জালি কাবাব"
+   },
+   "price": 70,
+   "p": null,
+   "por": {
+    "en": "1 piece",
+    "bn": "১ পিস"
+   },
+   "spice": 1,
+   "cat": "side"
+  },
+  {
+   "id": "mb-borhani",
+   "type": "drink",
+   "name": {
+    "en": "Borhani",
+    "bn": "বোরহানি"
+   },
+   "price": 60,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 1,
+   "cat": "side",
+   "veg": true
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "mirpur-bawarchi",
+   "who": "Kamrul Islam",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "2 days ago",
+    "bn": "২ দিন আগে"
+   },
+   "t": "Tehari te jhal ektu beshi, kintu 230 takay eto valo tehari kom pawa jay.",
+   "ord": [
+    "Beef Tehari",
+    "Borhani"
+   ]
+  },
+  {
+   "r": "mirpur-bawarchi",
+   "who": "Shirin Akhter",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "1 week ago",
+    "bn": "১ সপ্তাহ আগে"
+   },
+   "t": "বাচ্চাদের নিয়ে গিয়েছিলাম, খেলার জায়গাটা ছোট কিন্তু পরিষ্কার।",
+   "ord": [
+    "Chicken Polao"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,369 @@
+{
+ "id": "kabab-ghor",
+ "name": {
+  "en": "Kabab Ghor",
+  "bn": "কাবাব ঘর"
+ },
+ "mono": "KG",
+ "since": 2004,
+ "area": "mohammadpur",
+ "city": "dhaka",
+ "geo": [
+  23.7631,
+  90.3627
+ ],
+ "spot": {
+  "en": "Tajmahal Road, Mohammadpur",
+  "bn": "তাজমহল রোড, মোহাম্মদপুর"
+ },
+ "address": {
+  "en": "22/7 Tajmahal Road, Mohammadpur, Dhaka 1207",
+  "bn": "২২/৭ তাজমহল রোড, মোহাম্মদপুর, ঢাকা ১২০৭"
+ },
+ "phone": "+8801700000348",
+ "cuisines": [
+  "grill",
+  "mughlai"
+ ],
+ "theme": {
+  "deep": "#1A1110",
+  "accent": "#FF8A4C",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Charcoal, smoke and chap until one in the morning.",
+  "bn": "কয়লার আঁচ, ধোঁয়া আর রাত একটা পর্যন্ত চাপ।"
+ },
+ "story": {
+  "en": "Everything is grilled to order on open coal, right at the front door. Expect a short wait and a long table.",
+  "bn": "সব কিছু অর্ডার দিলে দরজার সামনেই খোলা কয়লায় গ্রিল হয়। একটু অপেক্ষা, লম্বা টেবিল।"
+ },
+ "rating": 4.4,
+ "reviews": 518,
+ "verified": 301,
+ "ppl": [
+  300,
+  550
+ ],
+ "hours": [
+  "16:00",
+  "01:00"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 70,
+ "fac": [
+  "ac",
+  "generator",
+  "kids"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Nagad"
+ ],
+ "plan": "pro",
+ "checked": 1,
+ "mediaDate": {
+  "en": "Sep 2026",
+  "bn": "সেপ্টেম্বর ২০২৬"
+ },
+ "hero": [
+  "iA",
+  "kc2",
+  "pv:qwantani_patio:a"
+ ],
+ "film": {
+  "src": "https://assets.mixkit.co/videos/4678/4678-720.mp4",
+  "poster": "ch",
+  "len": "0:13"
+ },
+ "kitchen": {
+  "src": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+  "poster": "kc5",
+  "date": {
+   "en": "Filmed 28 Sep 2026",
+   "bn": "ধারণ ২৮ সেপ্টেম্বর ২০২৬"
+  },
+  "photos": [
+   "kc2",
+   "kc5"
+  ]
+ },
+ "gallery": {
+  "inside": [
+   "iA",
+   "pv:qwantani_patio:b"
+  ],
+  "outside": [
+   "pv:qwantani_patio:a"
+  ],
+  "kitchen": [
+   "kc2",
+   "kc5"
+  ],
+  "food": [
+   "ch",
+   "sk",
+   "na"
+  ]
+ },
+ "tour": [
+  {
+   "id": "patio",
+   "en": "Grill patio",
+   "bn": "গ্রিল প্যাটিও",
+   "pano": "qwantani_patio",
+   "yaw": 225,
+   "spots": [
+    {
+     "info": {
+      "en": "Open charcoal grill, cooked in front of you",
+      "bn": "খোলা কয়লার গ্রিল, চোখের সামনে রান্না"
+     },
+     "yaw": 22,
+     "pitch": -6
+    }
+   ]
+  }
+ ],
+ "signature": [
+  "chicken-tikka",
+  "beef-seekh",
+  "garlic-naan"
+ ],
+ "cats": [
+  {
+   "id": "grill",
+   "en": "From the grill",
+   "bn": "গ্রিল থেকে"
+  },
+  {
+   "id": "rice",
+   "en": "Rice & bread",
+   "bn": "ভাত ও রুটি"
+  },
+  {
+   "id": "sweet",
+   "en": "Drinks",
+   "bn": "পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "chicken-tikka",
+   "type": "kebab",
+   "name": {
+    "en": "Chicken Tikka Skewers",
+    "bn": "চিকেন টিক্কা শিক"
+   },
+   "price": 260,
+   "p": "ch",
+   "por": {
+    "en": "4 skewers",
+    "bn": "৪টি শিক"
+   },
+   "spice": 2,
+   "cat": "grill",
+   "best": true,
+   "video": "https://assets.mixkit.co/videos/4678/4678-720.mp4",
+   "desc": {
+    "en": "Yoghurt and red chilli marinade, charred over coal.",
+    "bn": "দই আর লাল মরিচে মাখানো, কয়লায় পোড়া।"
+   }
+  },
+  {
+   "id": "beef-seekh",
+   "type": "kebab",
+   "name": {
+    "en": "Beef Seekh with Fries",
+    "bn": "বিফ শিক ও ফ্রাই"
+   },
+   "price": 290,
+   "p": "sk",
+   "por": {
+    "en": "2 skewers, fries, salad",
+    "bn": "২টি শিক, ফ্রাই, সালাদ"
+   },
+   "spice": 2,
+   "cat": "grill"
+  },
+  {
+   "id": "beef-chap",
+   "type": "kebab",
+   "name": {
+    "en": "Beef Chap",
+    "bn": "বিফ চাপ"
+   },
+   "price": 220,
+   "p": null,
+   "por": {
+    "en": "1 plate",
+    "bn": "১ প্লেট"
+   },
+   "spice": 2,
+   "cat": "grill"
+  },
+  {
+   "id": "grill-platter",
+   "type": "platter",
+   "name": {
+    "en": "Mixed Grill for 3",
+    "bn": "মিক্সড গ্রিল (৩ জন)"
+   },
+   "price": 1190,
+   "p": null,
+   "por": {
+    "en": "Serves 3",
+    "bn": "৩ জন"
+   },
+   "spice": 2,
+   "cat": "grill",
+   "share": 3
+  },
+  {
+   "id": "garlic-naan",
+   "type": "naan",
+   "name": {
+    "en": "Garlic Naan",
+    "bn": "গার্লিক নান"
+   },
+   "price": 60,
+   "p": "na",
+   "por": {
+    "en": "1 piece",
+    "bn": "১ পিস"
+   },
+   "spice": 0,
+   "cat": "rice",
+   "veg": true
+  },
+  {
+   "id": "kg-kacchi",
+   "type": "kacchi",
+   "name": {
+    "en": "Mutton Kacchi (Fri, Sat)",
+    "bn": "মাটন কাচ্চি (শুক্র, শনি)"
+   },
+   "price": 360,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 1,
+   "cat": "rice"
+  },
+  {
+   "id": "kg-lassi",
+   "type": "drink",
+   "name": {
+    "en": "Sweet Lassi",
+    "bn": "মিষ্টি লাচ্ছি"
+   },
+   "price": 90,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  }
+ ],
+ "deal": {
+  "id": "midnight",
+  "en": "After 11pm chap combo",
+  "bn": "রাত ১১টার পর চাপ কম্বো",
+  "desc": {
+   "en": "Beef chap, 2 garlic naan and a lassi.",
+   "bn": "বিফ চাপ, ২টি গার্লিক নান আর একটি লাচ্ছি।"
+  },
+  "when": {
+   "en": "Every night after 11pm",
+   "bn": "প্রতি রাতে ১১টার পর"
+  },
+  "price": 360,
+  "was": 430,
+  "p": "sk"
+ },
+ "events": [
+  {
+   "id": "bpl-final",
+   "en": "Cricket on the big screen",
+   "bn": "বড় পর্দায় ক্রিকেট",
+   "type": "match",
+   "start": "2026-11-28T18:00",
+   "end": "2026-11-28T23:00",
+   "p": "ch",
+   "desc": {
+    "en": "Every evening match on a 100-inch screen. Chap and naan combos all night.",
+    "bn": "প্রতিটি সন্ধ্যার খেলা ১০০ ইঞ্চি পর্দায়। সারা রাত চাপ আর নানের কম্বো।"
+   }
+  }
+ ],
+ "deals": [
+  {
+   "id": "midnight",
+   "en": "After 11pm chap combo",
+   "bn": "রাত ১১টার পর চাপ কম্বো",
+   "desc": {
+    "en": "Beef chap, 2 garlic naan and a lassi.",
+    "bn": "বিফ চাপ, ২টি গার্লিক নান আর একটি লাচ্ছি।"
+   },
+   "when": {
+    "en": "Every night after 11pm",
+    "bn": "প্রতি রাতে ১১টার পর"
+   },
+   "price": 360,
+   "was": 430,
+   "p": "sk"
+  }
+ ],
+ "reviewList": [
+  {
+   "r": "kabab-ghor",
+   "who": "Arif Hossain",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "1 day ago",
+    "bn": "১ দিন আগে"
+   },
+   "t": "Raat 12 tay gesilam, tikka ekdom gorom gorom. Garlic naan must.",
+   "ord": [
+    "Chicken Tikka Skewers",
+    "Garlic Naan"
+   ]
+  },
+  {
+   "r": "kabab-ghor",
+   "who": "Mehnaz Rahman",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "1 week ago",
+    "bn": "১ সপ্তাহ আগে"
+   },
+   "t": "Smoky, loud, fun. Not the place for a quiet dinner, perfect for friends.",
+   "ord": [
+    "Beef Seekh with Fries"
+   ]
+  },
+  {
+   "r": "kabab-ghor",
+   "who": "Shakil Ahmed",
+   "st": 4,
+   "vf": false,
+   "when": {
+    "en": "3 weeks ago",
+    "bn": "৩ সপ্তাহ আগে"
+   },
+   "t": "চাপটা ভালো, তবে শুক্রবার রাতে জায়গা পাওয়া কঠিন।",
+   "ord": [
+    "Beef Chap"
+   ]
+  }
+ ]
+}

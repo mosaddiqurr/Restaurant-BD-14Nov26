@@ -295,8 +295,15 @@ kbd { font: 600 11.5px/1 var(--font); min-width: 20px; height: 20px; padding: 0 
 @media (hover: hover) { .dc:hover .ph img.ld { transform: scale(1.04); } }
 .dc .nm { font-weight: 680; font-size: 15.5px; margin-top: 10px; line-height: 1.3; letter-spacing: -.01em; }
 .dc .rs { color: var(--ink-3); font-size: 13px; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.dc .pr { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
-.dc .pr .price { font-size: 16.5px; margin-right: auto; }
+.dc .pr { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.dc .ph { position: relative; }
+/* the price tag on the photo */
+.dc-tag { position: absolute; left: 10px; bottom: 10px; z-index: 2; display: inline-flex; align-items: baseline; padding: 6px 11px 6px 10px; border-radius: 12px; background: #141938; color: #fff; font-size: 17px; line-height: 1; box-shadow: 0 2px 10px rgba(0, 0, 0, .25); }
+[data-theme="dark"] .dc-tag { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .14); }
+.dc .ph .dc-m { position: absolute; right: 10px; top: 10px; z-index: 2; height: 26px; padding: 0 9px; border-radius: 99px; background: rgba(0, 0, 0, .55); color: #fff; backdrop-filter: blur(6px); }
+/* a price written with K.tkH: smaller taka sign, the number first */
+.tkh { display: inline-flex; align-items: baseline; gap: 1px; font-variant-numeric: tabular-nums; }
+.tkh .cur { font-size: .72em; font-weight: 700; opacity: .7; margin-right: 1px; }
 .dc-low { font-size: 12px; font-weight: 750; color: var(--green); }
 .dc-m { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 700; color: var(--ink-3); }
 .dc.w { width: min(42vw, 200px); }
@@ -342,6 +349,9 @@ kbd { font: 600 11.5px/1 var(--font); min-width: 20px; height: 20px; padding: 0 
 .add.plus { width: 40px; }
 .add.plus:hover { background: var(--ink); color: var(--bg); box-shadow: none; }
 .add.has { background: var(--ink); color: var(--bg); box-shadow: none; padding: 0 4px; gap: 2px; }
+.add.out { padding: 0 12px; font-size: 12.5px; font-weight: 700; color: var(--ink-3); background: var(--bg-2); box-shadow: none; cursor: default; white-space: nowrap; }
+.add.out:active { transform: none; }
+.mi.is-out .mi-t h4, .mi.is-out .price, .mi.is-out .ph, .tm-i:has(.add.out) .tm-t { opacity: .55; }
 .add.has button { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; }
 .add.has button:hover { background: rgba(255, 255, 255, .14); }
 [data-theme="dark"] .add.has button:hover { background: rgba(0, 0, 0, .1); }
@@ -392,7 +402,10 @@ kbd { font: 600 11.5px/1 var(--font); min-width: 20px; height: 20px; padding: 0 
 /* opens on hover (or keyboard focus), closes as soon as the pointer leaves or a link is chosen */
 .nav-mm:hover .mega, .nav-mm:has(:focus-visible) .mega { opacity: 1; visibility: visible; transform: none; transition-delay: .08s, .08s, 0s; }
 .nav-mm:hover > a .ico, .nav-mm:has(:focus-visible) > a .ico { transform: rotate(180deg); }
-.nav-mm.shut .mega { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; transition: opacity .16s, transform .2s var(--ease), visibility 0s .2s !important; }
+/* after a click the menu goes at once, so the page change starts from a clean header (no half-faded panel in the transition) */
+.nav-mm.shut .mega { opacity: 0 !important; visibility: hidden !important; transform: translateY(-8px) !important; transition: none !important; }
+.nav-mm.shut .mega .mg-in > * { transition: none !important; }
+.hdr:has(.nav-mm.shut) { transition: none !important; }
 .nav-mm.shut > a .ico { transform: none !important; }
 /* Menu open: the header and the panel become one solid sheet (even over the home photos), the page behind
    dims and softens, and the moving photo wall holds still, so the eye has one calm surface to read. */
@@ -534,8 +547,9 @@ body.no-tabbar .tray { bottom: calc(var(--safe-b) + 86px); }
 }
 
 /* ---------- toast ---------- */
-.toast { position: fixed; z-index: 120; left: 50%; top: calc(var(--hdr) + 14px); transform: translate(-50%, -20px); opacity: 0; transition: transform .4s var(--spring), opacity .25s; background: var(--night); color: #fff; padding: 12px 18px; border-radius: var(--pill); font-weight: 650; font-size: 14.5px; box-shadow: var(--shadow-3); display: flex; gap: 8px; align-items: center; max-width: calc(100vw - 32px); }
-.toast.in { transform: translate(-50%, 0); opacity: 1; }
+.toast { position: fixed; z-index: 120; left: 50%; top: calc(var(--hdr) + 14px); transform: translate(-50%, 16px) scale(.97); opacity: 0; filter: blur(2px); pointer-events: none; transition: transform 250ms cubic-bezier(.22, 1, .36, 1), opacity 250ms cubic-bezier(.22, 1, .36, 1), filter 250ms cubic-bezier(.22, 1, .36, 1); background: var(--night); color: #fff; padding: 12px 18px; border-radius: var(--pill); font-weight: 650; font-size: 14.5px; box-shadow: var(--shadow-3); display: flex; gap: 8px; align-items: center; max-width: calc(100vw - 32px); }
+.toast.in { transform: translate(-50%, 0) scale(1); opacity: 1; filter: blur(0); pointer-events: auto; transition-duration: 350ms; }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; filter: none; } }
 .toast .ico { color: var(--gold); }
 
 /* ---------- scrollbars: thin, tinted, no grey gutter ---------- */
@@ -572,3 +586,123 @@ html { scrollbar-width: thin; scrollbar-color: var(--sb) transparent; }
 /* spinner ring used inside media loaders only */
 .ring { width: 38px; height: 38px; border-radius: 50%; border: 3px solid rgba(255, 255, 255, .25); border-top-color: #fff; animation: spin .9s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* slides: several deals in one place, moving on slowly */
+.sld { position: relative; }
+.sld-track { position: relative; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain; }
+.sld-track::-webkit-scrollbar { display: none; }
+.sld-s { flex: 0 0 100%; min-width: 0; scroll-snap-align: start; }
+.sld-ctl { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 14px; }
+.sld-b { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; transition: border-color .2s, transform .2s var(--ease); }
+.sld-b:hover { border-color: var(--ink-3); }
+.sld-b:active { transform: scale(.94); }
+.sld-dots { display: flex; align-items: center; }
+.sld-d { position: relative; width: 16px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; transition: width .45s var(--ease); }
+.sld-d::before, .sld-d::after { content: ""; position: absolute; left: 4px; right: 4px; top: 10px; height: 8px; border-radius: 99px; }
+.sld-d::before { background: color-mix(in srgb, var(--ink) 18%, transparent); }
+.sld-d::after { background: var(--sld-c, var(--ink)); transform: scaleX(0); transform-origin: left; }
+.sld-d.on { width: 38px; }
+.sld-d.on::after { transform: scaleX(1); }
+.sld.run .sld-d.on::after { animation: sld-fill var(--sld-t, 6s) linear both; }
+@keyframes sld-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .sld-d { transition: none; } }
+
+/* ---------- deal ticket (K.dealTicket): the offer, a tear line, then the price stub ----------
+   One shape for every deal on the site, so people learn it means "offer". The deal of the week adds khabo's gold seal.
+   The notches are cut with masks, so they work on any background. */
+.tk {
+  --cut: 14px;
+  --foil: linear-gradient(118deg, #9a6d22 0%, #f8e09a 24%, #c4922f 46%, #fcebb4 64%, #b3852c 84%, #f1d488 100%);
+  --stub: color-mix(in srgb, var(--r-deep) 86%, var(--r-accent));
+  --hole: #0000 var(--cut), #000 calc(var(--cut) + .5px);
+  position: relative; display: grid; grid-template-rows: 1fr auto; color: #fff; isolation: isolate;
+}
+/* the shadow sits on a layer behind the ticket, so the notches show the page through them */
+.tk::after { content: ""; position: absolute; inset: 14px 10px 0; z-index: -1; border-radius: var(--r-lg); box-shadow: 0 16px 34px rgba(8, 11, 30, .2); pointer-events: none; }
+a.tk { transition: transform .35s var(--ease); }
+@media (hover: hover) {
+  a.tk:hover { transform: translateY(-3px); }
+  a.tk:hover .tk-main > .ph img.ld { transform: scale(1.035); }
+  a.tk:hover .tk-cta svg { transform: translateX(3px); }
+}
+.tk-main {
+  position: relative; display: flex; align-items: flex-end; min-height: 300px; overflow: hidden; isolation: isolate;
+  border-radius: var(--r-lg) var(--r-lg) 0 0; background: var(--r-deep);
+  -webkit-mask: radial-gradient(circle at 0 100%, var(--hole)) left / 51% 100% no-repeat, radial-gradient(circle at 100% 100%, var(--hole)) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle at 0 100%, var(--hole)) left / 51% 100% no-repeat, radial-gradient(circle at 100% 100%, var(--hole)) right / 51% 100% no-repeat;
+}
+.tk-main > .ph { position: absolute; inset: 0; z-index: -2; background: var(--r-deep); }
+.tk-main::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, transparent 15%, color-mix(in srgb, var(--r-deep) 86%, transparent) 70%, var(--r-deep)); }
+.tk-body { position: relative; display: grid; gap: 8px; justify-items: start; max-width: 600px; padding: 26px 24px 22px; }
+.tk-t { font-size: clamp(27px, 3.5vw, 46px); font-weight: 800; letter-spacing: -.028em; line-height: 1.04; text-wrap: balance; }
+.tk-d { font-size: 16px; opacity: .88; max-width: 46ch; }
+.tk-w { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 650; opacity: .8; }
+.tk-r { display: inline-flex; align-items: center; gap: 10px; margin-top: 6px; font-size: 14.5px; font-weight: 700; }
+.tk-r .mono { width: 28px; height: 28px; border-radius: 8px; font-size: 10.5px; }
+
+.tk-stub {
+  position: relative; display: grid; gap: 18px; align-content: center; justify-items: start; padding: 24px 24px 26px;
+  border-radius: 0 0 var(--r-lg) var(--r-lg); background: var(--stub);
+  -webkit-mask: radial-gradient(circle at 0 0, var(--hole)) left / 51% 100% no-repeat, radial-gradient(circle at 100% 0, var(--hole)) right / 51% 100% no-repeat;
+  mask: radial-gradient(circle at 0 0, var(--hole)) left / 51% 100% no-repeat, radial-gradient(circle at 100% 0, var(--hole)) right / 51% 100% no-repeat;
+}
+/* the tear line */
+.tk-stub::before { content: ""; position: absolute; top: 0; left: calc(var(--cut) + 10px); right: calc(var(--cut) + 10px); height: 2px; background: repeating-linear-gradient(90deg, rgba(255, 255, 255, .3) 0 7px, transparent 7px 14px); }
+.tk-l { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; color: var(--r-accent); }
+.tk-wkh { display: flex; align-items: center; gap: 14px; }
+.tk-wkh > span { display: grid; gap: 3px; }
+.tk-wkh b { font-size: 17px; font-weight: 800; letter-spacing: -.005em; background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tk-wkh > span > span { font-size: 13.5px; font-weight: 600; opacity: .78; }
+.tk-pr { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; column-gap: 14px; row-gap: 12px; justify-items: start; }
+.tk-p { font-size: clamp(38px, 4.4vw, 54px); font-weight: 800; letter-spacing: -.035em; line-height: 1; color: var(--r-accent); }
+.tk-p { background: var(--foil); -webkit-background-clip: text; background-clip: text; color: transparent; padding-bottom: .06em; }
+.tk-was { font-size: 14px; opacity: .74; }
+.tk-was s { text-decoration-thickness: 1.5px; }
+.tk-save { grid-column: 1 / -1; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: var(--pill); font-size: 13.5px; font-weight: 750; color: var(--r-accent); background: color-mix(in srgb, var(--r-accent) 16%, transparent); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r-accent) 34%, transparent); }
+.tk-save i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; opacity: .6; }
+.tk .tk-save { background: var(--foil); color: #2a1c04; box-shadow: none; }
+.tk-cta { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 22px; border-radius: var(--pill); background: #fff; color: #0E1230; font-size: 15px; font-weight: 750; }
+.tk-cta svg { transition: transform .3s var(--ease); }
+
+/* gold seal: the ring turns slowly and a light passes over it now and then */
+.dseal { position: relative; flex: none; width: 78px; height: 78px; border-radius: 50%; filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .35)); }
+.dseal svg { display: block; width: 100%; height: 100%; }
+.dseal-ring { transform-box: view-box; transform-origin: 60px 60px; animation: dseal-spin 40s linear infinite; }
+.dseal-n { font: 800 27px/1 var(--font); letter-spacing: -.03em; }
+.dseal-o { font: 800 9px/1 var(--font); letter-spacing: .14em; }
+.dseal::after { content: ""; position: absolute; inset: 0; border-radius: 50%; pointer-events: none; background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, .7) 50%, transparent 62%) no-repeat; background-size: 260% 100%; background-position: 150% 0; mix-blend-mode: overlay; animation: dseal-shine 7s var(--ease-io) 1.2s infinite; }
+@keyframes dseal-spin { to { transform: rotate(360deg); } }
+@keyframes dseal-shine { 0% { background-position: 150% 0; } 24%, 100% { background-position: -50% 0; } }
+@media (prefers-reduced-motion: reduce) { .dseal-ring, .dseal::after { animation: none; } }
+
+/* wide screens: offer on the left, stub on the right, the tear line runs top to bottom */
+@media (min-width: 900px) {
+  .tk:not(.tk-sm) { grid-template-columns: minmax(0, 1fr) 320px; grid-template-rows: none; }
+  .tk:not(.tk-sm) .tk-main {
+    min-height: 420px; align-items: center; border-radius: var(--r-lg) 0 0 var(--r-lg);
+    -webkit-mask: radial-gradient(circle at 100% 0, var(--hole)) top / 100% 51% no-repeat, radial-gradient(circle at 100% 100%, var(--hole)) bottom / 100% 51% no-repeat;
+    mask: radial-gradient(circle at 100% 0, var(--hole)) top / 100% 51% no-repeat, radial-gradient(circle at 100% 100%, var(--hole)) bottom / 100% 51% no-repeat;
+  }
+  .tk:not(.tk-sm) .tk-main::before { background: linear-gradient(90deg, color-mix(in srgb, var(--r-deep) 95%, transparent) 0%, color-mix(in srgb, var(--r-deep) 70%, transparent) 44%, transparent 80%); }
+  .tk:not(.tk-sm) .tk-body { padding: 48px 52px; }
+  .tk:not(.tk-sm) .tk-stub {
+    gap: 24px; padding: 40px 34px; border-radius: 0 var(--r-lg) var(--r-lg) 0;
+    -webkit-mask: radial-gradient(circle at 0 0, var(--hole)) top / 100% 51% no-repeat, radial-gradient(circle at 0 100%, var(--hole)) bottom / 100% 51% no-repeat;
+    mask: radial-gradient(circle at 0 0, var(--hole)) top / 100% 51% no-repeat, radial-gradient(circle at 0 100%, var(--hole)) bottom / 100% 51% no-repeat;
+  }
+  .tk:not(.tk-sm) .tk-stub::before { top: calc(var(--cut) + 10px); bottom: calc(var(--cut) + 10px); left: 0; right: auto; width: 2px; height: auto; background: repeating-linear-gradient(180deg, rgba(255, 255, 255, .3) 0 7px, transparent 7px 14px); }
+  .tk:not(.tk-sm) .tk-pr { grid-template-columns: 1fr; row-gap: 8px; }
+  .tk:not(.tk-sm) .tk-save { margin-top: 6px; }
+  .tk:not(.tk-sm) .dseal { width: 92px; height: 92px; }
+}
+
+/* small tickets for grids: always stacked */
+.tk-sm { --cut: 12px; }
+.tk-sm .tk-main { min-height: 250px; }
+.tk-sm .tk-body { padding: 20px 20px 16px; gap: 6px; }
+.tk-sm .tk-t { font-size: 22px; letter-spacing: -.02em; }
+.tk-sm .tk-d { font-size: 14.5px; }
+.tk-sm .tk-w { font-size: 13px; }
+.tk-sm .tk-stub { padding: 18px 20px 20px; gap: 14px; }
+.tk-sm .tk-p { font-size: 34px; }
+.tk-sm .dseal { width: 66px; height: 66px; }

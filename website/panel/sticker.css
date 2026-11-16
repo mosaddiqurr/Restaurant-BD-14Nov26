@@ -1,0 +1,121 @@
+/* khabo door and window stickers. One HTML structure (PN.stickerHtml), the look per design in .st-<id>.
+   Every sticker is an A5 sheet (148 x 210 mm); the round one sits on A5 and is cut along its edge. */
+.st { width: 148mm; height: 210mm; box-sizing: border-box; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  font-family: Figtree, system-ui, sans-serif; color: #fff; background: var(--d); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.st * { box-sizing: border-box; }
+.st .st-q { background: #fff; border-radius: 6mm; padding: 5mm; width: 74mm; height: 74mm; display: grid; place-items: center; }
+.st .st-q svg { width: 100%; height: 100%; display: block; }
+.st .st-q.shape { background: none; padding: 0; width: 84mm; height: 84mm; }
+.st .st-logo { height: 20mm; max-width: 100mm; object-fit: contain; display: block; }
+.st .st-mono { width: 18mm; height: 18mm; border-radius: 5mm; display: grid; place-items: center; background: var(--a); color: var(--d); font-weight: 800; font-size: 17pt; letter-spacing: .02em; }
+.st .st-n { font: 600 28pt/1.05 "Cormorant Garamond", Georgia, serif; margin: 0; }
+.st .st-bn { font: 400 13pt/1.4 "Tiro Bangla", "Noto Sans Bengali", serif; opacity: .8; }
+.st .st-say { font-size: 12pt; line-height: 1.4; max-width: 104mm; margin: 0; }
+.st .st-addr { font-weight: 750; font-size: 13pt; letter-spacing: .01em; }
+.st .st-by { position: absolute; bottom: 7mm; left: 0; right: 0; font-size: 8.5pt; letter-spacing: .14em; text-transform: uppercase; opacity: .55; }
+.st .st-scan { display: inline-flex; align-items: center; gap: 2.5mm; font-weight: 750; font-size: 11pt; }
+.st .st-scan svg { width: 5mm; height: 5mm; }
+
+/* 1. Classic: the restaurant's deep colour, white QR card */
+.st-classic { gap: 7mm; padding: 16mm 14mm 22mm; }
+.st-classic .st-say { color: rgba(255, 255, 255, .78); }
+.st-classic .st-addr { color: var(--a); }
+.st-classic::before { content: ""; position: absolute; inset: 6mm; border: .5mm solid color-mix(in srgb, var(--a) 55%, transparent); border-radius: 4mm; pointer-events: none; }
+
+/* 2. Paper: warm paper, ink colour, quiet and classy */
+.st-paper { background: #F7F1E6; color: var(--d); gap: 6mm; padding: 18mm 16mm 22mm; }
+.st-paper .st-k { font-size: 9pt; letter-spacing: .22em; text-transform: uppercase; font-weight: 700; color: color-mix(in srgb, var(--d) 70%, #8a6a3a); }
+.st-paper .st-n { font-size: 32pt; }
+.st-paper .st-rule { width: 30mm; height: .4mm; background: var(--d); opacity: .35; }
+.st-paper .st-q { background: #fff; box-shadow: 0 0 0 .4mm color-mix(in srgb, var(--d) 25%, transparent); }
+.st-paper .st-addr { color: var(--d); font-size: 11.5pt; }
+.st-paper .st-by { color: var(--d); }
+
+/* 3. Bold: the accent colour, a big "scan for the menu" */
+.st-bold { background: var(--a); color: var(--d); justify-content: flex-start; padding: 16mm 14mm 20mm; gap: 6mm; }
+.st-bold .st-big { font: 400 58pt/.9 "Bebas Neue", Impact, sans-serif; letter-spacing: .01em; margin: 2mm 0 0; }
+.st-bold .st-big span { display: block; color: #fff; -webkit-text-stroke: .5mm var(--d); }
+.st-bold .st-q { background: #fff; width: 78mm; height: 78mm; box-shadow: 1.6mm 1.6mm 0 var(--d); }
+.st-bold .st-row { display: flex; align-items: center; gap: 4mm; margin-top: auto; }
+.st-bold .st-n { font: 800 15pt/1.1 Figtree, sans-serif; text-align: left; }
+.st-bold .st-mono { background: var(--d); color: var(--a); }
+.st-bold .st-by { color: var(--d); }
+
+/* 4. Arch: a doorway shape, for glass doors */
+.st-arch { background: #fff; padding: 12mm; }
+.st-arch .st-in { width: 100%; height: 100%; border-radius: 62mm 62mm 6mm 6mm; background: var(--d); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6mm; padding: 22mm 12mm 16mm; position: relative; }
+.st-arch .st-in::before { content: ""; position: absolute; inset: 3.5mm; border-radius: 59mm 59mm 4mm 4mm; border: .5mm solid var(--a); opacity: .7; }
+.st-arch .st-say { color: rgba(255, 255, 255, .8); font-size: 11pt; }
+.st-arch .st-addr { color: var(--a); }
+.st-arch .st-by { bottom: 4mm; color: var(--d); }
+
+/* 5. Round: a circle with the words running round the code */
+.st-round { background: #fff; }
+.st-round .st-disc { width: 128mm; height: 128mm; border-radius: 50%; background: var(--d); position: relative; display: grid; place-items: center; }
+.st-round .st-ring { position: absolute; inset: 0; width: 100%; height: 100%; }
+.st-round .st-ring text { font: 700 9.5pt Figtree, sans-serif; letter-spacing: .12em; fill: var(--a); text-transform: uppercase; }
+.st-round .st-q { width: 70mm; height: 70mm; border-radius: 50%; padding: 11mm; }
+.st-round .st-q.shape { background: #fff; padding: 7mm; width: 78mm; height: 78mm; }
+.st-round .st-under { margin-top: 9mm; color: var(--d); display: grid; gap: 1.5mm; }
+.st-round .st-under .st-n { font-size: 22pt; }
+.st-round .st-under .st-addr { color: color-mix(in srgb, var(--d) 70%, #8a6a3a); font-size: 11pt; }
+.st-round .st-disc::after { content: ""; position: absolute; inset: -2.5mm; border-radius: 50%; border: .3mm dashed #bbb; }
+.st-round .st-by { color: var(--d); }
+
+/* 6. Scan frame: white sheet, the QR inside a thick frame with a tab, the way most QR posters look */
+.st-frame { background: #fff; color: var(--d); gap: 6mm; padding: 16mm 14mm 22mm; }
+.st-frame .st-n { font-size: 30pt; }
+.st-frame .st-bn { margin-top: -3mm; }
+.st-frame .st-fr { background: var(--d); border-radius: 8mm; padding: 5mm 5mm 0; display: grid; justify-items: center; }
+.st-frame .st-fr .st-q { width: 76mm; height: 76mm; border-radius: 4mm; }
+.st-frame .st-fr .st-q.shape { background: #fff; padding: 4mm; }
+.st-frame .st-tab { display: inline-flex; align-items: center; gap: 2.5mm; padding: 4mm 6mm 5mm; color: var(--a); font-weight: 800; font-size: 15pt; letter-spacing: .02em; text-transform: uppercase; }
+.st-frame .st-tab svg { width: 6mm; height: 6mm; }
+.st-frame .st-say { color: color-mix(in srgb, var(--d) 75%, #777); font-size: 11pt; }
+.st-frame .st-addr { color: var(--d); font-size: 12pt; }
+.st-frame .st-by { color: var(--d); }
+
+/* 7. Photo: the restaurant's own photo on top, a clean white half with the QR below */
+.st-split { justify-content: flex-start; background: #fff; color: var(--d); }
+.st-split .st-top { position: relative; width: 100%; height: 88mm; background: var(--d); display: flex; align-items: flex-end; justify-content: center; color: #fff; overflow: hidden; }
+.st-split .st-ph { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.st-split .st-top::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, color-mix(in srgb, var(--d) 92%, transparent)); }
+.st-split .st-top-in { position: relative; z-index: 1; padding: 0 10mm 8mm; display: grid; gap: 1mm; }
+.st-split .st-n { font-size: 30pt; }
+.st-split .st-bot { flex: 1; display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 7mm; padding: 10mm 12mm 16mm; text-align: left; }
+.st-split .st-bot .st-q { width: 60mm; height: 60mm; box-shadow: 0 0 0 .5mm color-mix(in srgb, var(--d) 22%, transparent); }
+.st-split .st-bot .st-q.shape { width: 64mm; height: 64mm; box-shadow: none; }
+.st-split .st-bot-t { display: grid; gap: 3mm; }
+.st-split .st-scan { font-size: 13pt; color: var(--d); }
+.st-split .st-say { font-size: 10.5pt; color: color-mix(in srgb, var(--d) 72%, #777); }
+.st-split .st-addr { font-size: 10.5pt; color: var(--d); }
+.st-split .st-by { color: var(--d); }
+
+/* 8. Minimal: white, one big QR, the name under it */
+.st-minimal { background: #fff; color: var(--d); gap: 7mm; padding: 18mm 14mm 24mm; }
+.st-minimal .st-head { margin: 0; font-weight: 800; font-size: 20pt; letter-spacing: -.01em; }
+.st-minimal .st-q { width: 96mm; height: 96mm; padding: 0; border-radius: 0; }
+.st-minimal .st-q.shape { width: 100mm; height: 100mm; }
+.st-minimal .st-n { font: 800 16pt/1.1 Figtree, sans-serif; }
+.st-minimal .st-addr { font-weight: 600; font-size: 10.5pt; opacity: .7; }
+.st-minimal .st-by { color: var(--d); }
+
+/* the "scan" words follow each design's colours */
+.st-classic .st-scan, .st-arch .st-scan { color: var(--a); }
+.st-paper .st-scan { color: var(--d); }
+
+@page { size: A5; margin: 0; }
+@media print { html, body { margin: 0; background: #fff; } .st { margin: 0; box-shadow: none; } }
+
+/* ---------- QR inside a shape (code/qrframes.js). Used by the Shapes sticker and the table cards. ---------- */
+.qf { position: relative; width: 100%; aspect-ratio: var(--ar); font-family: Figtree, "Noto Sans Bengali", system-ui, sans-serif; }
+.qf > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.qf-q { position: absolute; aspect-ratio: 1; background: #fff; display: grid; place-items: center; }
+.qf-q svg { width: 100%; height: 100%; display: block; }
+.st-shape { background: #fff; color: var(--d); gap: 5mm; padding: 14mm 12mm 22mm; }
+.st-shp { width: 100%; height: 132mm; display: grid; place-items: center; container-type: size; }
+.st-shp .qf { width: min(100cqw, calc(100cqh * var(--ar))); }
+.st-shape .st-bn { font-size: 13pt; opacity: .8; }
+.st-shape .st-say { margin: 0; font-size: 11pt; max-width: 110mm; opacity: .8; }
+.st-shape .st-addr { font-weight: 600; font-size: 10.5pt; opacity: .7; }
+.st-shape .st-by { color: var(--d); }

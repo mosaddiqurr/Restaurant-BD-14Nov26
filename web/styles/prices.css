@@ -1,0 +1,131 @@
+/* /prices: what each place charges, and the Food Price Index. Flat colours, green and marigold. */
+
+.px { padding-bottom: 64px; }
+.px-body { margin-top: 26px; }
+
+/* tools: search, area, dish chips */
+.px-tools { display: grid; gap: 12px; }
+.px-q { display: flex; flex-wrap: wrap; gap: 8px; }
+.px-q .tb-q { flex: 1 1 320px; min-width: 0; }
+.px-types { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding: 2px; margin: -2px; overscroll-behavior-x: contain; }
+.px-types::-webkit-scrollbar { display: none; }
+.px-type { flex: none; display: grid; grid-template-columns: 44px auto; gap: 10px; align-items: center; padding: 6px 14px 6px 6px; border-radius: 14px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); text-align: left; transition: transform .15s var(--ease), background .2s, box-shadow .2s; }
+.px-type .pic { width: 44px; height: 44px; border-radius: 12px; }
+.px-type b { display: block; font-size: 14.5px; font-weight: 700; line-height: 1.2; white-space: nowrap; }
+.px-type small { display: block; font-size: 12.5px; color: var(--ink-3); white-space: nowrap; }
+.px-type.on { background: var(--brand); color: var(--on-brand); box-shadow: none; }
+.px-type.on small { color: var(--on-deep-2); }
+.px-type.none:not(.on) { opacity: .55; }
+.px-type:active { transform: scale(.97); }
+@media (hover: hover) and (pointer: fine) { .px-type:not(.on):hover { box-shadow: inset 0 0 0 1px var(--ink-3); } }
+.px-none { margin-top: 4px; }
+
+/* the summary, the list and the trend */
+.px-grid { margin-top: 22px; display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); grid-template-areas: "sum list" "trend list"; gap: 16px; align-items: start; }
+.px-sum { grid-area: sum; padding: 24px; border-radius: 20px; background: var(--deep); color: var(--on-deep); display: grid; gap: 14px; align-content: start; text-align: left; }
+:root[data-theme="dark"] .px-sum { background: #0E3A28; }
+.px-sum h2 { font-size: 22px; font-weight: 750; letter-spacing: -.02em; line-height: 1.2; }
+.px-sum .k { display: block; color: var(--on-deep-2); font-size: 14.5px; }
+.px-sum .big { display: block; margin-top: 2px; font-size: 56px; font-weight: 800; letter-spacing: -.04em; line-height: 1.05; color: var(--gold); }
+.px-sum .big .price { font-size: inherit; }
+.px-small { font-size: 13px; }
+
+/* a track from lowest to highest: one dot per price, the typical price is the marigold mark */
+.px-strip { position: relative; display: block; height: 26px; }
+.px-strip::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 6px; margin-top: -3px; border-radius: 3px; background: rgba(244, 241, 230, .16); }
+.px-strip i, .px-strip s { position: absolute; top: 50%; left: calc(7px + (100% - 14px) * var(--p)); transform: translate(-50%, -50%); }
+.px-strip i { width: 14px; height: 14px; border-radius: 50%; background: var(--on-deep); box-shadow: 0 0 0 2px var(--deep); }
+:root[data-theme="dark"] .px-strip i { box-shadow: 0 0 0 2px #0E3A28; }
+.px-strip s { width: 4px; height: 26px; border-radius: 2px; background: var(--gold); z-index: 1; }
+.px-ends { display: flex; justify-content: space-between; gap: 12px; margin-top: 8px; }
+.px-ends > span { display: grid; gap: 1px; }
+.px-ends > span:last-child { text-align: right; }
+.px-ends .price { font-size: 17px; font-weight: 750; }
+.px-ends small { font-size: 12.5px; color: var(--on-deep-2); }
+
+.px-list { grid-area: list; list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; align-content: start; }
+.px-row { display: grid; grid-template-columns: minmax(0, 1fr) 48px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); min-width: 0; }
+.px-main { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; grid-template-areas: "pic t p" "pic bar bar"; column-gap: 14px; row-gap: 9px; align-items: center; padding: 11px 6px 11px 11px; text-align: left; min-width: 0; border-radius: 14px 0 0 16px; }
+.px-main .pic { grid-area: pic; width: 56px; height: 56px; border-radius: 12px; align-self: center; }
+.px-t { grid-area: t; min-width: 0; }
+.px-t b { display: block; font-size: 15.5px; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.px-t small { display: block; color: var(--ink-3); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.px-p { grid-area: p; text-align: right; }
+.px-p .price { display: block; font-size: 19px; font-weight: 750; }
+.px-p em { display: block; font-style: normal; font-size: 12px; font-weight: 700; color: var(--good); }
+.px-bar { grid-area: bar; position: relative; display: block; height: 6px; border-radius: 3px; background: var(--sunk); }
+.px-bar i, .px-bar s { position: absolute; top: 50%; left: calc(5px + (100% - 10px) * var(--p)); transform: translate(-50%, -50%); }
+.px-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--hl); box-shadow: 0 0 0 2px var(--surface); }
+.px-bar s { width: 2px; height: 12px; border-radius: 1px; background: var(--ink-3); }
+.px-go { display: grid; place-items: center; color: var(--ink-3); border-left: 1px solid var(--line); border-radius: 0 16px 16px 0; transition: color .2s, background .2s; }
+.px-go i { font-size: 20px; }
+.px-go:active { background: var(--sunk); }
+@media (hover: hover) and (pointer: fine) {
+  .px-main:hover { background: var(--sunk); }
+  .px-go:hover { color: var(--ink); background: var(--sunk); }
+}
+
+.px-trend { grid-area: trend; display: grid; gap: 10px; }
+.px-trend h2 { font-size: 18px; font-weight: 750; letter-spacing: -.02em; }
+.px-move { display: flex; gap: 8px; align-items: flex-start; font-weight: 650; font-size: 15.5px; line-height: 1.35; }
+.px-move .ph { flex: none; margin-top: 2px; font-size: 18px; color: var(--hl); }
+.px-sum .px-move { color: var(--on-deep); }
+.px-sum .px-move .ph { color: var(--gold); }
+.px-chart { height: 180px; }
+.px-chart .recharts-surface { overflow: visible; }
+.px-chart .recharts-cartesian-axis-tick-value { font-family: var(--sans); }
+.px-chart .recharts-tooltip-wrapper { outline: none; }
+.px-tr-sk { display: grid; gap: 12px; }
+.px-empty { margin-top: 22px; }
+.px-rule { display: flex; gap: 8px; align-items: flex-start; margin-top: 22px; font-size: 13.5px; }
+.px-rule .ph { flex: none; margin-top: 2px; }
+
+/* the Food Price Index */
+.pxi { margin-top: 22px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(260px, .75fr); gap: 16px; align-items: start; }
+.pxi-main { display: grid; gap: 12px; min-width: 0; }
+.pxi-hero { grid-area: auto; width: 100%; transition: transform .15s var(--ease); }
+.pxi-hero:active { transform: scale(.97); }
+.pxi-list { padding: 8px; }
+.pxi-h, .pxi-r { display: grid; grid-template-columns: 44px minmax(0, 1fr) 72px 84px 72px; gap: 12px; align-items: center; }
+.pxi-h { padding: 6px 10px 8px; color: var(--ink-3); font-size: 12.5px; font-weight: 600; }
+.pxi-h span:first-child { grid-column: 1 / 4; }
+.pxi-h span:nth-child(2), .pxi-h span:nth-child(3) { text-align: right; }
+.pxi-r { width: 100%; padding: 8px 10px; border-radius: 12px; text-align: left; }
+.pxi-r + .pxi-r { box-shadow: 0 -1px 0 var(--line); }
+.pxi-r .pic { width: 44px; height: 44px; border-radius: 12px; }
+.pxi-n { min-width: 0; }
+.pxi-n b { display: block; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pxi-n small { display: block; color: var(--ink-3); font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pxi-sp { color: var(--hl); display: block; }
+.pxi-spark { display: block; width: 72px; height: 24px; }
+.pxi-p { text-align: right; font-size: 18px; font-weight: 750; }
+.pxi-c { display: flex; justify-content: flex-end; }
+.pxi-ch { display: inline-flex; align-items: center; gap: 3px; font-size: 13.5px; font-weight: 700; white-space: nowrap; }
+.pxi-ch .ph { font-size: 14px; }
+.pxi-ch.up { color: var(--gold-text); } .pxi-ch.down { color: var(--good); } .pxi-ch.same { color: var(--ink-3); }
+@media (hover: hover) and (pointer: fine) { .pxi-r:hover { background: var(--sunk); } }
+.pxi-share { display: grid; gap: 12px; }
+.pxi-share img { width: 100%; height: auto; border-radius: 20px; display: block; }
+.pxi-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+@media (max-width: 860px) {
+  .px-grid { grid-template-columns: minmax(0, 1fr); grid-template-areas: "sum" "list" "trend"; }
+  .pxi { grid-template-columns: minmax(0, 1fr); }
+  .pxi-share { max-width: 420px; }
+}
+@media (max-width: 600px) {
+  .px-sum { padding: 20px; border-radius: 20px; }
+  .px-sum .big { font-size: 48px; }
+  .px-main { grid-template-columns: 52px minmax(0, 1fr) auto; column-gap: 12px; padding: 10px 4px 10px 10px; }
+  .px-main .pic { width: 52px; height: 52px; }
+  .px-row { grid-template-columns: minmax(0, 1fr) 44px; }
+  .px-trend { padding: 16px; }
+  .px-chart { height: 160px; }
+  .pxi-h, .pxi-r { grid-template-columns: 40px minmax(0, 1fr) 70px 58px; gap: 10px; }
+  .pxi-h span:first-child { grid-column: 1 / 3; }
+  .pxi-sp { display: none; }
+  .pxi-r .pic { width: 40px; height: 40px; }
+  .pxi-p { font-size: 16px; }
+  .pxi-list { padding: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .px-type, .pxi-hero { transition: none; } }

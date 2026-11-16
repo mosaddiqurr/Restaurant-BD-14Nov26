@@ -1,0 +1,173 @@
+/* What the Next.js panels add to the prototype panel styles (styles/panel.css):
+   sheets and dialogs from Vaul and Base UI, the switch, the phone tab bar, charts and drag handles.
+   Everything sits under .pnl too. Motion: transform and opacity only, short and ease-out. */
+
+/* the page wrapper */
+.pnl.pnl-app { min-height: 100dvh; }
+:root:not([data-theme="dark"]) .pnl .th-dark, :root[data-theme="dark"] .pnl .th-light { display: none; }
+.pnl .side > * { flex: none; }
+.pnl .bn, .pnl .field .bn, .pnl .dish .nm .bn { font-family: var(--font-bangla), var(--font); }
+.pnl .dw-sub { text-transform: none; letter-spacing: -.01em; font-size: 15px; font-weight: 750; color: var(--ink); padding-top: 4px; }
+.pnl .pr-in.saved::after { content: attr(data-saved); }
+.pnl .nl { cursor: pointer; }
+.pnl .side-brand .logo-svg { width: 30px; height: 30px; display: block; }
+.pnl .lg-brand .logo-svg { width: 34px; height: 34px; display: block; }
+.pnl .side-tools a.ibtn, .pnl .side-tools button.ibtn { font-size: 13px; font-weight: 750; }
+.pnl .err { color: var(--red); font-weight: 650; font-size: 13.5px; }
+
+/* sheets (Vaul) and dialogs (Base UI): they open in a portal, so they carry .pnl themselves */
+.pnl-scrim { position: fixed; inset: 0; z-index: 60; background: rgba(5, 7, 20, .48); }
+.pnl-scrim[data-starting-style], .pnl-scrim[data-ending-style] { opacity: 0; }
+.pnl-scrim.bu { transition: opacity .2s ease-out; }
+.pnl.pnl-dw { position: fixed; z-index: 61; top: 10px; right: 10px; bottom: 10px; width: min(560px, calc(100vw - 20px)); background: var(--surface); border-radius: 22px; box-shadow: var(--sh-3); display: flex; flex-direction: column; outline: none; }
+.pnl.pnl-dw.wide { width: min(760px, calc(100vw - 20px)); }
+.pnl.pnl-dw.xwide { width: min(1080px, calc(100vw - 20px)); }
+.pnl.pnl-dw::after { display: none; }
+.pnl.pnl-md { position: fixed; z-index: 61; left: 50%; top: 50%; translate: -50% -50%; width: min(480px, calc(100vw - 24px)); max-height: calc(100dvh - 40px); background: var(--surface); border-radius: 22px; box-shadow: var(--sh-3); display: flex; flex-direction: column; outline: none; transition: opacity .2s cubic-bezier(.23, 1, .32, 1), transform .2s cubic-bezier(.23, 1, .32, 1); }
+.pnl.pnl-md.wide { width: min(640px, calc(100vw - 24px)); }
+.pnl.pnl-md.xwide { width: min(980px, calc(100vw - 16px)); }
+.pnl.pnl-md[data-starting-style], .pnl.pnl-md[data-ending-style] { opacity: 0; transform: scale(.96); }
+.pnl.pnl-md[data-ending-style] { transition-duration: .14s; }
+.pnl.pnl-dw .dw-b, .pnl.pnl-md .dw-b { min-height: 0; }
+.pnl .dw-grab { display: none; }
+@media (max-width: 860px) {
+  .pnl.pnl-dw, .pnl.pnl-dw.wide, .pnl.pnl-dw.xwide { top: auto; left: 0; right: 0; bottom: 0; width: 100%; max-height: 92dvh; border-radius: 22px 22px 0 0; }
+  .pnl .dw-grab { display: block; width: 44px; height: 5px; border-radius: 3px; background: var(--line-2); margin: 8px auto 0; }
+  .pnl .dw-h { padding: 12px 12px 12px 18px; }
+  .pnl .dw-b { padding: 16px 18px; }
+  .pnl .dw-f { padding: 12px 14px 14px 18px; padding-bottom: max(14px, env(safe-area-inset-bottom)); flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) { .pnl.pnl-md, .pnl-scrim.bu { transition: none; } }
+
+/* the switch (Base UI): same look as the prototype's */
+.pnl .bsw { position: relative; display: inline-flex; flex: none; width: 44px; height: 26px; border-radius: var(--pill); background: var(--line-2); transition: background .2s; cursor: pointer; }
+.pnl .bsw[data-checked] { background: var(--green); }
+.pnl .bsw:focus-visible { outline: 2.5px solid var(--indigo); outline-offset: 2px; }
+.pnl .bsw-t { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform .22s cubic-bezier(.23, 1, .32, 1); }
+.pnl .bsw[data-checked] .bsw-t { transform: translateX(18px); }
+.pnl .swrow { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 12px 0; font-weight: 600; }
+.pnl .swrow + .swrow { border-top: 1px solid var(--line); }
+.pnl .swrow .meta { display: block; font-weight: 500; }
+
+/* the phone tab bar under every panel page */
+.pnl .ptabs { display: none; }
+@media (max-width: 860px) {
+  .pnl .ptabs { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); position: fixed; z-index: 50; left: 0; right: 0; bottom: 0; padding: 6px 4px max(8px, env(safe-area-inset-bottom)); background: var(--surface); border-top: 1px solid var(--line); }
+  .pnl .ptabs a, .pnl .ptabs button { display: grid; justify-items: center; gap: 2px; min-width: 0; padding: 4px 2px; font-size: 11.5px; font-weight: 650; color: var(--ink-3); text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pnl .ptabs .ico { width: 22px; height: 22px; }
+  .pnl .ptabs .on { color: var(--indigo); }
+  .pnl .ptabs span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+  .pnl .pg { padding-bottom: 140px; }
+  .pnl .savebar { bottom: 78px; }
+}
+.pnl .mtop .ibtn.lang { font-size: 13px; font-weight: 750; }
+
+/* the "more" sheet on phones */
+.pnl .more-g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.pnl .more-g a { display: grid; justify-items: center; gap: 6px; padding: 14px 6px; border-radius: 14px; background: var(--sunk); font-size: 13px; font-weight: 650; text-align: center; color: var(--ink-2); }
+.pnl .more-g a.on { background: var(--indigo-soft); color: var(--indigo); }
+.pnl .more-g .ico { width: 24px; height: 24px; }
+
+/* charts (Recharts) */
+.pnl .chart { height: 240px; padding: 8px 12px 14px 4px; }
+.pnl .tt { padding: 8px 11px; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: 13px; box-shadow: var(--sh-2); }
+.pnl .tt b { display: block; font-size: 15px; }
+
+/* dragging rows (dnd-kit) */
+.pnl .handle { width: 28px; height: 40px; display: grid; place-items: center; color: var(--ink-3); border-radius: 8px; cursor: grab; touch-action: none; }
+.pnl .handle:hover { background: var(--sunk); color: var(--ink); }
+.pnl .dragging { position: relative; z-index: 5; background: var(--surface); box-shadow: var(--sh-2); border-radius: 12px; }
+.pnl .dish.dnd { grid-template-columns: 28px 56px minmax(0, 1fr) minmax(0, 170px) 128px auto 40px; gap: 14px; }
+.pnl .area-r { font-size: 12.5px; color: var(--ink-3); line-height: 1.35; }
+.pnl .area-r b { display: block; color: var(--ink-2); font-weight: 650; }
+.pnl .area-r em { font-style: normal; display: block; }
+.pnl .area-r em.hi { color: var(--amber); font-weight: 650; }
+.pnl .area-r em.lo { color: var(--green); font-weight: 650; }
+@media (max-width: 1100px) { .pnl .dish.dnd { grid-template-columns: 28px 56px minmax(0, 1fr) 128px auto 40px; } .pnl .dish.dnd .area-r { display: none; } }
+@media (max-width: 860px) {
+  .pnl .dish.dnd { grid-template-columns: 22px 48px minmax(0, 1fr) 40px; gap: 10px; }
+  .pnl .dish.dnd .handle { grid-row: 1 / 3; width: 22px; }
+  .pnl .dish.dnd .pr-in { grid-column: 3; grid-row: 2; }
+  .pnl .dish.dnd .avail { grid-column: 3 / 5; grid-row: 3; }
+  .pnl .dish.dnd > .ibtn { grid-column: 4; grid-row: 1; }
+}
+
+/* page colours (owner overview): the plaque preview comes from the diner styles (.look-prev, .plaq) */
+.pnl .lookc { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; align-items: center; padding: 20px; }
+.pnl .lookc .pals { margin-top: 12px; }
+@media (max-width: 860px) { .pnl .lookc { grid-template-columns: minmax(0, 1fr); padding: 14px; } }
+
+/* sign in: the language and theme buttons */
+.pnl .lg-tools { position: absolute; z-index: 2; top: 16px; right: 16px; display: flex; gap: 6px; }
+.pnl .lg-form { position: relative; }
+.pnl .lg-tools .ibtn { border: 1px solid var(--line-2); font-size: 13px; font-weight: 750; }
+
+/* no access, loading */
+.pnl .gate { min-height: 60dvh; display: grid; place-items: center; }
+
+/* reviews: the reply box */
+.pnl .rbox { display: grid; gap: 8px; margin-top: 12px; }
+.pnl .rv-pics { display: flex; gap: 8px; margin-top: 10px; }
+.pnl .rv-pics img { width: 64px; height: 64px; border-radius: 10px; object-fit: cover; }
+
+/* the diner styles stretch .seg buttons; the panel keeps them their own size (as in the prototype) */
+.pnl .seg { overflow: visible; }
+.pnl .seg button { flex: 0 0 auto; }
+/* flat colours: no gradient on the highlighted number card */
+.pnl .stat.hl { background: var(--side); }
+
+/* menu categories */
+.pnl .catrow { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.pnl .catrow-b { display: flex; gap: 2px; }
+.pnl .ibtn[disabled] { opacity: .35; pointer-events: none; }
+@media (max-width: 560px) { .pnl .catrow { grid-template-columns: minmax(0, 1fr) auto; } .pnl .catrow .inp.bn { grid-column: 1; grid-row: 2; } .pnl .catrow-b { grid-row: 1 / 3; grid-column: 2; flex-direction: column; } }
+@media (max-width: 860px) { .pnl .top .acts { flex-wrap: wrap; } .pnl .top .acts .btn { flex: 0 1 auto; } }
+/* flat colours: the deal percent tag is plain marigold, not a shiny gradient */
+.pnl .dlook .dl-tag i { background: var(--gold); }
+/* photo tools: always visible on touch screens (there is no hover) */
+@media (hover: none) { .pnl .pcell .pc-tools { opacity: 1; transform: none; } }
+/* the diner ".info" table rules leak into the panel's info alerts */
+.pnl .alert > div { padding: 0; border-top: 0; }
+.pnl .alert { grid-template-columns: auto minmax(0, 1fr) auto; }
+/* the print menu page wraps its previews in the shared print styles (.pmw, styles/print-menu.css) but keeps the panel's own look */
+.pnl .pmw.pmw-in { min-height: 0; background: none; color: inherit; font-family: inherit; }
+
+/* the save bar (components/panel/draft.tsx): one for every page in both panels */
+.pnl .savebar > span { display: inline-flex; align-items: center; gap: 8px; }
+.pnl .savebar > span .ico { flex: none; color: var(--gold, #F2B33D); }
+.pnl .savebar .btn:disabled { opacity: .6; }
+
+/* the owner's to-do list on Overview */
+.pnl .td-list { display: grid; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.pnl .td-row { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 10px 8px 10px 12px; }
+.pnl .td-row + .td-row { border-top: 1px solid var(--line); }
+.pnl .td-tick { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--line-2); display: grid; place-items: center; color: #fff; transition: background .15s, border-color .15s; }
+.pnl .td-tick:active { transform: scale(.97); }
+.pnl .td-row.is-done .td-tick { background: var(--green); border-color: var(--green); }
+.pnl .td-tx { display: grid; gap: 2px; min-width: 0; }
+.pnl .td-tx > span:first-child { font-weight: 600; overflow-wrap: anywhere; }
+.pnl .td-row.is-done .td-tx > span:first-child { color: var(--ink-3); text-decoration: line-through; }
+.pnl .td-tx .meta { font-size: 12.5px; }
+.pnl .td-add { display: flex; gap: 8px; }
+.pnl .td-add .inp { flex: 1; min-width: 0; }
+.pnl .td-add .btn { flex: none; }
+.pnl .seg.sm button { height: 28px; padding: 0 11px; font-size: 13px; }
+
+/* a dish's photos and videos in the menu editor */
+.pnl .dm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); gap: 10px; }
+.pnl .dm-cell { aspect-ratio: 1; }
+.pnl .dm-cell video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; }
+.pnl .dm-cell .pc-tools { opacity: 1; transform: none; inset: auto 4px 4px 4px; justify-content: space-between; gap: 2px; }
+.pnl .dm-cell .pc-tools button { width: 28px; height: 28px; }
+.pnl .dm-cell .pc-tools button:disabled { opacity: .35; }
+.pnl .dm-cell .pc-tools button.on { background: var(--gold, #F2B33D); color: #1a1406; }
+.pnl .dm-cell .pc-n.main { background: var(--green); }
+.pnl .dm-cell .pc-n .ico { width: 13px; height: 13px; }
+.pnl .dm-acts { display: flex; gap: 8px; flex-wrap: wrap; }
+@media (max-width: 860px) {
+  .pnl .savebar { box-sizing: border-box; left: 12px; right: 12px; width: auto; transform: translateY(calc(100% + 100px)); }
+  .pnl .savebar.on { transform: none; }
+  .pnl .savebar > span { min-width: 0; white-space: normal; }
+  .pnl .savebar > span .ico { display: none; }
+  .pnl .savebar .btn { flex: none; padding-inline: 12px; }
+}

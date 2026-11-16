@@ -31,10 +31,10 @@
   K.dcard = (d, o = {}) => {
     const r = K.r(d.r);
     return `<a class="dc ${o.w ? 'w' : ''}" href="#/r/${r.id}?dish=${d.id}" data-dish="${r.id}|${d.id}" ${o.rv ? 'data-rv' : ''} style="--vtn:dc-${r.id}-${d.id};--d:${o.i || 0}">
-      ${K.ph(d.p, { w: o.w ? 420 : 480, alt: L(d.name), word: L(d.name), tone: r.theme, icon: (D.types[d.type] || {}).i })}
+      ${K.ph(d.p, { w: o.w ? 420 : 480, alt: L(d.name), word: L(d.name), tone: r.theme, icon: (D.types[d.type] || {}).i, extra: `<span class="dc-tag price">${K.tkH(d.price)}</span>${d.d3 ? `<span class="dc-m">${ico('cube', 'sm')}3D</span>` : d.video ? `<span class="dc-m">${ico('play-fill', 'sm')}</span>` : ''}` })}
       <div class="nm">${K.esc(L(d.name))}</div>
       <div class="rs">${o.noR ? K.esc(L(d.por)) : `${K.esc(L(r.name))}, ${L(K.areaOf(r.area))}`}</div>
-      <div class="pr"><span class="price">${K.tk(d.price)}</span>${o.lowest ? `<span class="dc-low">${t('lowest')}</span>` : ''}${d.d3 ? `<span class="dc-m">${ico('cube', 'sm')}3D</span>` : d.video ? `<span class="dc-m">${ico('play', 'sm')}</span>` : ''}</div>
+      ${o.lowest ? `<div class="pr"><span class="dc-low">${t('lowest')}</span></div>` : ''}
     </a>`;
   };
 })();

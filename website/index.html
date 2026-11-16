@@ -4,52 +4,77 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>khabo · Eat out without the guesswork</title>
-<meta name="description" content="Real menus, all-in prices and a 360° look inside restaurants in Dhaka and Bogura. Ask in Bangla, English or Banglish.">
-<meta name="theme-color" content="#F5F6FB">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%232A3DB8'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23fff' stroke-width='2.6'/%3E%3Ccircle cx='19.2' cy='13' r='3.1' fill='%23F5A300'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com">
-<link rel="preconnect" href="https://cdn.polyhaven.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@300..900&family=Noto+Sans+Bengali:wght@300..800&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Tiro+Bangla&display=swap">
-<link rel="stylesheet" href="styles/base.css?v=16">
-<link rel="stylesheet" href="styles/pages.css?v=16">
-<link rel="stylesheet" href="styles/home.css?v=16">
-<link rel="stylesheet" href="styles/listing.css?v=16">
-<link rel="stylesheet" href="styles/restaurant.css?v=16">
-<link rel="stylesheet" href="styles/motion.css?v=16">
+<meta name="description" content="Real menus, real prices and a 360° look inside restaurants in Dhaka and Bogura. Ask in Bangla, English or Banglish.">
+<meta name="theme-color" content="#0C5A3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%230C5A3E'/%3E%3Ccircle cx='16' cy='16' r='8.5' fill='none' stroke='%23F7F1DE' stroke-width='2.6'/%3E%3Ccircle cx='19.2' cy='13' r='3.1' fill='%23F4B91A'/%3E%3C/svg%3E">
 <script>
-  /* set theme and language before first paint so there is no flash */
-  try { history.scrollRestoration = 'manual'; } catch (e) { }
-  (function () { try { var q = new URLSearchParams(location.search), s = function (k, d) { var v = localStorage.getItem('kh2.' + k); return v == null ? d : JSON.parse(v); };
-    var th = q.get('theme') || s('theme', 'auto'); if (th === 'auto') th = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    document.documentElement.dataset.theme = th; document.documentElement.lang = q.get('lang') || s('lang', 'en'); if (q.get('embed') === '1') document.documentElement.classList.add('embed'); if (q.get('tm')) document.documentElement.dataset.tm = q.get('tm'); } catch (e) { } })();
+  /* The table menu (#/t/...) and the printable menu (#/r/.../print) still open from the classic pages,
+     so every printed QR code keeps working. */
+  (function () { if (/^#\/(t\/|r\/[^/?]+\/print)/.test(location.hash)) location.replace('classic.html' + location.search + location.hash); })();
+  /* theme before first paint, so there is no flash */
+  (function () { try { var q = new URLSearchParams(location.search), th = q.get('theme') || localStorage.getItem('khabo-final-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); document.documentElement.dataset.theme = th; document.documentElement.lang = q.get('lang') || localStorage.getItem('khabo-final-lang') || 'en'; } catch (e) { } })();
+  window.KHABO_MAIN = true;
 </script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com"><link rel="preconnect" href="https://esm.sh" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&family=Tiro+Bangla&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="stylesheet" href="app/app.css?v=9">
+<link rel="modulepreload" href="https://esm.sh/react@18.3.1">
+<link rel="modulepreload" href="https://esm.sh/react-dom@18.3.1/client?external=react">
+<link rel="modulepreload" href="https://esm.sh/htm@3.1.1">
+<link rel="modulepreload" href="https://esm.sh/framer-motion@11.15.0?external=react,react-dom">
+<link rel="modulepreload" href="https://esm.sh/zustand@5.0.3?external=react">
+<style>
+  /* first paint, before the app loads: the header and hero shapes in khabo green, no text */
+  #root > .sk { display: block; min-height: 100dvh; padding: 0; background: #F5F6F3; }
+  [data-theme="dark"] #root > .sk { background: #0B120F; }
+  .sk-h { height: 68px; display: flex; align-items: center; gap: 10px; padding: 0 max(32px, calc(50% - 568px)); }
+  .sk-logo { width: 30px; height: 30px; border-radius: 10px; background: #0C5A3E; }
+  .sk-word { width: 64px; height: 14px; border-radius: 7px; background: rgba(14, 23, 18, .12); }
+  .sk-hero { height: min(660px, 80dvh); margin-top: -68px; background: #08120D; animation: skp 1.4s ease-in-out infinite alternate; }
+  @keyframes skp { to { background: #0E1D16; } }
+  @media (prefers-reduced-motion: reduce) { .sk-hero { animation: none; } }
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<!-- the data: every restaurant (restaurants/<name>/restaurant.js), the shared lists, and all text in Bangla and English -->
 <script src="restaurants/list.js"></script>
-<script defer src="code/i18n.js?v=16"></script>
-<script defer src="data/common.js?v=16"></script>
-<script defer src="code/core.js?v=16"></script>
-<script defer src="code/motion.js?v=16"></script>
-<script defer src="code/qr.js?v=16"></script>
-<script defer src="code/map.js?v=16"></script>
-<script defer src="code/pano.js?v=16"></script>
-<script defer src="code/media.js?v=16"></script>
-<script defer src="code/ai.js?v=16"></script>
-<script defer src="code/pages/parts.js?v=16"></script>
-<script defer src="code/pages/dish.js?v=16"></script>
-<script defer src="code/pages/home.js?v=16"></script>
-<script defer src="code/pages/listing.js?v=16"></script>
-<script defer src="code/pages/table.js?v=16"></script>
-<script defer src="code/pages/restaurant.js?v=16"></script>
-<script defer src="code/pages/more.js?v=16"></script>
-<script defer src="code/icons.js?v=16"></script>
+<script src="code/i18n.js"></script>
+<script src="data/common.js"></script>
+<script src="data/prices.js"></script>
+<script type="importmap">
+{ "imports": {
+  "react": "https://esm.sh/react@18.3.1",
+  "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+  "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
+  "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
+  "htm": "https://esm.sh/htm@3.1.1",
+  "clsx": "https://esm.sh/clsx@2.1.1",
+  "zustand": "https://esm.sh/zustand@5.0.3?external=react",
+  "framer-motion": "https://esm.sh/framer-motion@11.15.0?external=react,react-dom",
+  "sonner": "https://esm.sh/sonner@1.7.4?external=react,react-dom",
+  "vaul": "https://esm.sh/vaul@1.1.2?external=react,react-dom",
+  "cmdk": "https://esm.sh/cmdk@1.1.1?external=react,react-dom",
+  "input-otp": "https://esm.sh/input-otp@1.4.2?external=react,react-dom",
+  "@number-flow/react": "https://esm.sh/@number-flow/react@0.5.7?external=react,react-dom",
+  "recharts": "https://esm.sh/recharts@2.15.0?external=react,react-dom",
+  "@dnd-kit/utilities": "https://esm.sh/@dnd-kit/utilities@3.2.2?external=react",
+  "@dnd-kit/core": "https://esm.sh/@dnd-kit/core@6.3.1?external=react,react-dom,@dnd-kit/utilities",
+  "@dnd-kit/sortable": "https://esm.sh/@dnd-kit/sortable@10.0.0?external=react,react-dom,@dnd-kit/core,@dnd-kit/utilities",
+  "@base-ui/react/popover": "https://esm.sh/@base-ui/react@1.8.0/popover?external=react,react-dom",
+  "@base-ui/react/switch": "https://esm.sh/@base-ui/react@1.8.0/switch?external=react,react-dom",
+  "@base-ui/react/dialog": "https://esm.sh/@base-ui/react@1.8.0/dialog?external=react,react-dom"
+} }
+</script>
 </head>
 <body>
-  <header class="hdr"></header>
-  <main id="app" tabindex="-1"></main>
-  <footer class="ftr"></footer>
-  <nav class="tabbar" aria-label="Tabs"></nav>
-  <div class="tray" role="status" aria-live="polite"></div>
-  <noscript><p style="padding:24px;font:16px system-ui">This site needs JavaScript to show menus, prices and the 360° tours.</p></noscript>
+<div id="root"><div class="sk" aria-label="khabo"><div class="sk-h"><span class="sk-logo"></span><span class="sk-word"></span></div><div class="sk-hero"></div></div></div>
+<script>
+  addEventListener('error', function (e) { var b = document.querySelector('.sk'); if (b) { b.className = 'boot'; } if (b) b.textContent = 'Could not load: ' + (e.message || (e.target && (e.target.src || e.target.href)) || 'unknown') + '. Check the internet connection and refresh.'; }, true);
+</script>
+<script type="module" src="app/app.js?v=10"></script>
 </body>
 </html>

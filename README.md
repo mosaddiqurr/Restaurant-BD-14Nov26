@@ -1,6 +1,8 @@
 # khabo
 
-Restaurant discovery for Bangladesh: real menus, all-in prices, 360° looks inside.
+Restaurant discovery for Bangladesh: real menus, real prices, 360° looks inside.
+
+Free for diners (B2C). Restaurants pay a monthly plan (B2B), and they are our only paying customers. Rules for building: [CLAUDE.md](CLAUDE.md).
 
 The project has two folders:
 
@@ -16,12 +18,14 @@ python website/serve.py
 ```
 
 Then open http://localhost:8765 (phone frame: http://localhost:8765/mobile.html).
+Admin and restaurant panels: http://localhost:8765/panel/
 
 ## Folder map
 
 ```
 Restaurant/
 ├── README.md                 you are here
+├── CLAUDE.md                 rules for building: business model, prices, look
 ├── docs/                     plans and research
 │   ├── 00-document-index.md  list of every document
 │   ├── 90-decisions-needed.md
@@ -37,6 +41,7 @@ Restaurant/
     ├── code/                 how the site works
     ├── styles/               how the site looks
     ├── media/                3D dish models
+    ├── panel/                admin and restaurant panels (sign in: admin/admin, client1/client1)
     ├── design-options/       pages for choosing between design ideas
-    └── future/               prototypes not on the site yet (admin, owner dashboard)
+    └── future/               prototypes not built yet (compare, map)
 ```

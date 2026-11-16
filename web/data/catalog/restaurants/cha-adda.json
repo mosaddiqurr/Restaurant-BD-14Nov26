@@ -1,0 +1,371 @@
+{
+ "id": "cha-adda",
+ "name": {
+  "en": "Cha Adda",
+  "bn": "চা আড্ডা"
+ },
+ "mono": "CA",
+ "since": 2019,
+ "area": "dhanmondi",
+ "city": "dhaka",
+ "geo": [
+  23.7487,
+  90.3718
+ ],
+ "spot": {
+  "en": "Road 9/A, Dhanmondi",
+  "bn": "রোড ৯/এ, ধানমন্ডি"
+ },
+ "address": {
+  "en": "61 Road 9/A, Dhanmondi, Dhaka 1209",
+  "bn": "৬১ রোড ৯/এ, ধানমন্ডি, ঢাকা ১২০৯"
+ },
+ "phone": "+8801700000519",
+ "cuisines": [
+  "cafe",
+  "street"
+ ],
+ "theme": {
+  "deep": "#13281C",
+  "accent": "#E9A23B",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Slow tea, warm bakes and the best seat for an afternoon adda.",
+  "bn": "ধীরে চা, গরম বেকারি আর বিকেলের আড্ডার সেরা জায়গা।"
+ },
+ "story": {
+  "en": "Every cake on our menu is scanned in 3D, so you can turn it around, check the size and even see it on your own table.",
+  "bn": "আমাদের প্রতিটা কেক থ্রিডিতে স্ক্যান করা। ঘুরিয়ে দেখুন, মাপ বুঝুন, এমনকি নিজের টেবিলেও বসিয়ে দেখুন।"
+ },
+ "rating": 4.5,
+ "reviews": 302,
+ "verified": 188,
+ "ppl": [
+  180,
+  420
+ ],
+ "hours": [
+  "08:00",
+  "23:00"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 40,
+ "fac": [
+  "wifi",
+  "ac"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Card"
+ ],
+ "plan": "premium",
+ "checked": 1,
+ "mediaDate": {
+  "en": "Nov 2026",
+  "bn": "নভেম্বর ২০২৬"
+ },
+ "hero": [
+  "pv:comfy_cafe:a",
+  "iD",
+  "ro"
+ ],
+ "film": {
+  "src": "https://assets.mixkit.co/videos/4385/4385-720.mp4",
+  "poster": "iD",
+  "len": "0:15"
+ },
+ "gallery": {
+  "inside": [
+   "pv:comfy_cafe:a",
+   "iD",
+   "pv:comfy_cafe:b",
+   "ro"
+  ],
+  "outside": [],
+  "kitchen": [],
+  "food": [
+   "ph:strawberry_chocolate_cake",
+   "ph:carrot_cake",
+   "ph:croissant",
+   "ph:tea_set_01",
+   "sm"
+  ]
+ },
+ "tour": [
+  {
+   "id": "cafe",
+   "en": "Café floor",
+   "bn": "ক্যাফে",
+   "pano": "comfy_cafe",
+   "yaw": 40,
+   "spots": [
+    {
+     "info": {
+      "en": "Sofa corner, good for four",
+      "bn": "সোফা কর্নার, চারজনের জন্য ভালো"
+     },
+     "yaw": 275,
+     "pitch": -12
+    }
+   ]
+  }
+ ],
+ "signature": [
+  "strawberry-cake",
+  "masala-chai",
+  "croissant"
+ ],
+ "cats": [
+  {
+   "id": "bake",
+   "en": "Cakes & bakes",
+   "bn": "কেক ও বেকারি"
+  },
+  {
+   "id": "tea",
+   "en": "Tea & coffee",
+   "bn": "চা ও কফি"
+  },
+  {
+   "id": "snack",
+   "en": "Snacks",
+   "bn": "নাস্তা"
+  }
+ ],
+ "menu": [
+  {
+   "id": "strawberry-cake",
+   "type": "bakery",
+   "name": {
+    "en": "Strawberry Chocolate Cake",
+    "bn": "স্ট্রবেরি চকলেট কেক"
+   },
+   "price": 1890,
+   "p": "ph:strawberry_chocolate_cake",
+   "por": {
+    "en": "Whole cake · serves 8",
+    "bn": "পুরো কেক · ৮ জন"
+   },
+   "spice": 0,
+   "cat": "bake",
+   "best": true,
+   "d3": "strawberry_chocolate_cake",
+   "veg": true,
+   "desc": {
+    "en": "Dark chocolate sponge, ganache and fresh strawberries. Order by noon for the same evening.",
+    "bn": "ডার্ক চকলেট স্পঞ্জ, গানাশ আর তাজা স্ট্রবেরি। দুপুরের মধ্যে অর্ডার দিলে সন্ধ্যায় পাবেন।"
+   }
+  },
+  {
+   "id": "carrot-cake",
+   "type": "bakery",
+   "name": {
+    "en": "Carrot Cake",
+    "bn": "ক্যারট কেক"
+   },
+   "price": 1490,
+   "p": "ph:carrot_cake",
+   "por": {
+    "en": "Whole cake · serves 8",
+    "bn": "পুরো কেক · ৮ জন"
+   },
+   "spice": 0,
+   "cat": "bake",
+   "d3": "carrot_cake",
+   "veg": true,
+   "desc": {
+    "en": "Spiced carrot sponge with cream cheese frosting and walnuts.",
+    "bn": "মশলাদার গাজরের স্পঞ্জ, ক্রিম চিজ আর আখরোট।"
+   }
+  },
+  {
+   "id": "croissant",
+   "type": "bakery",
+   "name": {
+    "en": "Butter Croissant",
+    "bn": "বাটার ক্রোয়াসাঁ"
+   },
+   "price": 160,
+   "p": "ph:croissant",
+   "por": {
+    "en": "1 piece",
+    "bn": "১ পিস"
+   },
+   "spice": 0,
+   "cat": "bake",
+   "d3": "croissant",
+   "veg": true,
+   "desc": {
+    "en": "Laminated by hand every morning at six.",
+    "bn": "প্রতিদিন সকাল ছয়টায় হাতে বানানো।"
+   }
+  },
+  {
+   "id": "masala-chai",
+   "type": "tea",
+   "name": {
+    "en": "Masala Chai, pot for two",
+    "bn": "মসলা চা (দুজনের পট)"
+   },
+   "price": 220,
+   "p": "ph:tea_set_01",
+   "por": {
+    "en": "Pot · 2 cups",
+    "bn": "পট · ২ কাপ"
+   },
+   "spice": 0,
+   "cat": "tea",
+   "best": true,
+   "d3": "tea_set_01",
+   "veg": true,
+   "desc": {
+    "en": "Assam leaf, ginger, cardamom and clove, served in a porcelain set.",
+    "bn": "আসামের পাতা, আদা, এলাচ আর লবঙ্গ, পোর্সেলিনের সেটে।"
+   }
+  },
+  {
+   "id": "doodh-cha",
+   "type": "tea",
+   "name": {
+    "en": "Doodh Cha",
+    "bn": "দুধ চা"
+   },
+   "price": 40,
+   "p": null,
+   "por": {
+    "en": "1 cup",
+    "bn": "১ কাপ"
+   },
+   "spice": 0,
+   "cat": "tea",
+   "veg": true
+  },
+  {
+   "id": "cold-coffee",
+   "type": "tea",
+   "name": {
+    "en": "Cold Coffee",
+    "bn": "কোল্ড কফি"
+   },
+   "price": 220,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "tea",
+   "veg": true
+  },
+  {
+   "id": "shingara",
+   "type": "snack",
+   "name": {
+    "en": "Shingara",
+    "bn": "শিঙাড়া"
+   },
+   "price": 60,
+   "p": "sm",
+   "por": {
+    "en": "2 pieces",
+    "bn": "২ পিস"
+   },
+   "spice": 1,
+   "cat": "snack",
+   "veg": true
+  }
+ ],
+ "deal": {
+  "id": "tea-time",
+  "en": "Cake slice and two chai",
+  "bn": "এক টুকরো কেক আর দুই কাপ চা",
+  "desc": {
+   "en": "Any slice with two doodh cha.",
+   "bn": "যেকোনো এক টুকরো কেক, দুই কাপ দুধ চা।"
+  },
+  "when": {
+   "en": "Weekdays, 3pm to 6pm",
+   "bn": "কর্মদিবসে বিকেল ৩টা থেকে ৬টা"
+  },
+  "price": 260,
+  "was": 330,
+  "p": "ph:carrot_cake"
+ },
+ "events": [
+  {
+   "id": "poetry",
+   "en": "Poetry and cha evening",
+   "bn": "কবিতা আর চায়ের সন্ধ্যা",
+   "type": "other",
+   "start": "2026-11-22T17:00",
+   "end": "2026-11-22T19:30",
+   "p": "ph:tea_set_01"
+  }
+ ],
+ "deals": [
+  {
+   "id": "tea-time",
+   "en": "Cake slice and two chai",
+   "bn": "এক টুকরো কেক আর দুই কাপ চা",
+   "desc": {
+    "en": "Any slice with two doodh cha.",
+    "bn": "যেকোনো এক টুকরো কেক, দুই কাপ দুধ চা।"
+   },
+   "when": {
+    "en": "Weekdays, 3pm to 6pm",
+    "bn": "কর্মদিবসে বিকেল ৩টা থেকে ৬টা"
+   },
+   "price": 260,
+   "was": 330,
+   "p": "ph:carrot_cake"
+  }
+ ],
+ "reviewList": [
+  {
+   "r": "cha-adda",
+   "who": "Nabila Huq",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "3 days ago",
+    "bn": "৩ দিন আগে"
+   },
+   "t": "Saw the strawberry cake in 3D on my table at home, ordered it for my sister’s birthday. It looked exactly the same.",
+   "ord": [
+    "Strawberry Chocolate Cake"
+   ]
+  },
+  {
+   "r": "cha-adda",
+   "who": "Sabbir Rahman",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "1 week ago",
+    "bn": "১ সপ্তাহ আগে"
+   },
+   "t": "বিকেলের আড্ডার জন্য সেরা। মসলা চা এক পটে দুই কাপের বেশি হয়।",
+   "ord": [
+    "Masala Chai, pot for two",
+    "Shingara"
+   ]
+  },
+  {
+   "r": "cha-adda",
+   "who": "Ayesha Siddiqua",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "2 weeks ago",
+    "bn": "২ সপ্তাহ আগে"
+   },
+   "t": "Croissant was flaky and fresh at 9am. Wi-Fi is fast enough to work from.",
+   "ord": [
+    "Butter Croissant"
+   ]
+  }
+ ]
+}

@@ -20,6 +20,16 @@ Give every diner the truth before they leave home: **the real menu, the real pri
 Category: **Bangladesh's dine-in discovery network.**
 Others sell restaurants software. **We bring restaurants customers and trust.**
 
+## 3a. Business model: B2C and B2B
+khabo is both, and only one side pays.
+
+| Side | Who | Pays? |
+|---|---|---|
+| **B2C** | Diners: find restaurants and dishes, compare prices, see inside, read reviews, use the AI | **Never.** Free forever, no diner fees or paid plans. |
+| **B2B** | Restaurants: page, menu, content, QR, reports, deals, featured placement | **Yes.** Monthly plan (Starter, Pro, Premium). Our only revenue. |
+
+The free diner side brings the people; the people are what restaurants pay for.
+
 ---
 
 ## 4. The problem
@@ -44,8 +54,8 @@ Others sell restaurants software. **We bring restaurants customers and trust.**
 
 | Segment | Description |
 |---|---|
-| **Diners** | Families, friend groups, young people, office groups, visitors; in Dhaka and Bogura first |
-| **Restaurants** | Independent restaurants, cafés, chains, food courts |
+| **Diners (B2C, free)** | Families, friend groups, young people, office groups, visitors; in Dhaka and Bogura first |
+| **Restaurants (B2B, paying)** | Independent restaurants, cafés, chains, food courts |
 | **Later** | Other local businesses; tourists and diaspora (English mode) |
 
 ---
@@ -60,7 +70,7 @@ Others sell restaurants software. **We bring restaurants customers and trust.**
 - 20–30 second promo video for each restaurant
 - Professional kitchen photos and video, with the capture date (no hygiene badge)
 - 360° / virtual tour
-- Bill calculator with VAT and service charge
+- Clear menu prices; VAT and service charge shown on the bill calculator
 - AI assistant in Bangla, English and Banglish, including budget planning ("৳2,500, 4 people")
 - Verified reviews, plus public Facebook posts about the restaurant linked to the original
 - Deals and offers

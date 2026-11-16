@@ -1,0 +1,29 @@
+/* "Something went wrong" page and its little matching game (components/shell/error-view.tsx) */
+.errv { display: grid; justify-items: center; text-align: center; gap: 14px; padding: 64px 16px 80px; max-width: 680px; margin: 0 auto; }
+.errv-ic { width: 72px; height: 72px; border-radius: 20px; display: grid; place-items: center; background: var(--sunk); color: var(--hl); font-size: 36px; }
+.errv .sub { color: var(--ink-2); max-width: 42ch; }
+.errv-a { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 4px; }
+.errv-play { margin-top: 18px; display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border-radius: 999px; color: var(--hl); font-weight: 700; box-shadow: inset 0 0 0 1px var(--line-2); transition: background-color .15s, transform .15s var(--ease); }
+.errv-play:hover { background: var(--sunk); }
+.errv-play:active { transform: scale(.97); }
+
+.mg { width: 100%; margin-top: 18px; display: grid; gap: 14px; }
+.mg-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; text-align: left; color: var(--ink-2); font-size: 14.5px; }
+.mg-h span { flex: none; color: var(--ink-3); }
+.mg-h b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.mg-g { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.mg-c { aspect-ratio: 1; perspective: 600px; border-radius: 14px; }
+.mg-c:active .mg-in { scale: .97; }
+.mg-in { position: relative; display: block; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .3s cubic-bezier(.23, 1, .32, 1); }
+.mg-c.up .mg-in { transform: rotateY(180deg); }
+.mg-f { position: absolute; inset: 0; display: grid; place-items: center; border-radius: 14px; backface-visibility: hidden; -webkit-backface-visibility: hidden; font-size: 30px; }
+.mg-back { background: var(--brand, #1F5A3A); color: color-mix(in srgb, #fff 45%, transparent); }
+.mg-front { background: var(--surface); color: var(--hl); box-shadow: inset 0 0 0 1.5px var(--line-2); transform: rotateY(180deg); }
+.mg-c.ok .mg-front { background: color-mix(in srgb, var(--hl) 16%, var(--surface)); box-shadow: inset 0 0 0 1.5px var(--hl); }
+.mg-won { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; }
+@media (max-width: 420px) { .mg-g { gap: 8px; } .mg-f { font-size: 26px; } }
+@media (prefers-reduced-motion: reduce) { .mg-in { transition: none; } }
+/* the no-signal page stands on its own (no top bar), so it brings its own logo and page colour */
+.off-v { min-height: 100dvh; align-content: start; padding-top: 28px; }
+.off-logo { margin-bottom: 18px; }
+.gm-blk { max-width: 100%; }

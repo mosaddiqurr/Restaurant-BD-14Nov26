@@ -1,0 +1,279 @@
+{
+ "id": "garden-rooftop",
+ "name": {
+  "en": "Garden Rooftop",
+  "bn": "গার্ডেন রুফটপ"
+ },
+ "mono": "GR",
+ "since": 2020,
+ "area": "uttara",
+ "city": "dhaka",
+ "geo": [
+  23.8715,
+  90.3965
+ ],
+ "spot": {
+  "en": "Sector 7, Uttara",
+  "bn": "সেক্টর ৭, উত্তরা"
+ },
+ "address": {
+  "en": "Roof, 12 Sonargaon Janapath, Sector 7, Uttara, Dhaka 1230",
+  "bn": "ছাদ, ১২ সোনারগাঁও জনপথ, সেক্টর ৭, উত্তরা, ঢাকা ১২৩০"
+ },
+ "phone": "+8801700000802",
+ "cuisines": [
+  "asian",
+  "grill"
+ ],
+ "theme": {
+  "deep": "#0F2619",
+  "accent": "#A5DB7E",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Thai and Chinese on a garden terrace, ten minutes from the airport.",
+  "bn": "বাগান-টেরেসে থাই আর চাইনিজ, এয়ারপোর্ট থেকে দশ মিনিট।"
+ },
+ "story": {
+  "en": "A lawn on the roof, a play corner for kids and a kitchen that does a proper green curry.",
+  "bn": "ছাদে সবুজ ঘাস, বাচ্চাদের খেলার জায়গা আর ঠিকঠাক গ্রিন কারি।"
+ },
+ "rating": 4.3,
+ "reviews": 128,
+ "verified": 66,
+ "ppl": [
+  550,
+  950
+ ],
+ "hours": [
+  "12:00",
+  "23:30"
+ ],
+ "vat": 10,
+ "service": 5,
+ "seats": 100,
+ "fac": [
+  "rooftop",
+  "parking",
+  "ac",
+  "kids"
+ ],
+ "pay": [
+  "Cash",
+  "Card"
+ ],
+ "plan": "pro",
+ "checked": 2,
+ "mediaDate": {
+  "en": "Oct 2026",
+  "bn": "অক্টোবর ২০২৬"
+ },
+ "hero": [
+  "pv:lythwood_terrace:a",
+  "pv:lythwood_terrace:b",
+  "in"
+ ],
+ "gallery": {
+  "inside": [
+   "in"
+  ],
+  "outside": [
+   "pv:lythwood_terrace:a",
+   "pv:lythwood_terrace:b"
+  ],
+  "kitchen": [],
+  "food": []
+ },
+ "tour": [
+  {
+   "id": "lawn",
+   "en": "Garden terrace",
+   "bn": "বাগান টেরেস",
+   "pano": "lythwood_terrace",
+   "yaw": 40,
+   "spots": [
+    {
+     "info": {
+      "en": "Kids play corner on the lawn",
+      "bn": "ঘাসের ওপর বাচ্চাদের খেলার জায়গা"
+     },
+     "yaw": 80,
+     "pitch": -12
+    }
+   ]
+  }
+ ],
+ "signature": [
+  "gr-greencurry",
+  "gr-platter",
+  "gr-tomyum"
+ ],
+ "cats": [
+  {
+   "id": "thai",
+   "en": "Thai",
+   "bn": "থাই"
+  },
+  {
+   "id": "chinese",
+   "en": "Chinese",
+   "bn": "চাইনিজ"
+  },
+  {
+   "id": "drink",
+   "en": "Drinks",
+   "bn": "পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "gr-greencurry",
+   "type": "thai",
+   "name": {
+    "en": "Thai Green Curry",
+    "bn": "থাই গ্রিন কারি"
+   },
+   "price": 520,
+   "p": null,
+   "por": {
+    "en": "Serves 2 · with rice",
+    "bn": "২ জন · ভাতসহ"
+   },
+   "spice": 2,
+   "cat": "thai",
+   "best": true
+  },
+  {
+   "id": "gr-tomyum",
+   "type": "thai",
+   "name": {
+    "en": "Tom Yum Kung",
+    "bn": "টম ইয়াম কুং"
+   },
+   "price": 380,
+   "p": null,
+   "por": {
+    "en": "Serves 2",
+    "bn": "২ জন"
+   },
+   "spice": 3,
+   "cat": "thai"
+  },
+  {
+   "id": "gr-platter",
+   "type": "platter",
+   "name": {
+    "en": "Thai Platter for 3",
+    "bn": "থাই প্ল্যাটার (৩ জন)"
+   },
+   "price": 1390,
+   "p": null,
+   "por": {
+    "en": "Serves 3",
+    "bn": "৩ জন"
+   },
+   "spice": 2,
+   "cat": "thai",
+   "share": 3
+  },
+  {
+   "id": "gr-friedrice",
+   "type": "chinese",
+   "name": {
+    "en": "Chicken Fried Rice",
+    "bn": "চিকেন ফ্রাইড রাইস"
+   },
+   "price": 340,
+   "p": null,
+   "por": {
+    "en": "Serves 1 to 2",
+    "bn": "১-২ জন"
+   },
+   "spice": 0,
+   "cat": "chinese"
+  },
+  {
+   "id": "gr-chili",
+   "type": "chinese",
+   "name": {
+    "en": "Chili Chicken",
+    "bn": "চিলি চিকেন"
+   },
+   "price": 420,
+   "p": null,
+   "por": {
+    "en": "Serves 2",
+    "bn": "২ জন"
+   },
+   "spice": 2,
+   "cat": "chinese"
+  },
+  {
+   "id": "gr-mocktail",
+   "type": "drink",
+   "name": {
+    "en": "Green Apple Mojito",
+    "bn": "গ্রিন অ্যাপল মোহিতো"
+   },
+   "price": 220,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "drink",
+   "veg": true
+  }
+ ],
+ "deal": {
+  "id": "thai-lunch",
+  "en": "Weekday Thai lunch, 15% off",
+  "bn": "কর্মদিবসে থাই লাঞ্চে ১৫% ছাড়",
+  "desc": {
+   "en": "Thai Platter for 3 at lunch.",
+   "bn": "দুপুরে ৩ জনের থাই প্ল্যাটার।"
+  },
+  "when": {
+   "en": "Sunday to Thursday, 12pm to 4pm",
+   "bn": "রবি থেকে বৃহস্পতি, দুপুর ১২টা থেকে ৪টা"
+  },
+  "price": 1180,
+  "was": 1390,
+  "p": "pv:lythwood_terrace:a"
+ },
+ "deals": [
+  {
+   "id": "thai-lunch",
+   "en": "Weekday Thai lunch, 15% off",
+   "bn": "কর্মদিবসে থাই লাঞ্চে ১৫% ছাড়",
+   "desc": {
+    "en": "Thai Platter for 3 at lunch.",
+    "bn": "দুপুরে ৩ জনের থাই প্ল্যাটার।"
+   },
+   "when": {
+    "en": "Sunday to Thursday, 12pm to 4pm",
+    "bn": "রবি থেকে বৃহস্পতি, দুপুর ১২টা থেকে ৪টা"
+   },
+   "price": 1180,
+   "was": 1390,
+   "p": "pv:lythwood_terrace:a"
+  }
+ ],
+ "reviewList": [
+  {
+   "r": "garden-rooftop",
+   "who": "Mitu Das",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "1 week ago",
+    "bn": "১ সপ্তাহ আগে"
+   },
+   "t": "Green curry was the real thing. Kids loved the lawn.",
+   "ord": [
+    "Thai Green Curry"
+   ]
+  }
+ ]
+}

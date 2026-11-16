@@ -1,0 +1,202 @@
+{
+ "id": "shamiana",
+ "name": {
+  "en": "Shamiana",
+  "bn": "শামিয়ানা"
+ },
+ "mono": "SM",
+ "since": 2016,
+ "area": "banani",
+ "city": "dhaka",
+ "geo": [
+  23.7907,
+  90.4058
+ ],
+ "spot": {
+  "en": "Road 17, Banani",
+  "bn": "রোড ১৭, বনানী"
+ },
+ "address": {
+  "en": "House 5, Road 17, Banani, Dhaka 1213",
+  "bn": "বাড়ি ৫, রোড ১৭, বনানী, ঢাকা ১২১৩"
+ },
+ "phone": "+8801700001020",
+ "cuisines": [
+  "bangladeshi"
+ ],
+ "theme": {
+  "deep": "#2A1636",
+  "accent": "#F2A93B",
+  "font": "serif"
+ },
+ "tagline": {
+  "en": "A seven-bowl Bengali thali, served on brass.",
+  "bn": "পিতলের থালায় সাত বাটির বাঙালি থালি।"
+ },
+ "story": {
+  "en": "Lunch thalis change daily. Ask for the khichuri on rainy days.",
+  "bn": "দুপুরের থালি প্রতিদিন বদলায়। বৃষ্টির দিনে খিচুড়ি চেয়ে নিন।"
+ },
+ "rating": 4.4,
+ "reviews": 211,
+ "verified": 120,
+ "ppl": [
+  350,
+  700
+ ],
+ "hours": [
+  "12:00",
+  "22:30"
+ ],
+ "vat": 5,
+ "service": 5,
+ "seats": 60,
+ "fac": [
+  "ac",
+  "cabin"
+ ],
+ "pay": [
+  "Cash",
+  "Card"
+ ],
+ "plan": "starter",
+ "checked": 4,
+ "hero": [
+  "di",
+  "th"
+ ],
+ "gallery": {
+  "inside": [
+   "di"
+  ],
+  "outside": [],
+  "kitchen": [],
+  "food": [
+   "th"
+  ]
+ },
+ "signature": [
+  "veg-thali",
+  "fish-thali",
+  "khichuri"
+ ],
+ "cats": [
+  {
+   "id": "thali",
+   "en": "Thali",
+   "bn": "থালি"
+  },
+  {
+   "id": "sweet",
+   "en": "Sweet & drinks",
+   "bn": "মিষ্টি ও পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "veg-thali",
+   "type": "thali",
+   "name": {
+    "en": "Seven-bowl Veg Thali",
+    "bn": "সাত বাটির নিরামিষ থালি"
+   },
+   "price": 320,
+   "p": "th",
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 1,
+   "cat": "thali",
+   "best": true,
+   "veg": true,
+   "desc": {
+    "en": "Rice, dal, three seasonal vegetables, bhaji and chutney.",
+    "bn": "ভাত, ডাল, তিনটি মৌসুমি সবজি, ভাজি আর চাটনি।"
+   }
+  },
+  {
+   "id": "fish-thali",
+   "type": "thali",
+   "name": {
+    "en": "Fish Thali",
+    "bn": "মাছের থালি"
+   },
+   "price": 420,
+   "p": null,
+   "por": {
+    "en": "Serves 1 · rui or pabda",
+    "bn": "১ জন · রুই বা পাবদা"
+   },
+   "spice": 1,
+   "cat": "thali"
+  },
+  {
+   "id": "khichuri",
+   "type": "thali",
+   "name": {
+    "en": "Bhuna Khichuri with Beef",
+    "bn": "গরুর মাংসসহ ভুনা খিচুড়ি"
+   },
+   "price": 340,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 2,
+   "cat": "thali"
+  },
+  {
+   "id": "payesh",
+   "type": "dessert",
+   "name": {
+    "en": "Payesh",
+    "bn": "পায়েস"
+   },
+   "price": 90,
+   "p": null,
+   "por": {
+    "en": "1 bowl",
+    "bn": "১ বাটি"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  },
+  {
+   "id": "aam-pora",
+   "type": "drink",
+   "name": {
+    "en": "Aam Pora Shorbot",
+    "bn": "আম পোড়া শরবত"
+   },
+   "price": 110,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "shamiana",
+   "who": "Anika Tabassum",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "1 week ago",
+    "bn": "১ সপ্তাহ আগে"
+   },
+   "t": "The brass thali feels special. Veg thali is filling and good value at lunch.",
+   "ord": [
+    "Seven-bowl Veg Thali"
+   ]
+  }
+ ]
+}

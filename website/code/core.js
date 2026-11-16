@@ -28,6 +28,8 @@
   K.L = o => o == null ? '' : (typeof o === 'string' ? o : (o[K.S.lang] != null ? o[K.S.lang] : o.en));
   K.n = v => nf[K.S.lang === 'bn' ? 'bn' : 'en'].format(v);
   K.tk = v => '৳' + K.n(Math.round(v));
+  /* the same price as HTML: a smaller, lighter taka sign so the number reads first */
+  K.tkH = v => `<span class="tkh"><span class="cur">৳</span>${K.n(Math.round(v))}</span>`;
   const BD = '০১২৩৪৫৬৭৮৯';
   K.dg = s => K.S.lang === 'bn' ? String(s).replace(/[0-9]/g, d => BD[d]) : String(s);
   K.esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -47,6 +49,8 @@
   const byId = {};
   D.restaurants.forEach(r => {
     byId[r.id] = r;
+    /* the web address (khabo.com/<slug>) and any old addresses all open the same page, so printed QR codes keep working */
+    [r.slug, ...(r.oldSlugs || [])].forEach(s => { if (s && !byId[s]) byId[s] = r; });
     r.menu.forEach(d => { d.r = r.id; if (!d.cat) d.cat = r.cats[0].id; });
     r.hasTour = !!(r.tour && r.tour.length);
     r.hasFilm = !!r.film;
@@ -59,7 +63,7 @@
   K.allDishes = D.restaurants.flatMap(r => r.menu);
   K.typeOf = d => D.types[d.type] || {};
   K.cuOf = d => (D.types[d.type] || {}).cu;
-  K.revOf = rid => D.reviews.filter(x => x.r === rid);
+  K.revOf = rid => D.reviews.filter(x => x.r === rid && !x.hidden);
   K.where = r => `${L(K.areaOf(r.area))}, ${L(D.cities[r.city])}`;
   K.ppRange = r => `${K.tk(r.ppl[0])}-${K.n(r.ppl[1])}`;
   K.allIn = (r, sub) => sub * (1 + (r.vat + r.service) / 100);
@@ -84,6 +88,7 @@
   /* ---------- images ---------- */
   K.src = (id, w = 800, h) => {
     if (!id) return '';
+    if (/^(data:|https?:|blob:)/.test(id)) return id; /* photos uploaded in the panels */
     if (id.startsWith('ph:')) return `https://cdn.polyhaven.com/asset_img/primary/${id.slice(3)}.png?height=${Math.min(1200, Math.max(256, Math.round(w)))}`;
     if (id.startsWith('pv:')) { const [, p, v] = id.split(':'); return `${K.panoDir(p)}${p}-${v}.jpg`; }
     const p = D.P[id]; if (!p) return '';
@@ -93,7 +98,7 @@
     const w = o.w || 640, alt = K.esc(o.alt || '');
     if (!id) return '';
     let set = '';
-    if (!id.startsWith('pv:')) set = `srcset="${K.src(id, w, o.h)} 1x, ${K.src(id, w * 2, o.h ? o.h * 2 : 0)} 2x"`;
+    if (!/^(pv:|data:|https?:|blob:)/.test(id)) set = `srcset="${K.src(id, w, o.h)} 1x, ${K.src(id, w * 2, o.h ? o.h * 2 : 0)} 2x"`;
     return `<img src="${K.src(id, w, o.h)}" ${set} alt="${alt}" ${o.eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async" ${o.style ? `style="${o.style}"` : ''} onload="this.classList.add('ld')" onerror="this.classList.add('ld')">`;
   };
   /* photo block: studio backdrop for 3D scans, a calm type tile when a dish has no photo yet */
@@ -264,13 +269,14 @@
       <button class="lang-btn" data-act="lang" aria-label="${t('switch_lang')}">${K.S.lang === 'bn' ? 'EN' : '<span>বাং</span>'}</button>
       <button class="ibtn" data-act="theme" aria-label="${t('switch_theme')}">${ico(document.documentElement.dataset.theme === 'dark' ? 'sun' : 'moon')}</button>
       <span class="d-only">${acct()}</span>
+      <button class="ibtn m-only" data-act="me" aria-label="${t('your_account')}">${K.user() ? `<span class="tab-av">${K.esc(initials(K.user().name))}</span>` : ico('user-circle')}</button>
     </div>`;
     $('.tabbar').innerHTML = `
       <a href="#/" data-tab="home">${ico('house')}<span>${t('tab_home')}</span></a>
-      <a href="#/restaurants" data-tab="restaurants">${ico('storefront')}<span>${t('tab_places')}</span></a>
+      <a href="#/restaurants" data-tab="restaurants">${ico('storefront')}<span>${t('nav_restaurants')}</span></a>
       <a href="#/ask" class="ask" data-tab="ask" data-act="ask"><span class="orb">${ico('sparkle-fill')}</span><span>${t('tab_ask')}</span></a>
       <a href="#/dishes" data-tab="dishes">${ico('bowl-food')}<span>${t('tab_dishes')}</span></a>
-      <a href="#me" data-tab="me" data-act="me">${K.user() ? `<span class="tab-av">${K.esc(initials(K.user().name))}</span>` : ico('user-circle')}<span>${t('tab_me')}</span></a>`;
+      <a href="#/deals" data-tab="deals">${ico('tag')}<span>${t('nav_deals')}</span></a>`;
     $('.ftr').innerHTML = footer();
     $$('.tabbar a').forEach(a => a.classList.toggle('on', a.dataset.tab === curView));
     $$('.nav a[data-tab]').forEach(a => a.classList.toggle('on', a.dataset.tab === curView));
@@ -286,7 +292,7 @@
       ${col(L(D.cities.dhaka), area('dhaka'))}
       ${col(L(D.cities.bogura), area('bogura').concat([['#/dishes', t('nav_dishes')], ['#/deals', t('nav_deals')]]))}
       ${col(K.BRAND, [['#/restaurants', t('nav_restaurants')], ['#/ask', t('ask_ai')], ['act:me', t('your_account')], ['#/business', t('help')]])}
-      ${col(t('nav_business'), [['#/business', t('get_listed')], ['#/business', t('plans')], ['#/t/shahi-handi', t('qr_menu')], ['#/r/shahi-handi/print', t('print_menu')]])}
+      ${col(t('nav_business'), [['#/business', t('get_listed')], ['#/business', t('plans')], ['#/t/shahi-handi', t('qr_menu')], ['panel/index.html', t('partner_sign_in')]])}
     </div>
     <div class="wrap ftr-word" aria-hidden="true">${K.BRAND}</div>
     <div class="wrap ftr-base"><span>© 2026 ${K.BRAND}</span><span class="ftr-legal"><a href="#/business">${t('terms')}</a><a href="#/business">${t('privacy')}</a></span></div>`;
@@ -403,13 +409,13 @@
         const x = this.totals(cur), r = x.r;
         tray.style.cssText = `--r-accent:${r.theme.accent};--r-on:${r.theme.deep}`;
         const thumbs = x.lines.slice(-3).reverse().map(l => `<span class="tt">${l.d.p ? `<img src="${K.src(l.d.p, 96)}" alt="">` : `<i>${K.esc(L(l.d.name).charAt(0))}</i>`}</span>`).join('');
-        tray.innerHTML = `<button class="tray-open" data-act="bill" aria-label="${t('view_bill')}"><span class="tray-thumbs">${thumbs}</span><span class="tray-n num">${K.n(x.count)}</span></button>
+        tray.innerHTML = `<button class="tray-open" data-act="bill" aria-label="${t('view_bill')}"><span class="tray-thumbs" data-lift>${thumbs}</span><span class="tray-n num">${K.n(x.count)}</span></button>
           <div class="tx"><b class="num" data-tray-total>${K.tk(x.total)}<small>${t('all_in')}</small></b><span>${t('n_items', { n: K.n(x.count) })} · ${t('each_for', { v: K.tk(x.pp), n: K.n(x.people) })}</span></div>
           <button class="btn tray-go" data-act="bill">${t('view_bill')}${ico('arrow-right', 'sm')}</button>
           <button class="ibtn tray-x" data-act="tray-min" aria-label="${t('hide_bill')}">${ico('x', 'sm')}</button>`;
         tray.classList.toggle('min', !!K.S.trayMin);
         if (!billOpen) tray.classList.add('show');
-        if (bump) { tray.classList.remove('bump'); void tray.offsetWidth; tray.classList.add('bump'); }
+        if (bump) { tray.classList.remove('bump'); void tray.offsetWidth; tray.classList.add('bump'); if (window.KF) setTimeout(() => KF.pop($('.tray-thumbs', tray)), 120); }
       }
       const open = $('.sheet [data-billbody]'); if (open) renderBillBody(open, open.dataset.billbody);
     },
@@ -452,12 +458,87 @@
   }
   K.addBtn = (rid, did, lg, pop) => {
     const q = K.bill.qty(rid, did), d = K.dish(rid, did);
+    if (d && d.out) return `<span class="add out ${lg ? 'lg' : ''}" data-add="${rid}|${did}">${t('sold_out')}</span>`; /* set in the restaurant panel */
     const nm = d ? K.esc(L(d.name)) : '';
     if (!q) return `<span class="add plus ${lg ? 'lg' : ''} ${pop ? 'pop' : ''}" data-add="${rid}|${did}" role="button" tabindex="0" data-inc aria-label="${t('add_to_bill')}: ${nm}">${ico('plus')}</span>`;
     return `<span class="add has ${lg ? 'lg' : ''} ${pop ? 'pop' : ''}" data-add="${rid}|${did}"><button data-dec aria-label="${t('remove_one')}: ${nm}">${ico(q === 1 ? 'x' : 'minus', 'sm')}</button><span class="v num">${K.n(q)}</span><button data-inc aria-label="${t('add_one')}: ${nm}">${ico('plus', 'sm')}</button></span>`;
   };
 
   /* ---------- rails: arrows on desktop ---------- */
+  /* slides: several cards in one place. It moves on by itself, slowly; swipe, the arrows or the dots move it by hand.
+     It waits while you hover, touch or tab into it, and while it is off screen. One slide is shown as is. */
+  K.slides = (slides, o = {}) => slides.length < 2 ? slides.join('') : `<div class="sld" role="region" aria-roledescription="carousel" ${o.label ? `aria-label="${K.esc(o.label)}"` : ''} style="--sld-t:${o.every || 6000}ms">
+    <div class="sld-track">${slides.map((s, i) => `<div class="sld-s" role="group" aria-roledescription="slide" aria-label="${i + 1} / ${slides.length}">${s}</div>`).join('')}</div>
+    <div class="sld-ctl"><button class="sld-b" data-step="-1" aria-label="${t('prev')}">${ico('caret-left', 'sm')}</button><span class="sld-dots">${slides.map((_, i) => `<button class="sld-d ${i ? '' : 'on'}" data-to="${i}" aria-label="${i + 1} / ${slides.length}"></button>`).join('')}</span><button class="sld-b" data-step="1" aria-label="${t('next')}">${ico('caret-right', 'sm')}</button></div></div>`;
+  K.slider = (root, every = 6000) => {
+    if (!root || !root.classList.contains('sld')) return () => { };
+    const track = $('.sld-track', root), n = track.children.length, dots = $$('.sld-d', root);
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let at = 0, timer = 0, held = false, seen = false, sraf = 0, touchT = 0;
+    const paint = () => { dots.forEach((d, i) => { d.classList.toggle('on', i === at); d.setAttribute('aria-current', i === at ? 'true' : 'false'); }); };
+    const go = i => { at = (i + n) % n; track.scrollTo({ left: track.children[at].offsetLeft, behavior: still ? 'auto' : 'smooth' }); paint(); };
+    const stop = () => { clearInterval(timer); timer = 0; root.classList.remove('run'); };
+    const start = () => { stop(); if (still || held || !seen || document.hidden) return; void root.offsetWidth; root.classList.add('run'); timer = setInterval(() => { go(at + 1); restartFill(); }, every); };
+    const restartFill = () => { root.classList.remove('run'); void root.offsetWidth; root.classList.add('run'); };
+    const onScroll = () => { if (sraf) return; sraf = requestAnimationFrame(() => { sraf = 0; const i = Math.round(track.scrollLeft / Math.max(1, track.clientWidth)); if (i !== at) { at = i; paint(); } }); };
+    const hold = v => { held = v; v ? stop() : start(); };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    root.addEventListener('click', e => { const b = e.target.closest('[data-step],[data-to]'); if (!b) return; e.preventDefault(); go(b.dataset.to != null ? Number(b.dataset.to) : at + Number(b.dataset.step)); start(); });
+    root.addEventListener('mouseenter', () => hold(true)); root.addEventListener('mouseleave', () => hold(false));
+    root.addEventListener('focusin', () => hold(true)); root.addEventListener('focusout', () => hold(false));
+    root.addEventListener('touchstart', () => { clearTimeout(touchT); hold(true); }, { passive: true });
+    root.addEventListener('touchend', () => { touchT = setTimeout(() => hold(false), 4000); }, { passive: true });
+    const io = new IntersectionObserver(([en]) => { seen = en.isIntersecting; start(); }, { threshold: .4 });
+    io.observe(root);
+    const vis = () => start(); document.addEventListener('visibilitychange', vis);
+    return () => { stop(); clearTimeout(touchT); io.disconnect(); document.removeEventListener('visibilitychange', vis); };
+  };
+  /* ---------- deal ticket: one look for every deal on the site ----------
+     A ticket with a tear line: the offer on one side, the price stub on the other (below it on phones and in grids).
+     The deal of the week also gets khabo's gold seal and this week's dates, so it reads as special at a glance. */
+  K.dealPct = d => d.was > d.price ? Math.round((d.was - d.price) / d.was * 100) : 0;
+  const mon = x => x.toLocaleDateString(K.S.lang === 'bn' ? 'bn-BD' : 'en-GB', { month: K.S.lang === 'bn' ? 'long' : 'short' });
+  const dm = x => `${K.n(x.getDate())} ${mon(x)}`, day = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+  const range = (s, e) => t('week_dates', { a: s.getMonth() === e.getMonth() ? K.n(s.getDate()) : dm(s), b: dm(e) });
+  K.dealWeek = () => { /* khabo's week runs Saturday to Friday, like the week in Bangladesh */
+    const now = new Date(), s = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (now.getDay() + 1) % 7);
+    return range(s, new Date(s.getFullYear(), s.getMonth(), s.getDate() + 6));
+  };
+  /* the owner's own dates: "1 to 30 Nov", "Until 30 Nov", "From 1 Dec" */
+  K.dealDates = d => d.from && d.to ? range(day(d.from), day(d.to)) : d.to ? t('until_x', { v: dm(day(d.to)) }) : d.from ? t('from_x', { v: dm(day(d.from)) }) : '';
+  K.dealTag = d => d.week ? { en: t('deal_week'), ring: 'DEAL OF THE WEEK' } : Object.assign({}, K.DEAL_TAGS[d.tag] || K.DEAL_TAGS.offer, { en: L(K.DEAL_TAGS[d.tag] || K.DEAL_TAGS.offer) });
+  let sealN = 0;
+  K.dealSeal = d => {
+    const p = K.dealPct(d), g = `dsg${++sealN}`, rt = K.dealTag(d).ring, ring = Array(Math.max(2, Math.floor(36 / (rt.length + 3)))).fill(rt + ' \u2726 ').join('');
+    return `<span class="dseal" aria-hidden="true"><svg viewBox="0 0 120 120"><defs>
+      <linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#8f6420"/><stop offset=".26" stop-color="#f8e09a"/><stop offset=".5" stop-color="#c3922f"/><stop offset=".72" stop-color="#fcebb4"/><stop offset="1" stop-color="#94681f"/></linearGradient>
+      <path id="${g}p" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0"/></defs>
+      <circle cx="60" cy="60" r="59" fill="url(#${g})"/><circle cx="60" cy="60" r="56.5" fill="none" stroke="#3a2708" stroke-opacity=".35" stroke-width=".7"/>
+      <g class="dseal-ring"><text font-size="9.4" font-weight="800" letter-spacing="1.6" fill="#2e1f05"><textPath href="#${g}p" textLength="272" lengthAdjust="spacing">${ring}</textPath></text></g>
+      <circle cx="60" cy="60" r="38" fill="#17100a"/><circle cx="60" cy="60" r="34.5" fill="none" stroke="url(#${g})" stroke-width=".9"/>
+      ${p ? `<text x="60" y="64" text-anchor="middle" class="dseal-n" fill="url(#${g})">${K.n(p)}%</text><text x="60" y="80" text-anchor="middle" class="dseal-o" fill="url(#${g})">${t('off')}</text>`
+          : `<text x="60" y="62" text-anchor="middle" class="dseal-n" fill="url(#${g})">\u2726</text><text x="60" y="80" text-anchor="middle" class="dseal-o" fill="url(#${g})">${t('this_week')}</text>`}
+    </svg></span>`;
+  };
+  /* o: href (whole ticket is a link), cta (button text in the stub), place (show the restaurant), note (after the dates),
+        sm (small, stacked: for grids), tCls (title class, e.g. the restaurant's display font), w / eager (photo) */
+  K.dealTicket = (r, d, o = {}) => {
+    const wk = !!d.week, tag = o.href ? 'a' : 'div', h = o.h || 'h3', dates = wk ? K.dealWeek() : K.dealDates(d);
+    const save = d.was > d.price ? `<span class="tk-was">${t('usual')} <s class="num">${K.tk(d.was)}</s></span><span class="tk-save">${t('you_save', { v: K.tk(d.was - d.price) })}</span>` : '';
+    return `<${tag} class="tk ${wk ? 'tk-wk' : ''} ${o.sm ? 'tk-sm' : ''}" ${o.href ? `href="${o.href}"` : ''} style="--r-accent:${r.theme.accent};--r-deep:${r.theme.deep}${o.d != null ? `;--d:${o.d}` : ''}" ${o.rv === false ? '' : 'data-rv'}>
+      <div class="tk-main">${K.ph(d.p, { w: o.w || 1100, eager: o.eager, tone: r.theme, icon: 'tag' })}
+        <div class="tk-body">
+          <${h} class="tk-t ${o.tCls || ''}">${K.esc(L(d))}</${h}>
+          ${d.desc && L(d.desc) ? `<p class="tk-d">${K.esc(L(d.desc))}</p>` : ''}
+          ${d.when && L(d.when) ? `<p class="tk-w">${ico('clock', 'sm')}<span>${K.esc(L(d.when))}</span></p>` : ''}
+          ${o.place ? `<span class="tk-r">${K.mono(r)}<span>${K.esc(L(r.name))}, ${L(K.areaOf(r.area))}</span></span>` : ''}
+        </div></div>
+      <div class="tk-stub">
+        <div class="tk-wkh">${K.dealSeal(d)}<span><b>${K.esc(K.dealTag(d).en)}</b>${dates || o.note ? `<span>${[dates, o.note].filter(Boolean).join(' · ')}</span>` : ''}</span></div>
+        <div class="tk-pr"><b class="tk-p num">${K.tk(d.price)}</b>${save}</div>
+        ${o.cta ? `<span class="tk-cta">${o.cta}${ico('arrow-right', 'sm')}</span>` : ''}
+      </div></${tag}>`;
+  };
   K.rail = (id, items, o = {}) => `<div class="rail" id="${id}">${o.head ? `<div class="sec-head">${o.head}<div class="rail-nav"><button class="ibtn" data-rail="-1" aria-label="${t('prev')}">${ico('caret-left')}</button><button class="ibtn" data-rail="1" aria-label="${t('next')}">${ico('caret-right')}</button></div></div>` : ''}<div class="rail-track" ${o.style ? `style="${o.style}"` : ''}>${items}</div></div>`;
 
   /* ---------- global clicks ---------- */
@@ -710,6 +791,8 @@
     K.applyTheme();
     document.documentElement.lang = K.S.lang;
     if (K.embed) document.documentElement.classList.add('embed');
+    /* shown inside a frame (phone preview, panel preview): no scrollbar, the page fills the screen like an app */
+    try { if (window.self !== window.top) document.documentElement.classList.add('framed'); } catch (e) { document.documentElement.classList.add('framed'); }
     renderChrome();
     K.route(true);
   };

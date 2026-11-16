@@ -35,9 +35,13 @@ Master list of every document the company needs, with status.
 | B4 | Sitemap / Information Architecture | Every page and how they connect | ✅ | [12-sitemap.md](2-product/12-sitemap.md) |
 | B5 | Business & Billing Logic Spec | Plans, trials, payments, grace periods | ✅ (open questions inside) | [13-business-billing-logic.md](2-product/13-business-billing-logic.md) |
 | B6 | ERD (conceptual data model) | What data we store and how it connects | ✅ (physical schema after tech stack) | [15-erd.md](2-product/15-erd.md) |
+| B6a | Build Plan | How we go from prototype to live product, step by step; prototype test accounts | ✅ | [26-build-plan.md](2-product/26-build-plan.md) |
+| B6b | New Features Brief | How to build the features added 16 Nov 2026: price tracker, buffets, trending, events, menu from a photo, lists, stamp cards, voice reviews, Google/Facebook sync, own web address, how busy, scan a menu, pay through khabo, job board | ✅ (open questions inside) | [27-new-features-brief.md](2-product/27-new-features-brief.md) |
 | B7 | Tech Stack (decision record) | Technologies, hosting, costs, AI model process | ✅ Decided | [17-tech-stack.md](4-tech/17-tech-stack.md) |
+| B7a | Security and Access | Who can change what: owners, 5 khabo team levels, sign-in safety, test accounts | ✅ Decided | [18-security-and-access.md](4-tech/18-security-and-access.md) |
+| B7b | Front end build prompt | The prompt to paste into Claude Code to build the whole front end in Next.js (backend later) | ✅ Ready | [19-frontend-build-prompt.md](4-tech/19-frontend-build-prompt.md) |
 | B7a | System Architecture | Detailed technical design | 🟡 After design direction | |
-| B8 | Brand Guide & Design System | Colours ✅ Indigo + Marigold, fonts ✅ Figtree + Noto Sans Bengali, components in `website/styles/base.css` (name + logo later) | 🟡 Name and logo open | [90-decisions-needed.md](90-decisions-needed.md) |
+| B8 | Brand Guide & Design System | Colours ✅ Green + Marigold (16 Nov 2026, replaces Indigo), fonts ✅ Figtree + Noto Sans Bengali, components in `website/styles/base.css` (name + logo later) | 🟡 Name and logo open | [90-decisions-needed.md](90-decisions-needed.md) |
 | B8a | Design Exploration Prompts (v2) | Context pack + prompts to explore, demo, rank and hand off the design | ✅ | [16-design-exploration-prompts.md](3-design/16-design-exploration-prompts.md) |
 | B8b | Design Directions (how it looks) | 11 visual directions shown live on real screens, palettes, Bangla/English fonts, scenes, scores | 🟡 Founder decision | [18-design-directions.html](3-design/18-design-directions.html) |
 | B8c | Experience Concepts (how it works) | 10 ways the product could work (home layout, navigation, flows) + recommended blueprint and test plan | 🟡 Founder decision | [19-experience-concepts.html](3-design/19-experience-concepts.html) |
@@ -47,8 +51,9 @@ Master list of every document the company needs, with status.
 | B8g | Indigo Identity (refined) | Indigo + Marigold home page, light and dark, mobile and laptop | 🟡 Founder decision | [23-indigo-identity.html](3-design/23-indigo-identity.html) |
 | B8h | **Website v2** | Diner site + For Restaurants page. Home (city-wide hero with area + search + AI, partner strip, all categories, near you, browse every way, AI with options to compare, see-before-you-go, deal, price check), Restaurants page with side filters, Dishes page by category/cuisine, restaurant pages in each restaurant's own colours (Google map, write a review), sign-in by phone (demo), QR table menu (`#/t/<id>`) and printable QR table cards, dish sheet with photo/video/3D, 360° tour, bill calculator. Light/dark, English/Bangla. v1 is in `_archive/24-final-site-v1` | 🔨 v3 layout pass, founder to pick hero + headline | [website/preview.html](../website/design-options/preview.html), [options](../website/design-options/options.html) |
 | B8i | **Future prototypes** | Clickable prototypes kept apart from the live site: admin panel (AD-1 to AD-12), restaurant dashboard (RD-1 to RD-4), compare (D-6), map view (D-7) | 🧪 Prototype, not linked from the site | [website/future/](../website/future/index.html) |
+| B8j | Design Rules | How prices are shown, card and grid rules, general look | ✅ | [25-design-rules.md](3-design/25-design-rules.md) |
 | B9 | Wireframes & UI/UX Design | Screen layouts (now covered by B8h; dashboard/admin prototypes in B8i) | 🟡 After B8h review | |
-| B10 | CLAUDE.md | Instructions for Claude Code in the codebase | 🟡 After B7 | |
+| B10 | CLAUDE.md | Instructions for Claude Code: B2C free / B2B paid, price rules, look | ✅ | [CLAUDE.md](../CLAUDE.md) |
 | B11 | API Specification | How frontend and backend talk | ⏳ After B7 | |
 | B12 | Security & Data Privacy Plan | Access control, backups, data handling | ⏳ | |
 | B13 | Test Plan / QA Checklist | What to test before launch | ⏳ | |

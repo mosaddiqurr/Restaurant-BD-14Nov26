@@ -1,0 +1,207 @@
+{
+ "id": "lake-view",
+ "name": {
+  "en": "Lake View Café",
+  "bn": "লেক ভিউ ক্যাফে"
+ },
+ "mono": "LV",
+ "since": 2017,
+ "area": "dhanmondi",
+ "city": "dhaka",
+ "geo": [
+  23.7468,
+  90.3792
+ ],
+ "spot": {
+  "en": "Dhanmondi Lake, Road 8",
+  "bn": "ধানমন্ডি লেক, রোড ৮"
+ },
+ "address": {
+  "en": "Lakeside, Road 8, Dhanmondi, Dhaka 1205",
+  "bn": "লেকের পাড়, রোড ৮, ধানমন্ডি, ঢাকা ১২০৫"
+ },
+ "phone": "+8801700000711",
+ "cuisines": [
+  "street",
+  "cafe"
+ ],
+ "theme": {
+  "deep": "#0A2A3E",
+  "accent": "#8FD0F2",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Doi fuchka by the lake, best just before sunset.",
+  "bn": "লেকের পাড়ে দই ফুচকা, সূর্যাস্তের ঠিক আগে সবচেয়ে ভালো।"
+ },
+ "story": {
+  "en": "Open-air tables under the trees, with a covered section for the rain.",
+  "bn": "গাছের নিচে খোলা টেবিল, বৃষ্টির জন্য ছাউনি দেওয়া অংশও আছে।"
+ },
+ "rating": 4.1,
+ "reviews": 154,
+ "verified": 77,
+ "ppl": [
+  200,
+  450
+ ],
+ "hours": [
+  "09:00",
+  "22:30"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 50,
+ "fac": [
+  "wifi",
+  "rooftop"
+ ],
+ "pay": [
+  "Cash",
+  "bKash"
+ ],
+ "plan": "starter",
+ "checked": 6,
+ "hero": [
+  "ex2",
+  "i3",
+  "fu"
+ ],
+ "gallery": {
+  "inside": [
+   "i3"
+  ],
+  "outside": [
+   "ex2"
+  ],
+  "kitchen": [],
+  "food": [
+   "fu"
+  ]
+ },
+ "signature": [
+  "doi-fuchka",
+  "lv-chotpoti",
+  "lv-coffee"
+ ],
+ "cats": [
+  {
+   "id": "street",
+   "en": "Fuchka & chaat",
+   "bn": "ফুচকা ও চাট"
+  },
+  {
+   "id": "drink",
+   "en": "Drinks",
+   "bn": "পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "doi-fuchka",
+   "type": "fuchka",
+   "name": {
+    "en": "Doi Fuchka",
+    "bn": "দই ফুচকা"
+   },
+   "price": 160,
+   "p": "fu",
+   "por": {
+    "en": "8 pieces",
+    "bn": "৮ পিস"
+   },
+   "spice": 1,
+   "cat": "street",
+   "best": true,
+   "veg": true,
+   "desc": {
+    "en": "Crisp puri filled with spiced potato, tamarind and sweet doi.",
+    "bn": "মচমচে পুরিতে মশলা আলু, তেঁতুল আর মিষ্টি দই।"
+   }
+  },
+  {
+   "id": "lv-fuchka",
+   "type": "fuchka",
+   "name": {
+    "en": "Fuchka",
+    "bn": "ফুচকা"
+   },
+   "price": 120,
+   "p": null,
+   "por": {
+    "en": "8 pieces",
+    "bn": "৮ পিস"
+   },
+   "spice": 2,
+   "cat": "street",
+   "veg": true
+  },
+  {
+   "id": "lv-chotpoti",
+   "type": "fuchka",
+   "name": {
+    "en": "Chotpoti",
+    "bn": "চটপটি"
+   },
+   "price": 130,
+   "p": null,
+   "por": {
+    "en": "1 plate",
+    "bn": "১ প্লেট"
+   },
+   "spice": 2,
+   "cat": "street"
+  },
+  {
+   "id": "lv-lemonade",
+   "type": "drink",
+   "name": {
+    "en": "Mint Lemonade",
+    "bn": "মিন্ট লেমনেড"
+   },
+   "price": 110,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "drink",
+   "veg": true
+  },
+  {
+   "id": "lv-coffee",
+   "type": "tea",
+   "name": {
+    "en": "Café Latte",
+    "bn": "ক্যাফে লাতে"
+   },
+   "price": 190,
+   "p": null,
+   "por": {
+    "en": "1 cup",
+    "bn": "১ কাপ"
+   },
+   "spice": 0,
+   "cat": "drink",
+   "veg": true
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "lake-view",
+   "who": "Rakib Hasan",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "6 days ago",
+    "bn": "৬ দিন আগে"
+   },
+   "t": "Doi fuchka at sunset by the lake is the whole point. Gets crowded after 6.",
+   "ord": [
+    "Doi Fuchka"
+   ]
+  }
+ ]
+}

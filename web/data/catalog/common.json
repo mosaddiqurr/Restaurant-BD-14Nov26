@@ -1,0 +1,1076 @@
+{
+ "photos": {
+  "kt": "1589302168068-964664d93dc0",
+  "k": "1563379091339-03b21ab4a4f8",
+  "te": "1631515243349-e0cb75fb8d3a",
+  "po": "1588644525273-f37b60d78512",
+  "th": "1743674453123-93356ade2891",
+  "ch": "1599487488170-d11ec9c172f0",
+  "na": "1565557623262-b51c2513a641",
+  "fi": "1652954008429-ce394eacbd7f",
+  "fu": "1781243680771-1fea4521e196",
+  "pl": "1633945274405-b6c8069047b0",
+  "sk": "1603360946369-dc9bb6258143",
+  "sm": "1786603449553-d94235e87fe5",
+  "bw": "1712757248842-04f6e3844374",
+  "tb": "1698751963561-f567afae288e",
+  "bp": "1752673508949-f4aeeaef75f0",
+  "hd": "1697155406055-2db32d47ca07",
+  "b3": "1633945274309-2c16c9682a8c",
+  "b4": "1714611626323-5ba6204453be",
+  "in": "1517248135467-4c7edcad34c4",
+  "ro": "1526069631228-723c945bea6b",
+  "di": "1709548145082-04d0cde481d4",
+  "i2": "1667388969250-1c7220bf3f37",
+  "i3": "1538334421852-687c439c92f4",
+  "i4": "1570560258879-af7f8e1447ac",
+  "i5": "1636405189493-181ecf851006",
+  "iA": "1751200503125-d8cb239f95ba",
+  "iB": "1749137011592-0a77520c82dc",
+  "iC": "1651684081211-602801541b08",
+  "iD": "1780345493801-d343616b49b1",
+  "ex1": "1759866614069-e5b93d17e663",
+  "ex2": "1793346460209-d70c68c8c16c",
+  "ex3": "1579027989536-b7b1f875659b",
+  "kc1": "1600565193348-f74bd3c7ccdf",
+  "kc2": "1763951718950-c536b1295213",
+  "kc3": "1588416820614-f8d6ac6cea56",
+  "kc4": "1622021142947-da7dedc7c39a",
+  "kc5": "1792582427557-14fa39dbe877"
+ },
+ "films": {
+  "hall": "https://assets.mixkit.co/videos/29050/29050-720.mp4",
+  "kitchen": "https://assets.mixkit.co/videos/15875/15875-720.mp4",
+  "grill": "https://assets.mixkit.co/videos/4678/4678-720.mp4",
+  "serve": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+  "cafe": "https://assets.mixkit.co/videos/4385/4385-720.mp4"
+ },
+ "palettes": [
+  {
+   "id": "saffron",
+   "deep": "#2A0C14",
+   "accent": "#E2B04A",
+   "en": "Saffron night",
+   "bn": "জাফরান রাত"
+  },
+  {
+   "id": "indigo",
+   "deep": "#14192B",
+   "accent": "#F4D77E",
+   "en": "Indigo and gold",
+   "bn": "নীল ও সোনালি"
+  },
+  {
+   "id": "forest",
+   "deep": "#13281C",
+   "accent": "#E9A23B",
+   "en": "Forest marigold",
+   "bn": "বন ও গাঁদা"
+  },
+  {
+   "id": "garden",
+   "deep": "#0F2619",
+   "accent": "#A5DB7E",
+   "en": "Garden",
+   "bn": "বাগান"
+  },
+  {
+   "id": "ember",
+   "deep": "#1A1110",
+   "accent": "#FF8A4C",
+   "en": "Ember",
+   "bn": "অঙ্গার"
+  },
+  {
+   "id": "river",
+   "deep": "#0A2A3E",
+   "accent": "#8FD0F2",
+   "en": "River",
+   "bn": "নদী"
+  },
+  {
+   "id": "clay",
+   "deep": "#3A1606",
+   "accent": "#E8955A",
+   "en": "Terracotta",
+   "bn": "পোড়ামাটি"
+  },
+  {
+   "id": "chili",
+   "deep": "#3A120A",
+   "accent": "#F2B33D",
+   "en": "Chili and turmeric",
+   "bn": "মরিচ ও হলুদ"
+  },
+  {
+   "id": "cocoa",
+   "deep": "#1E140C",
+   "accent": "#F28C4B",
+   "en": "Cocoa",
+   "bn": "কোকো"
+  },
+  {
+   "id": "teal",
+   "deep": "#062B33",
+   "accent": "#86D3C6",
+   "en": "Lagoon",
+   "bn": "লেগুন"
+  },
+  {
+   "id": "rose",
+   "deep": "#2D0F2A",
+   "accent": "#FF9BB8",
+   "en": "Rose",
+   "bn": "গোলাপ"
+  },
+  {
+   "id": "plum",
+   "deep": "#2A1636",
+   "accent": "#F2A93B",
+   "en": "Plum and amber",
+   "bn": "বেগুনি ও অ্যাম্বার"
+  }
+ ],
+ "socials": {
+  "facebook": {
+   "en": "Facebook",
+   "base": "https://facebook.com/",
+   "icon": "facebook-logo",
+   "host": "(^|\\.)(facebook|fb)\\.com$"
+  },
+  "instagram": {
+   "en": "Instagram",
+   "base": "https://instagram.com/",
+   "icon": "instagram-logo",
+   "host": "(^|\\.)instagram\\.com$"
+  },
+  "tiktok": {
+   "en": "TikTok",
+   "base": "https://tiktok.com/@",
+   "icon": "tiktok-logo",
+   "host": "(^|\\.)tiktok\\.com$"
+  },
+  "youtube": {
+   "en": "YouTube",
+   "base": "https://youtube.com/@",
+   "icon": "youtube-logo",
+   "host": "(^|\\.)(youtube\\.com|youtu\\.be)$"
+  }
+ },
+ "cities": {
+  "dhaka": {
+   "en": "Dhaka",
+   "bn": "ঢাকা"
+  },
+  "bogura": {
+   "en": "Bogura",
+   "bn": "বগুড়া"
+  }
+ },
+ "areas": [
+  {
+   "id": "dhanmondi",
+   "city": "dhaka",
+   "en": "Dhanmondi",
+   "bn": "ধানমন্ডি",
+   "blurb": {
+    "en": "Lake walks, old favourites and kacchi on every road.",
+    "bn": "লেকের পাড়, পুরোনো প্রিয় জায়গা আর প্রতিটা রোডে কাচ্চি।"
+   }
+  },
+  {
+   "id": "gulshan",
+   "city": "dhaka",
+   "en": "Gulshan",
+   "bn": "গুলশান",
+   "blurb": {
+    "en": "Quiet dining rooms and family dinners.",
+    "bn": "শান্ত ডাইনিং আর পরিবারের ডিনার।"
+   }
+  },
+  {
+   "id": "banani",
+   "city": "dhaka",
+   "en": "Banani",
+   "bn": "বনানী",
+   "blurb": {
+    "en": "Rooftops, thalis and late evenings.",
+    "bn": "রুফটপ, থালি আর লম্বা সন্ধ্যা।"
+   }
+  },
+  {
+   "id": "mirpur",
+   "city": "dhaka",
+   "en": "Mirpur",
+   "bn": "মিরপুর",
+   "blurb": {
+    "en": "Tehari, biryani and honest prices.",
+    "bn": "তেহারি, বিরিয়ানি আর ন্যায্য দাম।"
+   }
+  },
+  {
+   "id": "mohammadpur",
+   "city": "dhaka",
+   "en": "Mohammadpur",
+   "bn": "মোহাম্মদপুর",
+   "blurb": {
+    "en": "Kebab streets that stay up late.",
+    "bn": "রাত জাগা কাবাবের রাস্তা।"
+   }
+  },
+  {
+   "id": "uttara",
+   "city": "dhaka",
+   "en": "Uttara",
+   "bn": "উত্তরা",
+   "blurb": {
+    "en": "Garden terraces near the airport.",
+    "bn": "এয়ারপোর্টের কাছে বাগান-টেরেস।"
+   }
+  },
+  {
+   "id": "old-dhaka",
+   "city": "dhaka",
+   "en": "Old Dhaka",
+   "bn": "পুরান ঢাকা",
+   "blurb": {
+    "en": "Where kacchi began. Go early.",
+    "bn": "কাচ্চির শুরু এখানেই। আগে যান।"
+   }
+  },
+  {
+   "id": "jaleshwaritola",
+   "city": "bogura",
+   "en": "Jaleshwaritola",
+   "bn": "জলেশ্বরীতলা",
+   "blurb": {
+    "en": "Family restaurants and Bogura doi.",
+    "bn": "পরিবারের রেস্টুরেন্ট আর বগুড়ার দই।"
+   }
+  },
+  {
+   "id": "satmatha",
+   "city": "bogura",
+   "en": "Satmatha",
+   "bn": "সাতমাথা",
+   "blurb": {
+    "en": "Evening fuchka at the heart of town.",
+    "bn": "শহরের মাঝখানে সন্ধ্যার ফুচকা।"
+   }
+  }
+ ],
+ "soon": [
+  {
+   "en": "Bashundhara",
+   "bn": "বসুন্ধরা"
+  },
+  {
+   "en": "Chattogram",
+   "bn": "চট্টগ্রাম"
+  },
+  {
+   "en": "Sylhet",
+   "bn": "সিলেট"
+  }
+ ],
+ "cuisines": [
+  {
+   "id": "mughlai",
+   "en": "Mughlai & biryani",
+   "bn": "মোগলাই ও বিরিয়ানি",
+   "p": "kt"
+  },
+  {
+   "id": "bangladeshi",
+   "en": "Bangladeshi",
+   "bn": "বাংলাদেশি",
+   "p": "po"
+  },
+  {
+   "id": "grill",
+   "en": "Kebab & grill",
+   "bn": "কাবাব ও গ্রিল",
+   "p": "ch"
+  },
+  {
+   "id": "street",
+   "en": "Street food",
+   "bn": "স্ট্রিট ফুড",
+   "p": "fu"
+  },
+  {
+   "id": "asian",
+   "en": "Chinese & Thai",
+   "bn": "চাইনিজ ও থাই",
+   "p": null
+  },
+  {
+   "id": "cafe",
+   "en": "Café & bakery",
+   "bn": "ক্যাফে ও বেকারি",
+   "p": "ph:strawberry_chocolate_cake"
+  },
+  {
+   "id": "dessert",
+   "en": "Desserts & drinks",
+   "bn": "মিষ্টি ও পানীয়",
+   "p": null
+  }
+ ],
+ "types": {
+  "kacchi": {
+   "en": "Kacchi",
+   "bn": "কাচ্চি",
+   "cu": "mughlai",
+   "p": "kt",
+   "i": "cooking-pot",
+   "made": {
+    "en": "Raw mutton marinated in yogurt and spices, layered with half-cooked basmati, sealed with dough and slow-cooked on low heat for about two hours.",
+    "bn": "দই আর মশলায় মাখানো কাঁচা মাটন, আধা সেদ্ধ বাসমতির সাথে স্তরে স্তরে সাজিয়ে, ময়দা দিয়ে মুখ বন্ধ করে প্রায় দুই ঘণ্টা কম আঁচে রান্না।"
+   },
+   "ing": [
+    {
+     "en": "Mutton",
+     "bn": "মাটন"
+    },
+    {
+     "en": "Basmati rice",
+     "bn": "বাসমতি চাল"
+    },
+    {
+     "en": "Yogurt",
+     "bn": "দই"
+    },
+    {
+     "en": "Ghee",
+     "bn": "ঘি"
+    },
+    {
+     "en": "Saffron",
+     "bn": "জাফরান"
+    },
+    {
+     "en": "Aloo",
+     "bn": "আলু"
+    }
+   ],
+   "side": {
+    "en": "Borhani and salad",
+    "bn": "বোরহানি আর সালাদ"
+   }
+  },
+  "biryani": {
+   "en": "Biryani",
+   "bn": "বিরিয়ানি",
+   "cu": "mughlai",
+   "p": "b4",
+   "i": "bowl-food",
+   "made": {
+    "en": "The meat is cooked in a spiced gravy first, then layered with fragrant rice and finished on steam (dum).",
+    "bn": "মাংস আগে মশলায় রান্না, তারপর সুগন্ধি চালের সাথে স্তর করে দমে শেষ করা।"
+   },
+   "ing": [
+    {
+     "en": "Chicken or mutton",
+     "bn": "মুরগি বা মাটন"
+    },
+    {
+     "en": "Basmati rice",
+     "bn": "বাসমতি চাল"
+    },
+    {
+     "en": "Fried onion",
+     "bn": "বেরেস্তা"
+    },
+    {
+     "en": "Ghee",
+     "bn": "ঘি"
+    },
+    {
+     "en": "Whole spices",
+     "bn": "গরম মশলা"
+    }
+   ],
+   "side": {
+    "en": "Borhani and salad",
+    "bn": "বোরহানি আর সালাদ"
+   }
+  },
+  "tehari": {
+   "en": "Tehari",
+   "bn": "তেহারি",
+   "cu": "bangladeshi",
+   "p": "b3",
+   "i": "bowl-food",
+   "made": {
+    "en": "Small pieces of beef cooked with short-grain rice, mustard oil and green chilli, all in one pot.",
+    "bn": "ছোট টুকরো গরুর মাংস, চিনিগুঁড়া চাল, সরিষার তেল আর কাঁচা মরিচ, এক হাঁড়িতে রান্না।"
+   },
+   "ing": [
+    {
+     "en": "Beef",
+     "bn": "গরুর মাংস"
+    },
+    {
+     "en": "Chinigura rice",
+     "bn": "চিনিগুঁড়া চাল"
+    },
+    {
+     "en": "Mustard oil",
+     "bn": "সরিষার তেল"
+    },
+    {
+     "en": "Green chilli",
+     "bn": "কাঁচা মরিচ"
+    }
+   ],
+   "side": {
+    "en": "Salad and green chilli",
+    "bn": "সালাদ আর কাঁচা মরিচ"
+   }
+  },
+  "polao": {
+   "en": "Polao",
+   "bn": "পোলাও",
+   "cu": "bangladeshi",
+   "p": "te",
+   "i": "bowl-steam",
+   "made": {
+    "en": "Fragrant short-grain rice cooked in ghee with whole spices, served with slow-cooked meat.",
+    "bn": "ঘি আর গোটা মশলায় রান্না সুগন্ধি চিনিগুঁড়া চালের পোলাও, ধীরে রান্না মাংসের সাথে।"
+   },
+   "ing": [
+    {
+     "en": "Chinigura rice",
+     "bn": "চিনিগুঁড়া চাল"
+    },
+    {
+     "en": "Ghee",
+     "bn": "ঘি"
+    },
+    {
+     "en": "Chicken",
+     "bn": "মুরগি"
+    },
+    {
+     "en": "Whole spices",
+     "bn": "গোটা মশলা"
+    }
+   ],
+   "side": {
+    "en": "Salad",
+    "bn": "সালাদ"
+   }
+  },
+  "kebab": {
+   "en": "Kebab & chap",
+   "bn": "কাবাব ও চাপ",
+   "cu": "grill",
+   "p": "ch",
+   "i": "fire",
+   "made": {
+    "en": "Meat marinated for hours in yogurt and spices, then grilled over charcoal or cooked flat on a hot iron (chap).",
+    "bn": "মাংস কয়েক ঘণ্টা দই আর মশলায় মেখে কয়লার আগুনে বা গরম তাওয়ায় (চাপ) রান্না।"
+   },
+   "ing": [
+    {
+     "en": "Meat",
+     "bn": "মাংস"
+    },
+    {
+     "en": "Yogurt",
+     "bn": "দই"
+    },
+    {
+     "en": "Ginger and garlic",
+     "bn": "আদা-রসুন"
+    },
+    {
+     "en": "Chilli",
+     "bn": "মরিচ"
+    },
+    {
+     "en": "Lemon",
+     "bn": "লেবু"
+    }
+   ],
+   "side": {
+    "en": "Naan or paratha, and salad",
+    "bn": "নান বা পরোটা, আর সালাদ"
+   }
+  },
+  "curry": {
+   "en": "Curries",
+   "bn": "তরকারি",
+   "cu": "mughlai",
+   "p": "bw",
+   "i": "bowl-steam",
+   "made": {
+    "en": "Meat or vegetables simmered slowly in a gravy of onion, tomato and spices.",
+    "bn": "পেঁয়াজ, টমেটো আর মশলার ঝোলে ধীরে রান্না মাংস বা সবজি।"
+   },
+   "ing": [
+    {
+     "en": "Onion",
+     "bn": "পেঁয়াজ"
+    },
+    {
+     "en": "Tomato",
+     "bn": "টমেটো"
+    },
+    {
+     "en": "Ginger and garlic",
+     "bn": "আদা-রসুন"
+    },
+    {
+     "en": "Spices",
+     "bn": "মশলা"
+    }
+   ],
+   "side": {
+    "en": "Naan or rice",
+    "bn": "নান বা ভাত"
+   }
+  },
+  "naan": {
+   "en": "Naan",
+   "bn": "নান",
+   "cu": "mughlai",
+   "p": "na",
+   "i": "grains",
+   "made": {
+    "en": "Soft dough pressed onto the wall of a hot clay tandoor and baked in about a minute.",
+    "bn": "নরম খামির গরম মাটির তন্দুরের দেয়ালে লাগিয়ে প্রায় এক মিনিটে সেঁকা।"
+   },
+   "ing": [
+    {
+     "en": "Flour",
+     "bn": "ময়দা"
+    },
+    {
+     "en": "Yogurt",
+     "bn": "দই"
+    },
+    {
+     "en": "Butter",
+     "bn": "মাখন"
+    }
+   ],
+   "side": {
+    "en": "Curry or kebab",
+    "bn": "তরকারি বা কাবাব"
+   }
+  },
+  "fish": {
+   "en": "Fish",
+   "bn": "মাছ",
+   "cu": "bangladeshi",
+   "p": "fi",
+   "i": "fish-simple",
+   "made": {
+    "en": "Fresh fish rubbed with turmeric and chilli, then fried or cooked in a light gravy.",
+    "bn": "তাজা মাছ হলুদ-মরিচে মেখে ভাজা বা হালকা ঝোলে রান্না।"
+   },
+   "ing": [
+    {
+     "en": "Fish",
+     "bn": "মাছ"
+    },
+    {
+     "en": "Turmeric",
+     "bn": "হলুদ"
+    },
+    {
+     "en": "Chilli",
+     "bn": "মরিচ"
+    },
+    {
+     "en": "Mustard oil",
+     "bn": "সরিষার তেল"
+    }
+   ],
+   "side": {
+    "en": "Plain rice",
+    "bn": "সাদা ভাত"
+   }
+  },
+  "thali": {
+   "en": "Thali & bhorta",
+   "bn": "থালি ও ভর্তা",
+   "cu": "bangladeshi",
+   "p": "po",
+   "i": "bowl-food",
+   "made": {
+    "en": "A full plate of rice, dal and a few bhortas, mashed by hand with mustard oil, onion and chilli.",
+    "bn": "পুরো এক থালা: ভাত, ডাল আর কয়েক রকম ভর্তা, সরিষার তেল, পেঁয়াজ আর মরিচ দিয়ে হাতে মাখা।"
+   },
+   "ing": [
+    {
+     "en": "Rice",
+     "bn": "ভাত"
+    },
+    {
+     "en": "Dal",
+     "bn": "ডাল"
+    },
+    {
+     "en": "Bhorta",
+     "bn": "ভর্তা"
+    },
+    {
+     "en": "Mustard oil",
+     "bn": "সরিষার তেল"
+    }
+   ]
+  },
+  "platter": {
+   "en": "Platters",
+   "bn": "প্ল্যাটার",
+   "cu": "grill",
+   "p": "pl",
+   "i": "fork-knife",
+   "made": {
+    "en": "A mix of grilled items for the table, cooked when you order and served on one board.",
+    "bn": "টেবিলের জন্য কয়েক রকম গ্রিল, অর্ডারের পর রান্না করে এক প্লেটে দেওয়া।"
+   },
+   "ing": [
+    {
+     "en": "Kebabs",
+     "bn": "কাবাব"
+    },
+    {
+     "en": "Grilled chicken",
+     "bn": "গ্রিল চিকেন"
+    },
+    {
+     "en": "Naan",
+     "bn": "নান"
+    },
+    {
+     "en": "Sauces",
+     "bn": "সস"
+    }
+   ],
+   "side": {
+    "en": "Naan and dips",
+    "bn": "নান আর সস"
+   }
+  },
+  "fuchka": {
+   "en": "Fuchka & chotpoti",
+   "bn": "ফুচকা ও চটপটি",
+   "cu": "street",
+   "p": "fu",
+   "i": "bowl-food",
+   "made": {
+    "en": "Crisp hollow shells filled with spiced chickpeas and egg, with tamarind water on the side.",
+    "bn": "মচমচে ফাঁপা ফুচকায় মশলাদার ডাবলি আর ডিম, পাশে তেঁতুলের টক।"
+   },
+   "ing": [
+    {
+     "en": "Semolina shells",
+     "bn": "সুজির ফুচকা"
+    },
+    {
+     "en": "Chickpeas",
+     "bn": "ডাবলি"
+    },
+    {
+     "en": "Egg",
+     "bn": "ডিম"
+    },
+    {
+     "en": "Tamarind",
+     "bn": "তেঁতুল"
+    }
+   ],
+   "side": {
+    "en": "Tamarind water",
+    "bn": "তেঁতুলের টক"
+   }
+  },
+  "snack": {
+   "en": "Snacks",
+   "bn": "নাস্তা",
+   "cu": "street",
+   "p": "sm",
+   "i": "cookie",
+   "made": {
+    "en": "Made fresh through the day and fried when you order.",
+    "bn": "সারাদিন তাজা বানানো, অর্ডারের পর ভাজা।"
+   },
+   "side": {
+    "en": "Tea",
+    "bn": "চা"
+   }
+  },
+  "chinese": {
+   "en": "Chinese",
+   "bn": "চাইনিজ",
+   "cu": "asian",
+   "p": null,
+   "i": "bowl-steam",
+   "made": {
+    "en": "Cooked fast in a very hot wok with soy sauce, garlic and vegetables, the Dhaka way.",
+    "bn": "খুব গরম কড়াইয়ে সয়া সস, রসুন আর সবজি দিয়ে দ্রুত রান্না, ঢাকার ধরনে।"
+   },
+   "ing": [
+    {
+     "en": "Chicken or prawn",
+     "bn": "মুরগি বা চিংড়ি"
+    },
+    {
+     "en": "Soy sauce",
+     "bn": "সয়া সস"
+    },
+    {
+     "en": "Garlic",
+     "bn": "রসুন"
+    },
+    {
+     "en": "Vegetables",
+     "bn": "সবজি"
+    }
+   ],
+   "side": {
+    "en": "Fried rice or chowmein",
+    "bn": "ফ্রাইড রাইস বা চাউমিন"
+   }
+  },
+  "thai": {
+   "en": "Thai",
+   "bn": "থাই",
+   "cu": "asian",
+   "p": null,
+   "i": "pepper",
+   "made": {
+    "en": "Cooked with lemongrass, lime leaf and chilli for a sour, hot and fragrant taste.",
+    "bn": "লেমনগ্রাস, লেবু পাতা আর মরিচে রান্না, টক-ঝাল আর সুগন্ধি স্বাদ।"
+   },
+   "ing": [
+    {
+     "en": "Lemongrass",
+     "bn": "লেমনগ্রাস"
+    },
+    {
+     "en": "Lime leaf",
+     "bn": "লেবু পাতা"
+    },
+    {
+     "en": "Chilli",
+     "bn": "মরিচ"
+    },
+    {
+     "en": "Coconut milk",
+     "bn": "নারকেলের দুধ"
+    }
+   ],
+   "side": {
+    "en": "Steamed rice",
+    "bn": "সাদা ভাত"
+   }
+  },
+  "tea": {
+   "en": "Tea & coffee",
+   "bn": "চা ও কফি",
+   "cu": "cafe",
+   "p": "ph:tea_set_01",
+   "i": "coffee",
+   "made": {
+    "en": "Made when you order.",
+    "bn": "অর্ডারের পর বানানো।"
+   }
+  },
+  "bakery": {
+   "en": "Cakes & bakes",
+   "bn": "কেক ও বেকারি",
+   "cu": "cafe",
+   "p": "ph:carrot_cake",
+   "i": "cake",
+   "made": {
+    "en": "Baked in the cafe kitchen, usually the same morning.",
+    "bn": "ক্যাফের নিজের রান্নাঘরে বানানো, সাধারণত সেদিন সকালেই।"
+   }
+  },
+  "dessert": {
+   "en": "Desserts & doi",
+   "bn": "মিষ্টি ও দই",
+   "cu": "dessert",
+   "p": null,
+   "i": "ice-cream",
+   "made": {
+    "en": "Made in the kitchen each day and served chilled.",
+    "bn": "প্রতিদিন রান্নাঘরে বানানো, ঠান্ডা করে দেওয়া।"
+   }
+  },
+  "drink": {
+   "en": "Drinks",
+   "bn": "পানীয়",
+   "cu": "dessert",
+   "p": null,
+   "i": "drop",
+   "made": {
+    "en": "Made fresh when you order.",
+    "bn": "অর্ডার করলে তাজা বানানো।"
+   }
+  }
+ },
+ "cravings": [
+  "kacchi",
+  "biryani",
+  "tehari",
+  "kebab",
+  "fuchka",
+  "fish",
+  "thali",
+  "naan",
+  "platter",
+  "bakery",
+  "tea",
+  "polao"
+ ],
+ "facilities": {
+  "cabin": {
+   "en": "Family cabins",
+   "bn": "ফ্যামিলি কেবিন",
+   "i": "users-three"
+  },
+  "ac": {
+   "en": "Air-conditioned",
+   "bn": "এসি",
+   "i": "snowflake"
+  },
+  "parking": {
+   "en": "Parking",
+   "bn": "পার্কিং",
+   "i": "car"
+  },
+  "prayer": {
+   "en": "Prayer room",
+   "bn": "নামাজের জায়গা",
+   "i": "hands-praying"
+  },
+  "generator": {
+   "en": "Generator backup",
+   "bn": "জেনারেটর",
+   "i": "lightning"
+  },
+  "kids": {
+   "en": "Kids corner",
+   "bn": "শিশুদের জায়গা",
+   "i": "baby"
+  },
+  "wheelchair": {
+   "en": "Wheelchair access",
+   "bn": "হুইলচেয়ার সুবিধা",
+   "i": "wheelchair"
+  },
+  "wifi": {
+   "en": "Free Wi-Fi",
+   "bn": "ফ্রি ওয়াই-ফাই",
+   "i": "wifi-high"
+  },
+  "rooftop": {
+   "en": "Rooftop or view",
+   "bn": "রুফটপ / ভিউ",
+   "i": "buildings"
+  },
+  "events": {
+   "en": "Event hall",
+   "bn": "অনুষ্ঠানের হল",
+   "i": "confetti"
+  }
+ },
+ "occasions": [
+  {
+   "id": "family",
+   "en": "Family dinner",
+   "bn": "পরিবারের ডিনার",
+   "i": "users-three",
+   "q": {
+    "fac": [
+     "cabin"
+    ]
+   }
+  },
+  {
+   "id": "friends",
+   "en": "Friends hangout",
+   "bn": "বন্ধুদের আড্ডা",
+   "i": "chats-circle",
+   "q": {
+    "maxPP": 600
+   }
+  },
+  {
+   "id": "date",
+   "en": "Date night",
+   "bn": "ডেট নাইট",
+   "i": "heart",
+   "q": {
+    "fac": [
+     "rooftop"
+    ]
+   }
+  },
+  {
+   "id": "office",
+   "en": "Office lunch",
+   "bn": "অফিস লাঞ্চ",
+   "i": "briefcase",
+   "q": {
+    "fac": [
+     "ac",
+     "parking"
+    ]
+   }
+  },
+  {
+   "id": "birthday",
+   "en": "Birthday or event",
+   "bn": "জন্মদিন / অনুষ্ঠান",
+   "i": "confetti",
+   "q": {
+    "fac": [
+     "events"
+    ]
+   }
+  },
+  {
+   "id": "quick",
+   "en": "Quick bite",
+   "bn": "হালকা নাস্তা",
+   "i": "clock",
+   "q": {
+    "maxPP": 300
+   }
+  },
+  {
+   "id": "late",
+   "en": "Late night",
+   "bn": "গভীর রাত",
+   "i": "moon-stars",
+   "q": {
+    "late": true
+   }
+  },
+  {
+   "id": "tour",
+   "en": "Has a 360° tour",
+   "bn": "৩৬০° ট্যুর আছে",
+   "i": "virtual-reality",
+   "q": {
+    "media": [
+     "tour"
+    ]
+   }
+  }
+ ],
+ "budgets": [
+  {
+   "id": "u300",
+   "en": "Under ৳300",
+   "bn": "৳৩০০-এর নিচে",
+   "max": 300
+  },
+  {
+   "id": "u600",
+   "en": "৳300 to ৳600",
+   "bn": "৳৩০০ থেকে ৳৬০০",
+   "min": 300,
+   "max": 600
+  },
+  {
+   "id": "u1000",
+   "en": "৳600 to ৳1,000",
+   "bn": "৳৬০০ থেকে ৳১,০০০",
+   "min": 600,
+   "max": 1000
+  },
+  {
+   "id": "o1000",
+   "en": "৳1,000 and up",
+   "bn": "৳১,০০০ ও বেশি",
+   "min": 1000
+  }
+ ],
+ "updated": {
+  "en": "14 Nov 2026",
+  "bn": "১৪ নভেম্বর ২০২৬"
+ },
+ "dealTags": {
+  "offer": {
+   "en": "Special offer",
+   "bn": "বিশেষ অফার",
+   "ring": "SPECIAL OFFER"
+  },
+  "limited": {
+   "en": "Limited time",
+   "bn": "সীমিত সময়ের অফার",
+   "ring": "LIMITED TIME"
+  },
+  "lunch": {
+   "en": "Lunch deal",
+   "bn": "দুপুরের অফার",
+   "ring": "LUNCH DEAL"
+  },
+  "family": {
+   "en": "Family deal",
+   "bn": "ফ্যামিলি অফার",
+   "ring": "FAMILY DEAL"
+  },
+  "weekend": {
+   "en": "Weekend deal",
+   "bn": "উইকেন্ড অফার",
+   "ring": "WEEKEND DEAL"
+  },
+  "night": {
+   "en": "Late night deal",
+   "bn": "রাতের অফার",
+   "ring": "LATE NIGHT"
+  },
+  "new": {
+   "en": "New offer",
+   "bn": "নতুন অফার",
+   "ring": "NEW OFFER"
+  },
+  "festive": {
+   "en": "Festival special",
+   "bn": "উৎসবের অফার",
+   "ring": "FESTIVAL SPECIAL"
+  }
+ },
+ "tableMenu": {
+  "layouts": {
+   "list": "List with photos",
+   "photos": "Photo grid",
+   "cards": "Big photos",
+   "compact": "Text only",
+   "classic": "Classic menu"
+  },
+  "headers": {
+   "photo": "Cover photo",
+   "colour": "Your colour"
+  },
+  "themes": {
+   "auto": "Light",
+   "paper": "Warm paper",
+   "night": "Dark",
+   "brand": "Your colour"
+  }
+ },
+ "order": [
+  "shahi-handi",
+  "nodir-paar",
+  "kabab-ghor",
+  "kathgolap",
+  "cha-adda",
+  "mirpur-bawarchi",
+  "lake-view",
+  "garden-rooftop",
+  "mahasthan-bhoj",
+  "shamiana",
+  "nawabpur-kacchi",
+  "satmatha-fuchka"
+ ]
+}

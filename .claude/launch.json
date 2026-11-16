@@ -4,14 +4,48 @@
     {
       "name": "website",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["website/serve.py", "8765"],
+      "runtimeArgs": [
+        "website/serve.py",
+        "8765"
+      ],
       "port": 8765
     },
     {
       "name": "mobile",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["website/serve.py", "8766"],
+      "runtimeArgs": [
+        "website/serve.py",
+        "8766"
+      ],
       "port": 8766
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "run",
+        "dev",
+        "--",
+        "-p",
+        "3100"
+      ],
+      "port": 3100
+    },
+    {
+      "name": "web-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "--prefix",
+        "web",
+        "run",
+        "start",
+        "--",
+        "-p",
+        "3200"
+      ],
+      "port": 3200
     }
   ]
 }

@@ -1,0 +1,171 @@
+{
+ "id": "satmatha-fuchka",
+ "name": {
+  "en": "Satmatha Fuchka Corner",
+  "bn": "সাতমাথা ফুচকা কর্নার"
+ },
+ "mono": "SF",
+ "since": 2014,
+ "area": "satmatha",
+ "city": "bogura",
+ "geo": [
+  24.8478,
+  89.3727
+ ],
+ "spot": {
+  "en": "Satmatha, Bogura",
+  "bn": "সাতমাথা, বগুড়া"
+ },
+ "address": {
+  "en": "Beside the clock tower, Satmatha, Bogura 5800",
+  "bn": "ঘড়ির টাওয়ারের পাশে, সাতমাথা, বগুড়া ৫৮০০"
+ },
+ "phone": "+8801700001242",
+ "cuisines": [
+  "street"
+ ],
+ "theme": {
+  "deep": "#2D0F2A",
+  "accent": "#FF9BB8",
+  "font": "sans"
+ },
+ "tagline": {
+  "en": "Bogura’s evening fuchka stop, with chotpoti on the side.",
+  "bn": "বগুড়ার সন্ধ্যার ফুচকার ঠিকানা, পাশে চটপটি।"
+ },
+ "story": {
+  "en": "Twenty-four stools, one counter and the tamarind water everyone talks about.",
+  "bn": "চব্বিশটা টুল, একটা কাউন্টার আর সবার মুখে মুখে তেঁতুল পানি।"
+ },
+ "rating": 4.3,
+ "reviews": 64,
+ "verified": 41,
+ "ppl": [
+  100,
+  220
+ ],
+ "hours": [
+  "15:00",
+  "22:00"
+ ],
+ "vat": 0,
+ "service": 0,
+ "seats": 24,
+ "fac": [],
+ "pay": [
+  "Cash",
+  "bKash"
+ ],
+ "plan": "starter",
+ "checked": 5,
+ "hero": [
+  "tb"
+ ],
+ "gallery": {
+  "inside": [],
+  "outside": [],
+  "kitchen": [],
+  "food": [
+   "tb"
+  ]
+ },
+ "signature": [
+  "sf-chotpoti",
+  "sf-fuchka",
+  "sf-jhalmuri"
+ ],
+ "cats": [
+  {
+   "id": "street",
+   "en": "Street food",
+   "bn": "স্ট্রিট ফুড"
+  }
+ ],
+ "menu": [
+  {
+   "id": "sf-chotpoti",
+   "type": "fuchka",
+   "name": {
+    "en": "Chotpoti",
+    "bn": "চটপটি"
+   },
+   "price": 70,
+   "p": "tb",
+   "por": {
+    "en": "1 plate",
+    "bn": "১ প্লেট"
+   },
+   "spice": 2,
+   "cat": "street",
+   "best": true
+  },
+  {
+   "id": "sf-fuchka",
+   "type": "fuchka",
+   "name": {
+    "en": "Fuchka",
+    "bn": "ফুচকা"
+   },
+   "price": 80,
+   "p": null,
+   "por": {
+    "en": "10 pieces",
+    "bn": "১০ পিস"
+   },
+   "spice": 2,
+   "cat": "street",
+   "veg": true
+  },
+  {
+   "id": "sf-doi",
+   "type": "fuchka",
+   "name": {
+    "en": "Doi Fuchka",
+    "bn": "দই ফুচকা"
+   },
+   "price": 120,
+   "p": null,
+   "por": {
+    "en": "8 pieces",
+    "bn": "৮ পিস"
+   },
+   "spice": 1,
+   "cat": "street",
+   "veg": true
+  },
+  {
+   "id": "sf-jhalmuri",
+   "type": "snack",
+   "name": {
+    "en": "Jhalmuri",
+    "bn": "ঝালমুড়ি"
+   },
+   "price": 40,
+   "p": null,
+   "por": {
+    "en": "1 cone",
+    "bn": "১ ঠোঙা"
+   },
+   "spice": 2,
+   "cat": "street",
+   "veg": true
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "satmatha-fuchka",
+   "who": "Rashed Karim",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "5 days ago",
+    "bn": "৫ দিন আগে"
+   },
+   "t": "Tetul pani ta ashadharon. 80 takay 10 ta fuchka, Bogura te best.",
+   "ord": [
+    "Fuchka"
+   ]
+  }
+ ]
+}

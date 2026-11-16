@@ -177,35 +177,46 @@
     </div></section>`;
   }
 
-  /* ---------------- deal of the week ---------------- */
+  /* ---------------- deals: the deal of the week big, every other live deal side by side under it ---------------- */
   function dealSec() {
-    const r = D.restaurants.find(x => x.deal && x.deal.week), d = r.deal;
+    const all = D.restaurants.flatMap(r => K.dealsOf(r).map(d => ({ r, d })));
+    const wk = all.find(x => x.d.week) || all[0]; if (!wk) return '';
+    const rest = all.filter(x => x !== wk);
     return `<section class="sec hm-deal"><div class="wrap">
-      <a class="deal-wide" href="#/r/${r.id}" style="--r-accent:${r.theme.accent};--r-deep:${r.theme.deep}" data-rv>
-        ${K.ph(d.p, { w: 1100 })}
-        <div class="dw-body"><span class="dw-k">${t('deal_week')}</span>
-          <h2 class="h2">${K.esc(L(d))}</h2><p>${K.esc(L(d.desc))} ${K.esc(L(d.when))}.</p>
-          <div class="dw-price"><b class="num">${K.tk(d.price)}</b><span class="was num">${K.tk(d.was)}</span><span class="dw-save">${t('save_x', { v: K.tk(d.was - d.price) })}</span></div>
-          <span class="dw-r">${K.mono(r)}${K.esc(L(r.name))}, ${L(K.areaOf(r.area))}${ico('arrow-right', 'sm')}</span></div>
-      </a>
-      <div class="hm-deal-more"><a class="link" href="#/deals">${t('all_deals')}${ico('arrow-right', 'sm')}</a></div>
+      ${K.dealTicket(wk.r, wk.d, { href: `#/r/${wk.r.id}`, cta: t('see_deal'), place: true, h: 'h2' })}
+      ${rest.length ? `<div class="hm-deals ${rest.length > 2 ? 'many' : ''}" data-rv>${K.rail('hm-deals', rest.map((x, i) => K.dealTicket(x.r, x.d, { href: `#/r/${x.r.id}`, sm: true, place: true, w: 720, rv: false, d: i % 3 })).join(''), { head: `<h2 class="h3">${t('more_deals')} <span class="meta">${t('n_deals', { n: K.n(rest.length) })}</span></h2>` })}</div>` : ''}
+      <div class="hm-deal-more"><a class="btn btn-line" href="#/deals">${t('all_deals')}${ico('arrow-right', 'sm')}</a></div>
     </div></section>`;
   }
 
-  /* ---------------- price check: one dish, every restaurant ---------------- */
+  /* ---------------- price check: one dish, every restaurant ----------------
+     Left: the typical price and a scale with every place on it. Right: each place, its dish photo,
+     its price against the typical one, and where it sits on the same scale. */
   function priceBody() {
     const ds = K.allDishes.filter(d => d.type === priceType && !d.share).sort((a, b) => a.price - b.price);
     if (!ds.length) return '';
-    const pr = ds.map(d => d.price), mid = pr[Math.floor(pr.length / 2)], max = Math.max(...pr);
-    const name = L(D.types[priceType]);
-    return `<div class="pc-sum"><span class="meta">${t('pc_typical', { d: name.toLowerCase() })}</span><b class="num">${K.tk(mid)}</b><span class="meta">${t('pc_range', { lo: K.tk(pr[0]), hi: K.tk(max), n: K.n(new Set(ds.map(d => d.r)).size) })}</span>
-        <a class="btn btn-line btn-sm" href="#/dishes?type=${priceType}">${t('pc_all', { d: name.toLowerCase() })}${ico('arrow-right', 'sm')}</a></div>
-      <ol class="pc-list">${ds.slice(0, 7).map((d, i) => { const r = K.r(d.r), diff = d.price - mid; return `<li style="--i:${i}"><a href="#/r/${r.id}?dish=${d.id}" data-dish="${r.id}|${d.id}">${K.mono(r)}<span class="pc-n"><b>${K.esc(L(r.name))}</b><span>${K.esc(L(d.name))}, ${L(K.areaOf(r.area))}</span></span><span class="pc-bar ${diff === 0 ? 'typ' : ''}" style="--w:${(d.price / max * 100).toFixed(1)}%"></span><span class="pc-p"><b class="num">${K.tk(d.price)}</b><span class="${diff < 0 ? 'lo' : diff > 0 ? 'hi' : ''}">${diff === 0 ? t('pc_typ') : (diff < 0 ? '−' : '+') + K.tk(Math.abs(diff))}</span></span></a></li>`; }).join('')}</ol>`;
+    const pr = ds.map(d => d.price), lo = pr[0], hi = Math.max(...pr), mid = pr[Math.floor(pr.length / 2)];
+    const pos = p => hi === lo ? 50 : ((p - lo) / (hi - lo) * 100);
+    const name = L(D.types[priceType]), n = new Set(ds.map(d => d.r)).size;
+    const tone = p => p < mid ? 'lo' : p > mid ? 'hi' : 'typ';
+    return `<div class="pc-sum">
+        <span class="pc-k">${t('pc_typical', { d: name.toLowerCase() })}</span>
+        <b class="num pc-big">${K.tk(mid)}</b>
+        <div class="pc-scale" aria-hidden="true"><i class="pc-mid" style="--x:${pos(mid)}%"></i>${ds.map(d => `<i class="pc-dot ${tone(d.price)}" style="--x:${pos(d.price)}%"></i>`).join('')}</div>
+        <div class="pc-ends"><span><b class="num">${K.tk(lo)}</b>${t('lowest')}</span><span><b class="num">${K.tk(hi)}</b>${t('highest')}</span></div>
+        <p class="pc-range">${t('pc_range', { lo: K.tk(lo), hi: K.tk(hi), n: K.n(n) })}</p>
+        ${hi > lo ? `<p class="pc-save">${ico('tag', 'sm')}${t('pc_save', { v: K.tk(hi - lo) })}</p>` : ''}
+        <a class="btn btn-gold" href="#/dishes?type=${priceType}">${t('pc_all', { d: name.toLowerCase() })}${ico('arrow-right', 'sm')}</a></div>
+      <ol class="pc-list">${ds.slice(0, 6).map((d, i) => { const r = K.r(d.r), diff = d.price - mid, tn = tone(d.price); return `<li style="--i:${i}"><a href="#/r/${r.id}?dish=${d.id}" data-dish="${r.id}|${d.id}">
+        <span class="pc-ph">${K.ph(d.p, { w: 160, word: L(d.name), tone: r.theme })}${i === 0 ? `<em>${t('lowest')}</em>` : ''}</span>
+        <span class="pc-n"><b>${K.esc(L(d.name))}</b><span>${K.mono(r)}${K.esc(L(r.name))} · ${L(K.areaOf(r.area))}</span></span>
+        <span class="pc-mini" aria-hidden="true"><i class="pc-mid" style="--x:${pos(mid)}%"></i><i class="pc-dot ${tn}" style="--x:${pos(d.price)}%"></i></span>
+        <span class="pc-p"><b class="num">${K.tk(d.price)}</b><span class="pc-chip ${tn}">${diff === 0 ? t('pc_typ') : (diff < 0 ? '−' : '+') + K.tk(Math.abs(diff))}</span></span></a></li>`; }).join('')}</ol>`;
   }
   function priceSec() {
     return `<section class="sec hm-price"><div class="wrap">
-      <h2 class="h2" data-rv>${t('pc_title')}</h2><p class="sub" data-rv>${t('pc_sub')}</p>
-      <div class="seg pc-seg" role="tablist">${PRICE.map(id => `<button role="tab" class="${id === priceType ? 'on' : ''}" data-pt="${id}">${L(D.types[id])}</button>`).join('')}</div>
+      <div class="pc-head"><div><h2 class="h2" data-rv>${t('pc_title')}</h2><p class="sub" data-rv>${t('pc_sub')}</p></div>
+      <div class="seg pc-seg" role="tablist">${PRICE.map(id => `<button role="tab" class="${id === priceType ? 'on' : ''}" data-pt="${id}">${L(D.types[id])}</button>`).join('')}</div></div>
       <div class="pc" data-rv>${priceBody()}</div>
     </div></section>`;
   }
@@ -279,8 +290,8 @@
     body.innerHTML = `<div class="ai-msg me"><p class="typed"></p></div>`; fit();
     const p = $('.typed', body); let i = 0;
     const type = () => { p.textContent = q.slice(0, ++i); if (i < q.length && !reduce()) setTimeout(type, 36); else think(); };
-    /* the typing dots show it is working, then the answer fades in as one piece */
-    const think = () => { body.insertAdjacentHTML('beforeend', `<div class="ai-msg bot typing"><span></span><span></span><span></span></div>`); setTimeout(reply, 1100); };
+    /* shimmering words show it is working, then the answer fades in as one piece */
+    const think = () => { body.insertAdjacentHTML('beforeend', `<div class="ai-msg bot typing"><span class="t-shimmer" data-text="${t('ai_thinking')}">${t('ai_thinking')}</span></div>`); setTimeout(reply, 1700); };
     const reply = () => { const ty = $('.typing', body); if (ty) ty.remove(); body.insertAdjacentHTML('beforeend', `<div class="ai-msg bot done"><p>${K.esc(a.text)}</p><div class="ai-cards">${a.html}</div></div>`); $$('[data-use]', body).forEach(b => b.setAttribute('tabindex', '-1')); body._done = 1; body.style.minHeight = ''; };
     reduce() ? (p.textContent = q, reply()) : type();
   }

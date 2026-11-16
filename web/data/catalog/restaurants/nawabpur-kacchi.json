@@ -1,0 +1,213 @@
+{
+ "id": "nawabpur-kacchi",
+ "name": {
+  "en": "Nawabpur Kacchi Ghar",
+  "bn": "নবাবপুর কাচ্চি ঘর"
+ },
+ "mono": "NK",
+ "since": 1987,
+ "area": "old-dhaka",
+ "city": "dhaka",
+ "geo": [
+  23.7175,
+  90.413
+ ],
+ "spot": {
+  "en": "Nawabpur Road, Old Dhaka",
+  "bn": "নবাবপুর রোড, পুরান ঢাকা"
+ },
+ "address": {
+  "en": "118 Nawabpur Road, Old Dhaka 1100",
+  "bn": "১১৮ নবাবপুর রোড, পুরান ঢাকা ১১০০"
+ },
+ "phone": "+8801700001131",
+ "cuisines": [
+  "mughlai"
+ ],
+ "theme": {
+  "deep": "#1E140C",
+  "accent": "#F28C4B",
+  "font": "serif"
+ },
+ "tagline": {
+  "en": "Old Dhaka kacchi since 1987. Usually gone by nine.",
+  "bn": "১৯৮৭ থেকে পুরান ঢাকার কাচ্চি। সাধারণত নয়টার মধ্যে শেষ।"
+ },
+ "story": {
+  "en": "Small, loud and always full. One dish, done the same way for almost forty years.",
+  "bn": "ছোট, হইচই আর সবসময় ভিড়। একটাই খাবার, প্রায় চল্লিশ বছর একইভাবে।"
+ },
+ "rating": 4.7,
+ "reviews": 812,
+ "verified": 402,
+ "ppl": [
+  300,
+  500
+ ],
+ "hours": [
+  "11:30",
+  "22:00"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 45,
+ "fac": [
+  "generator"
+ ],
+ "pay": [
+  "Cash",
+  "bKash"
+ ],
+ "plan": "starter",
+ "checked": 1,
+ "hero": [
+  "pl",
+  "kc3"
+ ],
+ "gallery": {
+  "inside": [],
+  "outside": [],
+  "kitchen": [],
+  "food": [
+   "pl"
+  ]
+ },
+ "signature": [
+  "nk-kacchi",
+  "nk-jali",
+  "nk-jorda"
+ ],
+ "cats": [
+  {
+   "id": "rice",
+   "en": "Kacchi",
+   "bn": "কাচ্চি"
+  },
+  {
+   "id": "side",
+   "en": "Sides",
+   "bn": "সাইড"
+  }
+ ],
+ "menu": [
+  {
+   "id": "nk-kacchi",
+   "type": "kacchi",
+   "name": {
+    "en": "Kacchi Platter",
+    "bn": "কাচ্চি প্ল্যাটার"
+   },
+   "price": 380,
+   "p": "pl",
+   "por": {
+    "en": "Serves 1 · 2 pcs, egg, aloo",
+    "bn": "১ জন · ২ পিস, ডিম, আলু"
+   },
+   "spice": 1,
+   "cat": "rice",
+   "best": true,
+   "desc": {
+    "en": "Their only main dish, cooked in batches from 11am.",
+    "bn": "তাদের একমাত্র মূল খাবার, সকাল ১১টা থেকে দফায় দফায় রান্না।"
+   }
+  },
+  {
+   "id": "nk-half",
+   "type": "kacchi",
+   "name": {
+    "en": "Half Kacchi",
+    "bn": "হাফ কাচ্চি"
+   },
+   "price": 260,
+   "p": null,
+   "por": {
+    "en": "Serves 1 · 1 pc",
+    "bn": "১ জন · ১ পিস"
+   },
+   "spice": 1,
+   "cat": "rice"
+  },
+  {
+   "id": "nk-jali",
+   "type": "kebab",
+   "name": {
+    "en": "Jali Kabab",
+    "bn": "জালি কাবাব"
+   },
+   "price": 60,
+   "p": null,
+   "por": {
+    "en": "1 piece",
+    "bn": "১ পিস"
+   },
+   "spice": 1,
+   "cat": "side"
+  },
+  {
+   "id": "nk-borhani",
+   "type": "drink",
+   "name": {
+    "en": "Borhani",
+    "bn": "বোরহানি"
+   },
+   "price": 70,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 1,
+   "cat": "side",
+   "veg": true
+  },
+  {
+   "id": "nk-jorda",
+   "type": "dessert",
+   "name": {
+    "en": "Shahi Jorda",
+    "bn": "শাহী জর্দা"
+   },
+   "price": 90,
+   "p": null,
+   "por": {
+    "en": "1 plate",
+    "bn": "১ প্লেট"
+   },
+   "spice": 0,
+   "cat": "side",
+   "veg": true
+  }
+ ],
+ "deals": [],
+ "reviewList": [
+  {
+   "r": "nawabpur-kacchi",
+   "who": "Mahfuz Alam",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "4 days ago",
+    "bn": "৪ দিন আগে"
+   },
+   "t": "রাত ৮টায় গিয়ে শেষ কয়েক প্লেট পেয়েছি। স্বাদ আগের মতোই।",
+   "ord": [
+    "Kacchi Platter",
+    "Borhani"
+   ]
+  },
+  {
+   "r": "nawabpur-kacchi",
+   "who": "Tasnim Sultana",
+   "st": 4,
+   "vf": true,
+   "when": {
+    "en": "2 weeks ago",
+    "bn": "২ সপ্তাহ আগে"
+   },
+   "t": "No AC and very busy, but the kacchi is worth it. Go before 8pm.",
+   "ord": [
+    "Kacchi Platter"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo current site</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&display=swap">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font: 400 15px/1.5 Figtree, system-ui, sans-serif; background: #E7E7EA; -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid #F5A300; outline-offset: 2px; border-radius: 6px; }
+.app { display: grid; grid-template-columns: 236px minmax(0, 1fr); height: 100dvh; }
+.rail { display: flex; flex-direction: column; gap: 20px; padding: 20px 14px; background: #0E1024; color: #D6D8E8; overflow: auto; }
+.rail-h { display: flex; gap: 10px; align-items: center; padding: 0 8px; }
+.rail-h svg { width: 28px; height: 28px; flex: none; }
+.rail-h b { font-size: 15.5px; font-weight: 700; display: block; }
+.rail-h small { font-size: 12.5px; color: #8D90AA; }
+.rail nav { display: grid; gap: 2px; }
+.rail h4 { margin: 0; font-size: 12.5px; font-weight: 600; color: #7C80A0; padding: 0 10px 4px; }
+.rail nav button, .rail nav a { display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-radius: 10px; font-size: 14.5px; font-weight: 550; color: #BCC0D8; text-align: left; }
+.rail nav button i, .rail nav a i { font-size: 18px; }
+.rail nav button:hover, .rail nav a:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.rail nav button.on, .rail nav a.on { background: #F2F3FA; color: #0E1024; }
+.rail-ctl { margin-top: auto; display: grid; gap: 8px; }
+.rail-ctl label { font-size: 12.5px; font-weight: 600; color: #7C80A0; padding: 0 4px; }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; border-radius: 10px; background: rgba(255, 255, 255, .07); }
+.seg button { height: 32px; border-radius: 8px; font-size: 13.5px; font-weight: 600; color: #A8ACC6; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.seg button.on { background: #F2F3FA; color: #0E1024; }
+.note { font-size: 12.5px; color: #8D90AA; line-height: 1.45; padding: 0 4px; margin: 0; }
+.stage { position: relative; overflow: hidden; display: flex; justify-content: center; align-items: stretch; }
+.frame { position: relative; width: 100%; height: 100%; background: #fff; }
+.app[data-view="phone"] .stage { padding: 24px 0; align-items: flex-start; overflow: auto; }
+.app[data-view="phone"] .frame { width: 390px; height: calc(100dvh - 48px); border-radius: 34px; overflow: hidden; box-shadow: 0 0 0 10px #14162A, 0 30px 80px rgba(0, 0, 0, .35); }
+iframe { display: block; width: 100%; height: 100%; border: 0; background: #fff; }
+.loading { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(255, 255, 255, .7); color: #555; font-weight: 600; transition: opacity .25s; pointer-events: none; }
+.loading.off { opacity: 0; }
+@media (max-width: 760px) { .app { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); } .rail { flex-direction: row; overflow-x: auto; padding: 10px; } .rail h4, .note, .rail-h small, .rail-ctl label { display: none; } .rail nav { display: flex; } .rail-ctl { margin: 0; display: flex; } }
+</style>
+</head>
+<body>
+<div class="app" data-view="desktop">
+  <aside class="rail">
+    <div class="rail-h"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#2A3DB8"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#fff" stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F5A300"/></svg><div><b>khabo today</b><small>The classic site (before the redesign)</small></div></div>
+    <nav aria-label="Diner site"><h4>Diner site</h4>
+      <button data-go="home"><i class="ph ph-house"></i>Home</button>
+      <button data-go="list"><i class="ph ph-list-magnifying-glass"></i>Restaurants</button>
+      <button data-go="rest"><i class="ph ph-storefront"></i>Restaurant page</button>
+    </nav>
+    <nav aria-label="Partner dashboard"><h4>Partner dashboard</h4>
+      <button data-go="dash"><i class="ph ph-squares-four"></i>Overview</button>
+      <button data-go="menu"><i class="ph ph-list-dashes"></i>Menu and prices</button>
+    </nav>
+    <nav aria-label="Compare designs"><h4>Compare</h4>
+      <a class="on" href="current.html"><i class="ph ph-circle-half"></i>Current site</a>
+      <a href="redesign.html"><i class="ph ph-number-circle-one"></i>Redesign A</a>
+      <a href="redesign-b.html"><i class="ph ph-number-circle-two"></i>Redesign B</a>
+      <a href="redesign-c.html"><i class="ph ph-number-circle-three"></i>Redesign C</a><a href="final.html"><i class="ph ph-star-four"></i>Final</a>
+    </nav>
+    <div class="rail-ctl">
+      <label>Look</label>
+      <div class="seg" data-ctl="theme"><button data-v="light"><i class="ph ph-sun"></i>Light</button><button data-v="dark"><i class="ph ph-moon"></i>Dark</button></div>
+      <label>Screen</label>
+      <div class="seg" data-ctl="view"><button data-v="desktop"><i class="ph ph-desktop"></i>Laptop</button><button data-v="phone"><i class="ph ph-device-mobile"></i>Phone</button></div>
+      <p class="note">These are the real pages of the prototype as they are today. You can click around inside them.</p>
+    </div>
+  </aside>
+  <main class="stage"><div class="frame"><iframe title="Current khabo site" id="view"></iframe><div class="loading" id="loading">Loading the page...</div></div></main>
+</div>
+<script>
+(function () {
+  'use strict';
+  /* the same five pages as redesigns A, B and C, shown from the live prototype */
+  var PAGES = {
+    home: '../classic.html#/',
+    list: '../classic.html#/restaurants',
+    rest: '../classic.html#/r/shahi-handi',
+    dash: '../panel/index.html#/overview',
+    menu: '../panel/index.html#/menu'
+  };
+  var app = document.querySelector('.app'), view = document.getElementById('view'), loading = document.getElementById('loading');
+  var state = { page: 'home', theme: 'light', view: 'desktop' };
+  try {
+    state.page = localStorage.getItem('khabo-cur-page') || state.page;
+    state.theme = localStorage.getItem('khabo-cur-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    state.view = localStorage.getItem('khabo-cur-view') || state.view;
+  } catch (e) { }
+  var q = new URLSearchParams(location.search);
+  if (PAGES[q.get('page')]) state.page = q.get('page');
+  if (q.get('theme')) state.theme = q.get('theme');
+  if (q.get('view')) state.view = q.get('view');
+  if (!PAGES[state.page]) state.page = 'home';
+  var keep = function (k, v) { try { localStorage.setItem('khabo-cur-' + k, v); } catch (e) { } };
+  var wait = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
+
+  /* match the page inside to the chosen look, and sign in to the partner panel with the prototype's test owner account */
+  function settle() {
+    var w = view.contentWindow, d = view.contentDocument; if (!w || !d) return;
+    var isPanel = /\/panel\//.test(w.location.pathname);
+    (async function () {
+      if (isPanel) {
+        for (var i = 0; i < 40 && !w.PN; i++) await wait(100);
+        var u = d.querySelector('#f-u');
+        if (u) { u.value = 'client1'; d.querySelector('#f-p').value = 'client1'; d.querySelector('form').requestSubmit(); await wait(700); w.location.hash = PAGES[state.page].split('#')[1]; await wait(300); }
+        if (w.PN && w.PN.theme && w.PN.theme() !== state.theme && w.PN.toggleTheme) w.PN.toggleTheme();
+      } else {
+        for (var j = 0; j < 40 && !(w.K && w.K.setTheme); j++) await wait(100);
+        if (w.K && w.K.setTheme) w.K.setTheme(state.theme);
+      }
+      loading.classList.add('off');
+    })();
+  }
+  view.addEventListener('load', settle);
+
+  function go(page) {
+    state.page = page; keep('page', page);
+    document.querySelectorAll('[data-go]').forEach(function (b) { b.classList.toggle('on', b.dataset.go === page); });
+    loading.classList.remove('off');
+    var url = PAGES[page], cur = view.contentWindow && view.contentWindow.location;
+    var samePage = cur && cur.href && cur.href.split('#')[0] === new URL(url, location.href).href.split('#')[0];
+    if (samePage) { cur.hash = url.split('#')[1]; setTimeout(settle, 50); }
+    else view.src = url;
+  }
+  function setCtl(name, v) {
+    state[name] = v; keep(name, v);
+    document.querySelectorAll('[data-ctl="' + name + '"] button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === v); });
+    if (name === 'view') app.dataset.view = v; else settle();
+  }
+  document.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-go]'); if (g) { go(g.dataset.go); return; }
+    var c = e.target.closest('[data-ctl] button'); if (c) setCtl(c.parentElement.dataset.ctl, c.dataset.v);
+  });
+  setCtl('view', state.view);
+  document.querySelectorAll('[data-ctl="theme"] button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === state.theme); });
+  go(state.page);
+})();
+</script>
+</body>
+</html>

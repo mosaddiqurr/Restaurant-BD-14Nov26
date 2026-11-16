@@ -239,17 +239,17 @@ html[lang="bn"] .rp-story p { line-height: 1.8; }
 .rp-sig .add.plus { background: rgba(255, 255, 255, .1); color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .26); }
 .rp-sig .add.plus:hover, .rp-sig .add.has { background: var(--r-accent); color: var(--r-on); box-shadow: none; }
 
-/* ---------- deal ---------- */
-.rp-deal-s { padding: 40px 0 8px; }
-.rp-deal { display: grid; gap: 18px; padding: 14px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid color-mix(in srgb, var(--r-accent) 40%, transparent); align-items: center; }
-@media (min-width: 900px) { .rp-deal { grid-template-columns: 280px 1fr auto; gap: 30px; padding: 16px 36px 16px 16px; } }
-.rp-deal .ph { aspect-ratio: 16 / 10; border-radius: var(--r); }
-.rp-deal-b { display: grid; gap: 6px; justify-items: start; padding: 0 8px; }
-.rp-deal-k { font-weight: 750; font-size: 13.5px; color: color-mix(in srgb, var(--r-accent) 55%, var(--ink)); }
-.rp-deal-b h3 { font-size: clamp(24px, 2.6vw, 30px); }
-.rp-deal-p { display: grid; justify-items: start; padding: 0 8px 8px; }
-@media (min-width: 900px) { .rp-deal-p { justify-items: end; padding: 0; } }
-.rp-deal-p b { font-size: 40px; font-weight: 800; letter-spacing: -.03em; }
+/* ---------- deals: the shared ticket (base.css) in a slider, with room for its shadow ---------- */
+.rp-deal-s { padding: 40px 0 0; }
+.rp-deals .sec-head { margin-bottom: 14px; }
+.rp-deals h2 .meta { font-family: var(--font); font-size: 14px; font-weight: 600; letter-spacing: 0; margin-left: 6px; }
+.rp-deals .rail-track { grid-auto-columns: 86%; padding-bottom: 40px; }
+@media (min-width: 700px) { .rp-deals .rail-track { grid-auto-columns: calc((100% - 18px) / 2); } }
+@media (min-width: 1100px) { .rp-deals.many .rail-track { grid-auto-columns: calc((100% - 36px) / 2.5); } }
+.rp-deals .tk-sm .tk-main { min-height: 230px; }
+.rp-deals .tk-sm .tk-t { font-size: 25px; }
+.rp-deal-s [data-deals] > .tk { margin-bottom: 44px; }
+@media (min-width: 900px) { .rp-deal-s .tk:not(.tk-sm) .tk-main { min-height: 380px; } }
 
 /* ---------- menu on paper ---------- */
 .rp-menu { background: var(--surface); }
@@ -447,3 +447,29 @@ html[lang="bn"] .rp-story p { line-height: 1.8; }
 .qrs-lr button:hover { border-color: var(--ink-3); }
 .qrs-lr button.on { border-color: var(--r-accent); background: color-mix(in srgb, var(--r-accent) 12%, var(--surface)); color: var(--ink); }
 .qrs-lp { width: 54px; height: 54px; border-radius: 8px; overflow: hidden; background: #fff; }
+
+/* social links (owner sets them in the panel). Main network is a card, the rest are round buttons */
+.rp-soc { margin-top: 22px; display: grid; gap: 10px; }
+.rp-soc-k { font-size: 12.5px; font-weight: 750; color: var(--ink-3); }
+.rp-soc-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.rp-soc-main { display: inline-flex; align-items: center; gap: 12px; padding: 8px 14px 8px 8px; border-radius: 16px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); transition: border-color .2s, transform .25s var(--ease); }
+.rp-soc-main:hover { border-color: color-mix(in srgb, var(--r-accent) 60%, var(--line)); transform: translateY(-1px); }
+.rp-soc-i { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--r-deep); color: var(--r-accent); }
+.rp-soc-i .ico { width: 22px; height: 22px; }
+.rp-soc-t { display: grid; line-height: 1.25; }
+.rp-soc-t b { font-size: 14.5px; font-weight: 750; }
+.rp-soc-t span { font-size: 12.5px; color: var(--ink-3); }
+.rp-soc-main > .ico:last-child { color: var(--ink-3); margin-left: 4px; }
+.rp-soc-b { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; border: 1px solid var(--line); background: var(--surface); color: var(--ink); transition: background .2s, color .2s, border-color .2s; }
+.rp-soc-b:hover { background: var(--r-deep); color: var(--r-accent); border-color: var(--r-deep); }
+.rp-soc-b .ico { width: 20px; height: 20px; }
+.rp-soc.sm { margin-top: 2px; }
+.rp-soc.sm .rp-soc-main { padding: 6px 12px 6px 6px; }
+.rp-soc.sm .rp-soc-i { width: 34px; height: 34px; border-radius: 10px; }
+.rp-soc.sm .rp-soc-b { width: 38px; height: 38px; }
+.rv-reply b { display: flex; align-items: center; gap: 8px; }
+.rv-reply b .mono { width: 24px; height: 24px; border-radius: 7px; font-size: 9.5px; }
+.rp-soc-main { max-width: 100%; min-width: 0; }
+.rp-soc-t { min-width: 0; }
+.rp-soc-t b, .rp-soc-t span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rp-soc-row { min-width: 0; }

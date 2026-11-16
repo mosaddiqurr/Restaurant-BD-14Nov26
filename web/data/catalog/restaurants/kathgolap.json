@@ -1,0 +1,379 @@
+{
+ "id": "kathgolap",
+ "name": {
+  "en": "Kathgolap Rooftop",
+  "bn": "কাঠগোলাপ রুফটপ"
+ },
+ "mono": "KR",
+ "since": 2021,
+ "area": "banani",
+ "city": "dhaka",
+ "geo": [
+  23.794,
+  90.4045
+ ],
+ "spot": {
+  "en": "Road 11, Banani",
+  "bn": "রোড ১১, বনানী"
+ },
+ "address": {
+  "en": "Level 11, 48 Road 11, Banani, Dhaka 1213",
+  "bn": "১১ তলা, ৪৮ রোড ১১, বনানী, ঢাকা ১২১৩"
+ },
+ "phone": "+8801700000412",
+ "cuisines": [
+  "bangladeshi",
+  "asian",
+  "grill"
+ ],
+ "theme": {
+  "deep": "#14192B",
+  "accent": "#F4D77E",
+  "font": "serif"
+ },
+ "tagline": {
+  "en": "Banani from the eleventh floor, with the grill going all evening.",
+  "bn": "এগারো তলা থেকে বনানী, সন্ধ্যাজুড়ে জ্বলছে গ্রিল।"
+ },
+ "story": {
+  "en": "Book a table by the rail if you want the sunset. After 8 pm the lounge side is quieter, and the grill runs until closing.",
+  "bn": "সূর্যাস্ত দেখতে চাইলে রেলিংয়ের পাশের টেবিল বুক করুন। রাত ৮টার পর লাউঞ্জের দিকটা শান্ত, আর গ্রিল চলে বন্ধ হওয়া পর্যন্ত।"
+ },
+ "rating": 4.3,
+ "reviews": 176,
+ "verified": 102,
+ "ppl": [
+  750,
+  1400
+ ],
+ "hours": [
+  "15:00",
+  "00:00"
+ ],
+ "vat": 10,
+ "service": 10,
+ "seats": 120,
+ "fac": [
+  "rooftop",
+  "ac",
+  "parking",
+  "wifi",
+  "cabin"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Card"
+ ],
+ "plan": "premium",
+ "featured": true,
+ "checked": 3,
+ "mediaDate": {
+  "en": "Nov 2026",
+  "bn": "নভেম্বর ২০২৬"
+ },
+ "hero": [
+  "pv:hotel_rooftop_balcony:a",
+  "i4",
+  "pv:aft_lounge:a"
+ ],
+ "film": {
+  "src": "https://assets.mixkit.co/videos/29050/29050-720.mp4",
+  "poster": "i4",
+  "len": "0:10"
+ },
+ "gallery": {
+  "inside": [
+   "pv:aft_lounge:a",
+   "i4",
+   "pv:aft_lounge:b"
+  ],
+  "outside": [
+   "pv:hotel_rooftop_balcony:a",
+   "pv:hotel_rooftop_balcony:b",
+   "ex1"
+  ],
+  "kitchen": [],
+  "food": [
+   "k"
+  ]
+ },
+ "tour": [
+  {
+   "id": "roof",
+   "en": "Rooftop",
+   "bn": "রুফটপ",
+   "pano": "hotel_rooftop_balcony",
+   "yaw": 130,
+   "spots": [
+    {
+     "to": "lounge",
+     "yaw": 260,
+     "pitch": -2
+    },
+    {
+     "info": {
+      "en": "Rail tables face west for sunset",
+      "bn": "রেলিংয়ের টেবিল পশ্চিমমুখী, সূর্যাস্ত দেখা যায়"
+     },
+     "yaw": 150,
+     "pitch": -6
+    }
+   ]
+  },
+  {
+   "id": "lounge",
+   "en": "Sky lounge",
+   "bn": "স্কাই লাউঞ্জ",
+   "pano": "aft_lounge",
+   "yaw": 10,
+   "spots": [
+    {
+     "to": "roof",
+     "yaw": 60,
+     "pitch": -2
+    }
+   ]
+  }
+ ],
+ "signature": [
+  "kr-kacchi",
+  "kr-bbq",
+  "kr-tomyum"
+ ],
+ "cats": [
+  {
+   "id": "main",
+   "en": "Mains",
+   "bn": "মূল খাবার"
+  },
+  {
+   "id": "asian",
+   "en": "Chinese & Thai",
+   "bn": "চাইনিজ ও থাই"
+  },
+  {
+   "id": "sweet",
+   "en": "Drinks",
+   "bn": "পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "kr-kacchi",
+   "type": "kacchi",
+   "name": {
+    "en": "Rooftop Kacchi",
+    "bn": "রুফটপ কাচ্চি"
+   },
+   "price": 480,
+   "p": "k",
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 1,
+   "cat": "main",
+   "best": true
+  },
+  {
+   "id": "kr-bbq",
+   "type": "platter",
+   "name": {
+    "en": "BBQ Platter for 4",
+    "bn": "বিবিকিউ প্ল্যাটার (৪ জন)"
+   },
+   "price": 2190,
+   "p": null,
+   "por": {
+    "en": "Serves 4 · chicken, beef, prawn",
+    "bn": "৪ জন · চিকেন, বিফ, চিংড়ি"
+   },
+   "spice": 2,
+   "cat": "main",
+   "share": 4
+  },
+  {
+   "id": "kr-tomyum",
+   "type": "thai",
+   "name": {
+    "en": "Tom Yum Soup",
+    "bn": "টম ইয়াম স্যুপ"
+   },
+   "price": 420,
+   "p": null,
+   "por": {
+    "en": "Serves 2",
+    "bn": "২ জন"
+   },
+   "spice": 2,
+   "cat": "asian"
+  },
+  {
+   "id": "kr-friedrice",
+   "type": "chinese",
+   "name": {
+    "en": "Egg Fried Rice",
+    "bn": "এগ ফ্রাইড রাইস"
+   },
+   "price": 340,
+   "p": null,
+   "por": {
+    "en": "Serves 1 to 2",
+    "bn": "১-২ জন"
+   },
+   "spice": 0,
+   "cat": "asian"
+  },
+  {
+   "id": "kr-chili",
+   "type": "chinese",
+   "name": {
+    "en": "Chili Chicken",
+    "bn": "চিলি চিকেন"
+   },
+   "price": 460,
+   "p": null,
+   "por": {
+    "en": "Serves 2",
+    "bn": "২ জন"
+   },
+   "spice": 2,
+   "cat": "asian"
+  },
+  {
+   "id": "kr-mocktail",
+   "type": "drink",
+   "name": {
+    "en": "Kathgolap Mocktail",
+    "bn": "কাঠগোলাপ মকটেল"
+   },
+   "price": 260,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "veg": true
+  }
+ ],
+ "deals": [
+  {
+   "id": "sunset",
+   "en": "Sunset hour, 20% off drinks",
+   "bn": "সূর্যাস্তের সময় পানীয়তে ২০% ছাড়",
+   "desc": {
+    "en": "All mocktails and juices.",
+    "bn": "সব মকটেল আর জুস।"
+   },
+   "when": {
+    "en": "Daily, 5pm to 7pm",
+    "bn": "প্রতিদিন বিকেল ৫টা থেকে ৭টা"
+   },
+   "price": 208,
+   "was": 260,
+   "p": "pv:hotel_rooftop_balcony:b"
+  },
+  {
+   "id": "brunch",
+   "en": "Friday brunch for 2",
+   "bn": "দুজনের শুক্রবারের ব্রাঞ্চ",
+   "desc": {
+    "en": "Two brunch plates and two fresh juices on the rooftop.",
+    "bn": "ছাদে দুটি ব্রাঞ্চ প্লেট আর দুটি তাজা জুস।"
+   },
+   "when": {
+    "en": "Friday, 10am to 1pm",
+    "bn": "শুক্রবার, সকাল ১০টা থেকে ১টা"
+   },
+   "price": 1150,
+   "was": 1380,
+   "p": "pv:hotel_rooftop_balcony:a"
+  }
+ ],
+ "events": [
+  {
+   "id": "acoustic-fri",
+   "en": "Acoustic Friday on the roof",
+   "bn": "ছাদে অ্যাকোস্টিক শুক্রবার",
+   "type": "music",
+   "start": "2026-11-20T19:30",
+   "end": "2026-11-20T22:30",
+   "p": "pv:hotel_rooftop_balcony:a",
+   "price": 300,
+   "desc": {
+    "en": "Two local bands, unplugged. The entry fee comes off your bill.",
+    "bn": "দুটি লোকাল ব্যান্ড, আনপ্লাগড। এন্ট্রি ফি বিল থেকে বাদ যাবে।"
+   }
+  },
+  {
+   "id": "old-songs",
+   "en": "Old Bangla songs night",
+   "bn": "পুরোনো বাংলা গানের রাত",
+   "type": "music",
+   "start": "2026-12-04T19:30",
+   "end": "2026-12-04T22:30",
+   "p": "pv:hotel_rooftop_balcony:a",
+   "price": 300
+  },
+  {
+   "id": "jazz-past",
+   "en": "Rooftop jazz evening",
+   "bn": "ছাদে জ্যাজ সন্ধ্যা",
+   "type": "music",
+   "start": "2026-11-06T19:30",
+   "end": "2026-11-06T22:30",
+   "p": "pv:hotel_rooftop_balcony:a",
+   "price": 300
+  }
+ ],
+ "deal": {
+  "id": "sunset",
+  "en": "Sunset hour, 20% off drinks",
+  "bn": "সূর্যাস্তের সময় পানীয়তে ২০% ছাড়",
+  "desc": {
+   "en": "All mocktails and juices.",
+   "bn": "সব মকটেল আর জুস।"
+  },
+  "when": {
+   "en": "Daily, 5pm to 7pm",
+   "bn": "প্রতিদিন বিকেল ৫টা থেকে ৭টা"
+  },
+  "price": 208,
+  "was": 260,
+  "p": "pv:hotel_rooftop_balcony:b"
+ },
+ "reviewList": [
+  {
+   "r": "kathgolap",
+   "who": "Tahsin Islam",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "5 days ago",
+    "bn": "৫ দিন আগে"
+   },
+   "t": "Booked a rail table for sunset after seeing the 360 view. Worth it. BBQ platter easily feeds four.",
+   "ord": [
+    "BBQ Platter for 4"
+   ]
+  },
+  {
+   "r": "kathgolap",
+   "who": "Ruma Begum",
+   "st": 3,
+   "vf": true,
+   "when": {
+    "en": "2 weeks ago",
+    "bn": "২ সপ্তাহ আগে"
+   },
+   "t": "সুন্দর জায়গা, কিন্তু ভ্যাট আর সার্ভিস চার্জ মিলিয়ে ২০%। আগে থেকে হিসাব করে যাওয়া ভালো।",
+   "ord": [
+    "Rooftop Kacchi",
+    "Tom Yum Soup"
+   ]
+  }
+ ]
+}

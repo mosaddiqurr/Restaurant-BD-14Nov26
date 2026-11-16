@@ -11,6 +11,32 @@ python website/serve.py
 
 Open http://localhost:8765. For the phone frame: http://localhost:8765/mobile.html.
 
+## Which files are the site (since 16 Nov 2026)
+
+- **index.html + app/app.js + app/app.css**: the main site in the final green design (React from a CDN, no build). It reads the same data as before: `restaurants/*/restaurant.js`, `data/common.js` and `code/i18n.js`.
+  Pages: `#/` home, `#/restaurants`, `#/dishes`, `#/deals`, `#/prices` (price tracker and Food Price Index), `#/events`, `#/r/<id>`, `#/business`, `#/partner` (owner overview, menu and prices, reviews), `#/admin/deals` (khabo team: deal order).
+- **data/prices.js**: six months of demo price history (made from the menus by a script; demo only). Price changes saved in the panels are added on top.
+- **Events** live on each restaurant (`events: [...]` in its restaurant.js, or added in the panel under Events). They hide by themselves after they end.
+- **panel/menuphoto.js**: "Upload menu photo" in Menu & prices (owner and admin). Prototype uses a sample photo and a ready-made draft, no AI call yet. **panel/events.js**: the Events screen.
+- **classic.html + code/ + styles/**: the earlier design. Still used for the table menu (`#/t/<id>`) and the printable menu (`#/r/<id>/print`); index.html sends those links there, so printed QR codes keep working.
+- **panel/**: the full partner and admin panel (now in green). Admin has a new "Deal order" page. Owner changes made on `#/partner` save to the same place as the panel (`khabo.panel.v1` in this browser).
+- **design-options/final.html**: the same app with the preview rail (laptop/phone, light/dark, language, compare designs).
+
+Admin and restaurant panels: http://localhost:8765/panel/ (also linked as "Partner sign in" in the site footer).
+
+| Username | Password | Sees |
+|---|---|---|
+| `admin` | `admin` | Master: everything, including team accounts and money |
+| `manager` / `support` / `sales` / `finance` | same as the username | The other khabo team levels, each with less access |
+| `client1` | `client1` | Shahi Handi House only |
+| `client2` | `client2` | Kathgolap Rooftop only |
+| `client3` | `client3` | Cha Adda only |
+
+Who can change what: [docs/4-tech/18-security-and-access.md](../docs/4-tech/18-security-and-access.md).
+
+Changes made in the panels are saved in this browser and show on the website straight away (refresh the site tab).
+"Reset demo data" (admin > Activity) undoes everything.
+
 ## What is where
 
 ```
@@ -32,7 +58,7 @@ website/
 │                       facilities, budgets, and the helpers every restaurant.js uses
 │
 ├── code/               how the site works
-│   ├── core.js         the engine: page switching, the bill, shared helpers
+│   ├── core.js         the engine: page switching, the bill, shared helpers (the deal ticket and gold seal live here too)
 │   ├── i18n.js         every word on the site in English and Bangla
 │   ├── ai.js           Ask khabo (the AI planner)
 │   ├── pano.js         the 360° viewer
@@ -49,8 +75,16 @@ website/
 │
 ├── styles/             how the site looks (one file per area, plus motion.css for animation)
 ├── media/              3D dish models
+├── panel/              ADMIN AND RESTAURANT PANELS (sign in at panel/index.html)
+│   ├── store.js        accounts, team levels, sign-in safety, saved changes, activity log (the stand-in for a database)
+│   ├── app.js          login, sidebar, page switching, shared pieces
+│   ├── rest.js         pages for one restaurant: menu, page, photos, deals, reviews, table QR, insights, team, admin settings
+│   ├── site.js         "Your website": link, QR, door stickers, where to share
+│   ├── print.js        the 12 print menu designs
+│   ├── admin.js        pages only the khabo team sees: restaurants, team and users, reviews, billing, leads, site text, activity
+│   └── panel.css, print-menu.css, sticker.css   how the panels, menus and stickers look
 ├── design-options/     pages for choosing between design ideas (headlines, name animation)
-└── future/             prototypes not on the site yet: admin panel, owner dashboard, compare, map
+└── future/             prototypes not built yet: compare, map
 ```
 
 ## Add a restaurant

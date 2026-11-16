@@ -4,23 +4,20 @@
 
   /* ---------------- deals ---------------- */
   let dealCity = 'all';
-  const dealCard = (r, i) => { const d = r.deal; return `<a class="deal" href="#/r/${r.id}" data-rv style="--d:${i % 3};--r-accent:${r.theme.accent};--r-deep:${r.theme.deep}">
-    ${K.ph(d.p, { w: 720 })}<div class="deal-b"><span class="meta">${K.esc(L(r.name))} · ${L(K.areaOf(r.area))}</span><h3>${K.esc(L(d))}</h3><p>${K.esc(L(d.desc))}</p><p class="meta">${ico('calendar-blank', 'sm')} ${K.esc(L(d.when))}</p>
-    <div class="deal-p"><b class="num">${K.tk(d.price)}</b><span class="was num">${K.tk(d.was)}</span><span class="badge b-green">${t('save_x', { v: K.tk(d.was - d.price) })}</span></div></div></a>`; };
+  const dealCard = ({ r, d }, i) => K.dealTicket(r, d, { href: `#/r/${r.id}`, sm: true, place: true, w: 720, d: i % 3 });
   K.views.deals = {
     chrome: { tab: 'deals' },
     title: () => t('nav_deals'),
     render: () => {
-      const all = D.restaurants.filter(r => r.deal);
-      const wk = all.find(r => r.deal.week);
-      const list = all.filter(r => r !== wk && (dealCity === 'all' || r.city === dealCity));
+      const all = D.restaurants.flatMap(r => K.dealsOf(r).map(d => ({ r, d })));
+      const wk = all.find(x => x.d.week) || all[0];
+      if (!wk) return `<div class="pg-head wrap"><h1 class="h1 sm">${t('deals_title')}</h1><p class="lede">${t('deals_sub')}</p></div>`;
+      const list = all.filter(x => x !== wk && (dealCity === 'all' || x.r.city === dealCity));
       return `<div class="pg-head wrap"><h1 class="h1 sm" data-rv>${t('deals_title')}</h1><p class="lede" data-rv>${t('deals_sub')}</p></div>
-      <section class="wrap"><a class="deal-wide" href="#/r/${wk.id}" style="--r-accent:${wk.theme.accent};--r-deep:${wk.theme.deep}" data-rv>${K.ph(wk.deal.p, { w: 1200, eager: true })}
-        <div class="dw-body"><div class="dw-tags"><span class="badge b-gold">${t('deal_week')}</span><span class="badge b-glass">${t('featured')}</span></div><h2 class="h2">${K.esc(L(wk.deal))}</h2><p>${K.esc(L(wk.deal.desc))} ${K.esc(L(wk.deal.when))}.</p>
-        <div class="dw-price"><b class="num">${K.tk(wk.deal.price)}</b><span class="was num">${K.tk(wk.deal.was)}</span><span class="badge b-white">${t('save_x', { v: K.tk(wk.deal.was - wk.deal.price) })}</span></div><span class="dw-r">${K.esc(L(wk.name))} · ${L(K.areaOf(wk.area))}${ico('arrow-right', 'sm')}</span></div></a></section>
-      <section class="sec wrap"><div class="sec-head"><h2 class="h3">${t('all_deals')}</h2><div class="seg"><button class="${dealCity === 'all' ? 'on' : ''}" data-dc="all">${t('all')}</button><button class="${dealCity === 'dhaka' ? 'on' : ''}" data-dc="dhaka">${L(D.cities.dhaka)}</button><button class="${dealCity === 'bogura' ? 'on' : ''}" data-dc="bogura">${L(D.cities.bogura)}</button></div></div>
+      <section class="wrap">${K.dealTicket(wk.r, wk.d, { href: `#/r/${wk.r.id}`, cta: t('see_deal'), place: true, h: 'h2', note: t('featured'), w: 1200, eager: true })}</section>
+      <section class="sec"><div class="wrap"><div class="sec-head"><h2 class="h3">${t('all_deals')}</h2><div class="seg"><button class="${dealCity === 'all' ? 'on' : ''}" data-dc="all">${t('all')}</button><button class="${dealCity === 'dhaka' ? 'on' : ''}" data-dc="dhaka">${L(D.cities.dhaka)}</button><button class="${dealCity === 'bogura' ? 'on' : ''}" data-dc="bogura">${L(D.cities.bogura)}</button></div></div>
         <div class="deal-grid">${list.map(dealCard).join('') || `<div class="empty sm"><p>${t('no_deals')}</p></div>`}</div>
-        <p class="meta deal-note">${ico('info', 'sm')} ${t('deal_note')}</p></section>`;
+        <p class="meta deal-note">${ico('info', 'sm')} ${t('deal_note')}</p></div></section>`;
     },
     mount(el) { K._ctxR = null; el.addEventListener('click', e => { const b = e.target.closest('[data-dc]'); if (b) { dealCity = b.dataset.dc; K.route(true); } }); }
   };
@@ -51,7 +48,7 @@
       const sh = K.r('shahi-handi');
       return `<section class="biz-hero"><div class="wrap biz-hero-in">
         <div class="biz-copy"><h1 class="h1" data-rv>${t('biz_h1')}</h1><p class="lede" data-rv>${t('biz_sub')}</p>
-          <div class="biz-btns" data-rv><a class="btn btn-primary btn-lg" href="#biz-form" data-jump="biz-form">${ico('calendar-blank')}${t('book_visit')}</a><a class="btn btn-line btn-lg" href="#/r/shahi-handi">${t('see_live')}${ico('arrow-up-right', 'sm')}</a></div>
+          <div class="biz-btns" data-rv><a class="btn btn-primary btn-lg" href="#biz-form" data-jump="biz-form">${ico('calendar-blank')}${t('book_visit')}</a><a class="btn btn-line btn-lg" href="#/r/shahi-handi">${t('see_live')}${ico('arrow-up-right', 'sm')}</a><a class="btn btn-line btn-lg" href="panel/index.html">${ico('user-circle')}${t('partner_sign_in')}</a></div>
           <p class="meta biz-note" data-rv>${t('biz_note')}</p></div>
         <div class="biz-phone" data-rv="scale"><div class="phone"><div class="phone-notch"></div><iframe title="${t('see_live')}" loading="lazy" data-src="index.html?embed=1#/r/shahi-handi"></iframe></div></div>
       </div></section>
@@ -66,15 +63,25 @@
 
       <section class="sec biz-get"><div class="wrap">
         <h2 class="h2" data-rv>${t('get_title')}</h2><p class="sub" data-rv>${t('get_sub')}</p>
-        <div class="bento biz-bento">
-          <div class="bx bx-tour" data-rv="scale"><img src="${K.src('pv:warm_reception_dinner:a')}" alt="" loading="lazy" class="bx-full"><div class="bx-cap"><h3>${t('g_tour')}</h3><p>${t('g_tour_sub')}</p><button class="btn btn-white btn-sm" data-tour="shahi-handi|banquet">${ico('virtual-reality')}${t('try_it')}</button></div></div>
-          <div class="bx bx-film" data-rv="scale" style="--d:1"><video muted loop playsinline preload="none" poster="${K.src('kc1', 900)}" data-src="${sh.kitchen.src}"></video><div class="bx-cap"><h3>${t('g_film')}</h3><p>${t('g_film_sub')}</p></div></div>
-          <div class="bx bx-menu" data-rv="scale" style="--d:2"><div class="bx-cap"><h3>${t('g_menu')}</h3><p>${t('g_menu_sub')}</p><a class="btn btn-ink btn-sm" href="#/r/shahi-handi/print">${ico('printer')}${t('see_print')}</a></div><div class="qr-demo">${ico('qr-code')}</div></div>
-          <div class="bx bx-report" data-rv="scale" style="--d:3"><div class="bx-cap"><h3>${t('g_report')}</h3><p>${t('g_report_sub')}</p></div>
-            <div class="report"><div class="rep-h"><b>${K.esc(L(sh.name))}</b><span class="badge b-soft">${t('sample')} · ${t('oct')}</span></div>
-              <div class="rep-k"><div><span>${t('page_views')}</span><b class="num">${K.n(4812)}</b><em class="up">+18%</em></div><div><span>${t('qr_scans')}</span><b class="num">${K.n(1236)}</b><em class="up">+9%</em></div><div><span>${t('calls_dirs')}</span><b class="num">${K.n(388)}</b><em class="up">+12%</em></div></div>
-              <div class="rep-top"><span class="meta">${t('top_dishes')}</span><ol><li>${K.esc(L(K.dish('shahi-handi', 'mutton-kacchi').name))}<i style="--w:100%"></i></li><li>${K.esc(L(K.dish('shahi-handi', 'kacchi-handi').name))}<i style="--w:64%"></i></li><li>${K.esc(L(K.dish('shahi-handi', 'morog-polao').name))}<i style="--w:41%"></i></li></ol></div>
-              <div class="rep-cmp"><span class="meta">${t('price_insight')}</span><p>${t('insight_line', { d: L(K.dish('shahi-handi', 'mutton-kacchi').name), v: K.tk(420), a: L(K.areaOf('dhanmondi')), m: K.tk(380) })}</p></div></div></div>
+        <div class="bz">
+          <article class="bz-c bz-photo bz-tour" data-rv style="--d:0"><img src="${K.src('pv:warm_reception_dinner:a')}" alt="" loading="lazy">
+            <div class="bz-cap"><h3>${t('g_tour')}</h3><p>${t('g_tour_sub')}</p><button class="btn btn-white btn-sm" data-tour="shahi-handi|banquet">${ico('virtual-reality')}${t('try_it')}</button></div></article>
+          <article class="bz-c bz-photo bz-film" data-rv style="--d:1"><video muted loop playsinline preload="none" poster="${K.src('kc1', 900)}" data-src="${sh.kitchen.src}"></video>
+            <div class="bz-cap"><h3>${t('g_film')}</h3><p>${t('g_film_sub')}</p></div></article>
+          <article class="bz-c bz-menu" data-rv style="--d:2">
+            <div class="bz-txt"><h3>${t('g_menu')}</h3><p>${t('g_menu_sub')}</p></div>
+            <div class="bz-show" style="--r-deep:${sh.theme.deep};--r-accent:${sh.theme.accent}">
+              <div class="bz-paper" data-font="${sh.theme.font}"><b class="rp-display">${K.esc(L(sh.name))}</b>
+                <ul>${['mutton-kacchi', 'kacchi-handi', 'morog-polao'].map(id => K.dish('shahi-handi', id)).filter(Boolean).map(d => `<li><span>${K.esc(L(d.name))}</span><i></i><b class="num">${K.tkH(d.price)}</b></li>`).join('')}</ul></div>
+              <div class="bz-tent"><span class="bz-q" data-qrb="shahi-handi|rounded"></span><b>${t('tc_scan')}</b></div>
+            </div>
+            <a class="btn btn-line btn-sm" href="#/r/shahi-handi/print">${ico('printer')}${t('see_print')}</a></article>
+          <article class="bz-c bz-report" data-rv style="--d:3">
+            <div class="bz-txt"><h3>${t('g_report')}</h3><p>${t('g_report_sub')}</p></div>
+            <div class="rep-h"><b>${K.esc(L(sh.name))}</b><span class="meta">${t('sample')} · ${t('oct')}</span></div>
+            <div class="rep-k"><div><span>${t('page_views')}</span><b class="num">${K.n(4812)}</b><em>+18%</em></div><div><span>${t('qr_scans')}</span><b class="num">${K.n(1236)}</b><em>+9%</em></div><div><span>${t('calls_dirs')}</span><b class="num">${K.n(388)}</b><em>+12%</em></div></div>
+            <div class="rep-top"><span class="meta">${t('top_dishes')}</span><ol>${[['mutton-kacchi', 100], ['kacchi-handi', 64], ['morog-polao', 41]].map(([id, w]) => `<li><span>${K.esc(L(K.dish('shahi-handi', id).name))}</span><i style="--w:${w}%"></i></li>`).join('')}</ol></div>
+            <p class="rep-cmp">${ico('info', 'sm')}<span>${t('insight_line', { d: L(K.dish('shahi-handi', 'mutton-kacchi').name), v: K.tk(420), a: L(K.areaOf('dhanmondi')), m: K.tk(380) })}</span></p></article>
         </div>
       </div></section>
 
@@ -94,7 +101,7 @@
         <p class="meta plans-note">${t('plans_note')}</p>
       </div></section>
 
-      <section class="sec biz-faq"><div class="wrap biz-faq-in"><h2 class="h2" data-rv>${t('faq')}</h2><div class="faq">${FAQ.map(k => `<details data-rv><summary>${t(k)}${ico('plus', 'sm')}</summary><p>${t(k + '_a')}</p></details>`).join('')}</div></div></section>
+      <section class="sec biz-faq"><div class="wrap biz-faq-in"><h2 class="h2" data-rv>${t('faq')}</h2><div class="faq">${FAQ.map((k, i) => `<div class="t-acc faq-i" data-rv data-open="false"><button type="button" class="t-acc-head" aria-expanded="false" aria-controls="faq-${i}">${t(k)}<span class="t-acc-chev">${ico('caret-down', 'sm')}</span></button><div class="t-acc-panel" id="faq-${i}" role="region"><div class="t-acc-in"><p>${t(k + '_a')}</p></div></div></div>`).join('')}</div></div></section>
 
       <section class="sec biz-form-s" id="biz-form"><div class="wrap"><div class="biz-form" data-rv>
         <div class="bf-copy"><h2 class="h2">${t('form_title')}</h2><p class="lede">${t('form_sub')}</p><ul class="bf-list"><li>${ico('check-circle')}${t('form_p1')}</li><li>${ico('check-circle')}${t('form_p2')}</li><li>${ico('check-circle')}${t('form_p3')}</li></ul></div>

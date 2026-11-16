@@ -1,0 +1,110 @@
+/* Styles the Next.js build adds on top of the prototype's look. */
+
+/* icons come from an SVG sprite, sized by font-size like the old icon font */
+i.ph { display: inline-flex; flex: none; width: 1em; height: 1em; line-height: 1; font-style: normal; vertical-align: -0.125em; }
+i.ph > svg { width: 100%; height: 100%; display: block; fill: currentColor; overflow: visible; }
+
+/* the page now scrolls the window, not a frame */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { overflow-x: clip; }
+.screen { min-height: 100dvh; display: flex; flex-direction: column; }
+.screen > main { flex: 1; }
+html:has(.vaul-c), html:has([data-base-ui-inert]) { scrollbar-gutter: stable; }
+
+/* touch: no grey flash, no 300ms wait */
+a, button, [role="button"], [role="link"] { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+/* hover lifts only where there is a real mouse */
+@media (hover: none) { .rcard:hover, .dc:hover { transform: none; } }
+
+/* page changes: the old page fades out fast, the new one settles in right behind; named photos fly (React ViewTransition).
+   A restaurant card's photo flies into the cover with a strong ease out, cropped like a photo (no stretch, no blur) */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+::view-transition-old(.page-out) { animation: vt-out 110ms cubic-bezier(.4, 0, 1, 1) both; }
+::view-transition-new(.page-in) { animation: vt-in 260ms cubic-bezier(.23, 1, .32, 1) 40ms both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+::view-transition-group(.morph) { animation-duration: 360ms; animation-timing-function: cubic-bezier(.22, 1, .36, 1); z-index: 2; }
+::view-transition-image-pair(.morph) { overflow: clip; }
+::view-transition-old(.morph), ::view-transition-new(.morph) { height: 100%; object-fit: cover; animation-duration: 220ms; animation-timing-function: ease-out; }
+/* the restaurant's name plaque and film buttons sit above the flying photo and fade in on their own (restaurant-extra.css) */
+::view-transition-group(rp-plaq), ::view-transition-group(rp-vctl) { animation: none; z-index: 3; }
+::view-transition-new(rp-plaq), ::view-transition-new(rp-vctl) { animation: none; }
+::view-transition-old(rp-plaq), ::view-transition-old(rp-vctl) { animation: vt-out 110ms ease-out both; }
+::view-transition-group(hdr), ::view-transition-group(tabbar) { animation: none; z-index: 4; }
+/* the bars never move or resize: show only the new bar, drawn at its own size and cropped to the bar
+   (an open drop-down would otherwise be squeezed into the bar's picture and stretch it) */
+::view-transition-old(hdr), ::view-transition-old(tabbar) { display: none; }
+::view-transition-new(hdr), ::view-transition-new(tabbar) { animation: none; width: 100%; height: 100%; object-fit: none; object-position: 50% 0; }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}
+
+/* loading: skeletons shaped like the real content, with a slow light sweep */
+.sk { position: relative; overflow: hidden; background: var(--sunk); border-radius: 14px; }
+.sk::after { content: ""; position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--surface) 55%, transparent), transparent); animation: sk 1.4s cubic-bezier(.4, 0, .2, 1) infinite; }
+@keyframes sk { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .sk::after { animation: none; } }
+.sk-line { height: 14px; border-radius: 7px; }
+.sk-page { padding-top: 96px; padding-bottom: 80px; display: grid; gap: 18px; }
+.sk-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.sk-card { aspect-ratio: 4 / 3.3; }
+
+/* the first visit on a slow line: the khabo plate rolls in, then the page arrives */
+.boot-plate { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: var(--bg); transition: opacity .35s ease, visibility 0s .35s; }
+.boot-plate.done { opacity: 0; visibility: hidden; }
+.boot-plate svg { width: 64px; height: 64px; animation: boot-roll 1.2s cubic-bezier(.65, 0, .35, 1) infinite; }
+@keyframes boot-roll { 0% { transform: translateX(-28px) rotate(-200deg); } 50% { transform: translateX(28px) rotate(160deg); } 100% { transform: translateX(-28px) rotate(-200deg); } }
+
+/* route progress: a thin marigold line at the very top while the next page loads */
+.navbar-p { position: fixed; left: 0; top: 0; height: 2px; width: 100%; z-index: 300; background: var(--gold); transform-origin: left; transform: scaleX(0); pointer-events: none; }
+.navbar-p.go { animation: navp 1.6s cubic-bezier(.08, .7, .2, 1) forwards; }
+.navbar-p.end { transform: scaleX(1); opacity: 0; transition: opacity .3s ease .1s; }
+@keyframes navp { to { transform: scaleX(.86); } }
+
+/* offline note on the table menu */
+.offline-n { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-3); }
+
+/* screen-reader-only skip link */
+.skip { position: absolute; left: 12px; top: -60px; z-index: 400; padding: 10px 14px; border-radius: 10px; background: var(--btn); color: var(--on-btn); font-weight: 650; }
+.skip:focus { top: 12px; }
+
+/* whole-card links: the card is one big link, small buttons inside stay clickable on top */
+.coupon, .evc { position: relative; }
+.cp-a { position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.coupon .code, .coupon .count, .evc .evc-f { position: relative; z-index: 2; }
+
+/* icons that depend on light or dark: both are in the page, CSS shows the right one (no flash) */
+:root:not([data-theme="dark"]) .th-dark, :root[data-theme="dark"] .th-light { display: none; }
+
+/* page not found */
+.nf { min-height: 70dvh; display: grid; place-content: center; justify-items: center; text-align: center; gap: 12px; padding-top: 100px; padding-bottom: 60px; }
+.nf-plate { width: 120px; height: 120px; margin-bottom: 8px; }
+.nf .sub { margin-top: 0; }
+.nf-a { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 10px; }
+
+/* event time: the icon stays beside the text when it wraps */
+.evc-when { flex-wrap: nowrap; align-items: flex-start; }
+.evc-when > i.ph { margin-top: 3px; }
+
+/* maps: darker tiles in dark mode */
+:root[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.82) contrast(.9) saturate(.45); }
+.leaflet-container { font-family: var(--sans); background: var(--sunk); }
+
+/* switching Bangla ⇄ English: nothing moves; the old words fade out while the new ones fade in, in place,
+   on the page and in the top bar alike (header.tsx sets html[data-vt=lang] for the switch) */
+html[data-vt="lang"]::view-transition-old(.page-out) { animation: vt-out 200ms ease-out both; }
+html[data-vt="lang"]::view-transition-new(.page-in) { animation: vt-fade-in 260ms ease-out both; }
+html[data-vt="lang"]::view-transition-old(hdr), html[data-vt="lang"]::view-transition-old(tabbar) { display: block; animation: vt-out 200ms ease-out both; width: 100%; height: 100%; object-fit: none; object-position: 50% 0; }
+html[data-vt="lang"]::view-transition-new(hdr), html[data-vt="lang"]::view-transition-new(tabbar) { animation: vt-fade-in 260ms ease-out both; }
+@keyframes vt-fade-in { from { opacity: 0; } }
+
+/* light ⇄ dark (theme-flip.ts): the whole page is one picture, the new colours open in a circle from the button */
+html[data-vt="theme"] * { view-transition-name: none !important; }
+html[data-vt="theme"]::view-transition-group(root) { animation: none; }
+html[data-vt="theme"]::view-transition-old(root) { animation: none; }
+html[data-vt="theme"]::view-transition-new(root) { animation: vt-circle 480ms cubic-bezier(.4, 0, .2, 1) both; }
+@keyframes vt-circle { from { clip-path: circle(0 at var(--vt-x, 50%) var(--vt-y, 0)); } to { clip-path: circle(var(--vt-r, 150vmax) at var(--vt-x, 50%) var(--vt-y, 0)); } }
+/* the moment Bangla ⇄ English is tapped, the page dims a little while the other language is built */
+.screen > main, .hdr .wrap, .foot { transition: opacity .16s ease-out; }
+html[data-lang-wait] .screen > main, html[data-lang-wait] .hdr .wrap, html[data-lang-wait] .foot { opacity: .45; }
+html[data-vt="lang"]::view-transition-new(rp-plaq) { animation: vt-fade-in 260ms ease-out both; }

@@ -42,7 +42,7 @@
         <p class="rp-tag">${K.esc(L(r.tagline))}</p>
         <div class="rp-facts">
           <button class="rp-fact" data-jump="reviews" style="--i:0"><b class="num">${ico('star-fill', 'sm')}${K.n(r.rating)}</b><span>${t('n_reviews', { n: K.n(r.reviews) })}</span></button>
-          <span class="rp-fact" style="--i:1"><b class="num">${K.ppRange(r)}</b><span>${t('per_person')}</span></span>
+          ${r.hidePpl ? '' : `<span class="rp-fact" style="--i:1"><b class="num">${K.ppRange(r)}</b><span>${t('per_person')}</span></span>`}
           <button class="rp-fact" data-jump="info" style="--i:2"><b class="${os.open ? 'open-now' : 'closed'}">${os.open ? t('open_now') : t('closed_now')}</b><span>${os.label}</span></button>
         </div>
         <div class="rp-ctas">${ctas.map((c, i) => c.replace(/^<(a|button) class="/, `<$1 style="--i:${i}" class="`)).join('')}</div>
@@ -77,9 +77,21 @@
     ];
     return `<section class="sec rp-intro"><div class="wrap rp-intro-in">
       <div class="rp-story" data-rv><h2 class="h3 rp-display">${t('about_r', { r: K.esc(L(r.name)) })}</h2><p>${K.esc(L(r.story))}</p>
-        <div class="rp-acts"><a class="btn btn-line btn-sm" href="tel:${r.phone}">${ico('phone')}${t('call')}</a><a class="btn btn-line btn-sm" href="${waUrl(r)}" target="_blank" rel="noopener">${ico('whatsapp-logo')}WhatsApp</a><a class="btn btn-line btn-sm" href="${mapUrl(r)}" target="_blank" rel="noopener">${ico('navigation-arrow')}${t('directions')}</a></div></div>
+        <div class="rp-acts"><a class="btn btn-line btn-sm" href="tel:${r.phone}">${ico('phone')}${t('call')}</a><a class="btn btn-line btn-sm" href="${waUrl(r)}" target="_blank" rel="noopener">${ico('whatsapp-logo')}WhatsApp</a><a class="btn btn-line btn-sm" href="${mapUrl(r)}" target="_blank" rel="noopener">${ico('navigation-arrow')}${t('directions')}</a></div>${social(r)}</div>
       <dl class="rp-dl" data-rv>${rows.map(([a, b]) => `<div><dt>${a}</dt><dd>${b}</dd></div>`).join('')}</dl>
     </div></section>`;
+  }
+
+  /* social links the owner adds in their panel. Their main network is a card; the rest are round buttons */
+  const handle = (k, url) => { try { const p = new URL(url).pathname.split('/').filter(Boolean).pop() || ''; return p ? (k === 'facebook' ? p : '@' + p.replace(/^@/, '')) : ''; } catch (e) { return ''; } };
+  function social(r, compact) {
+    const s = r.social; if (!s || !s.links) return '';
+    const keys = Object.keys(D.socials).filter(k => s.links[k] && s.links[k].url); if (!keys.length) return '';
+    const main = keys.includes(s.main) ? s.main : keys[0], rest = keys.filter(k => k !== main), x = s.links[main], n = D.socials[main];
+    const a = (k, cls, inner) => `<a class="${cls}" href="${K.esc(s.links[k].url)}" target="_blank" rel="noopener nofollow" aria-label="${K.esc(D.socials[k].en)}${s.links[k].n ? ', ' + K.esc(t('followers', { n: s.links[k].n })) : ''}">${inner}</a>`;
+    return `<div class="rp-soc ${compact ? 'sm' : ''}">${compact ? '' : `<span class="rp-soc-k">${t('follow_r', { r: K.esc(L(r.name)) })}</span>`}<div class="rp-soc-row">
+      ${a(main, 'rp-soc-main', `<span class="rp-soc-i">${ico(n.i)}</span><span class="rp-soc-t"><b>${n.en}</b><span>${[x.n ? K.esc(t('followers', { n: x.n })) : '', K.esc(handle(main, x.url))].filter(Boolean).join(' · ')}</span></span>${ico('arrow-up-right', 'sm')}`)}
+      ${rest.map(k => a(k, 'rp-soc-b', ico(D.socials[k].i))).join('')}</div></div>`;
   }
 
   function signature(r) {
@@ -93,23 +105,20 @@
   }
 
   function deal(r) {
-    if (!r.deal) return '';
-    const d = r.deal;
-    return `<section class="rp-deal-s"><div class="wrap"><div class="rp-deal" data-rv>
-      ${K.ph(d.p, { w: 700 })}
-      <div class="rp-deal-b"><span class="rp-deal-k">${d.week ? t('deal_week') : t('deal')}</span><h3 class="rp-display">${K.esc(L(d))}</h3><p>${K.esc(L(d.desc))}</p><p class="meta">${K.esc(L(d.when))}</p></div>
-      <div class="rp-deal-p"><b class="num">${K.tk(d.price)}</b><span class="was num">${K.tk(d.was)}</span><span class="meta">${t('save_x', { v: K.tk(d.was - d.price) })}</span></div>
-    </div></div></section>`;
+    const all = K.dealsOf(r); if (!all.length) return '';
+    /* one deal: the wide ticket. Several: smaller tickets side by side, so people see there is more than one */
+    if (all.length === 1) return `<section class="rp-deal-s"><div class="wrap"><div data-rv data-deals>${K.dealTicket(r, all[0], { tCls: 'rp-display', w: 1000, rv: false })}</div></div></section>`;
+    return `<section class="rp-deal-s"><div class="wrap"><div class="rp-deals ${all.length > 2 ? 'many' : ''}" data-rv data-deals>${K.rail('rp-deals', all.map((d, i) => K.dealTicket(r, d, { tCls: 'rp-display', w: 760, rv: false, sm: true })).join(''), { head: `<h2 class="h3 rp-display">${t('nav_deals')} <span class="meta">${t('n_deals', { n: K.n(all.length) })}</span></h2>` })}</div></div></section>`;
   }
 
   function menuItem(r, d, i = 0) {
     const media = [d.d3 ? `<span class="mi-tag">${ico('cube', 'sm')}3D</span>` : '', d.video ? `<span class="mi-tag">${ico('play-fill', 'sm')}${t('video')}</span>` : ''].join('');
-    return `<article class="mi ${d.p ? '' : 'np'}" data-rv style="--d:${i % 3}" data-dish="${r.id}|${d.id}" data-name="${K.esc((d.name.en + ' ' + d.name.bn).toLowerCase())}" tabindex="0">
+    return `<article class="mi ${d.p ? '' : 'np'} ${d.out ? 'is-out' : ''}" data-rv style="--d:${i % 3}" data-dish="${r.id}|${d.id}" data-name="${K.esc((d.name.en + ' ' + d.name.bn).toLowerCase())}" tabindex="0">
       <div class="mi-t"><h4>${K.esc(L(d.name))}${d.best ? `<span class="mi-best">${t('best_seller')}</span>` : ''}</h4>
         <p class="mi-alt">${K.esc(K.S.lang === 'bn' ? d.name.en : d.name.bn)}</p>
         <p class="mi-por">${K.esc(L(d.por))}${d.spice ? ' · ' + K.spice(d.spice) : ''}${d.veg ? ` · <span class="veg">${ico('leaf', 'sm')}${t('veg')}</span>` : ''}</p>
         ${d.desc ? `<p class="mi-desc">${K.esc(L(d.desc))}</p>` : ''}
-        <div class="mi-p"><span class="price num">${K.tk(d.price)}</span>${media}</div>
+        <div class="mi-p"><span class="price num">${K.tkH(d.price)}</span>${media}</div>
       </div>
       ${d.p ? `<div class="mi-ph">${K.ph(d.p, { w: 260, alt: '' })}${K.addBtn(r.id, d.id)}</div>` : `<div class="mi-add">${K.addBtn(r.id, d.id)}</div>`}
     </article>`;
@@ -117,7 +126,7 @@
   function menu(r) {
     return `<section class="sec rp-menu" id="menu"><div class="wrap">
       <div class="rp-menu-h"><div><h2 class="h2 rp-display" data-rv>${t('menu')}</h2><p class="meta" data-rv><span class="fresh">${K.checked(r.checked)}</span><span>${t('menu_note', { v: K.n(r.vat), s: K.n(r.service) })}</span></p></div>
-        <div class="rp-menu-tools"><label class="msearch">${ico('magnifying-glass', 'sm')}<input type="search" placeholder="${t('search_menu')}" aria-label="${t('search_menu')}"></label><button class="btn btn-line btn-sm" data-qrmenu>${ico('qr-code')}${t('qr_menu_btn')}</button><a class="btn btn-line btn-sm" href="#/r/${r.id}/print">${ico('printer')}${t('print_menu')}</a></div></div>
+        <div class="rp-menu-tools"><label class="msearch">${ico('magnifying-glass', 'sm')}<input type="search" placeholder="${t('search_menu')}" aria-label="${t('search_menu')}"></label></div></div>
       <div class="mcats"><div class="chips scroll">${r.cats.map((c, i) => `<button class="chip sm ${i === 0 ? 'on' : ''}" data-mcat="${c.id}">${L(c)}<span class="meta">${K.n(r.menu.filter(d => d.cat === c.id).length)}</span></button>`).join('')}</div></div>
       ${r.cats.map(c => `<div class="mgroup" id="mc-${c.id}" data-cat="${c.id}"><h3 class="mgroup-h rp-display">${L(c)}</h3><div class="mlist">${r.menu.filter(d => d.cat === c.id).map((d, i) => menuItem(r, d, i)).join('')}</div></div>`).join('')}
       <p class="mnone meta" hidden>${t('menu_none')}</p>
@@ -168,14 +177,14 @@
 
   /* ---------- reviews ---------- */
   function revCard(v, i, own) {
-    const nm = own ? v.who : v.who;
+    const nm = v.who, r = K.r(v.r) || {};
     return `<article class="rv ${own ? 'own' : ''}" data-rv style="--d:${i % 3}">
       <header><span class="av">${K.esc(K.initials(nm))}</span><div><b>${K.esc(nm)}</b><span class="meta">${K.esc(L(v.when))}</span></div><span class="rv-st" aria-label="${t('n_stars', { n: v.st })}">${ico('star-fill', 'sm').repeat(v.st)}${ico('star', 'sm').repeat(5 - v.st)}</span></header>
       ${own ? `<span class="rv-pend">${ico('clock', 'sm')}${t('rv_pending')}</span>` : v.vf ? `<span class="vf">${ico('seal-check-fill', 'sm')}${t('verified_visit')}</span>` : ''}
       <p>${K.esc(v.t)}</p>
       ${v.ord.length ? `<p class="rv-ord">${t('ordered')}: ${v.ord.map(K.esc).join(', ')}</p>` : ''}
       ${v.pics ? `<div class="rv-pics">${v.pics.map(p => K.ph(p, { w: 240 })).join('')}</div>` : ''}
-      ${v.reply ? `<div class="rv-reply"><b>${t('owner_reply')}</b><p>${K.esc(L(v.reply))}</p></div>` : ''}
+      ${v.reply ? `<div class="rv-reply"><b>${r.name ? K.mono(r) : ''}${t('reply_from', { r: K.esc(L(r.name) || t('restaurant')) })}</b><p>${K.esc(L(v.reply))}</p></div>` : ''}
     </article>`;
   }
   function revList(r) {
@@ -242,7 +251,7 @@
     K.sheet.open({
       cls: 'drawer qrs', title: t('qr_menu'), html: `<div class="sheet-b qrs-b">
         <div class="qrs-card" data-font="${r.theme.font}"><span class="qrs-name rp-display">${K.esc(L(r.name))}</span><span class="qrs-code" data-qrs></span><b>${t('qrs_scan')}</b><span class="qrs-tbl">${t('table_n', { n: K.dg(5) })}</span></div>
-        <div class="qrs-looks"><p class="qrs-lh"><b>${t('qrs_brand')}</b><span>${t('qrs_brand_sub')}</span></p><div class="qrs-lr" role="radiogroup" aria-label="${t('qrs_brand')}">${Object.keys(K.QR_LOOKS).map(k => `<button role="radio" aria-checked="${k === look(r) ? 'true' : 'false'}" class="${k === look(r) ? 'on' : ''}" data-look="${k}"><span class="qrs-lp" data-lp="${k}"></span><span>${L(K.QR_LOOKS[k])}</span></button>`).join('')}</div></div>
+        <div class="qrs-looks"><p class="qrs-lh"><b>${t('qrs_brand')}</b><span>${t('qrs_brand_sub')}</span></p><div class="qrs-lr" role="radiogroup" aria-label="${t('qrs_brand')}">${K.qrLooksFor(r).map(k => `<button role="radio" aria-checked="${k === look(r) ? 'true' : 'false'}" class="${k === look(r) ? 'on' : ''}" data-look="${k}"><span class="qrs-lp" data-lp="${k}"></span><span>${L(K.QR_LOOKS[k])}</span></button>`).join('')}</div></div>
         <p class="qrs-how">${t('qrs_how')}</p>
         <ol class="qrs-steps"><li>${ico('qr-code')}<span>${t('qrs_s1')}</span></li><li>${ico('fork-knife')}<span>${t('qrs_s2')}</span></li><li>${ico('receipt')}<span>${t('qrs_s3')}</span></li></ol>
         <div class="qrs-acts"><a class="btn rp-acc btn-lg btn-block" href="#/t/${r.id}?table=5">${ico('arrow-up-right')}${t('qrs_open')}</a><a class="btn btn-line btn-lg btn-block" href="#/r/${r.id}/print?cards=1">${ico('printer')}${t('qrs_cards')}</a></div>
@@ -270,6 +279,7 @@
         <div class="vinfo" data-rv>
           <div class="vi"><h3>${t('address')}</h3><p class="vi-big">${K.esc(L(r.address))}</p><div class="vi-btns"><a class="btn rp-acc" href="${mapUrl(r)}" target="_blank" rel="noopener">${ico('navigation-arrow')}${t('directions')}</a><a class="btn btn-line" href="tel:${r.phone}">${ico('phone')}${t('call')}</a><a class="btn btn-line" href="${waUrl(r)}" target="_blank" rel="noopener">${ico('whatsapp-logo')}WhatsApp</a></div></div>
           <div class="vi"><h3>${t('hours')}</h3><p class="vi-big">${os.from} ${t('to')} ${os.close}</p><p><span class="${os.open ? 'open-now' : 'closed'}">${os.open ? t('open_now') : t('closed_now')}</span><span class="meta">, ${t('every_day').toLowerCase()}</span></p></div>
+          ${social(r, true) ? `<div class="vi"><h3>${t('follow_short')}</h3>${social(r, true)}</div>` : ''}
           <div class="vi"><h3>${t('payment')}</h3><p>${r.pay.join(', ')}</p><p class="meta">${t('vat_plus', { v: K.n(r.vat), s: K.n(r.service) })}</p></div>
           <div class="vi wide"><h3>${t('facilities')}</h3><ul class="fac">${r.fac.map(f => `<li>${ico(D.facilities[f].i)}${L(D.facilities[f])}</li>`).join('') || `<li class="meta">${t('fac_none')}</li>`}</ul></div>
         </div>

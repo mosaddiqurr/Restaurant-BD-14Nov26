@@ -1,0 +1,29 @@
+@import "tailwindcss";
+/* the khabo design (tokens, parts and pages), under Tailwind utilities so utilities can always adjust it */
+@import "../styles/khabo.css" layer(components);
+@import "../styles/next.css" layer(components);
+@import "../styles/scroll.css" layer(components);
+@import "../styles/load.css" layer(components);
+@import "../styles/system.css" layer(components);
+
+/* khabo colours and fonts as Tailwind names: bg-surface, text-ink-2, border-line, font-sans ... */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-sunk: var(--sunk);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-brand: var(--brand);
+  --color-brand-soft: var(--brand-soft);
+  --color-gold: var(--gold);
+  --color-good: var(--good);
+  --color-bad: var(--bad);
+  --font-sans: var(--sans);
+  --font-serif: var(--serif);
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);
+}
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo redesign B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wdth,wght@75..125,300..800&family=Tiro+Bangla&display=swap">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<style>
+:root {
+  --green: #0C5A3E; --green-deep: #073D2A; --green-soft: #E3EEE7; --cream: #F7F1DE; --cream-2: rgba(247, 241, 222, .74);
+  --red: #D23A2A; --red-ink: #FFF6F1; --gold: #F4B91A;
+  --paper: #F2F4EF; --surface: #FFFFFF; --sunk: #E8ECE5; --ink: #0F1F18; --ink-2: #3B4B43; --ink-3: #5E6E66; --line: #D5DCD3;
+  --good: #11704A; --warn: #A15C00; --chart: #0C5A3E; --warn-bg: #FFF1D6;
+  --shadow: 0 1px 1px rgba(7, 40, 27, .05), 0 10px 24px -14px rgba(7, 40, 27, .28);
+  --r: 8px; --r-lg: 12px;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --cond: "Anek Bangla", system-ui, sans-serif;
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --green: #0B4D35; --green-deep: #05271B; --green-soft: #12291F; --cream: #F4EEDA; --cream-2: rgba(244, 238, 218, .72);
+  --red: #E2513F; --red-ink: #1A0806; --gold: #F6C23A;
+  --paper: #0C1310; --surface: #131C18; --sunk: #18231E; --ink: #E7EEE9; --ink-2: #B3C0B9; --ink-3: #8B9A92; --line: #24322B;
+  --good: #4CC88F; --warn: #F2B24C; --chart: #4CC88F; --warn-bg: #2A2112;
+  --shadow: 0 1px 1px rgba(0, 0, 0, .3), 0 12px 28px -16px rgba(0, 0, 0, .8);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font: 400 16px/1.5 var(--cond); font-variation-settings: "wdth" 100; color: var(--ink); background: #1A2620; -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--gold); color: #0F1F18; }
+input, textarea { caret-color: var(--red); }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 4px; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+.bn { font-family: var(--cond); }
+
+/* ---------- preview shell ---------- */
+.app { display: grid; grid-template-columns: 236px minmax(0, 1fr); height: 100dvh; }
+.rail { display: flex; flex-direction: column; gap: 22px; padding: 22px 14px; background: #0B1712; color: #DDE6E0; overflow: auto; scrollbar-width: thin; scrollbar-color: #2A3B33 transparent; }
+.rail-h { display: flex; align-items: center; gap: 10px; padding: 0 8px; }
+.rail-h b { font: 750 17px/1.1 var(--cond); font-variation-settings: "wdth" 88; letter-spacing: .01em; }
+.rail-h small { display: block; font-size: 12.5px; color: #8EA197; font-weight: 450; }
+.rail nav { display: grid; gap: 2px; }
+.rail h4 { font-size: 12.5px; font-weight: 600; color: #7F9389; padding: 0 10px 4px; }
+.rail nav button { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: var(--r); font-size: 15px; font-weight: 550; color: #C3D0C8; text-align: left; }
+.rail nav button i { font-size: 18px; }
+.rail nav button:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.rail nav button.on { background: #0C5A3E; color: #F7F1DE; box-shadow: inset 0 0 0 1px rgba(247, 241, 222, .18); }
+.rail nav a { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 8px; font-size: 14.5px; font-weight: 550; color: #C3D0C8; }
+.rail nav a i { font-size: 17px; }
+.rail nav a:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.rail nav a.on { box-shadow: inset 0 0 0 1px rgba(247, 241, 222, .3); color: #F7F1DE; }
+.rail-ctl { margin-top: auto; display: grid; gap: 8px; }
+.rail-ctl label { font-size: 12.5px; font-weight: 600; color: #7F9389; padding: 0 4px; }
+.rs { display: grid; grid-template-columns: 1fr 1fr; padding: 3px; gap: 3px; border-radius: 10px; background: rgba(255, 255, 255, .06); }
+.rs button { height: 34px; border-radius: 7px; font-size: 13.5px; font-weight: 600; color: #B7C5BD; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.rs button.on { background: #F7F1DE; color: #0B1712; }
+.rail-note { font-size: 12.5px; color: #7F9389; line-height: 1.45; padding: 0 4px; margin-top: 6px; }
+.stage { overflow: auto; display: flex; justify-content: center; scrollbar-color: #2A3B33 transparent; }
+.frame { width: 100%; background: var(--paper); min-height: 100%; }
+.app[data-view="phone"] .stage { padding: 24px 0; align-items: flex-start; }
+.app[data-view="phone"] .frame { width: 390px; height: calc(100dvh - 48px); min-height: 0; overflow: auto; border-radius: 34px; box-shadow: 0 0 0 10px #0B1712, 0 30px 80px rgba(0, 0, 0, .45); scrollbar-width: none; }
+.screen { container-type: inline-size; container-name: s; min-height: 100%; }
+
+/* ---------- shared ---------- */
+.wrap { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+@container s (max-width: 720px) { .wrap { padding: 0 16px; } }
+.disp { font-family: var(--cond); font-variation-settings: "wdth" 78; font-weight: 800; letter-spacing: -.005em; line-height: .95; }
+.h2 { font: 800 clamp(30px, 4vw, 46px)/1 var(--cond); font-variation-settings: "wdth" 80; letter-spacing: -.005em; }
+.lede { color: var(--ink-2); font-size: 18px; max-width: 54ch; margin-top: 12px; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 20px; border-radius: var(--r); font-weight: 650; font-size: 16px; white-space: nowrap; transition: transform .15s var(--ease), filter .2s, background .2s; }
+.btn:active { transform: translateY(1px); }
+.btn i { font-size: 18px; }
+.btn-red { background: var(--red); color: var(--red-ink); box-shadow: 0 1px 0 rgba(0, 0, 0, .18), 0 6px 14px -8px var(--red); }
+.btn-red:hover { filter: brightness(1.06); }
+.btn-line { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.btn-line:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.btn-sm { height: 38px; padding: 0 14px; font-size: 14.5px; }
+.tk { font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+.tk::before { content: "৳"; font-size: .78em; margin-right: 1px; opacity: .85; }
+.link { color: var(--green); font-weight: 650; text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+:root[data-theme="dark"] .link { color: var(--gold); }
+.pic { overflow: hidden; background: var(--sunk); }
+.pic img { width: 100%; height: 100%; object-fit: cover; }
+.sec { padding-top: 88px; }
+@container s (max-width: 720px) { .sec { padding-top: 60px; } }
+@media (prefers-reduced-motion: no-preference) { .pg-in > * { animation: show .6s var(--ease) both; } }
+@keyframes show { from { opacity: .001; } }
+
+/* nav */
+.nav { background: var(--paper); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 30; }
+.nav .wrap { display: flex; align-items: center; gap: 28px; height: 66px; }
+.logo { display: inline-flex; align-items: center; gap: 9px; font: 800 24px/1 var(--cond); font-variation-settings: "wdth" 84; letter-spacing: .005em; color: var(--ink); }
+.logo svg { width: 30px; height: 30px; }
+.nav-l { display: flex; gap: 22px; font-weight: 550; color: var(--ink-2); }
+.nav-l a:hover, .nav-l a.on { color: var(--ink); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 8px; }
+.nav-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.ib { width: 40px; height: 40px; border-radius: var(--r); display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line); background: var(--surface); font-size: 18px; }
+@container s (max-width: 880px) { .nav-l, .nav-hide { display: none; } }
+
+/* ============ HOME: the price board ============ */
+.board { margin-top: 24px; position: relative; background: var(--green); color: var(--cream); border-radius: var(--r-lg); padding: 34px 38px 30px; box-shadow: 0 1px 0 rgba(0, 0, 0, .12), 0 22px 40px -26px rgba(7, 61, 42, .7); }
+.board::before { content: ""; position: absolute; inset: 9px; border: 1.5px solid rgba(247, 241, 222, .3); border-radius: 6px; pointer-events: none; }
+.board h1 { font-size: clamp(46px, 7.2vw, 96px); max-width: 13ch; }
+.board-sub { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 14px; color: var(--cream-2); font-size: 17px; }
+.board-sub span { display: inline-flex; align-items: center; gap: 7px; }
+.ask { margin-top: 30px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font: 650 clamp(22px, 2.6vw, 30px)/1.2 var(--cond); font-variation-settings: "wdth" 92; }
+.slot { position: relative; display: inline-flex; align-items: center; gap: 8px; color: var(--gold); border-bottom: 3px solid var(--gold); padding: 0 2px 2px; }
+.slot select { appearance: none; -webkit-appearance: none; background: none; border: 0; color: inherit; font: inherit; font-weight: 750; padding-right: 26px; cursor: pointer; outline: none; }
+.slot select option { color: #0F1F18; font-size: 16px; }
+.slot i { position: absolute; right: 2px; font-size: 18px; pointer-events: none; }
+.slot:focus-within { box-shadow: 0 0 0 3px rgba(244, 185, 26, .35); border-radius: 4px 4px 0 0; }
+.ask .btn { margin-left: auto; }
+.rows { margin-top: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 44px; border-top: 1.5px solid rgba(247, 241, 222, .22); }
+.row { display: grid; grid-template-columns: minmax(0, auto) minmax(18px, 1fr) auto; align-items: baseline; gap: 12px; padding: 14px 0 12px; border-bottom: 1px dashed rgba(247, 241, 222, .2); }
+.row b { font-size: 19px; font-weight: 650; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row b small { display: block; font-size: 14px; font-weight: 450; color: var(--cream-2); }
+.row .dots { border-bottom: 2px dotted rgba(247, 241, 222, .3); transform: translateY(-6px); }
+.row .tk { font: 800 clamp(30px, 3.2vw, 42px)/1 var(--cond); font-variation-settings: "wdth" 80; color: var(--gold); }
+.row.low .tk { position: relative; }
+.row.low .tk::after { content: ""; position: absolute; left: -6px; right: -6px; bottom: -6px; height: 3px; background: var(--red); border-radius: 2px; }
+.row .low-t { display: inline-block; margin-left: 8px; font-size: 13px; font-weight: 700; color: #FFD9D3; }
+@media (prefers-reduced-motion: no-preference) {
+  .board.paint .row .tk { animation: paint .7s var(--ease) both; animation-delay: calc(var(--i) * 70ms); }
+  .board.paint .row b { animation: show .5s var(--ease) both; animation-delay: calc(var(--i) * 70ms); }
+}
+@keyframes paint { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+.board-f { display: flex; flex-wrap: wrap; gap: 10px 24px; align-items: center; justify-content: space-between; margin-top: 18px; font-size: 16px; color: var(--cream-2); }
+.board-f b { color: var(--cream); }
+.board-f a { color: var(--cream); font-weight: 650; text-decoration: underline; text-underline-offset: 4px; }
+.board-empty { grid-column: 1 / -1; padding: 30px 0; display: grid; gap: 10px; justify-items: start; font-size: 18px; }
+.board-empty button { color: var(--gold); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+@container s (max-width: 860px) {
+  .board { padding: 26px 20px 22px; border-radius: 0; margin: 0 -16px; }
+  .board h1 { font-size: 58px; }
+  .board::before { inset: 6px; }
+  .rows { grid-template-columns: minmax(0, 1fr); }
+  .ask .btn { margin-left: 0; width: 100%; }
+}
+
+/* near you: one featured place plus a list */
+.near { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 28px; margin-top: 28px; align-items: start; }
+.feat { display: grid; gap: 14px; }
+.feat .pic { aspect-ratio: 4 / 3; border-radius: var(--r-lg); }
+.feat h3 { font: 800 34px/1 var(--cond); font-variation-settings: "wdth" 80; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--ink-2); font-size: 16px; }
+.meta span { display: inline-flex; align-items: center; gap: 5px; }
+.star { color: #D99000; }
+.open { color: var(--good); font-weight: 650; }
+.plist { display: grid; }
+.pl { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.pl:first-child { padding-top: 0; }
+.pl .pic { width: 76px; height: 76px; border-radius: var(--r); }
+.pl b { font: 750 21px/1.1 var(--cond); font-variation-settings: "wdth" 86; display: block; }
+.pl .meta { font-size: 14.5px; margin-top: 4px; }
+.pp { text-align: right; }
+.pp .tk { font: 800 24px/1 var(--cond); font-variation-settings: "wdth" 82; color: var(--green); }
+:root[data-theme="dark"] .pp .tk { color: var(--gold); }
+.pp small { display: block; font-size: 13px; color: var(--ink-3); }
+@container s (max-width: 860px) { .near { grid-template-columns: minmax(0, 1fr); } }
+
+/* the cash memo */
+.memo-sec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 420px); gap: 48px; align-items: start; margin-top: 28px; }
+.pick { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.dish-b { display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px 12px 8px 8px; border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); text-align: left; width: calc(50% - 5px); transition: transform .2s var(--ease); }
+.dish-b:hover { transform: translateY(-1px); }
+.dish-b .pic { width: 56px; height: 56px; border-radius: var(--r); }
+.dish-b b { display: block; font-weight: 650; font-size: 16.5px; }
+.dish-b .tk { color: var(--ink-3); font-size: 14.5px; }
+.dish-b .add { width: 36px; height: 36px; border-radius: var(--r); display: grid; place-items: center; background: var(--green); color: var(--cream); font-size: 17px; }
+.dish-b .add em { font-style: normal; font-weight: 750; font-size: 15px; }
+.memo { position: relative; background: #FFFEFA; color: #2A2018; border-radius: 4px; padding: 26px 26px 22px; box-shadow: 0 1px 2px rgba(42, 32, 24, .1), 0 18px 40px -22px rgba(42, 32, 24, .45); font-size: 16px; }
+:root[data-theme="dark"] .memo { background: #F4F1E8; }
+.memo::before { content: ""; position: absolute; left: 0; right: 0; top: -8px; height: 9px; background: radial-gradient(circle at 8px 0, transparent 7px, #FFFEFA 7.5px) -8px 0 / 16px 9px repeat-x; }
+:root[data-theme="dark"] .memo::before { background: radial-gradient(circle at 8px 0, transparent 7px, #F4F1E8 7.5px) -8px 0 / 16px 9px repeat-x; }
+.memo-h { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; padding-bottom: 12px; border-bottom: 2px solid #C8392B; }
+.memo-h b { font: 800 26px/1 var(--cond); font-variation-settings: "wdth" 80; color: #C8392B; }
+.memo-h span { font-size: 14px; color: #6B5E52; text-align: right; }
+.ml { display: grid; grid-template-columns: minmax(0, 1fr) 40px 72px; gap: 10px; padding: 9px 0; border-bottom: 1px solid rgba(200, 57, 43, .22); align-items: baseline; }
+.ml .q { text-align: center; color: #6B5E52; }
+.ml .tk { text-align: right; font-weight: 600; }
+@media (prefers-reduced-motion: no-preference) { .ml.new { animation: line .45s var(--ease) both; } }
+@keyframes line { from { opacity: 0; transform: translateY(-6px); } }
+.ml.sub { color: #6B5E52; font-size: 15px; }
+.memo-t { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; }
+.memo-t b { font-size: 17px; }
+.memo-t .tk { font: 800 38px/1 var(--cond); font-variation-settings: "wdth" 80; color: #0C5A3E; }
+.memo:has(.stamp) { padding-bottom: 92px; }
+.memo-pp { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(42, 32, 24, .3); font-size: 15px; color: #4A3E33; }
+.step { display: inline-flex; align-items: center; gap: 2px; border-radius: var(--r); box-shadow: inset 0 0 0 1px rgba(42, 32, 24, .2); }
+.step button { width: 32px; height: 32px; display: grid; place-items: center; font-size: 15px; color: #2A2018; }
+.step b { min-width: 22px; text-align: center; }
+.memo-empty { padding: 26px 0 12px; color: #6B5E52; }
+.stamp { position: absolute; left: 22px; bottom: 10px; width: 74px; height: 74px; color: rgba(29, 78, 160, .6); transform: rotate(-12deg); pointer-events: none; }
+@container s (max-width: 860px) { .memo-sec { grid-template-columns: minmax(0, 1fr); gap: 28px; } .dish-b { width: 100%; } }
+
+/* see inside: one decisive photo */
+.inside { margin-top: 28px; position: relative; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 21 / 9; }
+.inside img { width: 100%; height: 100%; object-fit: cover; }
+.inside-cap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; justify-content: space-between; margin-top: 16px; }
+.inside-cap p { color: var(--ink-2); font-size: 17px; max-width: 60ch; }
+@container s (max-width: 720px) { .inside { aspect-ratio: 4 / 3.4; border-radius: 0; margin: 28px -16px 0; } }
+
+/* for restaurants: the red board */
+.biz { margin-top: 96px; background: var(--red); color: #FFF6F1; }
+.biz .wrap { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px; padding-top: 64px; padding-bottom: 64px; align-items: center; }
+.biz h2 { font: 800 clamp(36px, 5vw, 64px)/.95 var(--cond); font-variation-settings: "wdth" 78; max-width: 14ch; }
+.biz p { font-size: 18px; color: rgba(255, 246, 241, .86); max-width: 46ch; }
+.biz .btn { background: #FFF6F1; color: #8E1F14; margin-top: 22px; }
+.biz-list { display: grid; gap: 14px; font-size: 17.5px; }
+.biz-list li { display: grid; grid-template-columns: 26px 1fr; gap: 10px; }
+.biz-list i { font-size: 22px; }
+ul.biz-list { list-style: none; margin: 0; padding: 0; }
+@container s (max-width: 860px) { .biz .wrap { grid-template-columns: minmax(0, 1fr); padding-top: 44px; padding-bottom: 44px; } .biz { margin-top: 64px; } }
+.foot { background: var(--green-deep); color: var(--cream-2); padding: 44px 0 48px; font-size: 15px; }
+.foot .wrap { display: grid; grid-template-columns: 1.5fr repeat(3, 1fr); gap: 28px; }
+.foot b { color: var(--cream); display: block; margin-bottom: 8px; }
+.foot a { display: block; padding: 3px 0; }
+.foot a:hover { color: var(--cream); }
+.foot .logo { color: var(--cream); }
+@container s (max-width: 720px) { .foot .wrap { grid-template-columns: 1fr 1fr; } .foot .wrap > :first-child { grid-column: 1 / -1; } }
+
+/* ============ RESTAURANTS ============ */
+.ls-top { padding-top: 34px; }
+.ls-top h1 { font-size: clamp(40px, 5.6vw, 72px); }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; align-items: center; }
+.fchip { display: inline-flex; align-items: center; gap: 6px; height: 40px; padding: 0 14px; border-radius: var(--r); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: 15px; font-weight: 550; white-space: nowrap; }
+.fchip.on { background: var(--green); color: var(--cream); box-shadow: none; }
+.fchip i { font-size: 16px; }
+.search-in { display: flex; align-items: center; gap: 8px; height: 40px; padding: 0 12px; border-radius: var(--r); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); min-width: 260px; color: var(--ink-3); }
+.search-in input { border: 0; outline: 0; background: none; width: 100%; color: var(--ink); }
+.search-in:focus-within { box-shadow: inset 0 0 0 2px var(--green); }
+:root[data-theme="dark"] .search-in:focus-within { box-shadow: inset 0 0 0 2px var(--gold); }
+.search-in input::placeholder { color: var(--ink-3); }
+.sortl { margin-left: auto; color: var(--ink-2); font-size: 15px; display: inline-flex; gap: 6px; align-items: center; }
+.res { margin-top: 26px; display: grid; gap: 0; }
+.rr { display: grid; grid-template-columns: 260px minmax(0, 1fr) 190px; gap: 24px; padding: 22px 0; border-top: 1px solid var(--line); align-items: start; }
+.rr .pic { aspect-ratio: 4 / 3; border-radius: var(--r); }
+.rr .pic img, .feat .pic img, .pl .pic img { transition: transform .6s var(--ease); }
+.rr:hover .pic img, .feat:hover .pic img, .pl:hover .pic img { transform: scale(1.04); }
+.rr:hover h3, .pl:hover b, .feat:hover h3 { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 5px; }
+.fchip:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.fchip.on:hover { box-shadow: none; }
+.cats a:hover { background: var(--sunk); }
+.cats a.on:hover { background: var(--own); }
+.rr h3 { font: 800 32px/1 var(--cond); font-variation-settings: "wdth" 80; }
+.rr .meta { margin-top: 8px; }
+.rr-d { margin-top: 14px; display: grid; gap: 6px; max-width: 420px; }
+.rr-d div { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline; font-size: 15.5px; color: var(--ink-2); }
+.rr-d div i { border-bottom: 1.5px dotted var(--line); transform: translateY(-4px); }
+.rr-d .tk { color: var(--ink); font-weight: 650; }
+.rr-side { display: grid; gap: 10px; justify-items: end; text-align: right; }
+.rr-side .tk { font: 800 34px/1 var(--cond); font-variation-settings: "wdth" 80; color: var(--green); }
+:root[data-theme="dark"] .rr-side .tk { color: var(--gold); }
+.rr-side small { color: var(--ink-3); font-size: 14px; }
+@container s (max-width: 960px) { .rr { grid-template-columns: 200px minmax(0, 1fr); } .rr-side { grid-column: 2; justify-items: start; text-align: left; } }
+@container s (max-width: 640px) { .rr { grid-template-columns: minmax(0, 1fr); gap: 14px; } .rr-side { grid-column: auto; grid-auto-flow: column; justify-content: space-between; align-items: center; } .search-in { min-width: 0; flex: 1 1 100%; } .sortl { margin-left: 0; } }
+
+/* ============ RESTAURANT PAGE (its own colours) ============ */
+.rp { --own: #2A0C14; --own-2: #3B1520; --own-acc: #E2B04A; --own-ink: #F7E9C8; }
+.rp-cover { position: relative; margin-top: 18px; }
+.rp-cover .pic { aspect-ratio: 21 / 8; border-radius: var(--r-lg); }
+.plaque { position: relative; margin: -86px 0 0 38px; width: min(560px, calc(100% - 76px)); background: var(--own); color: var(--own-ink); border-radius: var(--r-lg); padding: 26px 28px 22px; box-shadow: 0 24px 44px -24px rgba(42, 12, 20, .8); }
+.plaque::before { content: ""; position: absolute; inset: 8px; border: 1.5px solid color-mix(in srgb, var(--own-acc) 55%, transparent); border-radius: 6px; pointer-events: none; }
+.plaque h1 { font: 400 clamp(38px, 4.6vw, 56px)/1 "Tiro Bangla", Georgia, serif; color: #FBF3E0; }
+.plaque .bnn { font-family: "Tiro Bangla", serif; color: var(--own-acc); font-size: 20px; margin-top: 4px; }
+.plaque p { color: rgba(247, 233, 200, .8); margin-top: 10px; font-size: 16.5px; }
+.plaque-k { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 16px; font-size: 15.5px; }
+.plaque-k span { display: inline-flex; gap: 6px; align-items: center; }
+.plaque-k b { color: #FBF3E0; }
+.plaque-a { display: flex; gap: 8px; margin-top: 18px; position: relative; }
+.plaque-a .btn { height: 42px; }
+.btn-own { background: var(--own-acc); color: var(--own); }
+.btn-ghost { box-shadow: inset 0 0 0 1px rgba(247, 233, 200, .35); color: #FBF3E0; }
+.btn-ghost:hover { background: rgba(247, 233, 200, .08); }
+.rp-body { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 44px; margin-top: 44px; align-items: start; }
+.cats { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; position: sticky; top: 66px; z-index: 5; background: var(--paper); padding: 10px 0; }
+.cats a { height: 38px; padding: 0 14px; border-radius: var(--r); display: inline-flex; align-items: center; font-weight: 600; font-size: 15px; color: var(--ink-2); white-space: nowrap; }
+.cats a.on { background: var(--own); color: var(--own-ink); }
+.mcat h2 { font: 400 32px/1.1 "Tiro Bangla", Georgia, serif; color: var(--own); margin: 30px 0 4px; }
+:root[data-theme="dark"] .mcat h2 { color: var(--own-acc); }
+.mi { display: grid; grid-template-columns: minmax(0, 1fr) 104px; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.mi-n { display: grid; grid-template-columns: auto minmax(16px, 1fr) auto; align-items: baseline; gap: 10px; }
+.mi-n b { font-size: 18.5px; font-weight: 650; }
+.mi-n i { border-bottom: 1.5px dotted var(--line); transform: translateY(-5px); }
+.mi-n .tk { font: 750 22px/1 var(--cond); font-variation-settings: "wdth" 86; }
+.mi .bnl { color: var(--ink-3); font-size: 15px; }
+.mi p { color: var(--ink-2); font-size: 15.5px; margin-top: 4px; max-width: 58ch; }
+.mi .pic { width: 104px; height: 104px; border-radius: var(--r); }
+.addb { margin-top: 10px; display: inline-flex; align-items: center; gap: 6px; height: 34px; padding: 0 12px; border-radius: var(--r); font-size: 14.5px; font-weight: 650; box-shadow: inset 0 0 0 1.5px var(--own); color: var(--own); }
+:root[data-theme="dark"] .addb { box-shadow: inset 0 0 0 1.5px var(--own-acc); color: var(--own-acc); }
+.addb:hover { background: color-mix(in srgb, var(--own) 8%, transparent); }
+.addb.has { background: var(--own); color: var(--own-ink); box-shadow: none; }
+.checked { display: inline-flex; gap: 6px; align-items: center; color: var(--good); font-weight: 650; font-size: 15px; margin-top: 8px; }
+.rp-memo { position: sticky; top: 84px; }
+.rp-memo .memo-t .tk { color: #2A0C14; }
+.rp-memo .memo-h { border-color: #8C2A3A; }
+.rp-memo .memo-h b { color: #8C2A3A; }
+.rp-memo .ml { border-color: rgba(140, 42, 58, .2); }
+.rp-memo .btn { width: 100%; margin-top: 16px; background: #2A0C14; color: #F7E9C8; }
+.mbar { display: none; }
+@container s (max-width: 960px) {
+  .rp-body { grid-template-columns: minmax(0, 1fr); }
+  .rp-memo { display: none; }
+  .mbar { display: flex; position: sticky; bottom: 12px; margin-top: 20px; z-index: 6; align-items: center; gap: 12px; padding: 10px 10px 10px 16px; border-radius: var(--r-lg); background: var(--own); color: var(--own-ink); box-shadow: 0 16px 30px -14px rgba(42, 12, 20, .7); }
+  .mbar b { font: 800 24px/1 var(--cond); font-variation-settings: "wdth" 82; color: #FBF3E0; }
+  .mbar span { font-size: 14px; }
+  .mbar .btn { margin-left: auto; height: 42px; }
+}
+@container s (max-width: 720px) {
+  .rp-cover .pic { aspect-ratio: 4 / 3; border-radius: 0; margin: 0 -16px; }
+  .rp-cover { margin-top: 0; }
+  .plaque { margin: -40px 0 0; width: 100%; padding: 22px 20px 18px; }
+  .plaque-a .btn { flex: 1; padding: 0 8px; }
+  .mi { grid-template-columns: minmax(0, 1fr) 84px; }
+  .mi .pic { width: 84px; height: 84px; }
+}
+.rv-sec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 22px; }
+.rv { padding: 22px; border-radius: var(--r-lg); background: var(--surface); box-shadow: var(--shadow); display: grid; gap: 10px; align-content: start; }
+.rv q { font-size: 17px; color: var(--ink); quotes: "\201C" "\201D"; }
+.rv span { font-size: 14.5px; color: var(--ink-3); }
+@container s (max-width: 720px) { .rv-sec { grid-template-columns: minmax(0, 1fr); } }
+
+/* ============ DASHBOARD (Operate) ============ */
+.db { display: grid; grid-template-columns: 240px minmax(0, 1fr); min-height: 100%; }
+.side { background: var(--green); color: var(--cream-2); padding: 18px 12px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 0; height: 100dvh; }
+.app[data-view="phone"] .side { height: auto; }
+.side .logo { color: var(--cream); padding: 4px 10px; }
+.who { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: center; padding: 10px; border-radius: var(--r-lg); background: rgba(0, 0, 0, .16); }
+.who .lg { width: 44px; height: 44px; border-radius: var(--r); background: #2A0C14; display: grid; place-items: center; overflow: hidden; }
+.who .lg img { width: 92%; height: 92%; object-fit: contain; }
+.who b { display: block; color: var(--cream); font-weight: 650; font-size: 15.5px; line-height: 1.2; }
+.who span { font-size: 13px; }
+.snav { display: grid; gap: 2px; }
+.snav a { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: var(--r); font-weight: 550; font-size: 15px; color: var(--cream-2); }
+.snav a i { font-size: 18px; }
+.snav a:hover { background: rgba(255, 255, 255, .07); color: var(--cream); }
+.snav a.on { background: var(--paper); color: var(--ink); }
+.snav a em { margin-left: auto; font-style: normal; min-width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; font-size: 12.5px; font-weight: 750; background: var(--gold); color: #0F1F18; }
+.side-f { margin-top: auto; padding: 0 10px; font-size: 13.5px; }
+.main { padding: 26px 32px 56px; min-width: 0; }
+.top { display: flex; flex-wrap: wrap; gap: 14px; align-items: flex-end; }
+.top h1 { font: 800 40px/1 var(--cond); font-variation-settings: "wdth" 80; }
+.top p { color: var(--ink-3); margin-top: 4px; }
+.top-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.tabs { display: inline-flex; padding: 3px; border-radius: 10px; background: var(--sunk); }
+.tabs button { height: 34px; padding: 0 14px; border-radius: 7px; font-size: 14.5px; font-weight: 600; color: var(--ink-2); }
+.tabs button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(7, 40, 27, .12); }
+.alert { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: center; margin-top: 22px; padding: 14px 16px; border-radius: var(--r-lg); background: var(--warn-bg); color: var(--ink); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--warn) 30%, transparent); }
+.alert > i { color: var(--warn); font-size: 22px; }
+.alert b { display: block; }
+.alert span { color: var(--ink-2); font-size: 15px; }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); }
+.kpi { padding: 18px 20px; display: grid; gap: 2px; }
+.kpi + .kpi { border-left: 1px solid var(--line); }
+.kpi span { font-size: 14.5px; color: var(--ink-3); }
+.kpi b { font: 800 40px/1.05 var(--cond); font-variation-settings: "wdth" 84; }
+.kpi em { font-style: normal; font-size: 14px; color: var(--good); font-weight: 650; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 16px; margin-top: 16px; align-items: start; }
+.card { background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: 20px; min-width: 0; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+.card-h h2 { font: 750 21px/1.2 var(--cond); font-variation-settings: "wdth" 90; }
+.card-h a { font-size: 14.5px; }
+.chart svg { width: 100%; height: auto; display: block; overflow: visible; }
+.mini-board { background: var(--green); color: var(--cream); border-radius: var(--r-lg); padding: 20px 20px 16px; position: relative; }
+.mini-board::before { content: ""; position: absolute; inset: 7px; border: 1px solid rgba(247, 241, 222, .25); border-radius: 6px; pointer-events: none; }
+.mini-board h2 { font: 750 21px/1.2 var(--cond); font-variation-settings: "wdth" 90; }
+.mini-board p { color: var(--cream-2); font-size: 14.5px; margin-top: 2px; }
+.mb-rows { margin-top: 10px; }
+.mb-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; padding: 8px 8px; border-bottom: 1px dashed rgba(247, 241, 222, .2); font-size: 15.5px; align-items: baseline; }
+.mb-row .tk { font: 800 22px/1 var(--cond); font-variation-settings: "wdth" 82; color: var(--gold); }
+.mb-row.me { background: rgba(247, 241, 222, .12); border-radius: 6px; border-bottom-color: transparent; }
+.mb-row.me b { color: #fff; }
+.todo { display: grid; gap: 0; }
+.todo > div { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
+.todo > div:last-child { border-bottom: 0; }
+.todo .ic { width: 34px; height: 34px; border-radius: var(--r); display: grid; place-items: center; background: var(--green-soft); color: var(--green); font-size: 18px; }
+:root[data-theme="dark"] .todo .ic { color: var(--gold); }
+.todo b { display: block; font-weight: 650; font-size: 15.5px; }
+.todo span { font-size: 14px; color: var(--ink-3); }
+.dishv { display: grid; gap: 10px; }
+.dishv > div { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; }
+.dishv .pic { width: 44px; height: 44px; border-radius: var(--r); }
+.dishv b { font-weight: 600; }
+.dishv .bar { display: block; height: 5px; border-radius: 3px; background: var(--green); width: var(--w); margin-top: 6px; }
+:root[data-theme="dark"] .dishv .bar { background: var(--gold); }
+@container s (max-width: 1080px) { .grid2 { grid-template-columns: minmax(0, 1fr); } }
+@container s (max-width: 860px) {
+  .db { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; height: auto; flex-direction: row; align-items: center; padding: 10px 14px; }
+  .side .logo, .snav, .side-f { display: none; }
+  .who { flex: 1; background: none; padding: 0; }
+  .main { padding: 20px 16px 48px; }
+  .top h1 { font-size: 32px; }
+  .top-r { margin-left: 0; }
+  .kpis { grid-template-columns: minmax(0, 1fr); }
+  .kpi + .kpi { border-left: 0; border-top: 1px solid var(--line); }
+  .main .dtabs { display: grid; grid-template-columns: repeat(5, 1fr); position: sticky; bottom: 0; z-index: 8; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px 8px; }
+  .dtabs a { display: grid; justify-items: center; gap: 2px; font-size: 12px; font-weight: 600; color: var(--ink-3); padding: 4px 0; border-radius: var(--r); }
+  .dtabs a i { font-size: 21px; }
+  .dtabs a.on { color: var(--green); }
+  :root[data-theme="dark"] .dtabs a.on { color: var(--gold); }
+}
+@container s (max-width: 480px) { .alert { grid-template-columns: 22px minmax(0, 1fr); } .alert .btn { grid-column: 2; justify-self: start; } }
+/* menu table */
+.tbl { margin-top: 18px; background: var(--surface); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+.tr { display: grid; grid-template-columns: 52px minmax(0, 1.5fr) minmax(0, 1fr) 130px 120px; gap: 16px; align-items: center; padding: 10px 18px 10px 12px; border-bottom: 1px solid var(--line); }
+.tr:last-child { border-bottom: 0; }
+.tr.h { padding-top: 12px; padding-bottom: 12px; font-size: 14px; font-weight: 650; color: var(--ink-3); background: var(--sunk); }
+.tr.h button { display: inline-flex; gap: 4px; align-items: center; font-weight: 650; color: var(--ink-2); }
+.tr .pic, .tr .noph { width: 52px; height: 52px; border-radius: var(--r); }
+.tr .noph { display: grid; place-items: center; border: 1.5px dashed var(--line); color: var(--ink-3); font-size: 20px; }
+.tr b { display: block; font-weight: 650; }
+.tr .bnl { color: var(--ink-3); font-size: 14px; }
+.area { font-size: 14.5px; color: var(--ink-2); }
+.area em { display: block; font-style: normal; color: var(--ink-3); font-size: 13.5px; }
+.area .hi { color: var(--warn); font-weight: 650; }
+.pin { display: flex; align-items: center; gap: 4px; height: 42px; padding: 0 12px; border-radius: var(--r); background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); }
+.pin:focus-within { box-shadow: inset 0 0 0 2px var(--green); }
+.pin span { color: var(--ink-3); font-weight: 700; }
+.pin input { border: 0; outline: 0; background: none; width: 100%; font-weight: 700; font-size: 17px; font-variant-numeric: tabular-nums; }
+.tr.flag { background: var(--warn-bg); }
+.flag-note { grid-column: 2 / -1; display: flex; gap: 8px; align-items: center; font-size: 14px; color: var(--warn); font-weight: 600; margin-top: -4px; }
+.sw { display: flex; align-items: center; justify-content: flex-end; gap: 10px; font-size: 14px; color: var(--ink-3); }
+.tog { width: 42px; height: 24px; border-radius: 12px; background: var(--line); position: relative; transition: background .2s; }
+.tog::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); transition: transform .25s var(--ease); }
+.tog.on { background: var(--green); }
+.tog.on::after { transform: translateX(18px); }
+.dtabs { display: none; }
+.save { position: sticky; bottom: 18px; margin: 18px auto 0; width: max-content; max-width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 18px; border-radius: var(--r-lg); background: var(--green-deep); color: var(--cream); box-shadow: 0 16px 34px -14px rgba(0, 0, 0, .5); opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity .3s, transform .4s var(--ease); }
+.save.on { opacity: 1; transform: none; pointer-events: auto; }
+.save .btn { height: 38px; }
+@container s (max-width: 860px) {
+  .tr { grid-template-columns: 52px minmax(0, 1fr) 112px; }
+  .tr .area, .tr.h { display: none; }
+  .tr .sw { grid-column: 2 / -1; justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+<div class="app" data-view="desktop">
+  <aside class="rail">
+    <div class="rail-h"><svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0C5A3E"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#F7F1DE" stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F4B91A"/></svg><div><b>khabo redesign B</b><small>Preview only, not live</small></div></div>
+    <nav aria-label="Diner site"><h4>Diner site</h4>
+      <button data-go="home"><i class="ph ph-house"></i>Home</button>
+      <button data-go="list"><i class="ph ph-list-magnifying-glass"></i>Restaurants</button>
+      <button data-go="rest"><i class="ph ph-storefront"></i>Restaurant page</button>
+    </nav>
+    <nav aria-label="Partner dashboard"><h4>Partner dashboard</h4>
+      <button data-go="dash"><i class="ph ph-squares-four"></i>Overview</button>
+      <button data-go="menu"><i class="ph ph-list-dashes"></i>Menu and prices</button>
+    </nav>
+    <nav aria-label="Compare designs"><h4>Compare</h4><a class="" href="current.html"><i class="ph ph-circle-half"></i>Current site</a><a class="" href="redesign.html"><i class="ph ph-number-circle-one"></i>Redesign A</a><a class="on" href="redesign-b.html"><i class="ph ph-number-circle-two"></i>Redesign B</a><a class="" href="redesign-c.html"><i class="ph ph-number-circle-three"></i>Redesign C</a><a href="final.html"><i class="ph ph-star-four"></i>Final</a></nav><div class="rail-ctl">
+      <label>Look</label>
+      <div class="rs" data-ctl="theme"><button data-v="light"><i class="ph ph-sun"></i>Light</button><button data-v="dark"><i class="ph ph-moon"></i>Dark</button></div>
+      <label>Screen</label>
+      <div class="rs" data-ctl="view"><button data-v="desktop"><i class="ph ph-desktop"></i>Laptop</button><button data-v="phone"><i class="ph ph-device-mobile"></i>Phone</button></div>
+      <p class="rail-note">Sample prices and numbers. Photos and dishes come from the current prototype.</p>
+    </div>
+  </aside>
+  <main class="stage"><div class="frame"><div class="screen" id="screen"></div></div></main>
+</div>
+<script>
+(function () {
+  'use strict';
+  const U = id => `https://images.unsplash.com/photo-${id}?w=900&q=72&auto=format&fit=crop`;
+  const P = { kt: '1589302168068-964664d93dc0', k: '1563379091339-03b21ab4a4f8', te: '1631515243349-e0cb75fb8d3a', pl: '1633945274405-b6c8069047b0', sk: '1603360946369-dc9bb6258143', bw: '1712757248842-04f6e3844374', hd: '1697155406055-2db32d47ca07', b4: '1714611626323-5ba6204453be', na: '1565557623262-b51c2513a641', fi: '1652954008429-ce394eacbd7f', fu: '1781243680771-1fea4521e196', i5: '1636405189493-181ecf851006', iB: '1749137011592-0a77520c82dc', iC: '1651684081211-602801541b08', kc1: '1600565193348-f74bd3c7ccdf' };
+  const R = '../restaurants/';
+  const img = k => k.startsWith('../') ? k : U(P[k] || k);
+  const tk = v => `<span class="tk">${v.toLocaleString('en-IN')}</span>`;
+  const ph = (k, cls = '', alt = '') => `<div class="pic ${cls}">${k ? `<img src="${img(k)}" alt="${alt}" loading="lazy">` : ''}</div>`;
+  const logoSvg = `<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0C5A3E"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#F7F1DE" stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F4B91A"/></svg>`;
+  const nav = on => `<header class="nav"><div class="wrap"><a class="logo" href="#" data-go="home">${logoSvg}khabo</a><nav class="nav-l" aria-label="Main"><a href="#" data-go="list" class="${on === 'list' ? 'on' : ''}">Restaurants</a><a href="#">Dishes</a><a href="#">Deals</a><a href="#">For restaurants</a></nav><div class="nav-r"><button class="ib nav-hide" aria-label="Search"><i class="ph ph-magnifying-glass"></i></button><button class="ib" aria-label="বাংলায় দেখুন">বাং</button><a class="btn btn-line btn-sm" href="#">Sign in</a></div></div></header>`;
+  const foot = `<footer class="foot"><div class="wrap"><div><span class="logo">${logoSvg}khabo</span><p style="margin-top:12px;max-width:34ch">Real menus and checked prices for restaurants in Dhaka and Bogura. Free for diners.</p></div><div><b>Find food</b><a href="#">Restaurants</a><a href="#">Dishes</a><a href="#">Deals</a></div><div><b>Restaurants</b><a href="#">Plans</a><a href="#">Book a visit</a><a href="#">Partner sign in</a></div><div><b>khabo</b><a href="#">About</a><a href="#">Help</a><a href="#">Privacy</a></div></div></footer>`;
+
+  /* ---------- data ---------- */
+  const BOARD = {
+    kacchi: { n: 'Mutton kacchi', rows: [['Nawabpur Kacchi Ghar', 'Old Dhaka', 300], ['Mahasthan Bhoj', 'Bogura', 340], ['Mirpur Bawarchi', 'Mirpur', 360], ['Shahi Handi House', 'Dhanmondi', 420], ['Kathgolap Rooftop', 'Banani', 480], ['Nodir Paar', 'Gulshan', 520]] },
+    tehari: { n: 'Beef tehari', rows: [['Nawabpur Kacchi Ghar', 'Old Dhaka', 210], ['Mahasthan Bhoj', 'Bogura', 220], ['Mirpur Bawarchi', 'Mirpur', 230], ['Kabab Ghor', 'Mohammadpur', 250]] },
+    biryani: { n: 'Chicken biryani', rows: [['Mirpur Bawarchi', 'Mirpur', 260], ['Shahi Handi House', 'Dhanmondi', 310], ['Garden Rooftop', 'Uttara', 340], ['Kathgolap Rooftop', 'Banani', 390]] },
+    fuchka: { n: 'Fuchka, one plate', rows: [['Satmatha Fuchka', 'Bogura', 60], ['Cha Adda', 'Dhanmondi', 90], ['Garden Rooftop', 'Uttara', 120]] }
+  };
+  const AREAS = ['Anywhere', 'Dhanmondi', 'Old Dhaka', 'Mirpur', 'Banani', 'Gulshan', 'Uttara', 'Bogura'];
+  const PLACES = [
+    { n: 'Shahi Handi House', a: 'Dhanmondi', c: 'Mughlai', r: 4.6, pp: 450, till: '11:30pm', p: R + 'shahi-handi/360/warm_reception_dinner-a.jpg', d: [['Mutton Kacchi', 420], ['Morog Polao', 320], ['Borhani', 90]] },
+    { n: 'Nawabpur Kacchi Ghar', a: 'Old Dhaka', c: 'Mughlai', r: 4.7, pp: 300, till: '10pm', p: 'pl', d: [['Kacchi Platter', 380], ['Half Kacchi', 260], ['Beef Tehari', 210]] },
+    { n: 'Kathgolap Rooftop', a: 'Banani', c: 'Grill and Asian', r: 4.3, pp: 750, till: '12am', p: R + 'kathgolap/360/hotel_rooftop_balcony-a.jpg', d: [['Rooftop Kacchi', 480], ['Grill Platter', 1250], ['Lemonade', 150]] },
+    { n: 'Nodir Paar', a: 'Gulshan', c: 'Bangladeshi', r: 4.5, pp: 600, till: '11pm', p: 'i5', d: [['Rupchanda Fry', 560], ['Bhorta Bhaat Thali', 480], ['Doi', 120]] },
+    { n: 'Cha Adda', a: 'Dhanmondi', c: 'Café', r: 4.5, pp: 180, till: '11pm', p: R + 'cha-adda/360/comfy_cafe-a.jpg', d: [['Masala Cha', 40], ['Fuchka', 90], ['Chicken Roll', 140]] },
+    { n: 'Mirpur Bawarchi', a: 'Mirpur', c: 'Bangladeshi', r: 4.2, pp: 180, till: '11pm', p: 'iC', d: [['Beef Tehari', 230], ['Morog Polao', 320], ['Borhani', 70]] }
+  ];
+  const MENU = [
+    { c: 'Kacchi and rice', d: [['kt', 'Mutton Kacchi', 'মাটন কাচ্চি', 420, 'kt', 'Basmati and mutton cooked together in a sealed handi. With aloo and salad.'], ['hd', 'Kacchi Handi for 4', 'কাচ্চি হান্ডি (৪ জন)', 1590, 'hd', 'The whole handi, opened at your table. Order 30 minutes ahead on weekends.'], ['b4', 'Chicken Tikka Biryani', 'চিকেন টিক্কা বিরিয়ানি', 310, 'b4', 'Tandoor-charred chicken over spiced biryani rice.'], ['te', 'Morog Polao', 'মোরগ পোলাও', 320, 'te', 'Wedding-style polao with a slow-cooked chicken leg.']] },
+    { c: 'Kebab', d: [['sk', 'Mutton Seekh Kabab', 'মাটন শিক কাবাব', 240, 'sk', 'Two skewers off the charcoal, with mint chutney.'], ['sh', 'Shami Kabab', 'শামি কাবাব', 95, '', 'One piece, pan-fried.']] },
+    { c: 'Curries and bread', d: [['bc', 'Butter Chicken', 'বাটার চিকেন', 340, 'bw', 'Tomato, butter and cream, finished with kasuri methi.'], ['rz', 'Mutton Rezala', 'মাটন রেজালা', 380, '', 'Serves 1 to 2.'], ['na', 'Butter Naan', 'বাটার নান', 55, 'na', 'From the tandoor.']] },
+    { c: 'Drinks and dessert', d: [['br', 'Borhani', 'বোরহানি', 90, '', 'One glass.'], ['fr', 'Firni in a clay bowl', 'মাটির বাটিতে ফিরনি', 110, '', 'One bowl.']] }
+  ];
+  const DISH = {}; MENU.forEach(c => c.d.forEach(d => { DISH[d[0]] = { id: d[0], n: d[1], bn: d[2], p: d[3], img: d[4], desc: d[5], c: c.c }; }));
+  const VAT = .15, SVC = .05;
+
+  /* ---------- state ---------- */
+  let dish = 'kacchi', area = 'Anywhere', listArea = 'All areas';
+  const bill = { kt: 2, br: 2 }; let people = 2;
+  const rbill = {};
+
+  /* ---------- the price board ---------- */
+  const boardRows = () => {
+    const B = BOARD[dish], rows = B.rows.filter(r => area === 'Anywhere' || r[1] === area).sort((a, b) => a[2] - b[2]);
+    if (!rows.length) return { html: `<div class="board-empty"><span>No ${B.n.toLowerCase()} checked in ${area} yet.</span><button type="button" data-any>Show every area</button></div>`, foot: '' };
+    const all = B.rows.map(r => r[2]).sort((a, b) => a - b), mid = all[Math.floor(all.length / 2)];
+    return {
+      html: rows.map((r, i) => `<div class="row ${i === 0 && rows.length > 1 ? 'low' : ''}" style="--i:${i}"><b>${r[0]}<small>${r[1]}${i === 0 && rows.length > 1 ? '<span class="low-t">Lowest</span>' : ''}</small></b><span class="dots" aria-hidden="true"></span>${tk(r[2])}</div>`).join(''),
+      foot: `<span>Typical price across town <b>${tk(mid)}</b>. Checked by our team on 14 Nov. Sample prices in this preview.</span><a href="#" data-go="list" data-carry>See every place</a>`
+    };
+  };
+  const board = () => { const b = boardRows(); return `<section class="board paint" aria-label="Price board">
+      <h1 class="disp">Know the price before you go.</h1>
+      <div class="board-sub"><span><i class="ph ph-seal-check"></i>Real menus, checked by our team</span><span><i class="ph ph-map-pin"></i>Dhaka and Bogura</span></div>
+      <form class="ask" onsubmit="return false" aria-label="Find a price"><span>Show me</span>
+        <label class="slot"><span class="sr" hidden>Dish</span><select data-dish aria-label="Dish">${Object.entries(BOARD).map(([k, v]) => `<option value="${k}" ${k === dish ? 'selected' : ''}>${v.n}</option>`).join('')}</select><i class="ph-bold ph-caret-down"></i></label>
+        <span>in</span>
+        <label class="slot"><select data-area aria-label="Area">${AREAS.map(a => `<option ${a === area ? 'selected' : ''}>${a}</option>`).join('')}</select><i class="ph-bold ph-caret-down"></i></label>
+        <a class="btn btn-red" href="#" data-go="list" data-carry><i class="ph ph-list-magnifying-glass"></i>See these places</a></form>
+      <div class="rows" data-rows>${b.html}</div>
+      <div class="board-f" data-bfoot>${b.foot}</div></section>`; };
+  const repaint = () => {
+    const el = document.querySelector('.board'); if (!el) return; const b = boardRows();
+    el.querySelector('[data-rows]').innerHTML = b.html; el.querySelector('[data-bfoot]').innerHTML = b.foot;
+    el.classList.remove('paint'); void el.offsetWidth; el.classList.add('paint');
+  };
+
+  /* ---------- the cash memo ---------- */
+  const memoLines = (b, fresh) => {
+    const ids = Object.keys(b).filter(k => b[k] > 0);
+    if (!ids.length) return { html: `<p class="memo-empty">Add a dish to see the bill.</p>`, total: 0, sub: 0 };
+    const sub = ids.reduce((s, k) => s + DISH[k].p * b[k], 0), vat = Math.round(sub * VAT), svc = Math.round(sub * SVC), total = sub + vat + svc;
+    return { sub, total, html: ids.map(k => `<div class="ml ${k === fresh ? 'new' : ''}"><span>${DISH[k].n}</span><span class="q num">x${b[k]}</span>${tk(DISH[k].p * b[k])}</div>`).join('') + `<div class="ml sub"><span>VAT 15%</span><span></span>${tk(vat)}</div><div class="ml sub"><span>Service 5%</span><span></span>${tk(svc)}</div>` };
+  };
+  const stamp = `<svg class="stamp" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="2.5"/><circle cx="50" cy="50" r="38" fill="none" stroke="currentColor" stroke-width="1.2"/><defs><path id="st" d="M50,50 m-31,0 a31,31 0 1,1 62,0 a31,31 0 1,1 -62,0"/></defs><text font-size="10.5" font-weight="700" letter-spacing="2" fill="currentColor" font-family="Anek Bangla, sans-serif"><textPath href="#st">PRICES CHECKED · 14 NOV ·</textPath></text><text x="50" y="56" text-anchor="middle" font-size="16" font-weight="800" fill="currentColor" font-family="Anek Bangla, sans-serif">khabo</text></svg>`;
+  const memo = (fresh) => { const m = memoLines(bill, fresh); return `<div class="memo" data-memo><div class="memo-h"><b>Cash memo</b><span>Shahi Handi House<br>Dhanmondi</span></div>${m.html}
+      <div class="memo-t"><b>Total</b>${tk(m.total)}</div>
+      <div class="memo-pp"><span>For <span class="step"><button type="button" data-ppl="-1" aria-label="Fewer people"><i class="ph ph-minus"></i></button><b class="num">${people}</b><button type="button" data-ppl="1" aria-label="More people"><i class="ph ph-plus"></i></button></span> people</span><span>Each pays <b>${tk(Math.ceil(m.total / people))}</b></span></div>${m.total ? stamp : ''}</div>`; };
+
+  /* ---------- HOME ---------- */
+  const home = () => `${nav()}<div class="wrap">${board()}</div>
+    <section class="sec"><div class="wrap">
+      <h2 class="h2">Open tonight in Dhaka</h2>
+      <div class="near">
+        <a class="feat" href="#" data-go="rest">${ph('iB', '', 'A table at Shahi Handi House')}<div><h3>${PLACES[0].n}</h3><div class="meta" style="margin-top:8px"><span><i class="ph-fill ph-star star"></i><b>4.6</b> from 312 diners</span><span>${tk(450)} to ${tk(650)} a person</span><span class="open">Open till 11:30pm</span></div></div></a>
+        <div class="plist">${PLACES.slice(1, 6).map(x => `<a class="pl" href="#" data-go="rest">${ph(x.p, '', x.n)}<div><b>${x.n}</b><div class="meta"><span><i class="ph-fill ph-star star"></i>${x.r}</span><span>${x.a}</span><span>${x.c}</span></div></div><div class="pp">${tk(x.pp)}<small>a person</small></div></a>`).join('')}</div>
+      </div></div></section>
+    <section class="sec"><div class="wrap memo-sec">
+      <div><h2 class="h2">The bill, before you sit down</h2><p class="lede">Pick what you would order at Shahi Handi House. VAT and service go on, split between you, exactly as the counter will.</p>
+        <div class="pick">${['kt', 'hd', 'sk', 'na', 'br', 'fr'].map(k => { const d = DISH[k]; return `<button type="button" class="dish-b" data-add="${k}">${ph(d.img || 'kt', '', '')}<span><b>${d.n}</b>${tk(d.p)}</span><span class="add" data-badge="${k}">${bill[k] ? `<em class="num">${bill[k]}</em>` : '<i class="ph-bold ph-plus"></i>'}</span></button>`; }).join('')}</div></div>
+      <div data-memo-host>${memo()}</div></div></section>
+    <section class="sec"><div class="wrap">
+      <h2 class="h2">Walk in before you book</h2>
+      <div class="inside"><img src="${img(R + 'shahi-handi/360/warm_reception_dinner-a.jpg')}" alt="The banquet hall at Shahi Handi House" loading="lazy"></div>
+      <div class="inside-cap"><p>Every partner restaurant is photographed in 360° by our team. Look at the family room, the light and the tables, then call.</p><a class="btn btn-line" href="#"><i class="ph ph-cube"></i>Walk through Shahi Handi House</a></div>
+    </div></section>
+    <section class="biz"><div class="wrap"><div><h2>Put your menu on the board.</h2><p style="margin-top:14px">We visit, check every price, photograph your food and kitchen, and build your page. From ${tk(1999)} a month.</p><a class="btn" href="#">See plans<i class="ph ph-arrow-right"></i></a></div>
+      <ul class="biz-list"><li><i class="ph ph-seal-check"></i><span>Prices checked by our team, shown with the date</span></li><li><i class="ph ph-qr-code"></i><span>Table QR cards and a print menu that always match</span></li><li><i class="ph ph-cube"></i><span>360° walk-through and a kitchen film</span></li><li><i class="ph ph-chart-line-up"></i><span>A monthly report with how your prices compare</span></li></ul></div></section>${foot}`;
+
+  /* ---------- RESTAURANTS ---------- */
+  const list = () => `${nav('list')}<div class="wrap ls-top"><h1 class="disp">Restaurants in Dhaka and Bogura</h1>
+      <div class="filters"><label class="search-in"><i class="ph ph-magnifying-glass"></i><input placeholder="A place, a dish or an area" aria-label="Search"></label>${['All areas', 'Dhanmondi', 'Old Dhaka', 'Gulshan', 'Mirpur'].map(a => `<button class="fchip ${a === listArea ? 'on' : ''}" data-larea="${a}">${a === 'All areas' ? '' : '<i class="ph ph-map-pin"></i>'}${a}</button>`).join('')}<button class="fchip">Open now</button><button class="fchip">Under ${tk(500)} a person</button><button class="fchip">Family room</button><button class="fchip">Mughlai</button><span class="sortl"><i class="ph ph-sort-ascending"></i>Lowest price first</span></div>
+      <p class="meta" style="margin-top:18px">${PLACES.filter(x => listArea === 'All areas' || x.a === listArea).length} places${listArea === 'All areas' ? '' : ` in ${listArea}`}, lowest price first</p><div class="res">${PLACES.filter(x => listArea === 'All areas' || x.a === listArea).sort((a, b) => a.pp - b.pp).map(x => `<a class="rr" href="#" data-go="rest">${ph(x.p, '', x.n)}<div><h3>${x.n}</h3><div class="meta"><span><i class="ph-fill ph-star star"></i><b>${x.r}</b></span><span>${x.a}</span><span>${x.c}</span><span class="open">Open till ${x.till}</span></div><div class="rr-d">${x.d.map(d => `<div><span>${d[0]}</span><i></i>${tk(d[1])}</div>`).join('')}</div></div><div class="rr-side">${tk(x.pp)}<small>a person</small><span class="btn btn-line btn-sm">See menu</span></div></a>`).join('')}</div></div>${foot}`;
+
+  /* ---------- RESTAURANT PAGE ---------- */
+  const rMemo = fresh => { const m = memoLines(rbill, fresh); const n = Object.values(rbill).reduce((a, b) => a + b, 0); return `<div class="memo"><div class="memo-h"><b>Your bill</b><span>${n ? `${n} item${n > 1 ? 's' : ''}` : 'Nothing yet'}</span></div>${m.html}${m.total ? `<div class="memo-t"><b>Total</b>${tk(m.total)}</div>` : ''}${m.total ? `<button class="btn" type="button"><i class="ph ph-share-network"></i>Share the bill</button>` : ''}</div>`; };
+  const rest = () => `<div class="rp">${nav()}<div class="wrap">
+      <div class="rp-cover">${ph(R + 'shahi-handi/360/warm_restaurant_night-a.jpg', '', 'Inside Shahi Handi House')}
+        <div class="plaque"><h1>Shahi Handi House</h1><div class="bnn">শাহী হান্ডি হাউস</div><p>Old Dhaka kacchi, sealed in the handi and opened at your table.</p>
+          <div class="plaque-k"><span><i class="ph-fill ph-star" style="color:#E2B04A"></i><b>4.6</b> from 312</span><span><b>${tk(450)} to ${tk(650)}</b> a person</span><span><b>Open</b> till 11:30pm</span><span>Road 27, Dhanmondi</span></div>
+          <div class="plaque-a"><a class="btn btn-own" href="#"><i class="ph ph-phone"></i>Call</a><a class="btn btn-ghost" href="#"><i class="ph ph-navigation-arrow"></i>Directions</a><a class="btn btn-ghost" href="#"><i class="ph ph-cube"></i>360°</a></div></div></div>
+      <div class="rp-body"><div>
+        <nav class="cats" aria-label="Menu sections">${MENU.map((c, i) => `<a href="#m${i}" class="${i === 0 ? 'on' : ''}">${c.c}</a>`).join('')}</nav>
+        <span class="checked"><i class="ph ph-seal-check"></i>Every price checked by khabo on 14 Nov</span>
+        ${MENU.map((c, i) => `<section class="mcat" id="m${i}"><h2>${c.c}</h2>${c.d.map(d => `<div class="mi"><div><div class="mi-n"><b>${d[1]}</b><i aria-hidden="true"></i>${tk(d[3])}</div><span class="bnl">${d[2]}</span><p>${d[5]}</p><button type="button" class="addb ${rbill[d[0]] ? 'has' : ''}" data-radd="${d[0]}">${rbill[d[0]] ? `<i class="ph ph-check"></i>${rbill[d[0]]} on your bill` : '<i class="ph ph-plus"></i>Add to bill'}</button></div>${d[4] ? ph(d[4], '', d[1]) : '<span></span>'}</div>`).join('')}</section>`).join('')}
+        <div class="mbar" data-mbar></div>
+        <section class="sec" style="padding-top:64px"><h2 class="h2">What diners said</h2><div class="rv-sec">
+          <div class="rv"><q>The mutton was soft and the aloo was right. The bill came to ৳1,980 for four, almost exactly what we saw here.</q><span>Tanvir Ahmed, 2 days ago. Ate Mutton Kacchi and Borhani.</span></div>
+          <div class="rv"><q>The family lounge looked exactly like the 360 tour. Rezala was a little sweet for me.</q><span>Nusrat Jahan, 1 week ago. Ate Kacchi Handi and Mutton Rezala.</span></div></div></section>
+      </div><aside class="rp-memo" data-rmemo>${rMemo()}</aside></div></div>${foot}</div>`;
+  const paintMbar = () => { const el = document.querySelector('[data-mbar]'); if (!el) return; const m = memoLines(rbill), n = Object.values(rbill).reduce((a, b) => a + b, 0); el.style.display = n ? '' : 'none'; el.innerHTML = `<div><b>${tk(m.total)}</b><br><span>${n} item${n > 1 ? 's' : ''}, with VAT and service</span></div><span class="btn btn-own">See bill</span>`; };
+
+  /* ---------- DASHBOARD ---------- */
+  const side = on => `<aside class="side"><span class="logo">${logoSvg}khabo</span>
+      <div class="who"><span class="lg"><img src="../restaurants/shahi-handi/logo.svg" alt=""></span><div><b>Shahi Handi House</b><span>Dhanmondi</span></div></div>
+      <nav class="snav" aria-label="Dashboard">${[['dash', 'Overview', 'squares-four'], ['menu', 'Menu and prices', 'list-dashes', 1], ['', 'Restaurant page', 'storefront'], ['', 'Photos', 'images'], ['', 'Deals', 'tag'], ['', 'Reviews', 'chat-circle-dots', 1], ['', 'Table QR', 'qr-code'], ['', 'Print menu', 'printer'], ['', 'Price insights', 'chart-line-up']].map(([k, l, i, n]) => `<a href="#" ${k ? `data-go="${k}"` : ''} class="${on === k ? 'on' : ''}"><i class="ph ph-${i}"></i>${l}${n ? `<em>${n}</em>` : ''}</a>`).join('')}</nav>
+      <div class="side-f">Kamal Hossain, Owner</div></aside>`;
+  const dtabs = on => `<nav class="dtabs" aria-label="Dashboard">${[['dash', 'Overview', 'squares-four'], ['menu', 'Menu', 'list-dashes'], ['', 'Reviews', 'chat-circle-dots'], ['', 'Photos', 'images'], ['', 'More', 'dots-three']].map(([k, l, i]) => `<a href="#" ${k ? `data-go="${k}"` : ''} class="${on === k ? 'on' : ''}"><i class="ph ph-${i}"></i>${l}</a>`).join('')}</nav>`;
+  const chart = () => {
+    const d = [118, 124, 131, 122, 140, 168, 175, 129, 133, 138, 130, 151, 183, 190, 142, 149, 161, 202, 214, 238, 196, 205, 219, 226, 262, 281, 244, 236, 251, 268];
+    const w = 640, h = 230, mx = 300, x = i => i / (d.length - 1) * w, y = v => (h - 26) * (1 - v / mx) + 4;
+    const line = d.map((v, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join(' '), on = 16;
+    return `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Page views each day for 30 days, rising after the video menu went live on 2 Nov">
+      ${[0, 100, 200, 300].map(v => `<line x1="0" x2="${w}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" vector-effect="non-scaling-stroke"/><text x="0" y="${y(v) - 5}" font-size="12" fill="var(--ink-3)">${v || ''}</text>`).join('')}
+      <line x1="${x(on)}" x2="${x(on)}" y1="4" y2="${h - 22}" stroke="var(--red)" stroke-dasharray="4 4" vector-effect="non-scaling-stroke"/><text x="${x(on) + 6}" y="16" font-size="12" font-weight="650" fill="var(--red)">Video menu live, 2 Nov</text>
+      <path d="${line} L${w},${h - 22} L0,${h - 22} Z" fill="var(--chart)" opacity=".1"/><path d="${line}" fill="none" stroke="var(--chart)" stroke-width="2.6" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+      <text x="0" y="${h - 4}" font-size="11.5" fill="var(--ink-3)">17 Oct</text><text x="${w}" y="${h - 4}" text-anchor="end" font-size="11.5" fill="var(--ink-3)">15 Nov</text></svg>`;
+  };
+  const dash = () => `<div class="db">${side('dash')}<main class="main">
+      <div class="top"><div><h1>Good evening, Kamal</h1><p>Your page in the last 30 days. Sample numbers.</p></div><div class="top-r"><div class="tabs" role="tablist"><button>7 days</button><button class="on">30 days</button><button>Year</button></div></div></div>
+      <div class="alert" role="status"><i class="ph-fill ph-warning"></i><div><b>2 diners say Mutton Rezala costs ৳400 at the counter</b><span>Your menu shows ৳380. Fix the price or tell us it is right.</span></div><a class="btn btn-line btn-sm" href="#" data-go="menu">Check price</a></div>
+      <div class="kpis"><div class="kpi"><span>People who saw your page</span><b class="num">4,812</b><em>18% more than last month</em></div><div class="kpi"><span>Table QR scans</span><b class="num">1,236</b><em>9% more</em></div><div class="kpi"><span>Calls and directions</span><b class="num">388</b><em>12% more</em></div></div>
+      <div class="grid2">
+        <div class="card chart"><div class="card-h"><h2>Page views each day</h2><span style="color:var(--ink-3);font-size:14.5px">Fridays are busiest</span></div>${chart()}</div>
+        <div class="mini-board"><h2>Mutton kacchi in Dhanmondi</h2><p>Where your price sits on the area board. Sample places.</p><div class="mb-rows">${[['Lake Road Kacchi', 340], ['Road 8 Biryani House', 360], ['Satmasjid Handi', 380], ['Shahi Handi House', 420, 1], ['Panthapath Bawarchi', 450]].map(r => `<div class="mb-row ${r[2] ? 'me' : ''}"><b>${r[0]}${r[2] ? ' (you)' : ''}</b>${tk(r[1])}</div>`).join('')}</div><p style="margin-top:10px">Typical ${tk(380)}. Yours is ${tk(40)} above it, and still your most viewed dish.</p></div>
+        <div class="card"><div class="card-h"><h2>Needs you</h2></div><div class="todo">
+          <div><span class="ic"><i class="ph ph-chat-circle-dots"></i></span><div><b>Reply to Nusrat Jahan</b><span>4 stars, about the rezala</span></div><a class="btn btn-line btn-sm" href="#">Reply</a></div>
+          <div><span class="ic"><i class="ph ph-camera"></i></span><div><b>5 dishes have no photo</b><span>We can shoot them on our next visit</span></div><a class="btn btn-line btn-sm" href="#" data-go="menu">See dishes</a></div>
+          <div><span class="ic"><i class="ph ph-calendar-check"></i></span><div><b>Next price check: 28 Nov</b><span>Our team visits every two weeks</span></div><span></span></div></div></div>
+        <div class="card"><div class="card-h"><h2>Most viewed dishes</h2><a class="link" href="#" data-go="menu">Edit menu</a></div><div class="dishv">${[['Mutton Kacchi', 'kt', 1284, 100], ['Kacchi Handi for 4', 'hd', 822, 64], ['Morog Polao', 'te', 527, 41], ['Butter Chicken', 'bw', 391, 30]].map(d => `<div>${ph(d[1])}<div><b>${d[0]}</b><span class="bar" style="--w:${d[3]}%"></span></div><span class="num" style="font-weight:650">${d[2].toLocaleString('en-IN')}</span></div>`).join('')}</div></div>
+      </div>${dtabs('dash')}</main></div>`;
+  const RANGE = { kt: [340, 450], hd: [1450, 1800], b4: [260, 390], te: [280, 340], sk: [200, 260], sh: [80, 110], bc: [300, 360], rz: [340, 400], na: [40, 60], br: [70, 100], fr: [90, 120] };
+  const menu = () => `<div class="db">${side('menu')}<main class="main">
+      <div class="top"><div><h1>Menu and prices</h1><p>A change here is live on your page, table QR and print menu.</p></div><div class="top-r"><a class="btn btn-line btn-sm" href="#"><i class="ph ph-printer"></i>Print menu</a><a class="btn btn-red btn-sm" href="#"><i class="ph ph-plus"></i>Add dish</a></div></div>
+      <div class="filters"><button class="fchip on">All 11</button>${MENU.map(c => `<button class="fchip">${c.c}</button>`).join('')}</div>
+      <div class="tbl" role="table" aria-label="Menu">
+        <div class="tr h" role="row"><span></span><button>Dish<i class="ph ph-caret-up-down"></i></button><button>Others in Dhanmondi<i class="ph ph-caret-up-down"></i></button><button>Your price<i class="ph ph-caret-up-down"></i></button><span style="text-align:right">On the menu</span></div>
+        ${MENU.flatMap(c => c.d).map(d => { const r = RANGE[d[0]], flag = d[0] === 'rz', hi = d[3] > (r[0] + r[1]) / 2 * 1.05; return `<div class="tr ${flag ? 'flag' : ''}" role="row">${d[4] ? ph(d[4]) : '<button class="noph" aria-label="Add a photo of ' + d[1] + '"><i class="ph ph-camera-plus"></i></button>'}<div><b>${d[1]}</b><span class="bnl">${d[2]}</span></div><div class="area">${tk(r[0])} to ${tk(r[1])}<em class="${hi ? 'hi' : ''}">${hi ? 'Above the usual price here' : 'Within the usual range'}</em></div><label class="pin"><span>৳</span><input inputmode="numeric" value="${d[3]}" aria-label="Price of ${d[1]}" data-price></label><div class="sw"><span>${d[0] === 'bc' ? 'Sold out' : 'Available'}</span><button class="tog ${d[0] === 'bc' ? '' : 'on'}" data-tog aria-label="${d[1]} available" aria-pressed="${d[0] !== 'bc'}"></button></div>${flag ? `<div class="flag-note"><i class="ph-fill ph-warning"></i>2 diners paid ৳400 for this at the counter on 12 and 13 Nov</div>` : ''}</div>`; }).join('')}
+      </div>
+      <div class="save" data-save><span>Price changed, not saved yet</span><button class="btn btn-sm" style="color:var(--cream)" data-undo>Undo</button><button class="btn btn-red btn-sm" data-done>Save</button></div>
+      ${dtabs('menu')}</main></div>`;
+
+  /* ---------- switching ---------- */
+  const PAGES = { home, list, rest, dash, menu };
+  const screen = document.getElementById('screen'), app = document.querySelector('.app'), stage = document.querySelector('.stage'), frame = document.querySelector('.frame');
+  const go = k => {
+    screen.innerHTML = `<div class="pg-in">${PAGES[k]()}</div>`;
+    document.querySelectorAll('.rail [data-go]').forEach(b => b.classList.toggle('on', b.dataset.go === k));
+    stage.scrollTop = 0; frame.scrollTop = 0; if (k === 'rest') paintMbar();
+    try { localStorage.setItem('khabo-b-page', k); } catch (e) { }
+  };
+  const setCtl = (name, v) => {
+    document.querySelectorAll(`[data-ctl="${name}"] button`).forEach(b => b.classList.toggle('on', b.dataset.v === v));
+    if (name === 'theme') document.documentElement.dataset.theme = v; else app.dataset.view = v;
+    try { localStorage.setItem('khabo-b-' + name, v); } catch (e) { }
+  };
+  document.addEventListener('change', e => {
+    if (e.target.matches('[data-dish]')) { dish = e.target.value; repaint(); }
+    if (e.target.matches('[data-area]')) { area = e.target.value; repaint(); }
+  });
+  document.addEventListener('click', e => {
+    const g = e.target.closest('[data-go]'); if (g) { e.preventDefault(); if (g.hasAttribute('data-carry')) listArea = AREAS.includes(area) && area !== 'Anywhere' && ['Dhanmondi', 'Old Dhaka', 'Gulshan', 'Mirpur'].includes(area) ? area : 'All areas'; go(g.dataset.go); return; }
+    const c = e.target.closest('[data-ctl] button'); if (c) { setCtl(c.parentElement.dataset.ctl, c.dataset.v); return; }
+    if (e.target.closest('[data-any]')) { area = 'Anywhere'; const s = document.querySelector('[data-area]'); if (s) s.value = 'Anywhere'; repaint(); return; }
+    const a = e.target.closest('[data-add]'); if (a) {
+      const k = a.dataset.add; bill[k] = (bill[k] || 0) + 1;
+      document.querySelector('[data-memo-host]').innerHTML = memo(k);
+      a.querySelector('[data-badge]').innerHTML = `<em class="num">${bill[k]}</em>`; return;
+    }
+    const p = e.target.closest('[data-ppl]'); if (p) { people = Math.max(1, Math.min(20, people + Number(p.dataset.ppl))); document.querySelector('[data-memo-host]').innerHTML = memo(); return; }
+    const ra = e.target.closest('[data-radd]'); if (ra) {
+      const k = ra.dataset.radd; rbill[k] = (rbill[k] || 0) + 1;
+      ra.classList.add('has'); ra.innerHTML = `<i class="ph ph-check"></i>${rbill[k]} on your bill`;
+      document.querySelector('[data-rmemo]').innerHTML = rMemo(k); paintMbar(); return;
+    }
+    const t = e.target.closest('[data-tog]'); if (t) { t.classList.toggle('on'); t.setAttribute('aria-pressed', t.classList.contains('on')); t.previousElementSibling.textContent = t.classList.contains('on') ? 'Available' : 'Sold out'; return; }
+    const la = e.target.closest('[data-larea]'); if (la) { listArea = la.dataset.larea; go('list'); return; }
+    const tab = e.target.closest('.tabs button, .filters .fchip, .cats a'); if (tab) { e.preventDefault(); tab.parentElement.querySelectorAll(tab.tagName).forEach(x => x.classList.toggle('on', x === tab)); return; }
+    if (e.target.closest('[data-undo]')) { go('menu'); return; }
+    if (e.target.closest('[data-done]')) { const s = document.querySelector('[data-save]'); s.querySelector('span').textContent = 'Saved. Page, QR menu and print menu updated.'; setTimeout(() => s.classList.remove('on'), 1700); }
+  });
+  document.addEventListener('input', e => { if (e.target.matches('[data-price]')) { const s = document.querySelector('[data-save]'); s.classList.add('on'); s.querySelector('span').textContent = 'Price changed, not saved yet'; } });
+
+  let start = 'home', th = 'light', vw = 'desktop';
+  try { start = localStorage.getItem('khabo-b-page') || start; th = localStorage.getItem('khabo-b-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); vw = localStorage.getItem('khabo-b-view') || vw; } catch (e) { }
+  const q = new URLSearchParams(location.search);
+  if (PAGES[q.get('page')]) start = q.get('page'); if (q.get('theme')) th = q.get('theme'); if (q.get('view')) vw = q.get('view');
+  if (!PAGES[start]) start = 'home';
+  setCtl('theme', th); setCtl('view', vw); go(start);
+})();
+</script>
+</body>
+</html>

@@ -254,3 +254,55 @@ html[lang="bn"] .tm-name { line-height: 1.25; }
 .pc-t span { font-family: var(--font-bn); font-weight: 700; opacity: .8; }
 .pc-card small { margin-top: 1mm; font-size: 9.5px; color: #999; font-weight: 700; letter-spacing: .04em; }
 [data-theme="dark"] .tm-cats .chip.on, [data-theme="dark"] .mcats .chip.on { background: var(--r-accent); border-color: var(--r-accent); color: var(--r-on); }
+
+/* table menu layouts the restaurant picks in its panel (r.qr.layout, r.qr.header) */
+.tm-hd-colour .tm-bg { display: none; }
+.tm-hd-colour .tm-h { background: radial-gradient(120% 140% at 100% 0%, color-mix(in srgb, var(--r-accent) 26%, var(--r-deep)) 0%, var(--r-deep) 60%); }
+.tm-hd-colour .tm-wel { margin-top: 30px; }
+.tm-hd-colour .tm-top + .tm-name { margin-top: 34px; }
+.tm-l-photos .tm-g { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tm-l-photos .tm-g h2 { grid-column: 1 / -1; }
+.tm-l-photos .tm-i { position: relative; flex-direction: column-reverse; align-items: stretch; gap: 0; padding: 0; border: 1px solid var(--line); border-radius: 16px; overflow: hidden; background: var(--surface); }
+.tm-l-photos .tm-g h2 + .tm-i { margin-top: 0; }
+.tm-l-photos .tm-t { padding: 10px 50px 12px 12px; }
+.tm-l-photos .tm-t b { font-size: 14.5px; }
+.tm-l-photos .tm-alt { display: none; }
+.tm-l-photos .tm-r { display: block; position: static; }
+.tm-l-photos .tm-ph, .tm-l-cards .tm-ph { display: block; }
+.tm-l-photos .tm-ph { width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 0; }
+.tm-l-photos .tm-r .add, .tm-l-photos .tm-ph + .add { position: absolute; right: 8px; bottom: 10px; margin: 0; }
+.tm-l-cards .tm-i { position: relative; flex-direction: column-reverse; align-items: stretch; gap: 12px; padding: 16px 0 18px; }
+.tm-l-cards .tm-r { display: block; position: relative; }
+.tm-l-cards .tm-ph { width: 100%; height: auto; aspect-ratio: 16 / 9; border-radius: 18px; }
+.tm-l-cards .tm-ph + .add { position: absolute; right: 12px; bottom: 12px; margin: 0; }
+.tm-l-cards .tm-t b { font-size: 18px; }
+.tm-l-cards .tm-i:not(:has(.tm-ph)) { flex-direction: row; align-items: center; }
+.tm-l-compact .tm-ph, .tm-l-compact .tm-pop { display: none; }
+.tm-l-compact .tm-i { padding: 11px 0; }
+.tm-l-compact .tm-ph + .add { margin-top: 0; }
+
+/* Classic menu: like a printed menu card. Name, dotted line, price. No photos. */
+.tm-l-classic .tm-ph, .tm-l-classic .tm-pop { display: none; }
+.tm-l-classic .tm-g h2 { justify-content: center; align-items: center; gap: 14px; text-align: center; padding-top: 6px; }
+.tm-l-classic .tm-g h2::before, .tm-l-classic .tm-g h2::after { content: ""; flex: 1; height: 1px; background: var(--line-2); }
+.tm-l-classic .tm-g h2 span { display: none; }
+.tm-l-classic .tm-i { padding: 10px 0; border-bottom: 0; gap: 10px; }
+.tm-l-classic .tm-t { grid-template-columns: auto minmax(16px, 1fr) auto; column-gap: 8px; align-items: baseline; }
+.tm-l-classic .tm-t > * { grid-column: 1 / -1; }
+.tm-l-classic .tm-t b { grid-column: 1; grid-row: 1; }
+.tm-l-classic .tm-t::before { content: ""; grid-column: 2; grid-row: 1; align-self: end; margin-bottom: 5px; border-bottom: 2px dotted var(--line-2); }
+.tm-l-classic .tm-t .tm-price { grid-column: 3; grid-row: 1; margin: 0; color: color-mix(in srgb, var(--r-accent) 45%, var(--ink)); }
+.tm-l-classic .tm-ph + .add { margin-top: 0; }
+.tm-l-classic .tm-r .add { height: 30px; min-width: 30px; }
+.tm-l-classic .tm-r .add.plus { width: 30px; }
+
+/* colour themes (r.qr.theme). Each one only resets the page colours, so every layout works with every theme */
+.tm-th-paper { --bg: #F6F0E4; --bg-2: #EFE6D4; --surface: #FFFBF3; --surface-2: #FBF5EA; --sunk: #EAE0CC; --ink: #2B2117; --ink-2: #5A4B3B; --ink-3: #7D6C58; --line: rgba(43, 33, 23, .1); --line-2: rgba(43, 33, 23, .2); color: var(--ink); }
+.tm-th-night { --bg: #0E1018; --bg-2: #141722; --surface: #171B27; --surface-2: #1C2130; --sunk: #232838; --ink: #F2F0EC; --ink-2: #C3C0BA; --ink-3: #96938D; --line: rgba(242, 240, 236, .09); --line-2: rgba(242, 240, 236, .18); color: var(--ink); }
+.tm-th-brand { --bg: var(--r-deep); --bg-2: color-mix(in srgb, var(--r-deep) 88%, #fff); --surface: color-mix(in srgb, var(--r-deep) 86%, #fff); --surface-2: color-mix(in srgb, var(--r-deep) 82%, #fff); --sunk: color-mix(in srgb, var(--r-deep) 78%, #fff); --ink: #fff; --ink-2: rgba(255, 255, 255, .8); --ink-3: rgba(255, 255, 255, .62); --line: rgba(255, 255, 255, .12); --line-2: rgba(255, 255, 255, .22); color: var(--ink); }
+.tm-th-night .tm-cats .chip.on, .tm-th-brand .tm-cats .chip.on { background: var(--r-accent); border-color: var(--r-accent); color: var(--r-deep); }
+.tm-th-paper .tm-cats .chip.on { background: var(--r-deep); border-color: var(--r-deep); color: #fff; }
+.tm-th-brand .tm-price, .tm-th-night .tm-price { color: var(--r-accent); }
+.tm-th-brand .tm-h { box-shadow: inset 0 -1px 0 rgba(255, 255, 255, .1); }
+.tm-th-paper .tm-g h2, .tm-th-paper .tm-pop h2 { color: var(--r-deep); }
+.tm-th-night .tm-card > .ico:first-child, .tm-th-brand .tm-card > .ico:first-child { color: var(--r-accent); }

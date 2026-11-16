@@ -38,6 +38,9 @@ addRestaurant(({ e, D, pv, P, FILM, R, ago }) => ({
     D('mishti-doi', 'dessert', 'Mishti Doi', 'মিষ্টি দই', 120, null, ['1 clay pot', '১টি মাটির পাত্র'], 0, { cat: 'sweet', veg: true }),
     D('lebu-cha', 'tea', 'Lebu Cha', 'লেবু চা', 50, null, ['1 cup', '১ কাপ'], 0, { cat: 'sweet', veg: true })
   ],
+  events: [
+    { id: 'iftar-27', ...e('Ramadan iftar platter', 'রমজানের ইফতার প্ল্যাটার'), type: 'iftar', start: '2027-02-08T17:30', end: '2027-03-09T19:30', p: 'pl', price: 650, desc: e('Every day of Ramadan, from maghrib. Book a table a day ahead.', 'রমজানের প্রতিদিন, মাগরিব থেকে। এক দিন আগে টেবিল বুক করুন।') }
+  ],
   reviewList: [
     R('nodir-paar', 'Farhana Akter', 5, true, ago('4 days ago', '৪ দিন আগে'), 'ভর্তার থালাটা অসাধারণ, প্রতিটা ভর্তার স্বাদ আলাদা। দাম একটু বেশি, তবে মাছ একদম তাজা।', ['Bhorta Bhaat Thali', 'Rupchanda Fry']),
     R('nodir-paar', 'Imran Chowdhury', 4, true, ago('2 weeks ago', '২ সপ্তাহ আগে'), 'Good for taking guests from abroad. The veranda is lovely in winter. Service charge is 5% on top of 10% VAT, so check the bill estimate first.', ['Shorshe Ilish'])

@@ -35,7 +35,13 @@ addRestaurant(({ e, D, pv, P, FILM, R, ago }) => ({
     D('kr-chili', 'chinese', 'Chili Chicken', 'চিলি চিকেন', 460, null, ['Serves 2', '২ জন'], 2, { cat: 'asian' }),
     D('kr-mocktail', 'drink', 'Kathgolap Mocktail', 'কাঠগোলাপ মকটেল', 260, null, ['1 glass', '১ গ্লাস'], 0, { cat: 'sweet', veg: true })
   ],
-  deal: { id: 'sunset', ...e('Sunset hour, 20% off drinks', 'সূর্যাস্তের সময় পানীয়তে ২০% ছাড়'), desc: e('All mocktails and juices.', 'সব মকটেল আর জুস।'), when: e('Daily, 5pm to 7pm', 'প্রতিদিন বিকেল ৫টা থেকে ৭টা'), price: 208, was: 260, p: pv('hotel_rooftop_balcony', 'b') },
+  deals: [{ id: 'sunset', ...e('Sunset hour, 20% off drinks', 'সূর্যাস্তের সময় পানীয়তে ২০% ছাড়'), desc: e('All mocktails and juices.', 'সব মকটেল আর জুস।'), when: e('Daily, 5pm to 7pm', 'প্রতিদিন বিকেল ৫টা থেকে ৭টা'), price: 208, was: 260, p: pv('hotel_rooftop_balcony', 'b')  },
+    { id: 'brunch', ...e('Friday brunch for 2', 'দুজনের শুক্রবারের ব্রাঞ্চ'), desc: e('Two brunch plates and two fresh juices on the rooftop.', 'ছাদে দুটি ব্রাঞ্চ প্লেট আর দুটি তাজা জুস।'), when: e('Friday, 10am to 1pm', 'শুক্রবার, সকাল ১০টা থেকে ১টা'), price: 1150, was: 1380, p: pv('hotel_rooftop_balcony', 'a') }],
+  events: [
+    { id: 'acoustic-fri', ...e('Acoustic Friday on the roof', 'ছাদে অ্যাকোস্টিক শুক্রবার'), type: 'music', start: '2026-11-20T19:30', end: '2026-11-20T22:30', p: 'pv:hotel_rooftop_balcony:a', price: 300, desc: e('Two local bands, unplugged. The entry fee comes off your bill.', 'দুটি লোকাল ব্যান্ড, আনপ্লাগড। এন্ট্রি ফি বিল থেকে বাদ যাবে।') },
+    { id: 'old-songs', ...e('Old Bangla songs night', 'পুরোনো বাংলা গানের রাত'), type: 'music', start: '2026-12-04T19:30', end: '2026-12-04T22:30', p: 'pv:hotel_rooftop_balcony:a', price: 300 },
+    { id: 'jazz-past', ...e('Rooftop jazz evening', 'ছাদে জ্যাজ সন্ধ্যা'), type: 'music', start: '2026-11-06T19:30', end: '2026-11-06T22:30', p: 'pv:hotel_rooftop_balcony:a', price: 300 }
+  ],
   reviewList: [
     R('kathgolap', 'Tahsin Islam', 5, true, ago('5 days ago', '৫ দিন আগে'), 'Booked a rail table for sunset after seeing the 360 view. Worth it. BBQ platter easily feeds four.', ['BBQ Platter for 4']),
     R('kathgolap', 'Ruma Begum', 3, true, ago('2 weeks ago', '২ সপ্তাহ আগে'), 'সুন্দর জায়গা, কিন্তু ভ্যাট আর সার্ভিস চার্জ মিলিয়ে ২০%। আগে থেকে হিসাব করে যাওয়া ভালো।', ['Rooftop Kacchi', 'Tom Yum Soup'])

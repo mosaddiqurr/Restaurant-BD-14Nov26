@@ -3,10 +3,11 @@
 (function () {
   const K = window.K, t = K.t, L = K.L, ico = K.ico, $ = K.$, $$ = K.$$;
 
-  function item(r, d) {
+  /* the restaurant picks these in its panel (Table QR): r.qr.layout and r.qr.header */
+  function item(r, d, big) {
     return `<article class="tm-i" data-dish="${r.id}|${d.id}" data-name="${K.esc((d.name.en + ' ' + d.name.bn).toLowerCase())}" tabindex="0">
       <div class="tm-t"><b>${K.esc(L(d.name))}${d.best ? `<span class="tm-best">${t('best_seller')}</span>` : ''}</b><span class="tm-alt">${K.esc(K.S.lang === 'bn' ? d.name.en : d.name.bn)}</span><span class="tm-por">${K.esc(L(d.por))}${d.spice ? ' · ' + K.spice(d.spice) : ''}${d.veg ? ` · <span class="veg">${t('veg')}</span>` : ''}</span><span class="tm-price num">${K.tk(d.price)}</span></div>
-      <div class="tm-r">${d.p ? `<span class="tm-ph">${K.img(d.p, { w: 200, alt: '' })}</span>` : ''}${K.addBtn(r.id, d.id)}</div>
+      <div class="tm-r">${d.p ? `<span class="tm-ph">${K.img(d.p, { w: big ? 560 : 200, alt: '' })}</span>` : ''}${K.addBtn(r.id, d.id)}</div>
     </article>`;
   }
 
@@ -16,7 +17,9 @@
     render: ([id], q) => {
       const r = K.r(id), tbl = (q.get('table') || '').replace(/\D/g, '').slice(0, 3), os = K.openState(r);
       const pop = r.signature.map(x => r.menu.find(d => d.id === x)).filter(d => d && d.p).slice(0, 6);
-      return `<div class="tm" data-font="${r.theme.font}" style="--r-accent:${r.theme.accent};--r-deep:${r.theme.deep};--r-on:${r.theme.deep}">
+      /* the panel's live preview passes unsaved choices in the address (tml = layout, tmh = top); only honoured inside a preview */
+      const qs = Object.assign({}, r.qr, K.embed && q.get('tml') ? { layout: q.get('tml') } : {}, K.embed && q.get('tmh') ? { header: q.get('tmh') } : {}, K.embed && q.get('tmt') ? { theme: q.get('tmt') } : {}), th = K.TM_THEMES[qs.theme] ? qs.theme : 'auto', lay = K.TM_LAYOUTS[qs.layout] ? qs.layout : 'list', hd = K.TM_HEADERS[qs.header] ? qs.header : 'photo', big = lay === 'photos' || lay === 'cards';
+      return `<div class="tm tm-l-${lay} tm-hd-${hd} tm-th-${th}" data-font="${r.theme.font}" style="--r-accent:${r.theme.accent};--r-deep:${r.theme.deep};--r-on:${r.theme.deep}">
         <header class="tm-h">
           <div class="tm-bg" aria-hidden="true">${K.img(r.hero[0], { w: 900, eager: true, alt: '' })}</div>
           <div class="tm-w tm-h-in">
@@ -31,7 +34,7 @@
         <main class="tm-w tm-body">
           <p class="tm-note">${ico('receipt', 'sm')}<span>${t('tm_note', { v: K.n(r.vat), s: K.n(r.service) })}</span></p>
           ${pop.length ? `<section class="tm-pop"><h2 class="rp-display">${t('tm_popular')}</h2><div class="tm-pop-r">${pop.map(d => `<article class="tm-pc" data-dish="${r.id}|${d.id}" tabindex="0"><span class="tm-pc-ph">${K.img(d.p, { w: 320, alt: '' })}</span><b>${K.esc(L(d.name))}</b><span class="tm-pc-p"><span class="num">${K.tk(d.price)}</span>${K.addBtn(r.id, d.id)}</span></article>`).join('')}</div></section>` : ''}
-          ${r.cats.map(c => { const ds = r.menu.filter(d => d.cat === c.id); return `<section class="tm-g" id="tc-${c.id}" data-cat="${c.id}"><h2 class="rp-display">${L(c)}<span>${t('tm_items', { n: K.n(ds.length) })}</span></h2>${ds.map(d => item(r, d)).join('')}</section>`; }).join('')}
+          ${r.cats.map(c => { const ds = r.menu.filter(d => d.cat === c.id); return `<section class="tm-g" id="tc-${c.id}" data-cat="${c.id}"><h2 class="rp-display">${L(c)}<span>${t('tm_items', { n: K.n(ds.length) })}</span></h2>${ds.map(d => item(r, d, big)).join('')}</section>`; }).join('')}
           <p class="tm-none meta" hidden>${t('menu_none')}</p>
           <div class="tm-end">
             <a class="tm-card" href="#/r/${r.id}?open=review">${ico('star-fill')}<span><b>${t('tm_rate')}</b><span>${t('tm_rate_sub')}</span></span>${ico('caret-right', 'sm')}</a>

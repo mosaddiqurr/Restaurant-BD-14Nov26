@@ -1,0 +1,307 @@
+{
+ "id": "mahasthan-bhoj",
+ "name": {
+  "en": "Mahasthan Bhoj",
+  "bn": "মহাস্থান ভোজ"
+ },
+ "mono": "MV",
+ "since": 2012,
+ "area": "jaleshwaritola",
+ "city": "bogura",
+ "geo": [
+  24.844,
+  89.3705
+ ],
+ "spot": {
+  "en": "Jaleshwaritola, Bogura",
+  "bn": "জলেশ্বরীতলা, বগুড়া"
+ },
+ "address": {
+  "en": "7 Jaleshwaritola Road, Bogura 5800",
+  "bn": "৭ জলেশ্বরীতলা রোড, বগুড়া ৫৮০০"
+ },
+ "phone": "+8801700000915",
+ "cuisines": [
+  "bangladeshi",
+  "mughlai",
+  "dessert"
+ ],
+ "theme": {
+  "deep": "#3A1606",
+  "accent": "#E8955A",
+  "font": "serif"
+ },
+ "tagline": {
+  "en": "Bogura kacchi and the town’s famous doi, a short walk from Satmatha.",
+  "bn": "বগুড়ার কাচ্চি আর বিখ্যাত দই, সাতমাথা থেকে হাঁটা পথ।"
+ },
+ "story": {
+  "en": "Doi is set every morning in clay pots from Sherpur. Families from all over the north stop here on the way home.",
+  "bn": "প্রতিদিন সকালে শেরপুরের মাটির সরায় দই বসানো হয়। উত্তরবঙ্গের অনেক পরিবার বাড়ি ফেরার পথে এখানে থামে।"
+ },
+ "rating": 4.6,
+ "reviews": 97,
+ "verified": 71,
+ "ppl": [
+  250,
+  500
+ ],
+ "hours": [
+  "11:00",
+  "22:30"
+ ],
+ "vat": 5,
+ "service": 0,
+ "seats": 110,
+ "fac": [
+  "cabin",
+  "ac",
+  "parking",
+  "prayer",
+  "generator",
+  "events"
+ ],
+ "pay": [
+  "Cash",
+  "bKash",
+  "Nagad"
+ ],
+ "plan": "pro",
+ "founding": true,
+ "checked": 2,
+ "mediaDate": {
+  "en": "Oct 2026",
+  "bn": "অক্টোবর ২০২৬"
+ },
+ "hero": [
+  "in",
+  "bp",
+  "kc3"
+ ],
+ "film": {
+  "src": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+  "poster": "bp",
+  "len": "0:16"
+ },
+ "kitchen": {
+  "src": "https://assets.mixkit.co/videos/15875/15875-720.mp4",
+  "poster": "kc3",
+  "date": {
+   "en": "Filmed 9 Oct 2026",
+   "bn": "ধারণ ৯ অক্টোবর ২০২৬"
+  },
+  "photos": [
+   "kc3"
+  ]
+ },
+ "gallery": {
+  "inside": [
+   "in"
+  ],
+  "outside": [],
+  "kitchen": [
+   "kc3"
+  ],
+  "food": [
+   "bp"
+  ]
+ },
+ "signature": [
+  "mv-kacchi",
+  "bogura-doi",
+  "mv-bhuna"
+ ],
+ "cats": [
+  {
+   "id": "rice",
+   "en": "Rice",
+   "bn": "ভাত"
+  },
+  {
+   "id": "curry",
+   "en": "Curries",
+   "bn": "তরকারি"
+  },
+  {
+   "id": "sweet",
+   "en": "Doi & drinks",
+   "bn": "দই ও পানীয়"
+  }
+ ],
+ "menu": [
+  {
+   "id": "mv-kacchi",
+   "type": "kacchi",
+   "name": {
+    "en": "Bogura Kacchi",
+    "bn": "বগুড়ার কাচ্চি"
+   },
+   "price": 280,
+   "p": "bp",
+   "por": {
+    "en": "Serves 1 · clay pot",
+    "bn": "১ জন · মাটির হাঁড়ি"
+   },
+   "spice": 1,
+   "cat": "rice",
+   "best": true,
+   "video": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+   "desc": {
+    "en": "Mutton kacchi served in its own clay pot.",
+    "bn": "নিজস্ব মাটির হাঁড়িতে মাটন কাচ্চি।"
+   }
+  },
+  {
+   "id": "mv-polao",
+   "type": "polao",
+   "name": {
+    "en": "Polao and Roast Set",
+    "bn": "পোলাও-রোস্ট সেট"
+   },
+   "price": 320,
+   "p": null,
+   "por": {
+    "en": "Serves 1",
+    "bn": "১ জন"
+   },
+   "spice": 0,
+   "cat": "rice"
+  },
+  {
+   "id": "mv-bhuna",
+   "type": "curry",
+   "name": {
+    "en": "Beef Bhuna",
+    "bn": "গরুর মাংস ভুনা"
+   },
+   "price": 260,
+   "p": null,
+   "por": {
+    "en": "Serves 1 to 2",
+    "bn": "১-২ জন"
+   },
+   "spice": 2,
+   "cat": "curry"
+  },
+  {
+   "id": "mv-roast",
+   "type": "curry",
+   "name": {
+    "en": "Chicken Roast",
+    "bn": "চিকেন রোস্ট"
+   },
+   "price": 190,
+   "p": null,
+   "por": {
+    "en": "1 quarter",
+    "bn": "১ কোয়ার্টার"
+   },
+   "spice": 0,
+   "cat": "curry"
+  },
+  {
+   "id": "bogura-doi",
+   "type": "dessert",
+   "name": {
+    "en": "Bogura Doi",
+    "bn": "বগুড়ার দই"
+   },
+   "price": 140,
+   "p": null,
+   "por": {
+    "en": "1 small clay pot",
+    "bn": "১টি ছোট সরা"
+   },
+   "spice": 0,
+   "cat": "sweet",
+   "best": true,
+   "veg": true,
+   "desc": {
+    "en": "Thick, sweet and set overnight in clay.",
+    "bn": "ঘন, মিষ্টি, সারা রাত মাটির সরায় বসানো।"
+   }
+  },
+  {
+   "id": "mv-borhani",
+   "type": "drink",
+   "name": {
+    "en": "Borhani",
+    "bn": "বোরহানি"
+   },
+   "price": 50,
+   "p": null,
+   "por": {
+    "en": "1 glass",
+    "bn": "১ গ্লাস"
+   },
+   "spice": 1,
+   "cat": "sweet",
+   "veg": true
+  }
+ ],
+ "deal": {
+  "id": "kacchi-doi",
+  "en": "Kacchi and doi combo",
+  "bn": "কাচ্চি ও দই কম্বো",
+  "desc": {
+   "en": "Bogura Kacchi with a small pot of doi.",
+   "bn": "বগুড়ার কাচ্চি আর এক সরা দই।"
+  },
+  "when": {
+   "en": "Every day",
+   "bn": "প্রতিদিন"
+  },
+  "price": 380,
+  "was": 420,
+  "p": "bp"
+ },
+ "deals": [
+  {
+   "id": "kacchi-doi",
+   "en": "Kacchi and doi combo",
+   "bn": "কাচ্চি ও দই কম্বো",
+   "desc": {
+    "en": "Bogura Kacchi with a small pot of doi.",
+    "bn": "বগুড়ার কাচ্চি আর এক সরা দই।"
+   },
+   "when": {
+    "en": "Every day",
+    "bn": "প্রতিদিন"
+   },
+   "price": 380,
+   "was": 420,
+   "p": "bp"
+  }
+ ],
+ "reviewList": [
+  {
+   "r": "mahasthan-bhoj",
+   "who": "Habibur Rahman",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "3 days ago",
+    "bn": "৩ দিন আগে"
+   },
+   "t": "ঢাকা থেকে ফেরার পথে থেমেছিলাম। মাটির হাঁড়ির কাচ্চি আর দই, দুটোই দারুণ। কেবিন পরিষ্কার।",
+   "ord": [
+    "Bogura Kacchi",
+    "Bogura Doi"
+   ]
+  },
+  {
+   "r": "mahasthan-bhoj",
+   "who": "Jannatul Ferdous",
+   "st": 5,
+   "vf": true,
+   "when": {
+    "en": "2 weeks ago",
+    "bn": "২ সপ্তাহ আগে"
+   },
+   "t": "Amar bhai er biye r agey ekhane family dinner korechilam, 14 jon. Event hall ta boro.",
+   "ord": [
+    "Polao and Roast Set"
+   ]
+  }
+ ]
+}

@@ -86,6 +86,13 @@ K.data = (function () {
     dessert: { made: e('Made in the kitchen each day and served chilled.', 'প্রতিদিন রান্নাঘরে বানানো, ঠান্ডা করে দেওয়া।') },
     drink: { made: e('Made fresh when you order.', 'অর্ডার করলে তাজা বানানো।') }
   };
+  /* the khabo team can change "About this dish" text in the admin panel (Site text) */
+  let siteSaved = null; try { siteSaved = (JSON.parse(localStorage.getItem('khabo.panel.v1') || 'null') || {}).site; } catch (err) { siteSaved = null; }
+  K.ABOUT0 = JSON.parse(JSON.stringify(about)); /* the defaults, so the admin panel can put a change back */
+  if (siteSaved && siteSaved.about) Object.keys(siteSaved.about).forEach(k => { if (about[k]) Object.assign(about[k], siteSaved.about[k]); });
+  /* and any interface text: { key: { en, bn } } over code/i18n.js */
+  if (window.K && K.T && !K.T0) K.T0 = { en: Object.assign({}, K.T.en), bn: Object.assign({}, K.T.bn) };
+  if (siteSaved && siteSaved.text && window.K && K.T) Object.keys(siteSaved.text).forEach(k => { const v = siteSaved.text[k]; if (v.en) K.T.en[k] = v.en; if (v.bn) K.T.bn[k] = v.bn; });
   Object.keys(about).forEach(k => Object.assign(types[k], about[k]));
   /* the dish shortcuts shown first on Home */
   const cravings = ['kacchi', 'biryani', 'tehari', 'kebab', 'fuchka', 'fish', 'thali', 'naan', 'platter', 'bakery', 'tea', 'polao'];
@@ -127,6 +134,32 @@ K.data = (function () {
   const R = (r, who, st, vf, when, t, ord, x) => Object.assign({ r, who, st, vf, when, t, ord: ord || [] }, x || {});
   const ago = (en, bn) => e(en, bn);
 
+  /* ---------- page colours ----------
+     Restaurants pick one of these pairs: a deep background and a warm accent. Every pair is built the same way
+     (dark enough for white text, accent bright enough to read on it), so no page feels cut off from khabo.
+     Only the khabo team can set other colours. */
+  const palettes = [
+    { id: 'saffron', deep: '#2A0C14', accent: '#E2B04A', ...e('Saffron night', 'জাফরান রাত') },
+    { id: 'indigo', deep: '#14192B', accent: '#F4D77E', ...e('Indigo and gold', 'নীল ও সোনালি') },
+    { id: 'forest', deep: '#13281C', accent: '#E9A23B', ...e('Forest marigold', 'বন ও গাঁদা') },
+    { id: 'garden', deep: '#0F2619', accent: '#A5DB7E', ...e('Garden', 'বাগান') },
+    { id: 'ember', deep: '#1A1110', accent: '#FF8A4C', ...e('Ember', 'অঙ্গার') },
+    { id: 'river', deep: '#0A2A3E', accent: '#8FD0F2', ...e('River', 'নদী') },
+    { id: 'clay', deep: '#3A1606', accent: '#E8955A', ...e('Terracotta', 'পোড়ামাটি') },
+    { id: 'chili', deep: '#3A120A', accent: '#F2B33D', ...e('Chili and turmeric', 'মরিচ ও হলুদ') },
+    { id: 'cocoa', deep: '#1E140C', accent: '#F28C4B', ...e('Cocoa', 'কোকো') },
+    { id: 'teal', deep: '#062B33', accent: '#86D3C6', ...e('Lagoon', 'লেগুন') },
+    { id: 'rose', deep: '#2D0F2A', accent: '#FF9BB8', ...e('Rose', 'গোলাপ') },
+    { id: 'plum', deep: '#2A1636', accent: '#F2A93B', ...e('Plum and amber', 'বেগুনি ও অ্যাম্বার') }
+  ];
+  /* social networks a restaurant can link; `host` is what a real link must contain */
+  const socials = {
+    facebook: { en: 'Facebook', host: /(^|\.)(facebook|fb)\.com$/, base: 'https://facebook.com/', i: 'facebook-logo' },
+    instagram: { en: 'Instagram', host: /(^|\.)instagram\.com$/, base: 'https://instagram.com/', i: 'instagram-logo' },
+    tiktok: { en: 'TikTok', host: /(^|\.)tiktok\.com$/, base: 'https://tiktok.com/@', i: 'tiktok-logo' },
+    youtube: { en: 'YouTube', host: /(^|\.)(youtube\.com|youtu\.be)$/, base: 'https://youtube.com/@', i: 'youtube-logo' }
+  };
+
   /* ---------- restaurants ----------
      Each restaurant lives in its own folder: restaurants/<name>/restaurant.js (listed in restaurants/list.js).
      Those files run first and hand over a recipe; here each one is cooked with the shared helpers. */
@@ -137,6 +170,53 @@ K.data = (function () {
     restaurants.push(r);
   });
 
+  /* ---------- changes made in the admin and restaurant panels ----------
+     Prototype only: panel/store.js saves them in this browser under "khabo.panel.v1".
+     A changed restaurant replaces the original; new ones are added; deleted and hidden ones leave the site.
+     The panels themselves (window.KHABO_PANEL) still see hidden restaurants so they can switch them back on. */
+  K.revKey = v => `${v.r}|${v.who}|${String(v.t).slice(0, 24)}`;
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem('khabo.panel.v1') || 'null'); } catch (err) { saved = null; }
+  if (saved) {
+    Object.keys(saved.rest || {}).forEach(id => {
+      const i = restaurants.findIndex(r => r.id === id);
+      /* a copy saved before a field existed (e.g. events) keeps that field from the restaurant's file */
+      if (i >= 0) { const sv = saved.rest[id]; if (!('events' in sv) && restaurants[i].events) sv.events = restaurants[i].events; restaurants[i] = sv; } else restaurants.push(saved.rest[id]);
+    });
+    for (let i = restaurants.length - 1; i >= 0; i--) {
+      const r = restaurants[i];
+      if ((saved.gone || {})[r.id] || (r.hidden && !window.KHABO_PANEL)) restaurants.splice(i, 1);
+    }
+    reviews.forEach(v => { const s = (saved.reviews || {})[K.revKey(v)]; if (s) { v.hidden = !!s.hidden; if (s.reply) v.reply = s.reply; } });
+  }
+  /* deals: a restaurant can run several. r.deals is the list, in the order the restaurant chose (paused ones have off: true).
+     r.deal is the headline one (the deal of the week first) used by cards, filters and the home page. */
+  /* the kind of deal the owner picks. `ring` runs round the gold seal (English only: Bangla letters break on a curve) */
+  K.DEAL_TAGS = {
+    offer: { en: 'Special offer', bn: 'বিশেষ অফার', ring: 'SPECIAL OFFER' },
+    limited: { en: 'Limited time', bn: 'সীমিত সময়ের অফার', ring: 'LIMITED TIME' },
+    lunch: { en: 'Lunch deal', bn: 'দুপুরের অফার', ring: 'LUNCH DEAL' },
+    family: { en: 'Family deal', bn: 'ফ্যামিলি অফার', ring: 'FAMILY DEAL' },
+    weekend: { en: 'Weekend deal', bn: 'উইকেন্ড অফার', ring: 'WEEKEND DEAL' },
+    night: { en: 'Late night deal', bn: 'রাতের অফার', ring: 'LATE NIGHT' },
+    new: { en: 'New offer', bn: 'নতুন অফার', ring: 'NEW OFFER' },
+    festive: { en: 'Festival special', bn: 'উৎসবের অফার', ring: 'FESTIVAL SPECIAL' }
+  };
+  /* a deal can have a first and a last day (YYYY-MM-DD). Outside those days it hides by itself. */
+  K.today = () => { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+  K.dealState = d => { const t = K.today(); return d.off ? 'off' : d.from && d.from > t ? 'soon' : d.to && d.to < t ? 'ended' : 'live'; };
+  K.dealsOf = r => (r.deals || []).filter(d => K.dealState(d) === 'live');
+  K.syncDeal = r => {
+    if (!r.deals) r.deals = [r.deal, r.dealOff && Object.assign({}, r.dealOff, { off: true })].filter(Boolean);
+    delete r.dealOff;
+    const live = K.dealsOf(r);
+    r.deal = live.find(d => d.week) || live[0];
+    if (!r.deal) delete r.deal;
+  };
+  restaurants.forEach(K.syncDeal);
+  /* "prices checked X days ago" counts from the last time the restaurant confirmed or changed a price */
+  restaurants.forEach(r => { if (r.checkedAt) r.checked = Math.max(0, Math.floor((Date.now() - r.checkedAt) / 864e5)); });
+
   /* each 360 room's files sit in the folder of the restaurant that uses it */
   const root = (document.currentScript && document.currentScript.src || '').replace(/data\/common\.js.*$/, '');
   const panoHome = {};
@@ -144,7 +224,18 @@ K.data = (function () {
     (r.tour || []).forEach(t => { panoHome[t.pano] = r.id; if (t.day) panoHome[t.day] = r.id; });
     JSON.stringify(r.gallery || {}).replace(/pv:([\w-]+):/g, (m, p) => { panoHome[p] = panoHome[p] || r.id; });
   });
+  /* 360 rooms the khabo team uploaded in the admin panel carry their picture with them (room.img) */
+  K.panoUp = {};
+  restaurants.forEach(r => (r.tour || []).forEach(t => { if (t.img) K.panoUp[t.pano] = { img: t.img, thumb: t.thumb || t.img }; }));
+  /* table menu choices (what guests see after scanning): r.qr.layout and r.qr.header */
+  K.TM_LAYOUTS = { list: 'List with photos', photos: 'Photo grid', cards: 'Big photos', compact: 'Text only' };
+  K.TM_HEADERS = { photo: 'Cover photo', colour: 'Your colour' };
+  K.TM_LAYOUTS.classic = 'Classic menu';
+  /* colour themes for the table menu. 'auto' follows the phone (light or dark) */
+  K.TM_THEMES = { auto: 'Light', paper: 'Warm paper', night: 'Dark', brand: 'Your colour' };
+  /* a file in a restaurant's own folder, e.g. its logo */
+  K.restFile = (r, f) => `${root}restaurants/${r.id}/${f}`;
   K.panoDir = pano => `${root}restaurants/${panoHome[pano]}/360/`;
 
-  return { P, FILM, cities, areas, soon, cuisines, types, cravings, facilities, occasions, budgets, restaurants, reviews, updated: e('14 Nov 2026', '১৪ নভেম্বর ২০২৬') };
+  return { P, FILM, palettes, socials, cities, areas, soon, cuisines, types, cravings, facilities, occasions, budgets, restaurants, reviews, updated: e('14 Nov 2026', '১৪ নভেম্বর ২০২৬') };
 })();

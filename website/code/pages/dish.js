@@ -39,13 +39,12 @@
     if (d.video) tabs.push(['video', ico('play-fill', 'sm') + t('video')]);
     if (d.d3) tabs.push(['d3', ico('cube', 'sm') + '3D']);
     if (!tabs.find(x => x[0] === tab)) tab = 'photo';
-    const allin = K.allIn(r, d.price);
     const others = K.allDishes.filter(x => x.type === d.type && !x.share).sort((a, b) => a.price - b.price);
     const house = K._house === rid;
     const lowest = house ? null : others[0];
     const rest = house ? [] : others.filter(x => x !== d).slice(0, 5);
     const more = house ? [...r.signature.map(x => r.menu.find(m => m.id === x)), ...r.menu.filter(m => m.best)].filter((m, i, a) => m && m !== d && a.indexOf(m) === i).slice(0, 4) : [];
-    const revs = D.reviews.filter(v => v.r === rid && v.ord.some(o => o.toLowerCase() === d.name.en.toLowerCase()));
+    const revs = D.reviews.filter(v => v.r === rid && !v.hidden && v.ord.some(o => o.toLowerCase() === d.name.en.toLowerCase()));
     const other = K.S.lang === 'bn' ? d.name.en : d.name.bn;
     const tags = [d.veg ? `<span class="badge b-green">${ico('leaf', 'sm')}${t('veg')}</span>` : '', d.best ? `<span class="badge b-indigo">${t('best_seller')}</span>` : '', d.share ? `<span class="badge b-soft">${ico('users-three', 'sm')}${t('for_n', { n: K.n(d.share) })}</span>` : ''].join('');
     return `<div class="ds" style="--r-accent:${r.theme.accent};--r-deep:${r.theme.deep}">
@@ -60,8 +59,8 @@
         <p class="ds-alt">${K.esc(other)}</p>
         <div class="ds-meta"><span>${K.esc(L(d.por))}</span>${d.spice ? `<span>${K.spice(d.spice)} ${t('spice_' + d.spice)}</span>` : ''}${tags}</div>
         ${d.desc ? `<p class="ds-desc">${K.esc(L(d.desc))}</p>` : ''}
-        <div class="ds-buy">
-          <div><div class="price ds-price num">${K.tk(d.price)}</div><div class="meta">${t('allin_line', { v: K.tk(allin), vat: K.n(r.vat), s: K.n(r.service) })}</div></div>
+        <div class="ds-buy" style="--rd:${r.theme.deep};--ra:${r.theme.accent}">
+          <div><div class="price ds-price num">${K.tkH(d.price)}</div></div>
           ${K.addBtn(r.id, d.id, true)}
         </div>
         <div class="ds-fresh"><span class="fresh">${K.checked(r.checked)}</span>${lowest && lowest.id === d.id ? `<span class="badge b-green">${t('lowest_in', { d: L(D.types[d.type]).toLowerCase() })}</span>` : ''}</div>

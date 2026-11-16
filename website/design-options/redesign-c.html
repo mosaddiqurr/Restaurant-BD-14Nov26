@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>khabo redesign C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400..800&family=Noto+Sans+Bengali:wght@400..700&display=swap">
+<script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+<script type="importmap">
+{ "imports": {
+  "react": "https://esm.sh/react@18.3.1",
+  "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime",
+  "react-dom": "https://esm.sh/react-dom@18.3.1?external=react",
+  "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react",
+  "htm": "https://esm.sh/htm@3.1.1",
+  "clsx": "https://esm.sh/clsx@2.1.1",
+  "zustand": "https://esm.sh/zustand@5.0.3?external=react",
+  "framer-motion": "https://esm.sh/framer-motion@11.15.0?external=react,react-dom",
+  "sonner": "https://esm.sh/sonner@1.7.4?external=react,react-dom",
+  "vaul": "https://esm.sh/vaul@1.1.2?external=react,react-dom",
+  "cmdk": "https://esm.sh/cmdk@1.1.1?external=react,react-dom",
+  "input-otp": "https://esm.sh/input-otp@1.4.2?external=react,react-dom",
+  "@number-flow/react": "https://esm.sh/@number-flow/react@0.5.7?external=react,react-dom",
+  "recharts": "https://esm.sh/recharts@2.15.0?external=react,react-dom",
+  "@dnd-kit/utilities": "https://esm.sh/@dnd-kit/utilities@3.2.2?external=react",
+  "@dnd-kit/core": "https://esm.sh/@dnd-kit/core@6.3.1?external=react,react-dom,@dnd-kit/utilities",
+  "@dnd-kit/sortable": "https://esm.sh/@dnd-kit/sortable@10.0.0?external=react,react-dom,@dnd-kit/core,@dnd-kit/utilities",
+  "@base-ui/react/popover": "https://esm.sh/@base-ui/react@1.8.0/popover?external=react,react-dom",
+  "@base-ui/react/switch": "https://esm.sh/@base-ui/react@1.8.0/switch?external=react,react-dom",
+  "@base-ui/react/dialog": "https://esm.sh/@base-ui/react@1.8.0/dialog?external=react,react-dom"
+} }
+</script>
+<style>
+:root {
+  --bg: #F6F6F7; --surface: #FFFFFF; --sunk: #EFEFF1; --ink: #0B0B0F; --ink-2: #4A4A55; --ink-3: #6E6E78; --line: #E4E4E8; --line-2: #D4D4DA;
+  --pop: #F5A300; --pop-ink: #1B1200; --pop-soft: #FFF3D6; --pop-text: #9A6200; --good: #12804F; --bad: #C93A2E;
+  --shadow: 0 1px 0 rgba(11, 11, 15, .04), 0 1px 2px rgba(11, 11, 15, .06), 0 10px 30px -18px rgba(11, 11, 15, .25);
+  --ring: 0 0 0 1px var(--line); --ease: cubic-bezier(.23, 1, .32, 1);
+  color-scheme: light;
+}
+:root[data-theme="dark"] {
+  --bg: #0A0A0C; --surface: #131316; --sunk: #1A1A1E; --ink: #F4F4F6; --ink-2: #B4B4BE; --ink-3: #8A8A95; --line: #24242A; --line-2: #33333B;
+  --pop: #FFB22E; --pop-ink: #1B1200; --pop-soft: #2A2110; --pop-text: #FFC45C; --good: #44C98A; --bad: #F06A5E;
+  --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 12px 30px -18px rgba(0, 0, 0, .9);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font: 400 15px/1.5 Figtree, "Noto Sans Bengali", system-ui, sans-serif; color: var(--ink); background: #E9E9EC; -webkit-font-smoothing: antialiased; }
+:root[data-theme="dark"] body { background: #050506; }
+h1, h2, h3, h4, p { margin: 0; }
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+img { display: block; max-width: 100%; }
+::selection { background: var(--pop); color: var(--pop-ink); }
+input { caret-color: var(--pop); }
+:focus-visible { outline: 2px solid var(--pop); outline-offset: 2px; border-radius: 6px; }
+.num { font-variant-numeric: tabular-nums; }
+.boot { display: grid; place-items: center; height: 100dvh; color: #6E6E78; font: 500 15px Figtree, sans-serif; }
+
+/* preview shell */
+.app { display: grid; grid-template-columns: 232px minmax(0, 1fr); height: 100dvh; }
+.rail { display: flex; flex-direction: column; gap: 22px; padding: 20px 14px; background: #0B0B0F; color: #D9D9E0; overflow: auto; }
+.rail-h { display: flex; gap: 10px; align-items: center; padding: 0 8px; }
+.rail-h svg { width: 28px; height: 28px; flex: none; }
+.rail-h b { font-size: 15.5px; font-weight: 700; }
+.rail-h small { display: block; font-size: 12.5px; color: #85858F; }
+.rail nav { display: grid; gap: 2px; }
+.rail h4 { font-size: 12.5px; font-weight: 600; color: #75757F; padding: 0 10px 4px; }
+.rail nav button { position: relative; display: flex; align-items: center; gap: 10px; height: 38px; padding: 0 12px; border-radius: 10px; font-size: 14.5px; font-weight: 550; color: #B9B9C3; text-align: left; }
+.rail nav button i { font-size: 18px; position: relative; z-index: 1; }
+.rail nav button span { position: relative; z-index: 1; }
+.rail nav button.on { color: #0B0B0F; }
+.rail nav a { display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 12px; border-radius: 10px; font-size: 14px; font-weight: 550; color: #B9B9C3; }
+.rail nav a i { font-size: 17px; }
+.rail nav a:hover { background: rgba(255, 255, 255, .06); color: #fff; }
+.rail nav a.on { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); color: #fff; }
+.rail nav button span.rail-pill { position: absolute; inset: 0; z-index: 0; border-radius: 10px; background: #F4F4F6; }
+.rail-ctl { margin-top: auto; display: grid; gap: 8px; }
+.rail-ctl label { font-size: 12.5px; font-weight: 600; color: #75757F; padding: 0 4px; }
+.rail-libs { font-size: 12.5px; color: #85858F; line-height: 1.5; padding: 0 4px; }
+.rail-libs b { color: #D9D9E0; font-weight: 600; }
+.stage { overflow: auto; display: flex; justify-content: center; }
+.frame { position: relative; width: 100%; background: var(--bg); min-height: 100%; }
+.app[data-view="phone"] .stage { padding: 24px 0; align-items: flex-start; }
+.app[data-view="phone"] .frame { width: 390px; height: calc(100dvh - 48px); min-height: 0; overflow: auto; border-radius: 34px; box-shadow: 0 0 0 10px #16161B, 0 30px 80px rgba(0, 0, 0, .35); scrollbar-width: none; transform: translateZ(0); }
+.screen { container-type: inline-size; container-name: s; min-height: 100%; }
+
+/* segmented control with a sliding pill (motion layoutId) */
+.seg { position: relative; display: inline-flex; padding: 3px; gap: 2px; border-radius: 12px; background: var(--sunk); }
+.seg.dark { background: rgba(255, 255, 255, .07); width: 100%; }
+.seg button { position: relative; flex: 1; height: 32px; padding: 0 12px; border-radius: 9px; font-size: 13.5px; font-weight: 600; color: var(--ink-3); display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; }
+.seg.dark button { color: #9E9EA8; }
+.seg button span, .seg button i { position: relative; z-index: 1; }
+.seg button.on { color: var(--ink); }
+.seg.dark button.on { color: #0B0B0F; }
+.seg button span.seg-pill { position: absolute; inset: 0; z-index: 0; border-radius: 9px; background: var(--surface); box-shadow: 0 1px 2px rgba(11, 11, 15, .12); }
+.seg.dark button span.seg-pill { background: #F4F4F6; }
+
+/* shared */
+.wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+@container s (max-width: 720px) { .wrap { padding: 0 16px; } }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 42px; padding: 0 16px; border-radius: 11px; font-weight: 600; font-size: 14.5px; white-space: nowrap; transition: transform .16s var(--ease), background .2s, box-shadow .2s; }
+.btn:active { transform: scale(.97); }
+.btn i { font-size: 17px; }
+.btn-ink { background: var(--ink); color: var(--bg); }
+.btn-ink:hover { box-shadow: 0 6px 16px -8px rgba(11, 11, 15, .5); }
+.btn-pop { background: var(--pop); color: var(--pop-ink); }
+.btn-line { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); }
+.btn-line:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.btn-sm { height: 34px; padding: 0 12px; font-size: 13.5px; border-radius: 9px; }
+.h2 { font-size: clamp(26px, 3vw, 34px); font-weight: 750; letter-spacing: -.03em; line-height: 1.1; }
+.sub { color: var(--ink-2); font-size: 16px; margin-top: 8px; max-width: 56ch; }
+.sec { padding-top: 80px; }
+@container s (max-width: 720px) { .sec { padding-top: 56px; } }
+.pic { overflow: hidden; background: var(--sunk); }
+.pic img { width: 100%; height: 100%; object-fit: cover; }
+.price { font-weight: 700; font-variant-numeric: tabular-nums; }
+.kbd { display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 5px; border-radius: 6px; font-size: 12px; font-weight: 600; color: var(--ink-3); box-shadow: inset 0 0 0 1px var(--line-2); background: var(--surface); }
+.star { color: var(--pop); }
+.open { color: var(--good); font-weight: 600; }
+number-flow-react { --number-flow-char-height: 1em; }
+
+/* nav */
+.nav { position: sticky; top: 0; z-index: 20; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); box-shadow: 0 1px 0 var(--line); }
+.nav .wrap { display: flex; align-items: center; gap: 24px; height: 64px; }
+.logo { display: inline-flex; align-items: center; gap: 8px; font-weight: 800; font-size: 19px; letter-spacing: -.02em; }
+.logo svg { width: 28px; height: 28px; }
+.nav-l { display: flex; gap: 4px; }
+.nav-l a { padding: 7px 10px; border-radius: 8px; font-weight: 550; color: var(--ink-2); font-size: 14.5px; }
+.nav-l a:hover { background: var(--sunk); color: var(--ink); }
+.nav-r { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.kbtn { display: inline-flex; align-items: center; gap: 10px; height: 38px; padding: 0 8px 0 12px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-3); font-size: 14px; min-width: 250px; }
+.kbtn:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.kbtn .kbd { margin-left: auto; }
+@container s (max-width: 900px) { .nav-l { display: none; } .kbtn { min-width: 0; } .kbtn .kbd, .kbtn em, .big-k .kbd { display: none; } }
+.kbtn em { font-style: normal; }
+
+/* home */
+.hero { padding-top: 64px; }
+.hero h1 { font-size: clamp(42px, 6.4vw, 80px); font-weight: 800; letter-spacing: -.045em; line-height: .98; max-width: 14ch; }
+.hero h1 span { color: var(--ink-3); }
+.hero-row { display: flex; flex-wrap: wrap; gap: 14px 24px; align-items: center; margin-top: 22px; }
+.hero-row p { color: var(--ink-2); font-size: 18px; max-width: 46ch; }
+.big-k { display: flex; align-items: center; gap: 12px; height: 54px; width: min(460px, 100%); padding: 0 10px 0 18px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); color: var(--ink-3); font-size: 16px; text-align: left; }
+.big-k i { font-size: 20px; color: var(--ink); }
+.big-k .kbd { margin-left: auto; }
+.cmp { margin-top: 36px; display: grid; grid-template-columns: 220px minmax(0, 1fr) 300px; background: var(--surface); border-radius: 20px; box-shadow: var(--shadow), inset 0 0 0 1px var(--line); overflow: hidden; }
+.cmp-tabs { padding: 14px; display: grid; gap: 4px; align-content: start; border-right: 1px solid var(--line); }
+.cmp-tabs button { position: relative; display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 12px; border-radius: 11px; font-weight: 600; color: var(--ink-2); text-align: left; }
+.cmp-tabs button span { position: relative; z-index: 1; }
+.cmp-tabs button em { position: relative; z-index: 1; margin-left: auto; font-style: normal; color: var(--ink-3); font-size: 13px; font-weight: 500; }
+.cmp-tabs button.on { color: var(--ink); }
+.cmp-tabs button span.tab-pill { position: absolute; inset: 0; z-index: 0; border-radius: 11px; background: var(--sunk); }
+.cmp-list { padding: 18px 24px; min-width: 0; }
+.cmp-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.cmp-head b { font-size: 34px; font-weight: 800; letter-spacing: -.03em; }
+.cmp-head > span, .cmp-head > div > span:first-child { color: var(--ink-3); font-size: 14px; }
+.cmp-row { display: grid; grid-template-columns: 22px minmax(0, 1fr) minmax(80px, 160px) 70px; gap: 14px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.cmp-row:last-child { border-bottom: 0; }
+.cmp-row .n { color: var(--ink-3); font-size: 13px; font-weight: 600; }
+.cmp-row b { font-weight: 600; display: block; }
+.cmp-row small { color: var(--ink-3); font-size: 13px; }
+.cmp-row .bar { height: 6px; border-radius: 3px; background: var(--ink); opacity: .14; }
+.cmp-row.low .bar { background: var(--pop); opacity: 1; }
+.cmp-row .price { justify-self: end; font-size: 17px; }
+.cmp-row.low .price { color: var(--pop-text); }
+.cmp-pic { position: relative; background: var(--sunk); }
+.cmp-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+@container s (max-width: 960px) { .cmp { grid-template-columns: minmax(0, 1fr); } .cmp-pic { display: none; } .cmp-tabs { display: flex; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); scrollbar-width: none; } .cmp-tabs button { flex: none; } .cmp-tabs button em { display: none; } }
+@container s (max-width: 560px) { .cmp-row { grid-template-columns: 18px minmax(0, 1fr) 64px; } .cmp-row .bar { display: none; } .cmp-list { padding: 14px 16px; } }
+.rail-row { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 48px) / 4); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-top: 22px; padding: 2px 2px 8px; }
+.rail-row > * { scroll-snap-align: start; }
+@container s (max-width: 900px) { .rail-row { grid-auto-columns: 46%; } }
+@container s (max-width: 560px) { .rail-row { grid-auto-columns: 80%; } }
+.rc { display: grid; gap: 10px; }
+.rc .pic { aspect-ratio: 4 / 3; border-radius: 16px; box-shadow: inset 0 0 0 1px rgba(11, 11, 15, .06); }
+.rc .pic img { transition: transform .7s var(--ease); }
+.rc:hover .pic img { transform: scale(1.04); }
+.rc b { font-weight: 650; font-size: 16px; }
+.rc .m { display: flex; gap: 10px; color: var(--ink-3); font-size: 13.5px; margin-top: 2px; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 400px); gap: 40px; margin-top: 26px; align-items: start; }
+.dishes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.dbtn { display: grid; grid-template-columns: 52px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 8px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); text-align: left; }
+.dbtn .pic { width: 52px; height: 52px; border-radius: 10px; }
+.dbtn .noph { display: grid; place-items: center; color: var(--ink-3); font-size: 20px; border: 1.5px dashed var(--line-2); background: none; }
+.dbtn b { display: block; font-weight: 600; }
+.dbtn span.p { color: var(--ink-3); font-size: 13.5px; }
+.dbtn .plus { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--sunk); font-size: 15px; }
+.dbtn .plus.has { background: var(--pop); color: var(--pop-ink); font-weight: 700; font-size: 14px; }
+.billc { background: var(--surface); border-radius: 18px; box-shadow: var(--shadow), inset 0 0 0 1px var(--line); padding: 20px; }
+.billc h3 { font-size: 16px; font-weight: 700; display: flex; justify-content: space-between; align-items: center; }
+.bl { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; font-size: 14.5px; }
+.bl span:first-child { color: var(--ink-2); }
+.bl.m { color: var(--ink-3); font-size: 13.5px; }
+.bl.m span:first-child { color: var(--ink-3); }
+.btot { display: flex; justify-content: space-between; align-items: baseline; padding-top: 12px; margin-top: 6px; border-top: 1px dashed var(--line-2); }
+.btot b { font-weight: 650; }
+.btot .price { font-size: 30px; font-weight: 800; letter-spacing: -.02em; }
+.bpp { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; padding: 10px 12px; border-radius: 12px; background: var(--sunk); font-size: 14px; color: var(--ink-2); }
+.stepper { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border-radius: 9px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); }
+.stepper button { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 7px; font-size: 14px; }
+.stepper button:hover { background: var(--sunk); }
+.stepper b { min-width: 22px; text-align: center; font-variant-numeric: tabular-nums; }
+.empty { color: var(--ink-3); padding: 18px 0 8px; font-size: 14.5px; }
+@container s (max-width: 860px) { .split { grid-template-columns: minmax(0, 1fr); } }
+@container s (max-width: 560px) { .dishes { grid-template-columns: minmax(0, 1fr); } }
+.deal { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); margin-top: 26px; border-radius: 20px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.deal .pic { min-height: 320px; }
+.deal-tx { padding: 34px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.deal-tx h3 { font-size: 28px; font-weight: 800; letter-spacing: -.03em; }
+.deal-tx p { color: var(--ink-2); }
+.deal-p { display: flex; align-items: baseline; gap: 10px; }
+.deal-p .price { font-size: 34px; font-weight: 800; letter-spacing: -.02em; }
+.deal-p s { color: var(--ink-3); }
+.count { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 11px; background: var(--sunk); font-size: 14px; color: var(--ink-2); align-self: flex-start; }
+.count b { color: var(--ink); font-variant-numeric: tabular-nums; }
+@container s (max-width: 860px) { .deal { grid-template-columns: minmax(0, 1fr); } .deal .pic { min-height: 220px; } .deal-tx { padding: 24px; } }
+.bizband { margin-top: 26px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; align-items: center; padding: 34px; border-radius: 20px; background: var(--ink); color: var(--bg); }
+.bizband h2 { font-size: clamp(26px, 3.2vw, 36px); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; }
+.bizband p { opacity: .72; margin-top: 8px; max-width: 52ch; }
+.bizband .btn { background: var(--pop); color: var(--pop-ink); }
+@container s (max-width: 720px) { .bizband { grid-template-columns: minmax(0, 1fr); padding: 26px 22px; } }
+.foot { margin-top: 80px; border-top: 1px solid var(--line); padding: 34px 0 44px; color: var(--ink-3); font-size: 14px; }
+.foot .wrap { display: flex; flex-wrap: wrap; gap: 16px 32px; align-items: center; }
+.foot nav { display: flex; gap: 20px; margin-left: auto; flex-wrap: wrap; }
+
+/* cmdk palette */
+.cmdk-over { position: fixed; inset: 0; z-index: 90; background: rgba(11, 11, 15, .36); backdrop-filter: blur(2px); }
+[cmdk-dialog] { position: fixed; z-index: 91; top: 14vh; left: 50%; transform: translateX(-50%); width: min(620px, calc(100% - 24px)); background: var(--surface); color: var(--ink); border-radius: 16px; box-shadow: 0 24px 60px -12px rgba(11, 11, 15, .45), inset 0 0 0 1px var(--line); overflow: hidden; animation: pal .22s var(--ease); }
+@keyframes pal { from { opacity: 0; transform: translateX(-50%) scale(.97); } }
+[cmdk-input] { width: 100%; height: 56px; border: 0; outline: 0; background: none; padding: 0 18px; font-size: 16.5px; border-bottom: 1px solid var(--line); }
+[cmdk-input]::placeholder { color: var(--ink-3); }
+[cmdk-list] { max-height: min(420px, 60vh); overflow: auto; padding: 8px; scroll-padding: 8px; }
+[cmdk-group-heading] { font-size: 12.5px; font-weight: 600; color: var(--ink-3); padding: 10px 10px 6px; }
+[cmdk-item] { display: flex; align-items: center; gap: 12px; height: 46px; padding: 0 10px; border-radius: 10px; cursor: pointer; font-size: 15px; }
+[cmdk-item][data-selected="true"] { background: var(--sunk); }
+[cmdk-item] .pic { width: 30px; height: 30px; border-radius: 8px; flex: none; }
+[cmdk-item] i { font-size: 18px; color: var(--ink-3); width: 30px; text-align: center; }
+[cmdk-item] small { color: var(--ink-3); font-size: 13px; }
+[cmdk-item] .price { margin-left: auto; }
+[cmdk-empty] { padding: 26px 12px; color: var(--ink-3); text-align: center; }
+.cmdk-foot { display: flex; gap: 14px; padding: 10px 14px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 12.5px; }
+
+/* list */
+.ls-top { padding-top: 34px; }
+.ls-top h1 { font-size: clamp(32px, 4.4vw, 48px); font-weight: 800; letter-spacing: -.04em; }
+.bar-f { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
+.fbtn { display: inline-flex; align-items: center; gap: 7px; height: 36px; padding: 0 12px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); font-weight: 550; font-size: 14px; }
+.fbtn:hover, .fbtn[data-popup-open] { box-shadow: inset 0 0 0 1px var(--ink-3); }
+.fbtn.set { background: var(--ink); color: var(--bg); box-shadow: none; }
+.fbtn i { font-size: 15px; }
+.swl { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); font-size: 14px; font-weight: 550; cursor: pointer; }
+.sw { position: relative; width: 34px; height: 20px; border-radius: 10px; background: var(--line-2); transition: background .2s; padding: 0; flex: none; }
+.sw[data-checked] { background: var(--good); }
+.sw-t { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0, 0, 0, .25); transition: transform .25s var(--ease); }
+.sw[data-checked] .sw-t { transform: translateX(14px); }
+.pop { min-width: 220px; padding: 8px; border-radius: 14px; background: var(--surface); color: var(--ink); box-shadow: 0 18px 40px -12px rgba(11, 11, 15, .35), inset 0 0 0 1px var(--line); transform-origin: var(--transform-origin); transition: opacity .16s, transform .2s var(--ease); z-index: 60; }
+.pop[data-starting-style], .pop[data-ending-style] { opacity: 0; transform: scale(.96) translateY(-2px); }
+.pop h4 { font-size: 12.5px; color: var(--ink-3); font-weight: 600; padding: 4px 8px 6px; }
+.opt { display: flex; align-items: center; gap: 10px; width: 100%; height: 38px; padding: 0 8px; border-radius: 9px; font-size: 14.5px; text-align: left; }
+.opt:hover { background: var(--sunk); }
+.opt .ck { width: 18px; height: 18px; border-radius: 5px; box-shadow: inset 0 0 0 1.5px var(--line-2); display: grid; place-items: center; font-size: 12px; }
+.opt.on .ck { background: var(--ink); color: var(--bg); box-shadow: none; }
+.res-n { color: var(--ink-3); font-size: 14px; margin-top: 18px; display: flex; gap: 6px; align-items: baseline; }
+.res { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 18px; margin-top: 14px; }
+@container s (max-width: 960px) { .res { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container s (max-width: 560px) { .res { grid-template-columns: minmax(0, 1fr); } }
+.rcard { display: grid; gap: 10px; }
+.rcard .pic { aspect-ratio: 4 / 3; border-radius: 16px; }
+.rcard .t { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.rcard b { font-size: 16.5px; font-weight: 650; }
+.rcard .m { display: flex; flex-wrap: wrap; gap: 4px 10px; color: var(--ink-3); font-size: 13.5px; }
+.rcard .ds { display: flex; flex-wrap: wrap; gap: 6px; }
+.rcard .ds span { padding: 4px 9px; border-radius: 8px; background: var(--sunk); font-size: 13px; color: var(--ink-2); }
+.noresult { grid-column: 1 / -1; padding: 40px 0; text-align: center; color: var(--ink-3); display: grid; gap: 10px; justify-items: center; }
+
+/* restaurant */
+.rp-cover { position: relative; margin-top: 18px; aspect-ratio: 21 / 8; border-radius: 22px; overflow: hidden; }
+.rp-cover img { width: 100%; height: 100%; object-fit: cover; }
+.rp-head { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 18px; align-items: center; margin-top: -40px; padding: 0 24px; position: relative; }
+.rp-logo { width: 84px; height: 84px; border-radius: 22px; background: #2A0C14; display: grid; place-items: center; box-shadow: 0 0 0 5px var(--bg); overflow: hidden; }
+.rp-logo img { width: 92%; height: 92%; object-fit: contain; }
+.rp-head h1 { font-size: clamp(28px, 3.6vw, 40px); font-weight: 800; letter-spacing: -.035em; margin-top: 36px; }
+.rp-meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--ink-2); font-size: 14.5px; margin-top: 4px; }
+.rp-meta span { display: inline-flex; align-items: center; gap: 5px; }
+.rp-acts { display: flex; gap: 8px; margin-top: 36px; }
+.rp-tabs { position: sticky; top: 64px; z-index: 10; margin-top: 26px; background: color-mix(in srgb, var(--bg) 90%, transparent); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+.rp-tabs .wrap { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; }
+.rp-tabs button { position: relative; height: 48px; font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+.rp-tabs button.on { color: var(--ink); }
+.ul { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--ink); }
+.menu { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.mi { display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 14px; padding: 14px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.mi b { font-weight: 650; font-size: 15.5px; }
+.mi .bn { color: var(--ink-3); font-size: 13.5px; }
+.mi p { color: var(--ink-2); font-size: 13.5px; margin-top: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.mi .row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.mi .row .price { font-size: 16px; }
+.mi .pic { width: 92px; height: 92px; border-radius: 12px; }
+.add { height: 32px; padding: 0 12px; border-radius: 9px; font-weight: 650; font-size: 13.5px; background: var(--ink); color: var(--bg); display: inline-flex; align-items: center; gap: 5px; }
+.add.has { background: var(--pop); color: var(--pop-ink); }
+.cat-h { font-size: 20px; font-weight: 750; letter-spacing: -.02em; margin-top: 30px; }
+.checked { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; color: var(--good); font-weight: 600; margin-top: 16px; }
+@container s (max-width: 760px) {
+  .rp-cover { aspect-ratio: 4 / 3; border-radius: 0; margin: 0 -16px; }
+  .rp-head { grid-template-columns: auto minmax(0, 1fr); padding: 0; margin-top: -34px; }
+  .rp-logo { width: 68px; height: 68px; border-radius: 18px; }
+  .rp-head h1 { margin-top: 30px; font-size: 28px; line-height: 1.1; }
+  .rp-acts { grid-column: 1 / -1; margin-top: 0; }
+  .rp-acts .btn { flex: 1; }
+  .menu { grid-template-columns: minmax(0, 1fr); }
+}
+.billpill { position: sticky; bottom: 16px; z-index: 15; display: flex; justify-content: center; pointer-events: none; margin-top: 18px; }
+.billpill button { pointer-events: auto; display: flex; align-items: center; gap: 14px; height: 56px; padding: 0 8px 0 18px; border-radius: 16px; background: var(--ink); color: var(--bg); box-shadow: 0 18px 40px -14px rgba(11, 11, 15, .55); font-weight: 600; }
+.billpill .price { font-size: 19px; }
+.billpill .go { height: 40px; padding: 0 14px; border-radius: 11px; background: var(--pop); color: var(--pop-ink); display: inline-flex; align-items: center; gap: 6px; }
+.thumbs { display: flex; }
+.thumbs span { width: 30px; height: 30px; border-radius: 50%; overflow: hidden; margin-left: -8px; box-shadow: 0 0 0 2px var(--ink); background: #333; }
+.thumbs span:first-child { margin-left: 0; }
+.thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+/* vaul drawer */
+.vaul-over { position: fixed; inset: 0; z-index: 80; background: rgba(11, 11, 15, .4); }
+.vaul-c { position: fixed; left: 0; right: 0; bottom: 0; z-index: 81; margin: 0 auto; width: min(560px, 100%); max-height: 88vh; display: flex; flex-direction: column; background: var(--surface); color: var(--ink); border-radius: 22px 22px 0 0; box-shadow: 0 -10px 40px rgba(0, 0, 0, .2); outline: none; }
+.app[data-view="phone"] .vaul-over, .app[data-view="phone"] .vaul-c { position: absolute; }
+.vaul-h { width: 40px; height: 5px; border-radius: 3px; background: var(--line-2); margin: 10px auto 4px; }
+.vaul-b { padding: 8px 22px 24px; overflow: auto; }
+.vaul-b h2 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
+.vaul-b > p { color: var(--ink-3); font-size: 14px; margin-top: 2px; }
+.vl { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.vl .pic { width: 44px; height: 44px; border-radius: 10px; }
+.vl b { font-weight: 600; }
+.vl .price { min-width: 64px; text-align: right; }
+
+/* base-ui dialog + OTP */
+.dlg-back { position: fixed; inset: 0; z-index: 95; background: rgba(11, 11, 15, .45); transition: opacity .2s; }
+.dlg-back[data-starting-style], .dlg-back[data-ending-style] { opacity: 0; }
+.dlg { position: fixed; z-index: 96; top: 50%; left: 50%; transform: translate(-50%, -50%); width: min(400px, calc(100% - 24px)); padding: 26px; border-radius: 20px; background: var(--surface); color: var(--ink); box-shadow: 0 30px 70px -20px rgba(11, 11, 15, .5), inset 0 0 0 1px var(--line); transition: opacity .2s, transform .25s var(--ease); }
+.dlg[data-starting-style], .dlg[data-ending-style] { opacity: 0; transform: translate(-50%, -48%) scale(.97); }
+.app[data-view="phone"] .dlg-back, .app[data-view="phone"] .dlg { position: absolute; }
+.dlg h2 { font-size: 21px; font-weight: 800; letter-spacing: -.02em; }
+.dlg p { color: var(--ink-2); margin-top: 6px; font-size: 14.5px; }
+.otp { display: flex; gap: 8px; margin-top: 20px; justify-content: center; }
+.slot { position: relative; width: 46px; height: 54px; border-radius: 12px; display: grid; place-items: center; font-size: 22px; font-weight: 700; background: var(--sunk); box-shadow: inset 0 0 0 1px var(--line-2); transition: box-shadow .15s; }
+.slot.act { box-shadow: inset 0 0 0 2px var(--ink); }
+.caret { width: 2px; height: 24px; background: var(--ink); animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.otp-gap { width: 10px; }
+.dlg .acts { display: flex; justify-content: space-between; align-items: center; margin-top: 22px; }
+.dlg .resend { color: var(--ink-3); font-size: 13.5px; }
+
+/* dashboard */
+.db { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: 100%; }
+.side { border-right: 1px solid var(--line); background: var(--surface); padding: 16px 12px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 0; height: 100dvh; }
+.app[data-view="phone"] .side { height: auto; }
+.who { display: flex; gap: 10px; align-items: center; padding: 8px; border-radius: 12px; box-shadow: inset 0 0 0 1px var(--line); }
+.who .rp-logo { width: 38px; height: 38px; border-radius: 10px; box-shadow: none; }
+.who b { display: block; font-weight: 650; font-size: 14.5px; line-height: 1.2; }
+.who span { font-size: 12.5px; color: var(--ink-3); }
+.snav { display: grid; gap: 2px; }
+.snav a { position: relative; display: flex; align-items: center; gap: 10px; height: 36px; padding: 0 10px; border-radius: 9px; font-size: 14px; font-weight: 550; color: var(--ink-2); }
+.snav a span, .snav a i, .snav a em { position: relative; z-index: 1; }
+.snav a i { font-size: 17px; }
+.snav a:hover { color: var(--ink); }
+.snav a.on { color: var(--ink); }
+.snav a span.snav-pill { position: absolute; inset: 0; z-index: 0; border-radius: 9px; background: var(--sunk); }
+.snav a em { margin-left: auto; font-style: normal; font-size: 12px; font-weight: 700; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 6px; display: grid; place-items: center; background: var(--pop); color: var(--pop-ink); }
+.main { padding: 24px 30px 56px; min-width: 0; }
+.top { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; }
+.top h1 { font-size: 28px; font-weight: 800; letter-spacing: -.035em; }
+.top p { color: var(--ink-3); margin-top: 2px; }
+.top-r { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+.kpi { padding: 16px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.kpi > span:first-child { font-size: 13.5px; color: var(--ink-3); display: flex; gap: 6px; align-items: center; }
+.kpi .v { font-size: 30px; font-weight: 800; letter-spacing: -.03em; margin-top: 4px; display: block; }
+.kpi em { font-style: normal; font-size: 13px; font-weight: 650; color: var(--good); }
+.g2 { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 12px; margin-top: 12px; align-items: start; }
+.card { padding: 18px; border-radius: 16px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); min-width: 0; }
+.card-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+.card-h h2 { font-size: 15.5px; font-weight: 700; }
+.card-h span { color: var(--ink-3); font-size: 13px; }
+.chart { height: 250px; }
+.tt { padding: 8px 10px; border-radius: 10px; background: var(--ink); color: var(--bg); font-size: 13px; box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .5); }
+.tt b { display: block; font-size: 15px; }
+.alert { display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 12px; align-items: center; margin-top: 18px; padding: 12px 14px; border-radius: 14px; background: var(--pop-soft); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pop) 40%, transparent); }
+.alert > i { color: var(--pop-text); font-size: 20px; }
+.alert b { display: block; font-size: 14.5px; }
+.alert span { color: var(--ink-2); font-size: 13.5px; }
+.todo { display: grid; }
+.todo > div { display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.todo > div:last-child { border-bottom: 0; }
+.todo .ic { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; background: var(--sunk); font-size: 16px; }
+.todo b { display: block; font-weight: 600; font-size: 14px; }
+.todo span { color: var(--ink-3); font-size: 13px; }
+.dtabs { display: none; }
+@container s (max-width: 1080px) { .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g2 { grid-template-columns: minmax(0, 1fr); } }
+@container s (max-width: 860px) {
+  .db { grid-template-columns: minmax(0, 1fr); }
+  .side { position: static; height: auto; flex-direction: row; padding: 10px 14px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .side .snav, .side .logo, .side .me { display: none; }
+  .who { flex: 1; box-shadow: none; padding: 0; }
+  .main { padding: 18px 16px 24px; }
+  .top-r { margin-left: 0; }
+  .main .dtabs { display: grid; grid-template-columns: repeat(5, 1fr); position: sticky; bottom: 0; z-index: 12; margin: 24px -16px -24px; background: var(--surface); border-top: 1px solid var(--line); padding: 6px 4px 8px; }
+  .dtabs a { display: grid; justify-items: center; gap: 2px; font-size: 11.5px; font-weight: 600; color: var(--ink-3); }
+  .dtabs a i { font-size: 21px; }
+  .dtabs a.on { color: var(--ink); }
+}
+@container s (max-width: 480px) { .alert { grid-template-columns: 20px minmax(0, 1fr); } .alert .btn { grid-column: 2; justify-self: start; } .kpi .v { font-size: 24px; } }
+/* sortable menu */
+.mlist { margin-top: 16px; display: grid; gap: 8px; }
+.mrow { display: grid; grid-template-columns: 28px 48px minmax(0, 1.4fr) minmax(0, .8fr) 120px 120px; gap: 14px; align-items: center; padding: 8px 14px 8px 8px; border-radius: 14px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); touch-action: manipulation; }
+.mrow.dragging { box-shadow: 0 20px 40px -14px rgba(11, 11, 15, .4), inset 0 0 0 1px var(--line-2); z-index: 5; position: relative; }
+.handle { width: 28px; height: 40px; display: grid; place-items: center; color: var(--ink-3); border-radius: 8px; cursor: grab; touch-action: none; font-size: 18px; }
+.handle:hover { background: var(--sunk); color: var(--ink); }
+.mrow .pic, .mrow .noph { width: 48px; height: 48px; border-radius: 10px; }
+.noph { display: grid; place-items: center; border: 1.5px dashed var(--line-2); color: var(--ink-3); font-size: 18px; }
+.mrow b { display: block; font-weight: 600; }
+.mrow .bn { font-size: 13px; color: var(--ink-3); }
+.mrow .cat { font-size: 13.5px; color: var(--ink-2); }
+.pin { display: flex; align-items: center; gap: 4px; height: 38px; padding: 0 10px; border-radius: 10px; background: var(--bg); box-shadow: inset 0 0 0 1px var(--line-2); }
+.pin:focus-within { box-shadow: inset 0 0 0 2px var(--ink); }
+.pin span { color: var(--ink-3); font-weight: 700; }
+.pin input { border: 0; outline: 0; background: none; width: 100%; font-weight: 700; font-variant-numeric: tabular-nums; }
+.avail { display: flex; align-items: center; justify-content: flex-end; gap: 8px; font-size: 13px; color: var(--ink-3); }
+.mhead { display: grid; grid-template-columns: 28px 48px minmax(0, 1.4fr) minmax(0, .8fr) 120px 120px; gap: 14px; padding: 0 14px 0 8px; margin-top: 18px; font-size: 12.5px; font-weight: 600; color: var(--ink-3); }
+.mhead span:last-child { text-align: right; }
+.savebar { position: sticky; bottom: 16px; z-index: 12; margin: 18px auto 0; width: max-content; max-width: 100%; display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 16px; border-radius: 14px; background: var(--ink); color: var(--bg); box-shadow: 0 18px 40px -14px rgba(11, 11, 15, .5); font-size: 14px; font-weight: 550; }
+.savebar .btn-line { background: transparent; color: var(--bg); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25); }
+:root[data-theme="dark"] .savebar .btn-line { box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .25); }
+@container s (max-width: 860px) { .mhead { display: none; } .mrow { grid-template-columns: 28px 48px minmax(0, 1fr) 96px; } .mrow .cat { display: none; } .mrow .avail { grid-column: 3 / -1; justify-content: flex-start; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+<div id="root"><div class="boot">Loading the preview and its libraries...</div></div>
+<script>
+  /* if a library cannot load (no internet, CDN down), say so instead of hanging on the loading line */
+  addEventListener('error', function (e) { var b = document.querySelector('.boot'); if (b) b.textContent = 'Could not load a library: ' + (e.message || (e.target && (e.target.src || e.target.href)) || 'unknown'); }, true);
+  addEventListener('unhandledrejection', function (e) { var b = document.querySelector('.boot'); if (b) b.textContent = 'Could not start: ' + (e.reason && e.reason.message || e.reason); });
+</script>
+<script type="module">
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { createRoot } from 'react-dom/client';
+import htm from 'htm';
+import clsx from 'clsx';
+import { create } from 'zustand';
+import { motion, AnimatePresence, LayoutGroup } from 'framer-motion';
+import { Toaster, toast } from 'sonner';
+import { Drawer } from 'vaul';
+import { Command } from 'cmdk';
+import { OTPInput } from 'input-otp';
+import NumberFlow from '@number-flow/react';
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid, ReferenceLine } from 'recharts';
+import { DndContext, closestCenter, PointerSensor, KeyboardSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { SortableContext, useSortable, arrayMove, verticalListSortingStrategy, sortableKeyboardCoordinates } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { Popover } from '@base-ui/react/popover';
+import { Switch } from '@base-ui/react/switch';
+import { Dialog } from '@base-ui/react/dialog';
+
+const html = htm.bind(React.createElement);
+const U = id => `https://images.unsplash.com/photo-${id}?w=800&q=72&auto=format&fit=crop`;
+const P = { kt: '1589302168068-964664d93dc0', k: '1563379091339-03b21ab4a4f8', te: '1631515243349-e0cb75fb8d3a', pl: '1633945274405-b6c8069047b0', sk: '1603360946369-dc9bb6258143', bw: '1712757248842-04f6e3844374', hd: '1697155406055-2db32d47ca07', b4: '1714611626323-5ba6204453be', na: '1565557623262-b51c2513a641', fi: '1652954008429-ce394eacbd7f', fu: '1781243680771-1fea4521e196', i5: '1636405189493-181ecf851006', iB: '1749137011592-0a77520c82dc', iC: '1651684081211-602801541b08', kc1: '1600565193348-f74bd3c7ccdf' };
+const R = '../restaurants/';
+const img = k => !k ? '' : k.startsWith('../') ? k : U(P[k] || k);
+const Pic = ({ k, cls, alt = '' }) => html`<div className=${clsx('pic', cls)}>${k ? html`<img src=${img(k)} alt=${alt} loading="lazy" />` : null}</div>`;
+const TK = { locales: 'en-IN', prefix: '৳', format: { maximumFractionDigits: 0 } };
+const Tk = ({ v, cls }) => html`<span className=${clsx('price', cls)}><${NumberFlow} value=${v} ...${TK} /></span>`;
+const spring = { type: 'spring', stiffness: 520, damping: 40 };
+
+/* ---------- data (from the prototype; prices are samples) ---------- */
+const PLACES = [
+  { id: 'shahi', n: 'Shahi Handi House', a: 'Dhanmondi', c: 'Mughlai', r: 4.6, pp: 450, open: true, p: R + 'shahi-handi/360/warm_reception_dinner-a.jpg', d: [['Mutton Kacchi', 420], ['Morog Polao', 320]] },
+  { id: 'nawab', n: 'Nawabpur Kacchi Ghar', a: 'Old Dhaka', c: 'Mughlai', r: 4.7, pp: 300, open: true, p: 'pl', d: [['Kacchi Platter', 380], ['Beef Tehari', 210]] },
+  { id: 'kath', n: 'Kathgolap Rooftop', a: 'Banani', c: 'Grill', r: 4.3, pp: 750, open: false, p: R + 'kathgolap/360/hotel_rooftop_balcony-a.jpg', d: [['Rooftop Kacchi', 480], ['Grill Platter', 1250]] },
+  { id: 'nodir', n: 'Nodir Paar', a: 'Gulshan', c: 'Bangladeshi', r: 4.5, pp: 600, open: true, p: 'i5', d: [['Rupchanda Fry', 560], ['Bhorta Thali', 480]] },
+  { id: 'cha', n: 'Cha Adda', a: 'Dhanmondi', c: 'Café', r: 4.5, pp: 180, open: true, p: R + 'cha-adda/360/comfy_cafe-a.jpg', d: [['Masala Cha', 40], ['Fuchka', 90]] },
+  { id: 'mirpur', n: 'Mirpur Bawarchi', a: 'Mirpur', c: 'Bangladeshi', r: 4.2, pp: 180, open: true, p: 'iC', d: [['Beef Tehari', 230], ['Morog Polao', 320]] },
+  { id: 'garden', n: 'Garden Rooftop', a: 'Uttara', c: 'Grill', r: 4.3, pp: 550, open: false, p: R + 'garden-rooftop/360/lythwood_terrace-a.jpg', d: [['Chicken Sizzler', 520], ['Fried Rice', 280]] }
+];
+const COMPARE = {
+  kacchi: { n: 'Mutton kacchi', p: 'kt', rows: [['Nawabpur Kacchi Ghar', 'Old Dhaka', 300], ['Mahasthan Bhoj', 'Bogura', 340], ['Mirpur Bawarchi', 'Mirpur', 360], ['Shahi Handi House', 'Dhanmondi', 420], ['Kathgolap Rooftop', 'Banani', 480]] },
+  tehari: { n: 'Beef tehari', p: 'te', rows: [['Nawabpur Kacchi Ghar', 'Old Dhaka', 210], ['Mahasthan Bhoj', 'Bogura', 220], ['Mirpur Bawarchi', 'Mirpur', 230], ['Kabab Ghor', 'Mohammadpur', 250]] },
+  biryani: { n: 'Chicken biryani', p: 'b4', rows: [['Mirpur Bawarchi', 'Mirpur', 260], ['Shahi Handi House', 'Dhanmondi', 310], ['Garden Rooftop', 'Uttara', 340], ['Kathgolap Rooftop', 'Banani', 390]] },
+  fuchka: { n: 'Fuchka', p: 'fu', rows: [['Satmatha Fuchka', 'Bogura', 60], ['Cha Adda', 'Dhanmondi', 90], ['Garden Rooftop', 'Uttara', 120]] }
+};
+const MENU0 = [
+  ['kt', 'Mutton Kacchi', 'মাটন কাচ্চি', 420, 'kt', 'Kacchi and rice', 'Basmati and mutton cooked together in a sealed handi. With aloo and salad.'],
+  ['hd', 'Kacchi Handi for 4', 'কাচ্চি হান্ডি (৪ জন)', 1590, 'hd', 'Kacchi and rice', 'The whole handi, opened at your table. Order 30 minutes ahead on weekends.'],
+  ['b4', 'Chicken Tikka Biryani', 'চিকেন টিক্কা বিরিয়ানি', 310, 'b4', 'Kacchi and rice', 'Tandoor-charred chicken over spiced biryani rice.'],
+  ['te', 'Morog Polao', 'মোরগ পোলাও', 320, 'te', 'Kacchi and rice', 'Wedding-style polao with a slow-cooked chicken leg.'],
+  ['sk', 'Mutton Seekh Kabab', 'মাটন শিক কাবাব', 240, 'sk', 'Kebab', 'Two skewers off the charcoal, with mint chutney.'],
+  ['bc', 'Butter Chicken', 'বাটার চিকেন', 340, 'bw', 'Curries and bread', 'Tomato, butter and cream, finished with kasuri methi.'],
+  ['rz', 'Mutton Rezala', 'মাটন রেজালা', 380, '', 'Curries and bread', 'Serves 1 to 2.'],
+  ['na', 'Butter Naan', 'বাটার নান', 55, 'na', 'Curries and bread', 'From the tandoor.'],
+  ['br', 'Borhani', 'বোরহানি', 90, '', 'Drinks and dessert', 'One glass.'],
+  ['fr', 'Firni in a clay bowl', 'মাটির বাটিতে ফিরনি', 110, '', 'Drinks and dessert', 'One bowl.']
+].map(([id, n, bn, p, ph, c, d]) => ({ id, n, bn, p, ph, c, d, on: id !== 'bc' }));
+const DISH = Object.fromEntries(MENU0.map(d => [d.id, d]));
+const CATS = [...new Set(MENU0.map(d => d.c))];
+
+/* ---------- state (zustand) ---------- */
+const read = (k, d) => { try { return localStorage.getItem('khabo-c-' + k) || d; } catch (e) { return d; } };
+const save = (k, v) => { try { localStorage.setItem('khabo-c-' + k, v); } catch (e) { } };
+const q0 = new URLSearchParams(location.search);
+const useApp = create(set => ({
+  page: q0.get('page') || read('page', 'home'),
+  theme: q0.get('theme') || read('theme', matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+  view: q0.get('view') || read('view', 'desktop'),
+  palette: false, signin: false, billOpen: false, area: 'All areas',
+  bill: {}, people: 2,
+  go: page => { save('page', page); set({ page, palette: false }); },
+  setTheme: theme => { save('theme', theme); set({ theme }); },
+  setView: view => { save('view', view); set({ view }); },
+  setPalette: palette => set({ palette }), setSignin: signin => set({ signin }), setBillOpen: billOpen => set({ billOpen }), setArea: area => set({ area }),
+  add: id => set(s => ({ bill: { ...s.bill, [id]: (s.bill[id] || 0) + 1 } })),
+  dec: id => set(s => { const b = { ...s.bill }; b[id] = (b[id] || 0) - 1; if (b[id] <= 0) delete b[id]; return { bill: b }; }),
+  setPeople: people => set({ people: Math.max(1, Math.min(20, people)) })
+}));
+const totals = bill => { const sub = Object.entries(bill).reduce((s, [k, q]) => s + DISH[k].p * q, 0), vat = Math.round(sub * .15), svc = Math.round(sub * .05); return { sub, vat, svc, total: sub + vat + svc, n: Object.values(bill).reduce((a, b) => a + b, 0) }; };
+
+/* ---------- small parts ---------- */
+const Logo = () => html`<svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" style=${{ fill: 'var(--ink)' }}/><circle cx="16" cy="16" r="8.5" fill="none" style=${{ stroke: 'var(--bg)' }} stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F5A300"/></svg>`;
+const Seg = ({ id, items, value, onChange, dark }) => html`<div className=${clsx('seg', dark && 'dark')} role="tablist"><${LayoutGroup} id=${id}>${items.map(([v, l, ic]) => html`<button key=${v} role="tab" aria-selected=${value === v} className=${clsx(value === v && 'on')} onClick=${() => onChange(v)}>${value === v ? html`<${motion.span} layoutId="pill" className="seg-pill" transition=${spring} />` : null}${ic ? html`<i className=${'ph ph-' + ic}></i>` : null}<span>${l}</span></button>`)}<//></div>`;
+
+const Nav = () => {
+  const { go, setPalette, setSignin } = useApp();
+  return html`<header className="nav"><div className="wrap"><a className="logo" href="#" onClick=${e => { e.preventDefault(); go('home'); }}><${Logo} />khabo</a>
+    <nav className="nav-l"><a href="#" onClick=${e => { e.preventDefault(); go('list'); }}>Restaurants</a><a href="#">Dishes</a><a href="#">Deals</a><a href="#">For restaurants</a></nav>
+    <div className="nav-r"><button className="kbtn" onClick=${() => setPalette(true)} aria-label="Search"><i className="ph ph-magnifying-glass"></i><em>Search dishes and places</em><span className="kbd">Ctrl K</span></button><button className="btn btn-line btn-sm" aria-label="বাংলায় দেখুন">বাং</button><button className="btn btn-ink btn-sm" onClick=${() => setSignin(true)}>Sign in</button></div></div></header>`;
+};
+const Foot = () => html`<footer className="foot"><div className="wrap"><span className="logo" style=${{ fontSize: 16 }}><${Logo} />khabo</span><span>Real menus and checked prices in Dhaka and Bogura. Free for diners.</span><nav><a href="#">Restaurants</a><a href="#">For restaurants</a><a href="#">Help</a><a href="#">Privacy</a></nav></div></footer>`;
+
+/* ---------- ⌘K palette (cmdk) ---------- */
+const Palette = ({ container }) => {
+  const { palette, setPalette, go, setArea, setTheme, theme, setSignin } = useApp();
+  useEffect(() => { const k = e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setPalette(!useApp.getState().palette); } }; addEventListener('keydown', k); return () => removeEventListener('keydown', k); }, []);
+  const pick = fn => () => { setPalette(false); fn(); };
+  return html`<${Command.Dialog} open=${palette} onOpenChange=${setPalette} label="Search khabo" container=${container} overlayClassName="cmdk-over">
+    <${Command.Input} placeholder="Search a dish, a place or an area" />
+    <${Command.List}>
+      <${Command.Empty}>Nothing found. Try “kacchi” or “Dhanmondi”.<//>
+      <${Command.Group} heading="Dishes">${MENU0.slice(0, 6).map(d => html`<${Command.Item} key=${d.id} value=${'dish ' + d.n} onSelect=${pick(() => go('rest'))}><${Pic} k=${d.ph} /><span>${d.n}<br/><small>Shahi Handi House</small></span><span className="price">৳${d.p}</span><//>`)}<//>
+      <${Command.Group} heading="Restaurants">${PLACES.map(x => html`<${Command.Item} key=${x.id} value=${'place ' + x.n + ' ' + x.a} onSelect=${pick(() => go('rest'))}><${Pic} k=${x.p} /><span>${x.n}<br/><small>${x.a}, ${x.c}</small></span><span className="price">৳${x.pp}<small> a person</small></span><//>`)}<//>
+      <${Command.Group} heading="Areas">${['Dhanmondi', 'Old Dhaka', 'Gulshan', 'Mirpur'].map(a => html`<${Command.Item} key=${a} value=${'area ' + a} onSelect=${pick(() => { setArea(a); go('list'); })}><i className="ph ph-map-pin"></i><span>Restaurants in ${a}</span><//>`)}<//>
+      <${Command.Group} heading="Actions">
+        <${Command.Item} value="sign in phone" onSelect=${pick(() => setSignin(true))}><i className="ph ph-sign-in"></i><span>Sign in with your phone</span><//>
+        <${Command.Item} value="theme dark light" onSelect=${pick(() => setTheme(theme === 'dark' ? 'light' : 'dark'))}><i className="ph ph-moon"></i><span>Switch to ${theme === 'dark' ? 'light' : 'dark'} mode</span><//>
+        <${Command.Item} value="dashboard partner" onSelect=${pick(() => go('dash'))}><i className="ph ph-squares-four"></i><span>Open the partner dashboard</span><//>
+      <//>
+    <//>
+    <div className="cmdk-foot"><span><span className="kbd">↑</span> <span className="kbd">↓</span> to move</span><span><span className="kbd">Enter</span> to open</span><span><span className="kbd">Esc</span> to close</span></div>
+  <//>`;
+};
+
+/* ---------- sign in (base-ui Dialog + input-otp) ---------- */
+const SignIn = ({ container }) => {
+  const { signin, setSignin } = useApp(); const [code, setCode] = useState('');
+  useEffect(() => { if (!signin) setCode(''); }, [signin]);
+  const done = v => { if (v.length === 6) { setSignin(false); toast.success('Signed in as 01711-234567', { description: 'Your saved bills and favourites are back.' }); } };
+  return html`<${Dialog.Root} open=${signin} onOpenChange=${setSignin}><${Dialog.Portal} container=${container}><${Dialog.Backdrop} className="dlg-back" /><${Dialog.Popup} className="dlg">
+    <${Dialog.Title}>Enter the code we sent<//><${Dialog.Description}>A 6-digit code went to 01711-234567 by SMS. Any 6 digits work in this preview.<//>
+    <${OTPInput} maxLength=${6} value=${code} onChange=${setCode} onComplete=${done} autoFocus containerClassName="otp" render=${({ slots }) => html`${slots.slice(0, 3).map((s, i) => html`<div key=${i} className=${clsx('slot', s.isActive && 'act')}>${s.char}${s.hasFakeCaret ? html`<span className="caret"></span>` : null}</div>`)}<span className="otp-gap"></span>${slots.slice(3).map((s, i) => html`<div key=${i + 3} className=${clsx('slot', s.isActive && 'act')}>${s.char}${s.hasFakeCaret ? html`<span className="caret"></span>` : null}</div>`)}`} />
+    <div className="acts"><button className="resend" onClick=${() => toast('A new code is on its way')}>Send a new code</button><${Dialog.Close} className="btn btn-line btn-sm">Cancel<//></div>
+  <//><//><//>`;
+};
+
+/* ---------- bill drawer (vaul) ---------- */
+const BillDrawer = ({ container }) => {
+  const { bill, billOpen, setBillOpen, add, dec, people, setPeople, setSignin } = useApp(); const t = totals(bill);
+  return html`<${Drawer.Root} open=${billOpen} onOpenChange=${setBillOpen} container=${container}><${Drawer.Portal} container=${container}><${Drawer.Overlay} className="vaul-over" /><${Drawer.Content} className="vaul-c"><div className="vaul-h"></div><div className="vaul-b">
+    <${Drawer.Title}>Your bill at Shahi Handi House<//><p>VAT and service added the way the counter does it.</p>
+    <${AnimatePresence} initial=${false}>${Object.entries(bill).map(([k, q]) => html`<${motion.div} layout key=${k} className="vl" initial=${{ opacity: 0, height: 0 }} animate=${{ opacity: 1, height: 'auto' }} exit=${{ opacity: 0, height: 0 }} transition=${{ duration: .25 }}><${Pic} k=${DISH[k].ph} /><b>${DISH[k].n}</b><span className="stepper"><button onClick=${() => dec(k)} aria-label="One less"><i className="ph ph-minus"></i></button><b><${NumberFlow} value=${q} /></b><button onClick=${() => add(k)} aria-label="One more"><i className="ph ph-plus"></i></button></span><${Tk} v=${DISH[k].p * q} /><//>`)}<//>
+    ${t.n ? html`<div className="bl m"><span>VAT 15%</span><${Tk} v=${t.vat} /></div><div className="bl m"><span>Service 5%</span><${Tk} v=${t.svc} /></div><div className="btot"><b>Total</b><${Tk} v=${t.total} /></div>
+      <div className="bpp"><span>Split between <span className="stepper"><button onClick=${() => setPeople(people - 1)} aria-label="Fewer people"><i className="ph ph-minus"></i></button><b><${NumberFlow} value=${people} /></b><button onClick=${() => setPeople(people + 1)} aria-label="More people"><i className="ph ph-plus"></i></button></span></span><span>Each <b><${Tk} v=${Math.ceil(t.total / people)} /></b></span></div>
+      <div style=${{ display: 'flex', gap: 8, marginTop: 16 }}><button className="btn btn-ink" style=${{ flex: 1 }} onClick=${() => { navigator.clipboard && navigator.clipboard.writeText('Shahi Handi House bill: ৳' + t.total).catch(() => { }); toast.success('Bill copied', { description: 'Paste it in your group chat.' }); }}><i className="ph ph-copy"></i>Copy the bill</button><button className="btn btn-line" onClick=${() => { setBillOpen(false); setSignin(true); }}>Save</button></div>` : html`<p className="empty">Your bill is empty. Add a dish from the menu.</p>`}
+  </div><//><//><//>`;
+};
+
+/* ---------- HOME ---------- */
+const Compare = () => {
+  const [k, setK] = useState('kacchi'); const D = COMPARE[k], rows = D.rows.slice().sort((a, b) => a[2] - b[2]), hi = rows[rows.length - 1][2], mid = rows[Math.floor(rows.length / 2)][2];
+  return html`<div className="cmp">
+    <div className="cmp-tabs" role="tablist"><${LayoutGroup} id="cmp">${Object.entries(COMPARE).map(([key, v]) => html`<button key=${key} role="tab" aria-selected=${k === key} className=${clsx(k === key && 'on')} onClick=${() => setK(key)}>${k === key ? html`<${motion.span} layoutId="tp" className="tab-pill" transition=${spring} />` : null}<span>${v.n}</span><em>${v.rows.length}</em></button>`)}<//></div>
+    <div className="cmp-list"><div className="cmp-head"><div><span>Typical price</span><br/><b><${Tk} v=${mid} /></b></div><span>Checked by our team on 14 Nov. Sample prices.</span></div>
+      <${LayoutGroup} id=${'rows'}>${rows.map((r, i) => html`<${motion.div} layout key=${r[0]} className=${clsx('cmp-row', i === 0 && 'low')} initial=${{ opacity: 0 }} animate=${{ opacity: 1 }} transition=${{ layout: spring, opacity: { duration: .2 } }}><span className="n">${i + 1}</span><div><b>${r[0]}</b><small>${r[1]}${i === 0 ? ' · lowest' : ''}</small></div><${motion.div} className="bar" animate=${{ width: Math.round(r[2] / hi * 100) + '%' }} transition=${spring} /><${Tk} v=${r[2]} /><//>`)}<//></div>
+    <div className="cmp-pic"><${AnimatePresence} mode="popLayout"><${motion.img} key=${k} src=${img(D.p)} alt=${D.n} initial=${{ opacity: 0, scale: 1.06 }} animate=${{ opacity: 1, scale: 1 }} exit=${{ opacity: 0 }} transition=${{ duration: .5, ease: [.23, 1, .32, 1] }} /><//></div>
+  </div>`;
+};
+const Countdown = () => {
+  const end = useMemo(() => Date.now() + ((2 * 24 + 14) * 3600 + 6 * 60 + 12) * 1000, []); const [now, setNow] = useState(Date.now());
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(t); }, []);
+  const s = Math.max(0, Math.floor((end - now) / 1000)), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+  const two = { minimumIntegerDigits: 2 };
+  return html`<span className="count"><i className="ph ph-timer"></i>Ends in <b><${NumberFlow} value=${d} />d <${NumberFlow} value=${h} format=${two} />h <${NumberFlow} value=${m} format=${two} />m <${NumberFlow} value=${sec} format=${two} />s</b></span>`;
+};
+const MiniBill = () => {
+  const { bill, add, dec } = useApp(); const t = totals(bill);
+  return html`<div className="split"><div><h2 className="h2">The bill, before you sit down</h2><p className="sub">Tap what you would order at Shahi Handi House. VAT and service go on exactly as the counter will add them.</p>
+      <div className="dishes" style=${{ marginTop: 20 }}>${['kt', 'hd', 'sk', 'na', 'br', 'fr'].map(k => { const d = DISH[k], q = bill[k] || 0; return html`<${motion.button} key=${k} className="dbtn" whileTap=${{ scale: .97 }} onClick=${() => add(k)}>${d.ph ? html`<${Pic} k=${d.ph} />` : html`<span className="pic noph"><i className="ph ph-bowl-food"></i></span>`}<span><b>${d.n}</b><span className="p">৳${d.p}</span></span><span className=${clsx('plus', q && 'has')}>${q ? html`<${NumberFlow} value=${q} />` : html`<i className="ph-bold ph-plus"></i>`}</span><//>`; })}</div></div>
+    <div className="billc"><h3>Your bill ${t.n ? html`<button className="btn btn-line btn-sm" onClick=${() => Object.keys(bill).forEach(k => { for (let i = 0; i < bill[k]; i++) dec(k); })}>Clear</button>` : null}</h3>
+      <${AnimatePresence} initial=${false}>${Object.entries(bill).map(([k, q]) => html`<${motion.div} layout key=${k} className="bl" initial=${{ opacity: 0, y: -6 }} animate=${{ opacity: 1, y: 0 }} exit=${{ opacity: 0 }} transition=${{ duration: .22 }}><span>${DISH[k].n} x${q}</span><${Tk} v=${DISH[k].p * q} /><//>`)}<//>
+      ${t.n ? html`<div className="bl m"><span>VAT 15%</span><${Tk} v=${t.vat} /></div><div className="bl m"><span>Service 5%</span><${Tk} v=${t.svc} /></div>` : html`<p className="empty">Add a dish to see the bill.</p>`}
+      <div className="btot"><b>Total</b><${Tk} v=${t.total} /></div></div></div>`;
+};
+const Home = () => {
+  const { go, setPalette } = useApp();
+  return html`<${Nav} /><div className="wrap">
+    <section className="hero"><h1>Know the price <span>before you go.</span></h1>
+      <div className="hero-row"><button className="big-k" onClick=${() => setPalette(true)}><i className="ph ph-magnifying-glass"></i>Kacchi in Dhanmondi, a family room...<span className="kbd">Ctrl K</span></button><p>Real menus and checked prices for restaurants in Dhaka and Bogura.</p></div>
+      <${Compare} /></section>
+    <section className="sec"><div className="cmp-head" style=${{ border: 0, padding: 0 }}><h2 className="h2">Open now</h2><button className="btn btn-line btn-sm" onClick=${() => go('list')}>All restaurants<i className="ph ph-arrow-right"></i></button></div>
+      <div className="rail-row">${PLACES.filter(x => x.open).map(x => html`<a key=${x.id} className="rc" href="#" onClick=${e => { e.preventDefault(); go('rest'); }}><${Pic} k=${x.p} alt=${x.n} /><div><b>${x.n}</b><div className="m"><span><i className="ph-fill ph-star star"></i> ${x.r}</span><span>${x.a}</span><span>৳${x.pp} a person</span></div></div></a>`)}</div></section>
+    <section className="sec"><${MiniBill} /></section>
+    <section className="sec"><h2 className="h2">Deal of the week</h2><div className="deal"><${Pic} k="hd" alt="Kacchi handi" /><div className="deal-tx"><${Countdown} /><h3>Family Feast for 4</h3><p>Kacchi handi, 4 borhani and 4 firni at Shahi Handi House. Sunday to Thursday.</p><div className="deal-p"><${Tk} v=${1790} /><s>৳2,190</s></div><button className="btn btn-ink" style=${{ alignSelf: 'flex-start' }} onClick=${() => go('rest')}>See the deal<i className="ph ph-arrow-right"></i></button></div></div></section>
+    <section className="sec"><div className="bizband"><div><h2>Own a restaurant? Put your real menu here.</h2><p>We visit, check every price, shoot your food and kitchen, and build the page. From ৳1,999 a month.</p></div><button className="btn">See plans<i className="ph ph-arrow-right"></i></button></div></section>
+  </div><${Foot} />`;
+};
+
+/* ---------- RESTAURANTS (base-ui Popover + Switch, motion layout) ---------- */
+const PRICES = [['any', 'Any price'], ['u300', 'Under ৳300'], ['m', '৳300 to ৳600'], ['o600', 'Over ৳600']];
+const Filter = ({ label, icon, options, value, onChange, multi, container }) => {
+  const isOn = v => multi ? value.includes(v) : value === v, set = multi ? value.length : value !== options[0][0];
+  const name = multi ? (value.length ? `${label}: ${value.length}` : label) : (set ? options.find(o => o[0] === value)[1] : label);
+  return html`<${Popover.Root}><${Popover.Trigger} className=${clsx('fbtn', set && 'set')}><i className=${'ph ph-' + icon}></i>${name}<i className="ph ph-caret-down"></i><//><${Popover.Portal} container=${container}><${Popover.Positioner} sideOffset=${8} align="start"><${Popover.Popup} className="pop"><h4>${label}</h4>
+    ${options.map(([v, l]) => html`<button key=${v} className=${clsx('opt', isOn(v) && 'on')} onClick=${() => onChange(multi ? (isOn(v) ? value.filter(x => x !== v) : [...value, v]) : v)}><span className="ck">${isOn(v) ? html`<i className="ph-bold ph-check"></i>` : null}</span>${l}</button>`)}
+  <//><//><//><//>`;
+};
+const List = ({ container }) => {
+  const { go, area, setArea } = useApp(); const [price, setPrice] = useState('any'), [cu, setCu] = useState([]), [open, setOpen] = useState(false);
+  const fit = x => (area === 'All areas' || x.a === area) && (price === 'any' || (price === 'u300' ? x.pp < 300 : price === 'm' ? x.pp >= 300 && x.pp <= 600 : x.pp > 600)) && (!cu.length || cu.includes(x.c)) && (!open || x.open);
+  const res = PLACES.filter(fit).sort((a, b) => a.pp - b.pp);
+  return html`<${Nav} /><div className="wrap ls-top"><h1>Restaurants</h1>
+    <div className="bar-f"><${Filter} label="Area" icon="map-pin" options=${['All areas', 'Dhanmondi', 'Old Dhaka', 'Gulshan', 'Banani', 'Mirpur', 'Uttara'].map(a => [a, a])} value=${area} onChange=${setArea} container=${container} />
+      <${Filter} label="Price a person" icon="wallet" options=${PRICES} value=${price} onChange=${setPrice} container=${container} />
+      <${Filter} label="Cuisine" icon="bowl-food" options=${['Mughlai', 'Bangladeshi', 'Grill', 'Café'].map(c => [c, c])} value=${cu} onChange=${setCu} multi container=${container} />
+      <label className="swl"><${Switch.Root} className="sw" checked=${open} onCheckedChange=${setOpen}><${Switch.Thumb} className="sw-t" /><//>Open now</label></div>
+    <p className="res-n"><b><${NumberFlow} value=${res.length} /></b> places, lowest price first</p>
+    <${motion.div} layout className="res"><${AnimatePresence} mode="popLayout">${res.length ? res.map(x => html`<${motion.a} layout key=${x.id} className="rcard" href="#" onClick=${e => { e.preventDefault(); go('rest'); }} initial=${{ opacity: 0, scale: .96 }} animate=${{ opacity: 1, scale: 1 }} exit=${{ opacity: 0, scale: .96 }} transition=${{ layout: spring, duration: .25 }}><${Pic} k=${x.p} alt=${x.n} /><div className="t"><b>${x.n}</b><span className="price">৳${x.pp}<small style=${{ color: 'var(--ink-3)', fontWeight: 500 }}> a person</small></span></div><div className="m"><span><i className="ph-fill ph-star star"></i> ${x.r}</span><span>${x.a}</span><span>${x.c}</span>${x.open ? html`<span className="open">Open</span>` : html`<span>Opens at 3pm</span>`}</div><div className="ds">${x.d.map(d => html`<span key=${d[0]}>${d[0]} ৳${d[1]}</span>`)}</div><//>`) : html`<${motion.div} key="none" className="noresult" initial=${{ opacity: 0 }} animate=${{ opacity: 1 }}><i className="ph ph-bowl-food" style=${{ fontSize: 28 }}></i><b>No place matches all of that</b><button className="btn btn-line btn-sm" onClick=${() => { setArea('All areas'); setPrice('any'); setCu([]); setOpen(false); }}>Clear filters</button><//>`}<//><//>
+  </div><${Foot} />`;
+};
+
+/* ---------- RESTAURANT ---------- */
+const Rest = () => {
+  const { bill, add, dec, setBillOpen } = useApp(); const t = totals(bill); const [tab, setTab] = useState('Menu');
+  const addOne = d => { add(d.id); toast(`${d.n} added`, { description: `৳${d.p} on your bill`, action: { label: 'Undo', onClick: () => dec(d.id) } }); };
+  return html`<${Nav} /><div className="wrap">
+    <div className="rp-cover"><img src=${img(R + 'shahi-handi/360/warm_restaurant_night-a.jpg')} alt="Inside Shahi Handi House" /></div>
+    <div className="rp-head"><span className="rp-logo"><img src="../restaurants/shahi-handi/logo.svg" alt="Shahi Handi House logo" /></span><div><h1>Shahi Handi House</h1><div className="rp-meta"><span><i className="ph-fill ph-star star"></i><b>4.6</b> from 312</span><span>Mughlai, Dhanmondi</span><span>৳450 to ৳650 a person</span><span className="open">Open till 11:30pm</span></div></div>
+      <div className="rp-acts"><button className="btn btn-line"><i className="ph ph-phone"></i>Call</button><button className="btn btn-line"><i className="ph ph-navigation-arrow"></i>Directions</button><button className="btn btn-ink"><i className="ph ph-cube"></i>360° tour</button></div></div></div>
+    <nav className="rp-tabs"><div className="wrap"><${LayoutGroup} id="rt">${['Menu', 'Inside', 'Reviews', 'Visit'].map(x => html`<button key=${x} className=${clsx(tab === x && 'on')} onClick=${() => setTab(x)}>${x}${tab === x ? html`<${motion.span} layoutId="ul" className="ul" transition=${spring} />` : null}</button>`)}<//></div></nav>
+    <div className="wrap"><span className="checked"><i className="ph ph-seal-check"></i>Every price checked by khabo on 14 Nov</span>
+      ${CATS.map(c => html`<div key=${c}><h3 className="cat-h">${c}</h3><div className="menu">${MENU0.filter(d => d.c === c).map(d => { const q = bill[d.id] || 0; return html`<div key=${d.id} className="mi"><div><b>${d.n}</b><div className="bn">${d.bn}</div><p>${d.d}</p><div className="row"><span className="price">৳${d.p}</span><${motion.button} whileTap=${{ scale: .94 }} className=${clsx('add', q && 'has')} onClick=${() => addOne(d)}>${q ? html`<${NumberFlow} value=${q} /> added` : html`<i className="ph-bold ph-plus"></i>Add`}<//></div></div>${d.ph ? html`<${Pic} k=${d.ph} alt=${d.n} />` : html`<span></span>`}</div>`; })}</div></div>`)}
+      <${AnimatePresence}>${t.n ? html`<${motion.div} key="pill" className="billpill" initial=${{ y: 80, opacity: 0 }} animate=${{ y: 0, opacity: 1 }} exit=${{ y: 80, opacity: 0 }} transition=${spring}><button onClick=${() => setBillOpen(true)}><span className="thumbs">${Object.keys(bill).slice(0, 3).map(k => html`<span key=${k}>${DISH[k].ph ? html`<img src=${img(DISH[k].ph)} alt="" />` : null}</span>`)}</span><span><${NumberFlow} value=${t.n} /> items</span><${Tk} v=${t.total} /><span className="go">View bill<i className="ph ph-arrow-up"></i></span></button><//>` : null}<//>
+    </div><${Foot} />`;
+};
+
+/* ---------- DASHBOARD ---------- */
+const SERIES = { 7: [212, 238, 196, 205, 262, 281, 268], 30: [118, 124, 131, 122, 140, 168, 175, 129, 133, 138, 130, 151, 183, 190, 142, 149, 161, 202, 214, 238, 196, 205, 219, 226, 262, 281, 244, 236, 251, 268], 365: [2100, 2350, 2480, 2300, 2900, 3100, 3350, 3200, 3700, 3900, 4400, 4812] };
+const KPI = { 7: [1662, 431, 129, 4.6], 30: [4812, 1236, 388, 4.6], 365: [38410, 9802, 3104, 4.5] };
+const Side = ({ on }) => { const { go } = useApp(); return html`<aside className="side"><span className="logo" style=${{ padding: '4px 8px' }}><${Logo} />khabo</span>
+  <div className="who"><span className="rp-logo"><img src="../restaurants/shahi-handi/logo.svg" alt="" /></span><div><b>Shahi Handi House</b><span>Dhanmondi</span></div></div>
+  <nav className="snav"><${LayoutGroup} id="snav">${[['dash', 'Overview', 'squares-four'], ['menu', 'Menu and prices', 'list-dashes'], ['', 'Restaurant page', 'storefront'], ['', 'Photos', 'images'], ['', 'Deals', 'tag'], ['', 'Reviews', 'chat-circle-dots', 1], ['', 'Table QR', 'qr-code'], ['', 'Print menu', 'printer'], ['', 'Price insights', 'chart-line-up']].map(([k, l, i, n]) => html`<a key=${l} href="#" className=${clsx(on === k && 'on')} onClick=${e => { e.preventDefault(); if (k) go(k); else toast('Not part of this preview', { description: l + ' stays as it is today.' }); }}>${on === k ? html`<${motion.span} layoutId="sp" className="snav-pill" transition=${spring} />` : null}<i className=${'ph ph-' + i}></i><span>${l}</span>${n ? html`<em>${n}</em>` : null}</a>`)}<//></nav>
+  <div className="me" style=${{ marginTop: 'auto', fontSize: 13, color: 'var(--ink-3)', padding: '0 8px' }}>Kamal Hossain, Owner</div></aside>`; };
+const DTabs = ({ on }) => { const { go } = useApp(); return html`<nav className="dtabs">${[['dash', 'Overview', 'squares-four'], ['menu', 'Menu', 'list-dashes'], ['', 'Reviews', 'chat-circle-dots'], ['', 'Photos', 'images'], ['', 'More', 'dots-three']].map(([k, l, i]) => html`<a key=${l} href="#" className=${clsx(on === k && 'on')} onClick=${e => { e.preventDefault(); if (k) go(k); }}><i className=${'ph ph-' + i}></i>${l}</a>`)}</nav>`; };
+const Dash = () => {
+  const { go, theme } = useApp(); const [p, setP] = useState('30'); const k = KPI[p];
+  const data = SERIES[p].map((v, i) => ({ i, v, label: p === '365' ? ['Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'][i] : p === '7' ? ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][i] : `${((16 + i) % 31) + 1} ${i < 15 ? 'Oct' : 'Nov'}` }));
+  const ink = theme === 'dark' ? '#FFB22E' : '#0B0B0F', grid = theme === 'dark' ? '#24242A' : '#E4E4E8', axis = theme === 'dark' ? '#8A8A95' : '#6E6E78';
+  const Tip = ({ active, payload }) => active && payload && payload.length ? html`<div className="tt"><b>${payload[0].value.toLocaleString('en-IN')} views</b>${payload[0].payload.label}</div>` : null;
+  return html`<div className="db"><${Side} on="dash" /><main className="main">
+    <div className="top"><div><h1>Good evening, Kamal</h1><p>How your page is doing. Sample numbers.</p></div><div className="top-r"><${Seg} id="period" items=${[['7', '7 days'], ['30', '30 days'], ['365', 'Year']]} value=${p} onChange=${setP} /></div></div>
+    <div className="alert" role="status"><i className="ph-fill ph-warning"></i><div><b>2 diners paid ৳400 for Mutton Rezala</b><span>Your menu says ৳380. Fix it or tell us the menu is right.</span></div><button className="btn btn-ink btn-sm" onClick=${() => go('menu')}>Check price</button></div>
+    <div className="kpis">${[['People who saw your page', 'eye', k[0], '+18%'], ['Table QR scans', 'qr-code', k[1], '+9%'], ['Calls and directions', 'phone', k[2], '+12%'], ['Rating from diners', 'star', k[3], '12 new reviews']].map(([l, i, v, d]) => html`<div key=${l} className="kpi"><span><i className=${'ph ph-' + i}></i>${l}</span><span className="v"><${NumberFlow} value=${v} locales="en-IN" format=${{ maximumFractionDigits: 1 }} /></span><em>${d}</em></div>`)}</div>
+    <div className="g2"><div className="card"><div className="card-h"><h2>Page views</h2><span>Hover the line for each day</span></div><div className="chart"><${ResponsiveContainer} width="100%" height="100%"><${AreaChart} data=${data} margin=${{ top: 8, right: 6, left: -18, bottom: 0 }}>
+        <defs><linearGradient id="fillv" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor=${ink} stopOpacity=${.16} /><stop offset="100%" stopColor=${ink} stopOpacity=${0} /></linearGradient></defs>
+        <${CartesianGrid} vertical=${false} stroke=${grid} /><${XAxis} dataKey="label" tick=${{ fill: axis, fontSize: 12 }} tickLine=${false} axisLine=${false} interval="preserveStartEnd" minTickGap=${28} /><${YAxis} tick=${{ fill: axis, fontSize: 12 }} tickLine=${false} axisLine=${false} width=${48} />
+        <${Tooltip} content=${html`<${Tip} />`} cursor=${{ stroke: axis, strokeDasharray: '3 3' }} />
+        ${p === '30' ? html`<${ReferenceLine} x=${data[16].label} stroke="#F5A300" strokeDasharray="4 4" label=${{ value: 'Video menu live', fill: '#C27F00', fontSize: 12, position: 'insideTopLeft' }} />` : null}
+        <${Area} type="monotone" dataKey="v" stroke=${ink} strokeWidth=${2.2} fill="url(#fillv)" animationDuration=${700} />
+      <//><//></div></div>
+      <div className="card"><div className="card-h"><h2>Needs you</h2></div><div className="todo">
+        <div><span className="ic"><i className="ph ph-chat-circle-dots"></i></span><div><b>Reply to Nusrat Jahan</b><span>4 stars, about the rezala</span></div><button className="btn btn-line btn-sm" onClick=${() => toast.success('Reply sent to Nusrat Jahan')}>Reply</button></div>
+        <div><span className="ic"><i className="ph ph-camera"></i></span><div><b>3 dishes have no photo</b><span>We can shoot them on our next visit</span></div><button className="btn btn-line btn-sm" onClick=${() => toast('Photo visit requested', { description: 'Our team will call you to pick a day.' })}>Book</button></div>
+        <div><span className="ic"><i className="ph ph-calendar-check"></i></span><div><b>Next price check: 28 Nov</b><span>Our team visits every two weeks</span></div><span></span></div></div></div></div>
+    <${DTabs} on="dash" /></main></div>`;
+};
+const SortRow = ({ d, onPrice, onToggle }) => {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: d.id });
+  return html`<div ref=${setNodeRef} className=${clsx('mrow', isDragging && 'dragging')} style=${{ transform: CSS.Transform.toString(transform), transition }}>
+    <button className="handle" aria-label=${'Move ' + d.n} ...${attributes} ...${listeners}><i className="ph ph-dots-six-vertical"></i></button>
+    ${d.ph ? html`<${Pic} k=${d.ph} />` : html`<button className="noph" aria-label=${'Add a photo of ' + d.n} onClick=${() => toast('Photo upload opens here')}><i className="ph ph-camera-plus"></i></button>`}
+    <div><b>${d.n}</b><span className="bn">${d.bn}</span></div><span className="cat">${d.c}</span>
+    <label className="pin"><span>৳</span><input inputMode="numeric" value=${d.p} onChange=${e => onPrice(d.id, e.target.value.replace(/\D/g, ''))} aria-label=${'Price of ' + d.n} /></label>
+    <label className="avail">${d.on ? 'Available' : 'Sold out'}<${Switch.Root} className="sw" checked=${d.on} onCheckedChange=${v => onToggle(d.id, v)}><${Switch.Thumb} className="sw-t" /><//></label></div>`;
+};
+const Menu = () => {
+  const [items, setItems] = useState(() => MENU0.map(d => ({ ...d }))); const [dirty, setDirty] = useState(0);
+  const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 4 } }), useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates }));
+  const bump = () => setDirty(n => n + 1);
+  const end = ({ active, over }) => { if (over && active.id !== over.id) { setItems(xs => arrayMove(xs, xs.findIndex(x => x.id === active.id), xs.findIndex(x => x.id === over.id))); bump(); } };
+  const saveAll = () => { toast.promise(new Promise(r => setTimeout(r, 900)), { loading: 'Saving your menu...', success: 'Saved. Your page, table QR and print menu are updated.', error: 'Could not save. Try again.' }); setDirty(0); };
+  return html`<div className="db"><${Side} on="menu" /><main className="main">
+    <div className="top"><div><h1>Menu and prices</h1><p>Drag to change the order diners see. Prices go live everywhere when you save.</p></div><div className="top-r"><button className="btn btn-line btn-sm"><i className="ph ph-printer"></i>Print menu</button><button className="btn btn-ink btn-sm" onClick=${() => toast('A new dish form opens here')}><i className="ph ph-plus"></i>Add dish</button></div></div>
+    <div className="mhead"><span></span><span></span><span>Dish</span><span>Section</span><span>Price</span><span>On the menu</span></div>
+    <${DndContext} sensors=${sensors} collisionDetection=${closestCenter} onDragEnd=${end}><${SortableContext} items=${items.map(x => x.id)} strategy=${verticalListSortingStrategy}><div className="mlist">${items.map(d => html`<${SortRow} key=${d.id} d=${d} onPrice=${(id, v) => { setItems(xs => xs.map(x => x.id === id ? { ...x, p: v === '' ? '' : Number(v) } : x)); bump(); }} onToggle=${(id, v) => { setItems(xs => xs.map(x => x.id === id ? { ...x, on: v } : x)); bump(); toast(v ? 'Back on the menu' : 'Marked sold out', { description: DISH[id].n }); }} />`)}</div><//><//>
+    <${AnimatePresence}>${dirty ? html`<${motion.div} key="sb" className="savebar" initial=${{ y: 30, opacity: 0 }} animate=${{ y: 0, opacity: 1 }} exit=${{ y: 30, opacity: 0 }} transition=${spring}><span><${NumberFlow} value=${dirty} /> unsaved ${dirty === 1 ? 'change' : 'changes'}</span><button className="btn btn-line btn-sm" onClick=${() => { setItems(MENU0.map(d => ({ ...d }))); setDirty(0); toast('Changes undone'); }}>Undo</button><button className="btn btn-pop btn-sm" onClick=${saveAll}>Save</button><//>` : null}<//>
+    <${DTabs} on="menu" /></main></div>`;
+};
+
+/* ---------- shell ---------- */
+const PAGES = { home: Home, list: List, rest: Rest, dash: Dash, menu: Menu };
+const App = () => {
+  const { page, theme, view, go, setTheme, setView } = useApp(); const frame = useRef(null); const [box, setBox] = useState(null);
+  useEffect(() => { document.documentElement.dataset.theme = theme; }, [theme]);
+  useEffect(() => { setBox(frame.current); }, []);
+  useEffect(() => { const st = document.querySelector('.stage'); if (st) st.scrollTop = 0; if (frame.current) frame.current.scrollTop = 0; }, [page]);
+  const Page = PAGES[page] || Home;
+  return html`<div className="app" data-view=${view}>
+    <aside className="rail"><div className="rail-h"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#F4F4F6"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#0B0B0F" stroke-width="2.6"/><circle cx="19.2" cy="13" r="3.1" fill="#F5A300"/></svg><div><b>khabo redesign C</b><small>Preview only, not live</small></div></div>
+      <nav><h4>Diner site</h4><${LayoutGroup} id="rail">${[['home', 'Home', 'house'], ['list', 'Restaurants', 'list-magnifying-glass'], ['rest', 'Restaurant page', 'storefront']].map(([k, l, i]) => html`<button key=${k} className=${clsx(page === k && 'on')} onClick=${() => go(k)}>${page === k ? html`<${motion.span} layoutId="rp" className="rail-pill" transition=${spring} />` : null}<i className=${'ph ph-' + i}></i><span>${l}</span></button>`)}<//></nav>
+      <nav><h4>Partner dashboard</h4><${LayoutGroup} id="rail2">${[['dash', 'Overview', 'squares-four'], ['menu', 'Menu and prices', 'list-dashes']].map(([k, l, i]) => html`<button key=${k} className=${clsx(page === k && 'on')} onClick=${() => go(k)}>${page === k ? html`<${motion.span} layoutId="rp2" className="rail-pill" transition=${spring} />` : null}<i className=${'ph ph-' + i}></i><span>${l}</span></button>`)}<//></nav>
+      <nav aria-label="Compare designs"><h4>Compare</h4><a className="" href="current.html"><i className="ph ph-circle-half"></i>Current site</a><a className="" href="redesign.html"><i className="ph ph-number-circle-one"></i>Redesign A</a><a className="" href="redesign-b.html"><i className="ph ph-number-circle-two"></i>Redesign B</a><a className="on" href="redesign-c.html"><i className="ph ph-number-circle-three"></i>Redesign C</a><a href="final.html"><i className="ph ph-star-four"></i>Final</a></nav><div className="rail-ctl"><label>Look</label><${Seg} id="th" dark items=${[['light', 'Light', 'sun'], ['dark', 'Dark', 'moon']]} value=${theme} onChange=${setTheme} /><label>Screen</label><${Seg} id="vw" dark items=${[['desktop', 'Laptop', 'desktop'], ['phone', 'Phone', 'device-mobile']]} value=${view} onChange=${setView} />
+        <p className="rail-libs">Built with <b>base-ui</b>, <b>cmdk</b>, <b>Sonner</b>, <b>Vaul</b>, <b>input-otp</b>, <b>motion</b>, <b>NumberFlow</b>, <b>recharts</b>, <b>dnd kit</b>, <b>zustand</b> and <b>clsx</b>. Try Ctrl K.</p></div></aside>
+    <main className="stage"><div className="frame" ref=${frame}><div className="screen">
+      <${AnimatePresence} mode="wait"><${motion.div} key=${page} initial=${{ opacity: 0, y: 6 }} animate=${{ opacity: 1, y: 0 }} exit=${{ opacity: 0 }} transition=${{ duration: .22, ease: [.23, 1, .32, 1] }}><${Page} container=${box} /><//><//>
+    </div>${box ? html`<${Palette} container=${box} /><${SignIn} container=${box} /><${BillDrawer} container=${box} />` : null}</div></main>
+    <${Toaster} theme=${theme} position="top-center" richColors=${false} closeButton=${false} toastOptions=${{ style: { fontFamily: 'Figtree, sans-serif', borderRadius: '14px' } }} />
+  </div>`;
+};
+createRoot(document.getElementById('root')).render(html`<${App} />`);
+</script>
+</body>
+</html>

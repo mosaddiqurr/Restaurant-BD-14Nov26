@@ -204,7 +204,7 @@
   /* ---------- team (sample) ---------- */
   F.ROLES = { admin: 'Admin', sales: 'Sales', content: 'Content', data_entry: 'Data entry', moderator: 'Moderator' };
   F.TEAM = [
-    { name: 'Rumana Akter', role: 'admin', city: 'Dhaka', seen: 'Active now' },
+    { name: 'Mosaddiqur Rahman', role: 'admin', city: 'Dhaka', seen: 'Active now' },
     { name: 'Sajid Hossain', role: 'sales', city: 'Dhaka', seen: '2 hours ago' },
     { name: 'Nusrat Lima', role: 'sales', city: 'Bogura', seen: 'Yesterday' },
     { name: 'Tania Rahman', role: 'content', city: 'Dhaka', seen: 'Today' },

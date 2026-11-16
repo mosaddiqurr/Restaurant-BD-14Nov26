@@ -1,0 +1,46 @@
+/* Things that make pages feel ready sooner.
+   .rise: a short fade as the page appears (components/ui/bits.tsx Rise). The words are in the HTML from the start.
+   .pic-lq: a tiny blurred copy of the photo under it while the real photo loads; the real one fades in on top. */
+@keyframes rise-in { from { opacity: 0; transform: translateY(6px); } }
+.rise { animation: rise-in .24s cubic-bezier(.23, 1, .32, 1) both; animation-delay: var(--rd, 0ms); }
+
+.pic-lq { position: absolute; inset: -8%; background: center / cover no-repeat; filter: blur(14px); transform: scale(1.04); }
+.pic > img { position: relative; }
+.pic.fx > img { opacity: 0; transition: opacity .3s ease-out; }
+.pic.fx > img.ok { opacity: 1; }
+/* hover swap photo on cards keeps its own rules */
+.rcard .pic.fx > img.alt { opacity: 0; }
+@media (hover: hover) { .rcard:hover .pic.fx > img.alt.ok { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
+  .pic.fx > img { transition: none; }
+}
+@media (hover: none) { .rcard:hover .pic img, .cat:hover .pic img { transform: none; } }
+
+/* phones and tablets: a tap is not a hover. Hover-only effects would stick after the tap (a card zooming or
+   swapping its photo while the next page is already flying in), so they are switched off where there is no mouse */
+@media (hover: none) {
+  .dh-dot:hover { transform: translate(-50%, -50%); }
+  .tour-b:hover .th img, .tour-b:hover .go, .qrb-c:hover, .evc:hover .pic img, .tile:hover, .area-c:hover .pic img, .cat:hover .pic img,
+  .rcard:hover, .dc:hover, .coupon:hover { transform: none; }
+  .btn-pri:hover, .btn-gold:hover { filter: none; }
+  .billpill .bp-open:hover .thumbs span { margin-left: -10px; }
+}
+
+/* "reduce motion" on the phone: loops stop instead of flickering, scrolling jumps */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+  .sk::after, .shimmer, .pal-spin, .caret, .seal { animation: none !important; }
+}
+
+/* rolling Bangla digits (components/ui/bits.tsx BnRoll) */
+.bnroll { display: inline-flex; font-variant-numeric: tabular-nums; }
+.bnr-d { position: relative; display: inline-flex; overflow: hidden; line-height: inherit; }
+.bnr-d > span { display: inline-block; }
+@media (prefers-reduced-motion: reduce) { .bnr-d > span { transform: none !important; opacity: 1 !important; } }
+
+/* restaurant cards never grow wider than their slot: a long "open till" line (longer in Bangla) moves under the
+   price instead of pushing the whole card 8px past its edge */
+.rcard { grid-template-columns: minmax(0, 1fr); }
+.rc-pr { flex-wrap: wrap; row-gap: 2px; }

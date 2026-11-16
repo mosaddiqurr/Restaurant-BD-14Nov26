@@ -43,7 +43,8 @@ Areas to decide:
 - Fonts (must support Bangla + English)
 - UI style and components
 **Decision (14 Nov 2026):**
-- ✅ **Colours:** Indigo + Marigold ([23-indigo-identity.html](3-design/23-indigo-identity.html)), light and dark mode. Founder approved.
+- ✅ **Colours:** Green + Marigold, light and dark mode. Founder confirmed on 16 Nov 2026 after comparing the redesign previews ([website/design-options/final.html](../website/design-options/final.html)). This replaces the earlier Indigo + Marigold choice ([23-indigo-identity.html](3-design/23-indigo-identity.html), kept for the record).
+- ✅ **Deal order (16 Nov 2026):** Premium-plan restaurants' deals and dishes always show first, then Pro, then Starter. Inside each plan the khabo team can set the order. See [25-design-rules.md](3-design/25-design-rules.md) section 6.
 - ✅ **Fonts:** Figtree (English) + Noto Sans Bengali (Bangla). Founder liked #3 "Clear and complete" best and asked the design team to pick the best performer.
 - ✅ **Ask AI:** small button beside the search; it jumps to the AI section in the middle of the home page. Bottom bar keeps an Ask AI tab.
 - ✅ **Final design v1:** [_archive/24-final-site-v1/preview.html](_archive/24-final-site-v1/preview.html). Founder to review and give feedback.
@@ -52,7 +53,7 @@ Areas to decide:
 ---
 
 ## 3. Tech stack (for Architecture & CLAUDE.md)
-**Decision:** ✅ Next.js on InsForge Sites + InsForge Pro backend + Cloudflare in front + Cloudflare R2 for media. See [17-tech-stack.md](4-tech/17-tech-stack.md).
+**Decision:** ✅ Next.js + TypeScript on Cloudflare Workers + Supabase (database and login) + Cloudflare R2 for files + Cloudflare Stream for films + SSLCommerz for payments. Changed from InsForge on 16 Nov 2026 (founder decision). See [17-tech-stack.md](4-tech/17-tech-stack.md).
 Still open: AI model (Haiku 5.5 vs Sonnet 5.5, to be decided by testing) · Cloudflare free vs Pro plan · SMS provider · payment gateway (later).
 
 ---
@@ -70,6 +71,9 @@ Still open: AI model (Haiku 5.5 vs Sonnet 5.5, to be decided by testing) · Clou
 | 4.7 | Prepay discounts | e.g. quarterly 5% off, annual = pay 10 months get 12 | ___ |
 | 4.8 | NFC cards (phase 2) | Included in Premium + ~৳1,000 add-on for others | ✅ Agreed: phase 2 |
 | 4.9 | Bogura pricing | ৳500 less than Dhaka per tier | ✅ Agreed |
+| 4.11 | Which plans get the new features (events, stamp cards, automatic Google/Facebook sync, own web address, AI price advice) | Included in all · from Pro · paid add-on. See [new features brief](2-product/27-new-features-brief.md) | ___ |
+| 4.12 | Pay through khabo (Phase 3): khabo's cut of each bill | e.g. 2 to 5% | ___ |
+| 4.13 | Own web address: who buys the domain | Owner buys it · we sell it as an add-on | ___ |
 | 4.10 | Branded QR codes (logo, colours, shape) | (a) included in every tier · (b) logo in every tier, shape choice from Pro · (c) paid add-on | ___ |
 
 ---

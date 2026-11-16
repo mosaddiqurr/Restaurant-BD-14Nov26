@@ -1,0 +1,678 @@
+{
+  "id": "shahi-handi",
+  "name": {
+    "en": "Shahi Handi House",
+    "bn": "শাহী হান্ডি হাউস"
+  },
+  "mono": "SH",
+  "since": 1998,
+  "area": "dhanmondi",
+  "city": "dhaka",
+  "geo": [
+    23.7547,
+    90.3741
+  ],
+  "spot": {
+    "en": "Road 27, Dhanmondi",
+    "bn": "রোড ২৭, ধানমন্ডি"
+  },
+  "address": {
+    "en": "House 32, Road 27 (old), Dhanmondi, Dhaka 1209",
+    "bn": "বাড়ি ৩২, রোড ২৭ (পুরাতন), ধানমন্ডি, ঢাকা ১২০৯"
+  },
+  "phone": "+8801700000127",
+  "cuisines": [
+    "mughlai",
+    "bangladeshi"
+  ],
+  "theme": {
+    "deep": "#2A0C14",
+    "accent": "#E2B04A",
+    "font": "serif"
+  },
+  "brand": {
+    "logo": "logo.svg",
+    "shape": "M26 18H74Q78 18 77 22L75.5 26Q74.5 28 71 28C70 31 71 33 73 34.5C89 42 97 54 96 68C95 84 82 95 63 96H37C18 95 5 84 4 68C3 54 11 42 27 34.5C29 33 30 31 29 28Q25.5 28 24.5 26L23 22Q22 18 26 18ZM41 18C41 9 59 9 59 18Z",
+    "box": [
+      24,
+      40,
+      52
+    ],
+    "extra": "M40 10c-5-4 5-7 0-12M50 8c-5-4 5-7 0-12M60 10c-5-4 5-7 0-12"
+  },
+  "qr": {
+    "look": "logo"
+  },
+  "social": {
+    "main": "facebook",
+    "links": {
+      "facebook": {
+        "url": "https://facebook.com/shahihandi.demo",
+        "n": "48k"
+      },
+      "instagram": {
+        "url": "https://instagram.com/shahihandi.demo",
+        "n": "12.4k"
+      },
+      "tiktok": {
+        "url": "https://tiktok.com/@shahihandi.demo",
+        "n": "31k"
+      }
+    }
+  },
+  "tagline": {
+    "en": "Old Dhaka kacchi, sealed in the handi and opened at your table.",
+    "bn": "পুরান ঢাকার কাচ্চি, হান্ডিতে মুখবন্ধ রান্না, খোলা হয় আপনার টেবিলে।"
+  },
+  "story": {
+    "en": "On Road 27 since 1998. The kacchi goes into dough-sealed handis at 6 every morning and cooks over coal for four hours. The family cabins upstairs seat six to ten.",
+    "bn": "১৯৯৮ সাল থেকে রোড ২৭-এ। প্রতিদিন সকাল ৬টায় আটা দিয়ে মুখবন্ধ হান্ডিতে কাচ্চি ওঠে, কয়লার আঁচে রান্না হয় চার ঘণ্টা। ওপরতলার ফ্যামিলি কেবিনে ৬ থেকে ১০ জন বসতে পারেন।"
+  },
+  "rating": 4.6,
+  "reviews": 362,
+  "verified": 214,
+  "ppl": [
+    450,
+    650
+  ],
+  "hours": [
+    "11:00",
+    "23:30"
+  ],
+  "vat": 5,
+  "service": 5,
+  "seats": 140,
+  "fac": [
+    "cabin",
+    "ac",
+    "parking",
+    "prayer",
+    "generator",
+    "kids",
+    "wheelchair",
+    "wifi",
+    "events"
+  ],
+  "pay": [
+    "Cash",
+    "bKash",
+    "Nagad",
+    "Card"
+  ],
+  "plan": "premium",
+  "featured": true,
+  "founding": true,
+  "checked": 2,
+  "mediaDate": {
+    "en": "Oct 2026",
+    "bn": "অক্টোবর ২০২৬"
+  },
+  "hero": [
+    "pv:warm_restaurant_night:a",
+    "iB",
+    "pv:warm_reception_dinner:a"
+  ],
+  "film": {
+    "src": "https://assets.mixkit.co/videos/29050/29050-720.mp4",
+    "poster": "pv:warm_restaurant_night:b",
+    "len": "0:10"
+  },
+  "kitchen": {
+    "src": "https://assets.mixkit.co/videos/15875/15875-720.mp4",
+    "poster": "kc1",
+    "date": {
+      "en": "Filmed 12 Oct 2026",
+      "bn": "ধারণ ১২ অক্টোবর ২০২৬"
+    },
+    "photos": [
+      "kc1",
+      "kc3"
+    ]
+  },
+  "gallery": {
+    "inside": [
+      "pv:warm_restaurant_night:a",
+      "pv:warm_restaurant:a",
+      "pv:anniversary_lounge:a",
+      "iB",
+      "pv:warm_reception_dinner:a",
+      "pv:warm_reception_dinner:b"
+    ],
+    "outside": [
+      "ex3"
+    ],
+    "kitchen": [
+      "kc1",
+      "kc3"
+    ],
+    "food": [
+      "kt",
+      "hd",
+      "b4",
+      "te",
+      "bw"
+    ]
+  },
+  "tour": [
+    {
+      "id": "hall",
+      "en": "Main hall",
+      "bn": "মূল হল",
+      "pano": "warm_restaurant_night",
+      "day": "warm_restaurant",
+      "yaw": 110,
+      "spots": [
+        {
+          "to": "banquet",
+          "yaw": 160,
+          "pitch": -2
+        },
+        {
+          "to": "lounge",
+          "yaw": 52,
+          "pitch": -3
+        },
+        {
+          "info": {
+            "en": "90 seats, fully air-conditioned",
+            "bn": "৯০টি আসন, পুরো এসি"
+          },
+          "yaw": 112,
+          "pitch": -18
+        }
+      ]
+    },
+    {
+      "id": "banquet",
+      "en": "Banquet hall",
+      "bn": "ব্যাঙ্কুয়েট হল",
+      "pano": "warm_reception_dinner",
+      "yaw": 135,
+      "spots": [
+        {
+          "to": "hall",
+          "yaw": 75,
+          "pitch": -2
+        },
+        {
+          "info": {
+            "en": "Events for up to 120 guests",
+            "bn": "১২০ জন পর্যন্ত অনুষ্ঠান"
+          },
+          "yaw": 150,
+          "pitch": -10
+        }
+      ]
+    },
+    {
+      "id": "lounge",
+      "en": "Family lounge",
+      "bn": "ফ্যামিলি লাউঞ্জ",
+      "pano": "anniversary_lounge",
+      "yaw": 125,
+      "spots": [
+        {
+          "to": "hall",
+          "yaw": 200,
+          "pitch": -2
+        },
+        {
+          "info": {
+            "en": "Private for groups of 6 to 10. Book a day ahead.",
+            "bn": "৬ থেকে ১০ জনের জন্য আলাদা। এক দিন আগে বুক করুন।"
+          },
+          "yaw": 120,
+          "pitch": -16
+        }
+      ]
+    }
+  ],
+  "signature": [
+    "mutton-kacchi",
+    "kacchi-handi",
+    "morog-polao"
+  ],
+  "cats": [
+    {
+      "id": "rice",
+      "en": "Kacchi & rice",
+      "bn": "কাচ্চি ও ভাত"
+    },
+    {
+      "id": "grill",
+      "en": "Kebab",
+      "bn": "কাবাব"
+    },
+    {
+      "id": "curry",
+      "en": "Curries & bread",
+      "bn": "তরকারি ও রুটি"
+    },
+    {
+      "id": "sweet",
+      "en": "Drinks & dessert",
+      "bn": "পানীয় ও মিষ্টি"
+    }
+  ],
+  "menu": [
+    {
+      "id": "mutton-kacchi",
+      "type": "kacchi",
+      "name": {
+        "en": "Mutton Kacchi",
+        "bn": "মাটন কাচ্চি"
+      },
+      "price": 420,
+      "p": "kt",
+      "por": {
+        "en": "Serves 1 · 2 pcs mutton, aloo",
+        "bn": "১ জন · ২ পিস মাটন, আলু"
+      },
+      "spice": 1,
+      "cat": "rice",
+      "best": true,
+      "video": "https://assets.mixkit.co/videos/4672/4672-720.mp4",
+      "desc": {
+        "en": "Basmati and mutton cooked together in a sealed handi. Comes with aloo, salad and a boiled egg on request.",
+        "bn": "বাসমতি চাল আর মাটন একসাথে মুখবন্ধ হান্ডিতে রান্না। সাথে আলু, সালাদ, চাইলে ডিম।"
+      },
+      "sizes": [
+        {
+          "id": "full",
+          "name": {
+            "en": "Full",
+            "bn": "ফুল"
+          },
+          "price": 420
+        },
+        {
+          "id": "half",
+          "name": {
+            "en": "Half",
+            "bn": "হাফ"
+          },
+          "price": 260,
+          "por": {
+            "en": "Serves 1 · 1 pc mutton, aloo",
+            "bn": "১ জন · ১ পিস মাটন, আলু"
+          }
+        }
+      ]
+    },
+    {
+      "id": "kacchi-handi",
+      "type": "kacchi",
+      "name": {
+        "en": "Kacchi Handi for 4",
+        "bn": "কাচ্চি হান্ডি (৪ জন)"
+      },
+      "price": 1590,
+      "p": "hd",
+      "por": {
+        "en": "Serves 4 · 8 pcs mutton",
+        "bn": "৪ জন · ৮ পিস মাটন"
+      },
+      "spice": 1,
+      "cat": "rice",
+      "share": 4,
+      "desc": {
+        "en": "The whole handi, opened at your table. Order 30 minutes ahead on weekends.",
+        "bn": "পুরো হান্ডি, টেবিলে খোলা হয়। ছুটির দিনে ৩০ মিনিট আগে অর্ডার দিন।"
+      }
+    },
+    {
+      "id": "chicken-biryani",
+      "type": "biryani",
+      "name": {
+        "en": "Chicken Tikka Biryani",
+        "bn": "চিকেন টিক্কা বিরিয়ানি"
+      },
+      "price": 310,
+      "p": "b4",
+      "por": {
+        "en": "Serves 1 · 1 tikka leg",
+        "bn": "১ জন · ১টি টিক্কা লেগ"
+      },
+      "spice": 2,
+      "cat": "rice",
+      "desc": {
+        "en": "Tandoor-charred chicken over spiced biryani rice.",
+        "bn": "তন্দুরে পোড়া চিকেন, মশলাদার বিরিয়ানির ওপর।"
+      }
+    },
+    {
+      "id": "morog-polao",
+      "type": "polao",
+      "name": {
+        "en": "Morog Polao",
+        "bn": "মোরগ পোলাও"
+      },
+      "price": 320,
+      "p": "te",
+      "por": {
+        "en": "Serves 1 · quarter chicken",
+        "bn": "১ জন · কোয়ার্টার মুরগি"
+      },
+      "spice": 0,
+      "cat": "rice",
+      "desc": {
+        "en": "Wedding-style polao with a slow-cooked chicken leg.",
+        "bn": "বিয়েবাড়ির পোলাও, ধীরে রান্না মুরগির রানের সাথে।"
+      },
+      "sizes": [
+        {
+          "id": "full",
+          "name": {
+            "en": "Full",
+            "bn": "ফুল"
+          },
+          "price": 320
+        },
+        {
+          "id": "half",
+          "name": {
+            "en": "Half",
+            "bn": "হাফ"
+          },
+          "price": 190,
+          "por": {
+            "en": "Serves 1 · 1 small piece",
+            "bn": "১ জন · ১টি ছোট পিস"
+          }
+        }
+      ]
+    },
+    {
+      "id": "mutton-seekh",
+      "type": "kebab",
+      "name": {
+        "en": "Mutton Seekh Kabab",
+        "bn": "মাটন শিক কাবাব"
+      },
+      "price": 240,
+      "p": null,
+      "por": {
+        "en": "2 skewers",
+        "bn": "২টি শিক"
+      },
+      "spice": 2,
+      "cat": "grill"
+    },
+    {
+      "id": "shami-kabab",
+      "type": "kebab",
+      "name": {
+        "en": "Shami Kabab",
+        "bn": "শামি কাবাব"
+      },
+      "price": 95,
+      "p": null,
+      "por": {
+        "en": "1 piece",
+        "bn": "১ পিস"
+      },
+      "spice": 1,
+      "cat": "grill"
+    },
+    {
+      "id": "butter-chicken",
+      "type": "curry",
+      "name": {
+        "en": "Butter Chicken",
+        "bn": "বাটার চিকেন"
+      },
+      "price": 340,
+      "p": "bw",
+      "por": {
+        "en": "Serves 1 to 2",
+        "bn": "১-২ জন"
+      },
+      "spice": 1,
+      "cat": "curry",
+      "desc": {
+        "en": "Tomato, butter and cream, finished with kasuri methi.",
+        "bn": "টমেটো, মাখন আর ক্রিম, শেষে কসুরি মেথি।"
+      }
+    },
+    {
+      "id": "mutton-rezala",
+      "type": "curry",
+      "name": {
+        "en": "Mutton Rezala",
+        "bn": "মাটন রেজালা"
+      },
+      "price": 380,
+      "p": null,
+      "por": {
+        "en": "Serves 1 to 2",
+        "bn": "১-২ জন"
+      },
+      "spice": 1,
+      "cat": "curry"
+    },
+    {
+      "id": "butter-naan",
+      "type": "naan",
+      "name": {
+        "en": "Butter Naan",
+        "bn": "বাটার নান"
+      },
+      "price": 55,
+      "p": null,
+      "por": {
+        "en": "1 piece",
+        "bn": "১ পিস"
+      },
+      "spice": 0,
+      "cat": "curry",
+      "veg": true
+    },
+    {
+      "id": "borhani",
+      "type": "drink",
+      "name": {
+        "en": "Borhani",
+        "bn": "বোরহানি"
+      },
+      "price": 90,
+      "p": null,
+      "por": {
+        "en": "1 glass",
+        "bn": "১ গ্লাস"
+      },
+      "spice": 1,
+      "cat": "sweet",
+      "veg": true,
+      "sizes": [
+        {
+          "id": "glass",
+          "name": {
+            "en": "Glass",
+            "bn": "গ্লাস"
+          },
+          "price": 90
+        },
+        {
+          "id": "jug",
+          "name": {
+            "en": "Jug, 1 litre",
+            "bn": "জগ, ১ লিটার"
+          },
+          "price": 320,
+          "por": {
+            "en": "Serves 4",
+            "bn": "৪ জন"
+          }
+        }
+      ]
+    },
+    {
+      "id": "firni",
+      "type": "dessert",
+      "name": {
+        "en": "Firni in a clay bowl",
+        "bn": "মাটির বাটিতে ফিরনি"
+      },
+      "price": 110,
+      "p": null,
+      "por": {
+        "en": "1 bowl",
+        "bn": "১ বাটি"
+      },
+      "spice": 0,
+      "cat": "sweet",
+      "veg": true
+    }
+  ],
+  "deals": [
+    {
+      "id": "family-feast",
+      "en": "Family Feast for 4",
+      "bn": "৪ জনের ফ্যামিলি ফিস্ট",
+      "desc": {
+        "en": "Kacchi handi, 4 borhani and 4 firni.",
+        "bn": "কাচ্চি হান্ডি, ৪টি বোরহানি আর ৪টি ফিরনি।"
+      },
+      "when": {
+        "en": "Sunday to Thursday",
+        "bn": "রবি থেকে বৃহস্পতি"
+      },
+      "price": 1790,
+      "was": 2190,
+      "p": "hd",
+      "week": true
+    },
+    {
+      "id": "lunch-kacchi",
+      "en": "Weekday lunch: kacchi and borhani",
+      "bn": "দুপুরের অফার: কাচ্চি আর বোরহানি",
+      "desc": {
+        "en": "One plate of mutton kacchi with a glass of borhani.",
+        "bn": "এক প্লেট মাটন কাচ্চি আর এক গ্লাস বোরহানি।"
+      },
+      "when": {
+        "en": "Sunday to Thursday, 12pm to 4pm",
+        "bn": "রবি থেকে বৃহস্পতি, দুপুর ১২টা থেকে ৪টা"
+      },
+      "price": 450,
+      "was": 510,
+      "p": "kt"
+    },
+    {
+      "id": "grill-night",
+      "en": "Grill night for 2",
+      "bn": "দুজনের গ্রিল নাইট",
+      "desc": {
+        "en": "Tikka biryani for two, seekh kabab and two naan.",
+        "bn": "দুজনের টিক্কা বিরিয়ানি, শিক কাবাব আর দুটি নান।"
+      },
+      "when": {
+        "en": "Friday and Saturday, after 7pm",
+        "bn": "শুক্র ও শনি, সন্ধ্যা ৭টার পর"
+      },
+      "price": 890,
+      "was": 1010,
+      "p": "b4"
+    }
+  ],
+  "events": [
+    {
+      "id": "bijoy-dibos",
+      "en": "Victory Day kacchi feast",
+      "bn": "বিজয় দিবসের কাচ্চি ভোজ",
+      "type": "festival",
+      "start": "2026-12-16T12:00",
+      "end": "2026-12-16T23:00",
+      "p": "hd",
+      "desc": {
+        "en": "A set menu of kacchi, rezala, firni and borhani for the whole family.",
+        "bn": "পুরো পরিবারের জন্য কাচ্চি, রেজালা, ফিরনি আর বোরহানির সেট মেনু।"
+      }
+    }
+  ],
+  "deal": {
+    "id": "family-feast",
+    "en": "Family Feast for 4",
+    "bn": "৪ জনের ফ্যামিলি ফিস্ট",
+    "desc": {
+      "en": "Kacchi handi, 4 borhani and 4 firni.",
+      "bn": "কাচ্চি হান্ডি, ৪টি বোরহানি আর ৪টি ফিরনি।"
+    },
+    "when": {
+      "en": "Sunday to Thursday",
+      "bn": "রবি থেকে বৃহস্পতি"
+    },
+    "price": 1790,
+    "was": 2190,
+    "p": "hd",
+    "week": true
+  },
+  "reviewList": [
+    {
+      "r": "shahi-handi",
+      "who": "Tanvir Ahmed",
+      "st": 5,
+      "vf": true,
+      "when": {
+        "en": "2 days ago",
+        "bn": "২ দিন আগে"
+      },
+      "t": "কাচ্চির মাংস একদম নরম, আলুটাও ঠিকঠাক। ৪ জন গিয়েছিলাম, বিল এসেছে ১,৯৮০ টাকা, এখানে যা দেখেছিলাম প্রায় তাই।",
+      "ord": [
+        "Mutton Kacchi",
+        "Borhani"
+      ],
+      "pics": [
+        "kt"
+      ]
+    },
+    {
+      "r": "shahi-handi",
+      "who": "Nusrat Jahan",
+      "st": 4,
+      "vf": true,
+      "when": {
+        "en": "1 week ago",
+        "bn": "১ সপ্তাহ আগে"
+      },
+      "t": "Took my parents for their anniversary. The family lounge looked exactly like the 360 tour, quiet and properly cool. Rezala was a little sweet for me.",
+      "ord": [
+        "Kacchi Handi for 4",
+        "Mutton Rezala"
+      ],
+      "reply": {
+        "en": "Thank you, Nusrat. We have passed your note on the rezala to our chef.",
+        "bn": "ধন্যবাদ, নুসরাত। রেজালা নিয়ে আপনার মতামত আমাদের শেফকে জানানো হয়েছে।"
+      }
+    },
+    {
+      "r": "shahi-handi",
+      "who": "Rafiq Hasan",
+      "st": 3,
+      "vf": true,
+      "when": {
+        "en": "2 weeks ago",
+        "bn": "২ সপ্তাহ আগে"
+      },
+      "t": "Friday te 40 minute wait korte hoyeche. Khabar valo, kintu weekend e age theke call kore jaben.",
+      "ord": [
+        "Chicken Tikka Biryani"
+      ]
+    },
+    {
+      "r": "shahi-handi",
+      "who": "Sadia Karim",
+      "st": 5,
+      "vf": true,
+      "when": {
+        "en": "3 weeks ago",
+        "bn": "৩ সপ্তাহ আগে"
+      },
+      "t": "Morog polao tastes like a proper wedding. Parking was easy on a weekday evening.",
+      "ord": [
+        "Morog Polao",
+        "Butter Naan"
+      ]
+    }
+  ]
+}

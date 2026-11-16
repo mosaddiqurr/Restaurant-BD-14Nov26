@@ -37,11 +37,12 @@ void main(){
     const s = document.createElement('script'); s.src = `${K.panoDir(id)}${id}-4k.js`; s.async = true; s.onerror = () => { delete imgCache['hi:' + id]; rej(new Error('4k ' + id)); };
     document.head.appendChild(s);
   }));
+  const up = id => K.panoUp && K.panoUp[id];
   K.panoSrc = {
-    thumb: id => `${K.panoDir(id)}${id}-s.jpg`,
-    low: id => loadImg(`https://cdn.polyhaven.com/asset_img/primary/${id}.png?height=256`),
-    mid: id => loadImg(`https://cdn.polyhaven.com/asset_img/primary/${id}.png?height=1024`),
-    hi: loadHi
+    thumb: id => up(id) ? up(id).thumb : `${K.panoDir(id)}${id}-s.jpg`,
+    low: id => up(id) ? loadImg(up(id).img) : loadImg(`https://cdn.polyhaven.com/asset_img/primary/${id}.png?height=256`),
+    mid: id => up(id) ? loadImg(up(id).img) : loadImg(`https://cdn.polyhaven.com/asset_img/primary/${id}.png?height=1024`),
+    hi: id => up(id) ? loadImg(up(id).img) : loadHi(id)
   };
   K.panoPrefetch = (id) => { K.panoSrc.low(id).catch(() => { }); };
 

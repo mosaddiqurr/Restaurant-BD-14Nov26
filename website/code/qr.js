@@ -21,12 +21,16 @@
     dots: { dots: 'dots', eyes: 'circle', en: 'Dots', bn: 'ডট' },
     leaf: { dots: 'rounded', eyes: 'leaf', en: 'Leaf', bn: 'পাতা' },
     diamond: { dots: 'diamond', eyes: 'rounded', en: 'Diamond', bn: 'ডায়মন্ড' },
-    bars: { dots: 'bars', eyes: 'rounded', en: 'Lines', bn: 'লাইন' }
+    bars: { dots: 'bars', eyes: 'rounded', en: 'Lines', bn: 'লাইন' },
+    /* only for restaurants with a logo shape (r.brand.shape): the whole code takes the shape of the logo */
+    logo: { dots: 'rounded', eyes: 'rounded', en: 'Logo shape', bn: 'লোগোর আকার', needs: 'shape' }
   };
+  K.qrLooksFor = r => Object.keys(K.QR_LOOKS).filter(k => !K.QR_LOOKS[k].needs || (r.brand && r.brand.shape));
 
   /* what a restaurant's code looks like unless told otherwise */
   K.qrStyle = (r, look) => {
-    const q = r.qr || {}, L = K.QR_LOOKS[look || q.look] || K.QR_LOOKS.rounded;
+    const q = r.qr || {}, key = look || q.look, L = (key === 'logo' && !(r.brand && r.brand.shape)) ? K.QR_LOOKS.rounded : K.QR_LOOKS[key] || K.QR_LOOKS.rounded;
+    if (L === K.QR_LOOKS.logo) return { dots: 'rounded', eyes: 'rounded', fg: r.theme.deep, eye: r.theme.deep, bg: '#fff', shape: r.brand };
     return {
       dots: look ? L.dots : q.dots || L.dots, eyes: look ? L.eyes : q.eyes || L.eyes,
       fg: q.fg || r.theme.deep, eye: q.eye || r.theme.deep, bg: '#fff',
@@ -69,8 +73,40 @@
     }
   }
 
+  /* Logo-shaped code. Phones only read a square QR, so the real code sits whole inside the shape (sh.box),
+     with a clear band around it, and the rest of the shape is filled with look-alike dots.
+     The eye sees the logo; the camera still finds the three corner squares and the code. */
+  const rng = s => { let a = 0; for (let i = 0; i < s.length; i++) a = Math.imul(a ^ s.charCodeAt(i), 2654435761) >>> 0; return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; };
+  K.qrShapeSvg = (url, st) => {
+    const sh = st.shape, q = window.qrcode(0, 'H'); q.addData(url); q.make();
+    const n = q.getModuleCount(), gap = sh.gap || 3, G = Math.ceil((n + gap * 2) / (sh.box[2] / 100)), k = G / 100;
+    const ox = Math.round(sh.box[0] * k) + gap, oy = Math.round(sh.box[1] * k) + gap;
+    const ctx = document.createElement('canvas').getContext('2d'), path = new Path2D(sh.shape);
+    const inShape = (x, y) => ctx.isPointInPath(path, x / k, y / k);
+    const inEye = (x, y) => (x < 7 && y < 7) || (x >= n - 7 && y < 7) || (x < 7 && y >= n - 7);
+    const near = (x, y) => x >= ox - gap && x < ox + n + gap && y >= oy - gap && y < oy + n + gap;
+    const rnd = rng(url), deco = new Uint8Array(G * G), m = .95;
+    for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
+      if (near(x, y)) continue;
+      const c = x + .5, d = y + .5;
+      if (inShape(c, d) && inShape(c - m, d - m) && inShape(c + m, d - m) && inShape(c - m, d + m) && inShape(c + m, d + m)) deco[y * G + x] = rnd() < .46 ? 1 : 0;
+    }
+    const on = (x, y) => {
+      if (x < 0 || y < 0 || x >= G || y >= G) return false;
+      if (x >= ox && x < ox + n && y >= oy && y < oy + n) { const a = x - ox, b = y - oy; return q.isDark(b, a) && !inEye(a, b); }
+      return deco[y * G + x] === 1;
+    };
+    let dots = '';
+    for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) if (on(x, y)) dots += moduleShape(st.dots, x, y, on);
+    let eyes = '', cores = '';
+    [[ox, oy, 'tl'], [ox + n - 7, oy, 'tr'], [ox, oy + n - 7, 'bl']].forEach(([x, y, c]) => { const e = eyeShape(st.eyes, x, y, c); eyes += e.ring; cores += e.core; });
+    const sw = f(1 / k);
+    return `<svg class="qra qra-shape" viewBox="0 0 ${G} ${G}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="QR code"><g transform="scale(${f(k)})"><path d="${sh.shape}" fill="${st.bg}" stroke="${st.eye}" stroke-width="${f(sw * 1.1)}" stroke-linejoin="round"/>${sh.extra ? `<path d="${sh.extra}" fill="none" stroke="${st.eye}" stroke-width="${f(sw * 1.3)}" stroke-linecap="round"/>` : ''}</g><path d="${dots}" fill="${st.fg}"/><path d="${eyes}" fill="${st.eye}" fill-rule="evenodd"/><path d="${cores}" fill="${st.eye}"/></svg>`;
+  };
+
   /* build the SVG for a URL; returns a string so it also works for print and server use */
   K.qrSvg = (url, st) => {
+    if (st.shape && st.shape.shape) return K.qrShapeSvg(url, st);
     const hasLogo = !!st.logo;
     const q = window.qrcode(0, hasLogo ? 'H' : 'M'); q.addData(url); q.make();
     const n = q.getModuleCount();

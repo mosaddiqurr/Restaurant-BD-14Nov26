@@ -56,10 +56,8 @@ main { min-height: 70vh; }
 .ai-msg.me { align-self: flex-end; max-width: 86%; }
 .ai-msg.me p { background: var(--indigo); color: var(--indigo-ink); padding: 11px 16px; border-radius: 22px 22px 6px 22px; font-size: 15.5px; }
 .ai-msg.bot p { font-size: 16px; line-height: 1.6; }
-.ai-msg.typing { display: inline-flex; gap: 5px; padding: 14px 4px; }
-.ai-msg.typing span { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); animation: dots 1.1s infinite; }
-.ai-msg.typing span:nth-child(2) { animation-delay: .15s; }
-.ai-msg.typing span:nth-child(3) { animation-delay: .3s; }
+/* while the AI looks for an answer: a light band sweeps across the words (shimmer text, from feel.js) */
+.ai-msg.typing { display: inline-flex; padding: 12px 4px; font-size: 15px; font-weight: 600; }
 @keyframes dots { 0%, 80%, 100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
 .ai-cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-top: 12px; }
 /* an answer fades in as one piece after the typing dots; its cards rise in a beat later, one after another */
@@ -216,7 +214,12 @@ html[lang="bn"] .ds-name { letter-spacing: 0; line-height: 1.3; }
 .ds-meta { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin: 14px 0 6px; font-size: 14.5px; color: var(--ink-2); }
 .ds-meta > span { display: inline-flex; align-items: center; gap: 6px; }
 .ds-desc { font-size: 16px; color: var(--ink-2); line-height: 1.6; margin-top: 10px; }
-.ds-buy { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 18px 18px 18px 22px; border-radius: 24px; background: var(--bg-2); margin: 18px 0 10px; }
+.ds-buy { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 18px 18px 18px 22px; border-radius: 22px; margin: 18px 0 10px; color: #fff; background: var(--rd, #14192B); box-shadow: 0 10px 24px -14px rgba(0, 0, 0, .45); }
+.ds-buy .meta { color: rgba(255, 255, 255, .75); }
+.ds-buy .ds-price { color: #fff; }
+.ds-buy .add.lg, .ds-buy .add.lg.plus, .ds-buy .add.lg.has { background: var(--ra, #F5A300); color: var(--rd, #14192B); box-shadow: none; }
+.ds-buy .add.lg.out { background: rgba(255, 255, 255, .14); color: #fff; }
+[data-theme="dark"] .ds-buy { box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12); }
 .ds-price { font-size: 32px; font-weight: 820; letter-spacing: -.03em; }
 .add.lg { height: 54px; min-width: 54px; }
 .add.lg.plus { width: 54px; background: var(--ink); color: var(--bg); box-shadow: none; }
@@ -267,17 +270,9 @@ html[lang="bn"] .ds-name { letter-spacing: 0; line-height: 1.3; }
 /* ================= DEALS ================= */
 .pg-head { padding-top: 34px; padding-bottom: 24px; display: grid; gap: 10px; }
 .h1.sm { font-size: clamp(38px, 6.5vw, 72px); }
-.deal-grid { display: grid; gap: 18px; }
+.deal-grid { display: grid; gap: 22px; }
 @media (min-width: 700px) { .deal-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1100px) { .deal-grid { grid-template-columns: repeat(3, 1fr); } }
-.deal { display: block; border-radius: 26px; overflow: hidden; background: var(--surface); box-shadow: var(--shadow-1); transition: transform .3s var(--ease), box-shadow .3s; }
-.deal:hover { transform: translateY(-3px); box-shadow: var(--shadow-2); }
-.deal .ph { aspect-ratio: 16 / 10; }
-.deal-b { padding: 18px 20px 22px; display: grid; gap: 6px; }
-.deal-b h3 { font-size: 20px; font-weight: 760; letter-spacing: -.015em; }
-.deal-b .meta { display: inline-flex; align-items: center; gap: 6px; }
-.deal-p { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
-.deal-p b { font-size: 26px; font-weight: 820; letter-spacing: -.02em; }
 .deal-note { margin-top: 20px; display: flex; gap: 6px; align-items: center; }
 
 /* ================= FOR RESTAURANTS ================= */
@@ -300,23 +295,55 @@ html[lang="bn"] .ds-name { letter-spacing: 0; line-height: 1.3; }
 .vs-c.old .ico { color: var(--ink-3); }
 .vs-c.new { background: linear-gradient(155deg, #2A3DB8 0%, #141B5E 100%); color: #fff; box-shadow: 0 24px 60px rgba(42, 61, 184, .3); }
 .vs-c.new .ico { color: #FFC140; }
-.biz-bento > .bx-menu { background: var(--gold-soft); padding: 0; }
-.bx-menu .bx-cap { top: 0; bottom: auto; }
-.qr-demo { position: absolute; right: 26px; bottom: 26px; color: var(--ink); opacity: .9; }
-.qr-demo .ico { width: 120px; height: 120px; }
-.bx-report { padding: 26px; display: grid; gap: 16px; align-content: start; }
-.bx-report .bx-cap { position: static; padding: 0; }
-.report { background: var(--surface-2); border: 1px solid var(--line); border-radius: 22px; padding: 18px; display: grid; gap: 14px; font-size: 14px; }
-.rep-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
-.rep-k { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-.rep-k div { display: grid; gap: 2px; }
+/* what you get: four cards on one 12-column grid, same padding, radius and type */
+.bz { display: grid; gap: 16px; margin-top: 28px; }
+.bz-c { position: relative; overflow: hidden; border-radius: 24px; display: flex; flex-direction: column; gap: 16px; padding: 26px; background: var(--surface); border: 1px solid var(--line); min-width: 0; }
+.bz-c h3 { font-size: clamp(21px, 2vw, 25px); font-weight: 740; letter-spacing: -.02em; line-height: 1.15; }
+.bz-c p { font-size: 15px; color: var(--ink-2); line-height: 1.5; }
+.bz-txt { display: grid; gap: 6px; max-width: 46ch; }
+.bz-photo { min-height: 360px; justify-content: flex-end; color: #fff; background: var(--night); border: 0; }
+.bz-photo img, .bz-photo video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.bz-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8, 11, 30, 0) 35%, rgba(8, 11, 30, .82) 100%); }
+.bz-cap { position: relative; z-index: 1; display: grid; gap: 6px; justify-items: start; }
+.bz-cap p { color: rgba(255, 255, 255, .82); }
+.bz-cap .btn { margin-top: 8px; }
+/* the menu card shows the real thing: a printed menu and its table QR */
+.bz-show { flex: 1; display: grid; grid-template-columns: minmax(0, 1fr) 132px; gap: 12px; align-items: center; align-content: center; padding: 18px; border-radius: 18px; background: var(--bg-2); }
+.bz-paper { background: #FFFDF7; color: #2A2320; border-radius: 10px; padding: 16px 16px 12px; box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .35); display: grid; gap: 10px; min-width: 0; }
+.bz-paper > b { font-size: 17px; color: var(--r-deep); text-align: center; padding-bottom: 8px; border-bottom: 1px solid rgba(0, 0, 0, .1); }
+.bz-paper[data-font="serif"] > b { font-size: 19px; }
+.bz-paper ul { display: grid; gap: 7px; font-size: 13px; }
+.bz-paper > b { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bz-paper li b { flex: none; }
+.bz-paper li { display: flex; align-items: baseline; gap: 6px; }
+.bz-paper li span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bz-paper li i { flex: 1; min-width: 12px; border-bottom: 1px dotted rgba(0, 0, 0, .3); transform: translateY(-3px); }
+.bz-paper li b { font-weight: 700; }
+.bz-tent { background: var(--r-deep); color: #fff; border-radius: 12px; padding: 12px 12px 10px; display: grid; gap: 8px; justify-items: center; box-shadow: 0 6px 18px -10px rgba(0, 0, 0, .45); }
+.bz-q { display: block; width: 100%; aspect-ratio: 1; background: #fff; border-radius: 8px; padding: 6px; }
+.bz-q svg { display: block; width: 100%; height: 100%; }
+.bz-tent b { font-size: 12px; font-weight: 700; line-height: 1.25; text-align: center; color: var(--r-accent); }
+.bz-menu > .btn { align-self: flex-start; }
+/* the monthly report, laid out flat inside its card */
+.rep-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+.rep-k { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.rep-k div { display: grid; gap: 2px; padding: 12px 14px; border-radius: 14px; background: var(--bg-2); }
 .rep-k span { font-size: 12.5px; color: var(--ink-3); }
 .rep-k b { font-size: 22px; font-weight: 800; letter-spacing: -.02em; }
 .rep-k em { font-style: normal; font-size: 12.5px; font-weight: 700; color: var(--green); }
-.rep-top ol { display: grid; gap: 8px; margin-top: 6px; }
-.rep-top li { display: grid; gap: 4px; font-weight: 600; }
-.rep-top li i { display: block; height: 6px; border-radius: 6px; width: var(--w); background: var(--indigo); }
-.rep-cmp p { margin-top: 4px; }
+.rep-top ol { display: grid; gap: 9px; margin-top: 8px; }
+.rep-top li { display: grid; grid-template-columns: minmax(0, 150px) 1fr; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; }
+.rep-top li span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rep-top li i { display: block; height: 8px; border-radius: 8px; width: var(--w); background: var(--indigo); }
+.bz-c .rep-cmp { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; }
+.rep-cmp .ico { flex: none; margin-top: 3px; color: var(--indigo-text); }
+@media (min-width: 900px) {
+  .bz { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+  .bz-tour { grid-column: span 7; } .bz-film { grid-column: span 5; }
+  .bz-menu { grid-column: span 5; } .bz-report { grid-column: span 7; }
+  .bz-photo { min-height: 420px; }
+}
+@media (max-width: 480px) { .bz-c { padding: 20px; } .bz-show { grid-template-columns: minmax(0, 1fr) 92px; gap: 10px; padding: 12px; } .bz-paper { padding: 12px 12px 10px; } .bz-paper > b { font-size: 15px !important; } .bz-paper ul { font-size: 12px; } .bz-tent { padding: 8px 8px 7px; } .rep-k span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } .rep-k b { font-size: 18px; } .rep-k div { padding: 10px; } .rep-top li { grid-template-columns: minmax(0, 120px) 1fr; } }
 .how { display: grid; gap: 14px; margin-top: 26px; }
 @media (min-width: 900px) { .how { grid-template-columns: repeat(4, 1fr); } }
 .how li { padding: 24px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
@@ -337,12 +364,12 @@ html[lang="bn"] .ds-name { letter-spacing: 0; line-height: 1.3; }
 .plans-note { margin-top: 18px; }
 .biz-faq-in { display: grid; gap: 20px; }
 @media (min-width: 1000px) { .biz-faq-in { grid-template-columns: 1fr 1.8fr; gap: 56px; } }
-.faq details { border-bottom: 1px solid var(--line); }
-.faq summary { list-style: none; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 20px 0; font-size: 18px; font-weight: 700; cursor: pointer; }
-.faq summary::-webkit-details-marker { display: none; }
-.faq summary .ico { transition: transform .3s var(--ease); flex: none; }
-.faq details[open] summary .ico { transform: rotate(45deg); }
-.faq details p { padding: 0 0 20px; color: var(--ink-2); max-width: 68ch; }
+/* FAQ: accordion from feel.js (smooth height, the answer un-blurs, the arrow flips) */
+.faq-i { border-bottom: 1px solid var(--line); }
+.faq .t-acc-head { width: 100%; display: flex; justify-content: space-between; gap: 16px; align-items: center; padding: 20px 0; font-size: 18px; font-weight: 700; text-align: left; color: var(--ink); }
+.faq .t-acc-chev { width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; background: var(--bg-2); color: var(--ink-2); }
+.faq .t-acc-head:hover .t-acc-chev { background: var(--line); color: var(--ink); }
+.faq .t-acc-in p { padding: 0 0 20px; color: var(--ink-2); max-width: 68ch; }
 .biz-form { display: grid; gap: 32px; padding: 28px; border-radius: 32px; background: var(--surface); box-shadow: var(--shadow-1); }
 @media (min-width: 1000px) { .biz-form { grid-template-columns: 1fr 1fr; padding: 48px; gap: 56px; } }
 .bf-copy { display: grid; gap: 14px; align-content: start; }
@@ -405,6 +432,9 @@ body.print-mode { background: var(--bg-2); }
 /* embedded preview inside the business page phone */
 html.embed .tabbar, html.embed .tray { display: none !important; }
 html.embed body { overflow-x: hidden; }
+/* inside a preview (phone frame, panel preview) the page is the whole screen: no scrollbar, like a real phone */
+html.embed, html.framed { scrollbar-width: none; }
+html.embed::-webkit-scrollbar, html.embed body::-webkit-scrollbar, html.framed::-webkit-scrollbar, html.framed body::-webkit-scrollbar { display: none; width: 0; }
 
 /* branded QR showcase on the For restaurants page */
 .qrb { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 24px; }

@@ -34,6 +34,9 @@ addRestaurant(({ e, D, pv, P, FILM, R, ago }) => ({
     D('shingara', 'snack', 'Shingara', 'শিঙাড়া', 60, 'sm', ['2 pieces', '২ পিস'], 1, { cat: 'snack', veg: true })
   ],
   deal: { id: 'tea-time', ...e('Cake slice and two chai', 'এক টুকরো কেক আর দুই কাপ চা'), desc: e('Any slice with two doodh cha.', 'যেকোনো এক টুকরো কেক, দুই কাপ দুধ চা।'), when: e('Weekdays, 3pm to 6pm', 'কর্মদিবসে বিকেল ৩টা থেকে ৬টা'), price: 260, was: 330, p: 'ph:carrot_cake' },
+  events: [
+    { id: 'poetry', ...e('Poetry and cha evening', 'কবিতা আর চায়ের সন্ধ্যা'), type: 'other', start: '2026-11-22T17:00', end: '2026-11-22T19:30', p: 'ph:tea_set_01' }
+  ],
   reviewList: [
     R('cha-adda', 'Nabila Huq', 5, true, ago('3 days ago', '৩ দিন আগে'), 'Saw the strawberry cake in 3D on my table at home, ordered it for my sister’s birthday. It looked exactly the same.', ['Strawberry Chocolate Cake']),
     R('cha-adda', 'Sabbir Rahman', 5, true, ago('1 week ago', '১ সপ্তাহ আগে'), 'বিকেলের আড্ডার জন্য সেরা। মসলা চা এক পটে দুই কাপের বেশি হয়।', ['Masala Chai, pot for two', 'Shingara']),

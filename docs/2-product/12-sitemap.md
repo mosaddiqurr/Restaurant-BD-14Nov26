@@ -23,14 +23,20 @@ URLs are examples; `[brand-domain]` is not decided. Every public page has Bangla
 ├── /compare?ids=                   Compare restaurants (P1)
 ├── /ask                            AI assistant (full page)
 ├── /deals                          All deals, Deal of the Week
-├── /price-index                    Food Price Index (P1)
-│   └── /price-index/{city}/{month}
+├── /prices                         Price tracker: dish prices over time, area averages, rises and drops (P1); Food Price Index is a tab here
+│   └── /prices/index/{city}/{month}
+├── /buffets                        Buffet finder and compare (P1)
+├── /events                         Events at restaurants (P1)
+├── /trending                       Trending this week, from real views and QR scans (P1)
+├── /l/{list-id}                    A shared diner list, opens without an account (P2)
 ├── /guides/{guide}                 Seasonal guides (iftar, Eid) (P1)
 ├── /new                            New restaurants (P1)
 ├── /account                        Diner account
 │   ├── /account/saved              Saved restaurants and dishes (P1)
 │   ├── /account/reviews            My reviews
-│   └── /account/following          Followed restaurants (P1)
+│   ├── /account/following          Followed restaurants (P1)
+│   ├── /account/lists              My lists (P2)
+│   └── /account/cards              My stamp cards (P2)
 ├── /login  /signup
 ├── /about  /contact  /help
 └── /legal/terms  /legal/privacy  /legal/review-policy

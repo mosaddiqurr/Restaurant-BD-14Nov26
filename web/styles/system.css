@@ -1,0 +1,104 @@
+/* One set of sizes for the whole site, and things that make it easy to use with a thumb or a keyboard.
+
+   Corners: 8px small bits, 12px buttons and chips, 14px boxes, 20px cards, 24px sheets, 999px round.
+   Speeds: .15s small changes (colour, press), .2s most UI, .3s panels and sheets, .4s large moves.
+   Press: buttons and cards shrink to .97, small round icon buttons to .9.
+   Write new CSS with these numbers only. */
+:root {
+  --r-sm: 8px; --r-ctl: 12px; --r-box: 14px; --r-card: 20px; --r-sheet: 24px; --r-round: 999px;
+  --t-fast: .15s; --t: .2s; --t-slow: .3s; --t-big: .4s;
+  --press: .97; --press-icon: .9;
+}
+
+/* ---------- tap targets: at least 44px to a thumb, the look stays the same ----------
+   On touch screens each small control gets an invisible larger touch area around it. */
+@media (pointer: coarse) {
+  .stepper button, .stp > button, .mb-step button, .tm-add.has button, .tmx-step button, .tm-q-x, .wr-pics button,
+  .chip.sm, .act .chip, .chip, .seg button, .tm-chip, .tmx-tabs button, .ds-tabs button, .code, .x, .fg-h .chev, .faq-c,
+  .tm-lang, .tm-tbl, .dh-dot, .kmap .leaflet-control-zoom a, .ib, .sw { position: relative; }
+
+  .stepper button::after, .mb-step button::after, .tm-add.has button::after, .wr-pics button::after, .fg-h .chev::after { content: ""; position: absolute; inset: -9px; }
+  .stp > button::after, .tmx-step button::after, .tm-q-x::after, .x::after, .faq-c::after, .ib::after { content: ""; position: absolute; inset: -5px; }
+  .chip::after, .seg button::after, .tm-chip::after, .tmx-tabs button::after, .ds-tabs button::after, .code::after,
+  .tm-lang::after, .tm-tbl::after { content: ""; position: absolute; inset: -6px -2px; }
+  .sw::after { content: ""; position: absolute; inset: -11px -4px; }
+  /* the price dots on the price strip are 12 to 16px: a 44px round touch area each */
+  .dh-dot::after { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; }
+  /* filter rows: a little more height, same look */
+  .fo { padding-top: 11px; padding-bottom: 11px; }
+  .kmap .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; }
+}
+
+/* ---------- keyboard focus ----------
+   Search boxes whose input hides its own outline show a ring on the whole box instead. */
+:is(.ai-form, .tm-q, .tb-q, .field, .lp-q, .hs-q):has(input:focus-visible) {
+  outline: 2px solid var(--hl, #E0A42E); outline-offset: 2px;
+}
+/* everything you can tab to gets a clear ring (mouse clicks do not show it) */
+:is(a, button, [role="button"], [role="tab"], summary, select):focus-visible {
+  outline: 2px solid var(--hl, #E0A42E); outline-offset: 2px;
+}
+
+/* ---------- rows that scroll sideways show a soft fade where there is more ----------
+   (the section tabs on a restaurant page, menu categories, table menu tabs) */
+@property --fade-l { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --fade-r { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@keyframes edge-fade-x {
+  0% { --fade-l: 0px; --fade-r: 36px; }
+  10% { --fade-l: 28px; }
+  90% { --fade-r: 36px; }
+  100% { --fade-l: 28px; --fade-r: 0px; }
+}
+@supports (animation-timeline: scroll()) {
+  .rnav nav, .mcats, .tm-cats, .tmx-tabs, .fade-x {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent);
+    animation: edge-fade-x linear both; animation-timeline: scroll(self inline);
+  }
+}
+/* older browsers: a fixed fade on the right edge of the restaurant section tabs on phones */
+@supports not (animation-timeline: scroll()) {
+  @media (max-width: 720px) {
+    .rnav nav { -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent); }
+  }
+}
+
+/* dish sheet: a part that failed to load says so, with Try again */
+.ds-fail { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.ds-fail i { color: var(--bad, #C62828); }
+
+/* portions (Half / Full): each with its own price on the menu, a picker in the dish sheet, and the + shows how
+   many plates of the dish (all portions) are on the bill */
+.psz { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; }
+.psz > span { display: inline-flex; align-items: baseline; gap: 6px; }
+.psz small { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+.psz .price { font-size: inherit; }
+.psz.one { gap: 6px; }
+.szs { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 4px; }
+.szs > button { position: relative; flex: 1 1 0; min-width: max-content; display: grid; gap: 2px; justify-items: start; padding: 10px 14px; border-radius: var(--r-ctl, 12px); background: var(--sunk); color: var(--ink); text-align: left; box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow var(--t, .2s) var(--ease), transform var(--t-fast, .15s) var(--ease); }
+.szs > button b { position: relative; z-index: 1; font-size: 14.5px; font-weight: 700; }
+.szs > button .price { position: relative; z-index: 1; font-size: 15px; color: var(--ink-2); }
+.szs > button.on { box-shadow: inset 0 0 0 1.5px var(--ra, var(--brand)); background: color-mix(in srgb, var(--ra, var(--brand)) 12%, var(--surface)); }
+.szs > button:active { transform: scale(.97); }
+.has-n b { font-size: 14px; font-weight: 800; }
+.addc.has-n, .add-r.has-n { background: var(--rd); color: #FBF3E0; box-shadow: 0 6px 16px rgba(0, 0, 0, .3); }
+
+/* phones: the top bar keeps search, language, More and your account; light/dark moves into More */
+.more-b { display: none; }
+@media (max-width: 900px) { .more-b { display: grid; } .hdr .th-b { display: none; } }
+.more-s .sheet-h { border-bottom: 0; padding-bottom: 6px; }
+.more-g { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.more-t { display: grid; gap: 2px; align-content: start; padding: 14px; border-radius: var(--r-box, 14px); background: var(--sunk); color: var(--ink); transition: transform var(--t-fast, .15s) var(--ease); }
+.more-t:active { transform: scale(.97); }
+.more-t.on { box-shadow: inset 0 0 0 1.5px var(--hl); }
+.more-i { width: 38px; height: 38px; border-radius: var(--r-ctl, 12px); display: grid; place-items: center; margin-bottom: 8px; background: var(--surface); color: var(--brand); font-size: 20px; }
+.more-t.on .more-i { color: var(--hl); }
+.more-t b { font-size: 15.5px; font-weight: 700; }
+.more-t small { font-size: 13px; color: var(--ink-3); line-height: 1.35; }
+.more-sw { display: grid; gap: 4px; margin-top: 16px; border-top: 1px solid var(--line); padding-top: 8px; }
+.more-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 52px; }
+.more-row > span { display: inline-flex; align-items: center; gap: 10px; font-weight: 600; }
+.more-row > span i { font-size: 20px; color: var(--ink-3); }
+.more-seg { display: inline-flex; padding: 3px; border-radius: 999px; background: var(--sunk); }
+.more-seg button { height: 34px; padding: 0 14px; border-radius: 999px; font-size: 14px; font-weight: 650; color: var(--ink-3); transition: background var(--t, .2s), color var(--t, .2s); }
+.more-seg button.on { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .15); }

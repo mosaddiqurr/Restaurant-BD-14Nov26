@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Offline games</title>
+<style>
+:root{
+  --bg:#FBF3E0; --surface:#FFFFFF; --ink:#1B2A22; --muted:#56655C; --line:#E7DCC2;
+  --green:#1F5A3A; --deep:#123B28; --marigold:#E0A42E; --cream:#FBF3E0; --on-green:#FBF3E0;
+  --c-sky:#CFE5EE; --c-house:#A9C3B3; --c-win:#E8F1EC; --c-road:#4B504D; --c-dash:#F2E6C8;
+  --c-red:#C8382B; --c-water:#4E8DBA; --c-hole:#262A28; --c-wall:#F3E3C0; --c-wood:#8A5A2B;
+  --c-tea:#9C5B1F; --c-cup:#FFFFFF; --c-cupline:#CDBB97; --c-plate:#FFFFFF; --c-plum:#6D3A8C;
+  --c-cloud:#FFFFFF; --c-fline:#A8741A;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0F1A14; --surface:#17261D; --ink:#EEF3EE; --muted:#A6B5AC; --line:#2A3D31;
+    --green:#1F5A3A; --deep:#123B28; --marigold:#E0A42E; --cream:#FBF3E0; --on-green:#FBF3E0;
+    --c-sky:#1A2C3A; --c-house:#21392C; --c-win:#E0A42E; --c-road:#2A2E2C; --c-dash:#8E8670;
+    --c-red:#D9493B; --c-water:#3F78A3; --c-hole:#0A0C0B; --c-wall:#22301F; --c-wood:#5E3E1F;
+    --c-tea:#B06A28; --c-cup:#EDE5D3; --c-cupline:#8C7D60; --c-plate:#E9E2D2; --c-plum:#A46BC4;
+    --c-cloud:#2B4256; --c-fline:#8C5F14;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Figtree,"Noto Sans Bengali",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.45;-webkit-text-size-adjust:100%}
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px 32px}
+h1{font-size:26px;margin:4px 0 6px;color:var(--ink)}
+.lead{margin:0 0 16px;color:var(--muted)}
+.tabs{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px}
+@media (min-width:520px){.tabs{grid-template-columns:repeat(4,1fr)}}
+.tab{font:inherit;cursor:pointer;background:var(--surface);color:var(--ink);border:2px solid var(--line);border-radius:12px;padding:9px 8px;text-align:center}
+.tab b{display:block;font-size:15px}
+.tab span{display:block;font-size:13px;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+.tab[aria-selected="true"] span{color:var(--on-green)}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px}
+h2{font-size:20px;margin:0 0 4px}
+.how{margin:0;color:var(--muted);font-size:15px}
+.stage{margin:14px 0 12px}
+canvas{display:block;width:100%;max-width:420px;height:auto;margin:0 auto;border-radius:14px;border:2px solid var(--line);touch-action:none;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent;cursor:pointer}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;max-width:420px;margin:0 auto}
+.bar .n{font-size:15px}
+.bar b{font-size:18px;color:var(--ink)}
+.bar button{margin-left:auto;font:inherit;font-weight:700;cursor:pointer;background:var(--marigold);color:var(--deep);border:0;border-radius:10px;padding:9px 14px}
+.note{margin:18px 0 0;color:var(--ink)}
+.note span{color:var(--muted)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>Offline games · অফলাইন গেম</h1>
+  <p class="lead">Four tiny games for the no-internet page.<br>নেট না থাকলে খেলার জন্য চারটি ছোট গেম।</p>
+
+  <div class="tabs" role="tablist" id="tabs">
+    <button class="tab" role="tab" data-g="rick"><b>Rickshaw Run</b><span>রিকশা রান</span></button>
+    <button class="tab" role="tab" data-g="fuchka"><b>Fuchka Catch</b><span>ফুচকা ধরো</span></button>
+    <button class="tab" role="tab" data-g="ghuri"><b>Ghuri Kata</b><span>ঘুড়ি কাটা</span></button>
+    <button class="tab" role="tab" data-g="cha"><b>Cha Stack</b><span>চা স্ট্যাক</span></button>
+  </div>
+
+  <section class="card">
+    <h2 id="gname"></h2>
+    <p class="how" id="ghow"></p>
+    <p class="how" id="ghowbn" lang="bn"></p>
+    <div class="stage"><canvas id="cv" width="360" height="480" aria-label="Game"></canvas></div>
+    <div class="bar">
+      <span class="n">Score · স্কোর <b id="score">0</b></span>
+      <span class="n">Best · সেরা <b id="best">0</b></span>
+      <button id="restart" type="button">Restart · আবার শুরু</button>
+    </div>
+  </section>
+
+  <p class="note">All four work with no internet. Pick one for the error page.<br><span lang="bn">চারটিই নেট ছাড়া চলে। এরর পেজের জন্য একটি বেছে নিন।</span></p>
+</main>
+
+<script>
+(function(){
+'use strict';
+/* ---------- shared ---------- */
+var W = 360, H = 480;
+var cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+var dpr = Math.min(window.devicePixelRatio || 1, 3);
+cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+var FONT = 'Figtree, "Noto Sans Bengali", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif';
+var C = {};
+var TOK = {surface:'--surface', ink:'--ink', muted:'--muted', line:'--line', green:'--green', deep:'--deep',
+  marigold:'--marigold', cream:'--cream', sky:'--c-sky', house:'--c-house', win:'--c-win', road:'--c-road',
+  dash:'--c-dash', red:'--c-red', water:'--c-water', hole:'--c-hole', wall:'--c-wall', wood:'--c-wood',
+  tea:'--c-tea', cup:'--c-cup', cupline:'--c-cupline', plate:'--c-plate', plum:'--c-plum', cloud:'--c-cloud', fline:'--c-fline'};
+function readColors(){
+  var s = getComputedStyle(document.documentElement);
+  for (var k in TOK) C[k] = s.getPropertyValue(TOK[k]).trim();
+}
+readColors();
+try { matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(){ readColors(); if (cur) cur.draw(); }); } catch (e) {}
+
+function rand(a, b){ return a + Math.random() * (b - a); }
+function clamp(v, a, b){ return v < a ? a : v > b ? b : v; }
+function now(){ return performance.now(); }
+function rr(x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+
+var best = {};
+function loadBest(id){ try { return +localStorage.getItem('khabo-offline-best-' + id) || 0; } catch (e) { return 0; } }
+function saveBest(id, v){ best[id] = v; try { localStorage.setItem('khabo-offline-best-' + id, String(v)); } catch (e) {} }
+
+function end(g){
+  g.state = 'over'; g.overAt = now();
+  if (g.score > (best[g.id] || 0)) saveBest(g.id, g.score);
+}
+/* Handles taps that are not game moves: start, resume, play again. Returns true if used. */
+function tap(g){
+  if (g.paused){ g.paused = false; return true; }
+  if (g.state === 'ready'){ g.start(); return true; }
+  if (g.state === 'over'){ if (now() - g.overAt > 450) g.start(); return true; }
+  return false;
+}
+function panel(lines){
+  var h = 34 + lines.length * 28, y = H / 2 - h / 2;
+  ctx.fillStyle = C.surface; rr(30, y, W - 60, h, 14); ctx.fill();
+  ctx.strokeStyle = C.line; ctx.lineWidth = 2; ctx.stroke();
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (var i = 0; i < lines.length; i++){
+    var l = lines[i];
+    ctx.fillStyle = l.c || C.ink;
+    ctx.font = (l.b ? '700 ' : '500 ') + l.s + 'px ' + FONT;
+    ctx.fillText(l.t, W / 2, y + 31 + i * 28);
+  }
+}
+function overlays(g, en, bn){
+  if (g.paused) panel([{t:'Paused', s:22, b:1}, {t:'Tap to go on', s:16, c:C.muted}, {t:'খেলা চালাতে ট্যাপ করুন', s:15, c:C.muted}]);
+  else if (g.state === 'ready') panel([{t:'Tap to start', s:22, b:1}, {t:'শুরু করতে ট্যাপ করুন', s:16, c:C.muted}]);
+  else if (g.state === 'over') panel([{t:en, s:22, b:1}, {t:bn, s:17}, {t:'Score ' + g.score + ' · স্কোর ' + g.score, s:17, c:C.green},
+    {t:'Tap to play again', s:15, c:C.muted}, {t:'আবার খেলতে ট্যাপ করুন', s:15, c:C.muted}]);
+}
+
+/* ---------- 1. Rickshaw Run ---------- */
+var GY = 392, RX = 46;
+function wheel(x, y, r, a){
+  ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.stroke();
+  ctx.lineWidth = 1.5; ctx.beginPath();
+  for (var i = 0; i < 3; i++){ var t = a + i * Math.PI / 3, c = Math.cos(t) * r, s = Math.sin(t) * r; ctx.moveTo(x + c, y + s); ctx.lineTo(x - c, y - s); }
+  ctx.stroke();
+}
+function rickshaw(x, b, a){
+  ctx.strokeStyle = C.ink;
+  wheel(x + 18, b - 14, 14, a); wheel(x + 60, b - 11, 11, a * 1.3);
+  ctx.lineWidth = 3; ctx.beginPath();
+  ctx.moveTo(x + 18, b - 14); ctx.lineTo(x + 44, b - 22); ctx.lineTo(x + 60, b - 11);
+  ctx.moveTo(x + 44, b - 22); ctx.lineTo(x + 47, b - 40);
+  ctx.moveTo(x + 60, b - 11); ctx.lineTo(x + 58, b - 46); ctx.lineTo(x + 52, b - 47); ctx.stroke();
+  ctx.fillStyle = C.green; ctx.fillRect(x + 2, b - 40, 34, 12);
+  ctx.fillStyle = C.marigold; ctx.beginPath(); ctx.moveTo(x, b - 40);
+  ctx.quadraticCurveTo(x + 2, b - 80, x + 30, b - 74); ctx.lineTo(x + 36, b - 40); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = C.red; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x + 14, b - 40); ctx.lineTo(x + 16, b - 72); ctx.stroke();
+  ctx.strokeStyle = C.ink; ctx.beginPath(); ctx.moveTo(x + 46, b - 40); ctx.lineTo(x + 49, b - 54); ctx.lineTo(x + 56, b - 47); ctx.stroke();
+  ctx.fillStyle = C.ink; ctx.beginPath(); ctx.arc(x + 50, b - 60, 6, 0, 7); ctx.fill();
+}
+var R = {
+  id:'rick', name:'Rickshaw Run · রিকশা রান',
+  how:'Tap or press Space to jump over holes, puddles and buses.',
+  howBn:'ট্যাপ করুন বা স্পেস চাপুন। গর্ত, পানি আর বাস লাফিয়ে পার হন।',
+  reset: function(){
+    this.y = 0; this.vy = 0; this.obs = []; this.t = 0; this.speed = 260; this.dist = 0; this.spawn = 1.2; this.score = 0; this.state = 'ready';
+    if (!this.houses){ this.houses = []; var x = 0; while (x < W * 2){ var w = rand(34, 70); this.houses.push({x:x, w:w, h:rand(60, 150)}); x += w + rand(4, 14); } this.hw = x; }
+  },
+  start: function(){ this.reset(); this.state = 'play'; },
+  down: function(){ if (tap(this)) return; if (this.y === 0) this.vy = 600; },
+  key: function(k){ if (k === ' ' || k === 'ArrowUp' || k === 'Enter') this.down(); },
+  tick: function(dt){
+    if (this.state !== 'play') return;
+    this.t += dt; this.speed = Math.min(580, 260 + this.t * 8);
+    this.vy -= 1700 * dt; this.y += this.vy * dt; if (this.y < 0){ this.y = 0; this.vy = 0; }
+    this.dist += this.speed * dt; this.score = Math.floor(this.dist / 25);
+    if ((this.spawn -= dt) <= 0){
+      var r = Math.random();
+      var o = r < 0.36 ? {type:'hole', w:40, h:10} : r < 0.68 ? {type:'water', w:54, h:8} : {type:'bus', w:56, h:44};
+      o.x = W + 20; this.obs.push(o);
+      this.spawn = rand(0.9, 1.9) * 300 / this.speed + 0.35;
+    }
+    for (var i = 0; i < this.obs.length; i++) this.obs[i].x -= this.speed * dt;
+    this.obs = this.obs.filter(function(o){ return o.x + o.w > -30; });
+    for (i = 0; i < this.obs.length; i++){
+      var b = this.obs[i];
+      if (b.x + 6 < RX + 62 && b.x + b.w - 6 > RX + 8 && this.y < b.h){ end(this); break; }
+    }
+  },
+  draw: function(){
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = C.marigold; ctx.beginPath(); ctx.arc(292, 78, 24, 0, 7); ctx.fill();
+    var off = (this.dist * 0.25) % this.hw;
+    for (var i = 0; i < this.houses.length; i++){
+      var h = this.houses[i];
+      for (var k = 0; k < 2; k++){
+        var x = h.x + k * this.hw - off; if (x > W || x + h.w < 0) continue;
+        ctx.fillStyle = C.house; ctx.fillRect(x, GY - h.h, h.w, h.h);
+        ctx.fillStyle = C.win;
+        for (var wy = GY - h.h + 12; wy < GY - 22; wy += 24){ ctx.fillRect(x + 7, wy, 8, 10); if (h.w > 44) ctx.fillRect(x + h.w - 15, wy, 8, 10); }
+      }
+    }
+    ctx.fillStyle = C.road; ctx.fillRect(0, GY, W, H - GY);
+    ctx.fillStyle = C.dash; var d = this.dist % 60;
+    for (x = -d; x < W; x += 60) ctx.fillRect(x, GY + 44, 30, 4);
+    for (i = 0; i < this.obs.length; i++){
+      var o = this.obs[i];
+      if (o.type === 'hole'){ ctx.fillStyle = C.hole; ctx.beginPath(); ctx.ellipse(o.x + o.w / 2, GY + 4, o.w / 2, 7, 0, 0, 7); ctx.fill(); }
+      else if (o.type === 'water'){ ctx.fillStyle = C.water; ctx.beginPath(); ctx.ellipse(o.x + o.w / 2, GY + 4, o.w / 2, 6, 0, 0, 7); ctx.fill(); }
+      else {
+        ctx.fillStyle = C.red; rr(o.x, GY - o.h, o.w, o.h - 7, 6); ctx.fill();
+        ctx.fillStyle = C.cream; ctx.fillRect(o.x + 6, GY - o.h + 7, 12, 11); ctx.fillRect(o.x + 22, GY - o.h + 7, 12, 11); ctx.fillRect(o.x + 38, GY - o.h + 7, 12, 11);
+        ctx.fillStyle = C.marigold; ctx.fillRect(o.x, GY - 20, o.w, 4);
+        ctx.fillStyle = C.hole; ctx.beginPath(); ctx.arc(o.x + 13, GY - 7, 7, 0, 7); ctx.arc(o.x + o.w - 13, GY - 7, 7, 0, 7); ctx.fill();
+      }
+    }
+    rickshaw(RX, GY - this.y, this.dist / 14);
+    overlays(this, 'Crash!', 'ধাক্কা লেগেছে!');
+  }
+};
+
+/* ---------- 2. Fuchka Catch ---------- */
+var PY = 438, PW = 86;
+function heart(x, y, on){
+  ctx.fillStyle = on ? C.red : C.line; ctx.beginPath();
+  ctx.moveTo(x, y + 5); ctx.arc(x - 4, y, 4.5, Math.PI * 0.75, Math.PI * 2 - 0.1); ctx.arc(x + 4, y, 4.5, Math.PI + 0.1, Math.PI * 0.25); ctx.closePath(); ctx.fill();
+}
+var F = {
+  id:'fuchka', name:'Fuchka Catch · ফুচকা ধরো',
+  how:'Move the plate to catch fuchka. Skip the red chillies. You have 3 lives.',
+  howBn:'প্লেট সরিয়ে ফুচকা ধরুন। লাল মরিচ ধরবেন না। ৩টি জীবন আছে।',
+  reset: function(){ this.px = W / 2; this.tx = W / 2; this.kd = 0; this.items = []; this.pops = []; this.spawn = 0.4; this.t = 0; this.lives = 3; this.score = 0; this.state = 'ready'; },
+  start: function(){ this.reset(); this.state = 'play'; },
+  down: function(x){ tap(this); this.tx = x; },
+  move: function(x){ this.tx = x; },
+  key: function(k){ if (k === 'ArrowLeft') this.kd = -1; else if (k === 'ArrowRight') this.kd = 1; else if (k === ' ' || k === 'Enter') tap(this); },
+  keyup: function(k){ if ((k === 'ArrowLeft' && this.kd < 0) || (k === 'ArrowRight' && this.kd > 0)) this.kd = 0; },
+  tick: function(dt){
+    for (var i = 0; i < this.pops.length; i++){ this.pops[i].t -= dt; this.pops[i].y -= 40 * dt; }
+    this.pops = this.pops.filter(function(p){ return p.t > 0; });
+    if (this.state !== 'play') return;
+    this.t += dt;
+    if (this.kd){ this.px += this.kd * 380 * dt; this.tx = this.px; } else this.px += (this.tx - this.px) * Math.min(1, dt * 16);
+    this.px = clamp(this.px, PW / 2, W - PW / 2);
+    if ((this.spawn -= dt) <= 0){
+      this.items.push({x:rand(20, W - 20), y:-20, vy:rand(120, 170) + this.t * 5, chili:Math.random() < Math.min(0.4, 0.22 + this.t * 0.004), rot:rand(-0.7, 0.7)});
+      this.spawn = Math.max(0.32, 0.85 - this.t * 0.012) * rand(0.7, 1.2);
+    }
+    for (i = 0; i < this.items.length; i++){
+      var it = this.items[i]; it.y += it.vy * dt;
+      if (!it.done && this.state === 'play' && it.y + 12 >= PY - 6 && it.y - 12 <= PY + 4 && Math.abs(it.x - this.px) < PW / 2 + 4){
+        it.done = true;
+        if (it.chili){ this.lives--; this.pops.push({x:it.x, y:PY - 24, t:0.7, txt:'-1', c:C.red}); if (this.lives <= 0) end(this); }
+        else { this.score++; this.pops.push({x:it.x, y:PY - 24, t:0.6, txt:'+1', c:C.green}); }
+      }
+    }
+    this.items = this.items.filter(function(it){ return !it.done && it.y < H + 30; });
+  },
+  draw: function(){
+    ctx.fillStyle = C.wall; ctx.fillRect(0, 0, W, H);
+    for (var i = 0; i < 12; i++){ ctx.fillStyle = i % 2 ? C.marigold : C.green; ctx.fillRect(i * 30, 0, 30, 26); ctx.beginPath(); ctx.arc(i * 30 + 15, 26, 15, 0, Math.PI); ctx.fill(); }
+    ctx.fillStyle = C.wood; ctx.fillRect(0, PY + 14, W, H - PY - 14);
+    for (i = 0; i < this.items.length; i++){
+      var it = this.items[i];
+      if (it.chili){
+        ctx.save(); ctx.translate(it.x, it.y); ctx.rotate(it.rot);
+        ctx.fillStyle = C.red; ctx.beginPath(); ctx.ellipse(0, 2, 5.5, 15, 0, 0, 7); ctx.fill();
+        ctx.strokeStyle = C.green; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(0, -12); ctx.lineTo(3, -19); ctx.stroke(); ctx.restore();
+      } else {
+        ctx.fillStyle = C.marigold; ctx.beginPath(); ctx.arc(it.x, it.y, 13, 0, 7); ctx.fill();
+        ctx.strokeStyle = C.fline; ctx.lineWidth = 2; ctx.stroke();
+        ctx.fillStyle = C.fline; ctx.beginPath(); ctx.ellipse(it.x - 3, it.y - 5, 4, 3, 0, 0, 7); ctx.fill();
+      }
+    }
+    ctx.fillStyle = C.plate; ctx.beginPath(); ctx.ellipse(this.px, PY, PW / 2, 10, 0, 0, 7); ctx.fill();
+    ctx.strokeStyle = C.green; ctx.lineWidth = 3; ctx.stroke();
+    for (i = 0; i < 3; i++) heart(W - 20 - i * 22, 46, i < this.lives);
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '700 18px ' + FONT;
+    for (i = 0; i < this.pops.length; i++){ var p = this.pops[i]; ctx.fillStyle = p.c; ctx.fillText(p.txt, p.x, p.y); }
+    overlays(this, 'Too spicy!', 'খুব ঝাল!');
+  }
+};
+
+/* ---------- 3. Ghuri Kata ---------- */
+var A1 = {x:W * 0.28, y:H - 46}, A2 = {x:W * 0.76, y:H - 52};
+function segDist(p, a, b){
+  var dx = b.x - a.x, dy = b.y - a.y, l = dx * dx + dy * dy;
+  var t = l ? clamp(((p.x - a.x) * dx + (p.y - a.y) * dy) / l, 0, 1) : 0;
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+function kite(x, y, c1, c2, rot){
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+  ctx.fillStyle = c1; ctx.beginPath(); ctx.moveTo(0, -20); ctx.lineTo(-16, 0); ctx.lineTo(0, 22); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = c2; ctx.beginPath(); ctx.moveTo(0, -20); ctx.lineTo(16, 0); ctx.lineTo(0, 22); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = C.ink; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(0, -20); ctx.lineTo(0, 22); ctx.moveTo(-16, 0); ctx.quadraticCurveTo(0, -9, 16, 0); ctx.stroke();
+  ctx.strokeStyle = c1; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(0, 22);
+  for (var i = 1; i < 5; i++) ctx.lineTo(i % 2 ? 5 : -5, 22 + i * 7);
+  ctx.stroke(); ctx.restore();
+}
+var G = {
+  id:'ghuri', name:'Ghuri Kata · ঘুড়ি কাটা',
+  how:'Move your green kite. Swing your string across the red kite to cut it. Keep your kite off the red string.',
+  howBn:'সবুজ ঘুড়ি সরান। আপনার সুতা লাল ঘুড়ির উপর দিয়ে টেনে কাটুন। লাল সুতা থেকে নিজের ঘুড়ি দূরে রাখুন।',
+  reset: function(){
+    this.k = {x:W * 0.3, y:H * 0.45}; this.tx = this.k.x; this.ty = this.k.y; this.score = 0; this.t = 0; this.falls = []; this.newOpp(); this.state = 'ready';
+    if (!this.roofs){ this.roofs = []; for (var x = 0; x < W; x += 40) this.roofs.push(rand(30, 70)); }
+  },
+  newOpp: function(){ this.o = {x:rand(W * 0.5, W - 40), y:rand(50, 110), gx:0, gy:0, wait:0, grace:0.9}; this.pick(); },
+  pick: function(){
+    var o = this.o;
+    if (Math.random() < 0.45){ o.gx = this.k.x; o.gy = this.k.y; } else { o.gx = rand(30, W - 30); o.gy = rand(40, H * 0.6); }
+    o.wait = rand(1.2, 2.4);
+  },
+  start: function(){ this.reset(); this.state = 'play'; },
+  aim: function(x, y){ this.tx = clamp(x, 20, W - 20); this.ty = clamp(y, 24, H - 120); },
+  down: function(x, y){ tap(this); this.aim(x, y); },
+  move: function(x, y){ this.aim(x, y); },
+  key: function(k){
+    if (k === 'ArrowLeft') this.aim(this.tx - 26, this.ty); else if (k === 'ArrowRight') this.aim(this.tx + 26, this.ty);
+    else if (k === 'ArrowUp') this.aim(this.tx, this.ty - 26); else if (k === 'ArrowDown') this.aim(this.tx, this.ty + 26);
+    else if (k === ' ' || k === 'Enter') tap(this);
+  },
+  tick: function(dt){
+    this.t += dt;
+    for (var i = 0; i < this.falls.length; i++){ var f = this.falls[i]; f.y += 130 * dt; f.r += 3 * dt; f.x += Math.sin(f.y / 20) * 40 * dt; }
+    this.falls = this.falls.filter(function(f){ return f.y < H + 40; });
+    if (this.state !== 'play') return;
+    var k = this.k, o = this.o, a = Math.min(1, dt * 5);
+    k.x += (this.tx - k.x) * a; k.y += (this.ty - k.y) * a;
+    var sp = 55 + this.score * 14, dx = o.gx - o.x, dy = o.gy - o.y, d = Math.hypot(dx, dy);
+    if (d > 2){ var s = Math.min(d, sp * dt); o.x += dx / d * s; o.y += dy / d * s; }
+    if ((o.wait -= dt) <= 0 || d < 4) this.pick();
+    if ((o.grace -= dt) > 0) return;
+    if (segDist(k, A2, o) < 13){ end(this); return; }
+    if (segDist(o, A1, k) < 13 && Math.hypot(o.x - k.x, o.y - k.y) > 36){
+      this.score++; this.falls.push({x:o.x, y:o.y, r:0}); this.newOpp();
+    }
+  },
+  draw: function(){
+    ctx.fillStyle = C.sky; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = C.cloud;
+    var cx = (this.t * 8) % (W + 120) - 60;
+    ctx.beginPath(); ctx.ellipse(cx, 90, 44, 14, 0, 0, 7); ctx.ellipse((cx + 200) % (W + 120) - 60, 170, 36, 12, 0, 0, 7); ctx.fill();
+    ctx.fillStyle = C.house;
+    for (var i = 0; i < this.roofs.length; i++) ctx.fillRect(i * 40, H - this.roofs[i], 38, this.roofs[i]);
+    ctx.lineWidth = 1.5; ctx.strokeStyle = C.ink;
+    var k = this.k, o = this.o;
+    ctx.beginPath(); ctx.moveTo(A1.x, A1.y); ctx.lineTo(k.x, k.y + 20); ctx.stroke();
+    ctx.strokeStyle = C.red; ctx.beginPath(); ctx.moveTo(A2.x, A2.y); ctx.lineTo(o.x, o.y + 20); ctx.stroke();
+    ctx.fillStyle = C.ink; ctx.beginPath(); ctx.arc(A1.x, A1.y, 5, 0, 7); ctx.arc(A2.x, A2.y, 5, 0, 7); ctx.fill();
+    for (i = 0; i < this.falls.length; i++){ var f = this.falls[i]; kite(f.x, f.y, C.red, C.plum, f.r); }
+    kite(o.x, o.y, C.red, C.plum, Math.sin(this.t * 2) * 0.15);
+    kite(k.x, k.y, C.green, C.marigold, Math.sin(this.t * 2.4 + 1) * 0.12);
+    overlays(this, 'Your kite is cut!', 'আপনার ঘুড়ি কাটা গেছে!');
+  }
+};
+
+/* ---------- 4. Cha Stack ---------- */
+var CH = 26, BASE = H - 56;
+function cup(x, y, w, h){
+  var i = Math.min(5, w * 0.08);
+  ctx.fillStyle = C.cup; ctx.beginPath(); ctx.moveTo(x, y + 1); ctx.lineTo(x + w, y + 1); ctx.lineTo(x + w - i, y + h - 1); ctx.lineTo(x + i, y + h - 1); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = C.cupline; ctx.lineWidth = 1; ctx.stroke();
+  ctx.fillStyle = C.tea; ctx.fillRect(x + 1, y + 2, w - 2, 5);
+  ctx.fillStyle = C.green; ctx.fillRect(x + i * 0.6 + 1, y + 13, Math.max(0, w - i * 1.2 - 2), 4);
+  if (w > 30){ ctx.strokeStyle = C.cupline; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(x + w - 1, y + 13, 6, -1.3, 1.3); ctx.stroke(); }
+}
+var S = {
+  id:'cha', name:'Cha Stack · চা স্ট্যাক',
+  how:'Tap or press Space to drop the cup. Stack them straight. Extra edges fall off.',
+  howBn:'ট্যাপ করুন বা স্পেস চাপুন, কাপ ফেলুন। সোজা করে সাজান। বাড়তি অংশ পড়ে যাবে।',
+  reset: function(){ this.stack = [{x:W / 2 - 60, w:120}]; this.cur = {x:0, w:120, dir:1}; this.speed = 150; this.cam = 0; this.bits = []; this.score = 0; this.state = 'ready'; },
+  start: function(){ this.reset(); this.state = 'play'; },
+  down: function(){ if (tap(this)) return; this.drop(); },
+  key: function(k){ if (k === ' ' || k === 'Enter' || k === 'ArrowDown') this.down(); },
+  lvl: function(i){ return BASE - (i + 1) * CH; },
+  drop: function(){
+    var top = this.stack[this.stack.length - 1], c = this.cur, y = this.lvl(this.stack.length);
+    var l = Math.max(c.x, top.x), r = Math.min(c.x + c.w, top.x + top.w);
+    if (r - l <= 0){ this.bits.push({x:c.x, w:c.w, y:y, vy:0}); end(this); return; }
+    if (Math.abs(c.x - top.x) < 4){ l = top.x; r = top.x + top.w; }
+    else {
+      if (c.x < l) this.bits.push({x:c.x, w:l - c.x, y:y, vy:0});
+      if (c.x + c.w > r) this.bits.push({x:r, w:c.x + c.w - r, y:y, vy:0});
+    }
+    this.stack.push({x:l, w:r - l}); this.score = this.stack.length - 1;
+    this.speed = Math.min(400, 150 + this.score * 12);
+    var w = r - l, left = this.score % 2 === 0;
+    this.cur = {x:left ? 0 : W - w, w:w, dir:left ? 1 : -1};
+  },
+  tick: function(dt){
+    for (var i = 0; i < this.bits.length; i++){ this.bits[i].vy += 1000 * dt; this.bits[i].y += this.bits[i].vy * dt; }
+    var cam = this.cam; this.bits = this.bits.filter(function(b){ return b.y + cam < H + 40; });
+    var target = Math.max(0, (this.stack.length + 1) * CH - (BASE - 140));
+    this.cam += (target - this.cam) * Math.min(1, dt * 4);
+    if (this.state !== 'play') return;
+    var c = this.cur; c.x += c.dir * this.speed * dt;
+    if (c.x < 0){ c.x = 0; c.dir = 1; } if (c.x + c.w > W){ c.x = W - c.w; c.dir = -1; }
+  },
+  draw: function(){
+    ctx.fillStyle = C.wall; ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = C.sky; ctx.fillRect(40, 40 + this.cam * 0.3, 90, 70);
+    ctx.fillStyle = C.wall; ctx.fillRect(83, 40 + this.cam * 0.3, 4, 70);
+    ctx.fillStyle = C.wood; ctx.fillRect(0, BASE + this.cam, W, H);
+    for (var i = 0; i < this.stack.length; i++){ var s = this.stack[i]; cup(s.x, this.lvl(i) + this.cam, s.w, CH); }
+    if (this.state !== 'over') cup(this.cur.x, this.lvl(this.stack.length) + this.cam, this.cur.w, CH);
+    for (i = 0; i < this.bits.length; i++){ var b = this.bits[i]; cup(b.x, b.y + this.cam, b.w, CH); }
+    overlays(this, 'The cup fell!', 'কাপ পড়ে গেছে!');
+  }
+};
+
+/* ---------- tabs, loop, input ---------- */
+var games = {rick:R, fuchka:F, ghuri:G, cha:S};
+var cur = null, raf = 0, last = 0, shownS = -1, shownB = -1;
+var scoreEl = document.getElementById('score'), bestEl = document.getElementById('best');
+function hud(){
+  var b = best[cur.id] || 0;
+  if (cur.score !== shownS){ shownS = cur.score; scoreEl.textContent = shownS; }
+  if (b !== shownB){ shownB = b; bestEl.textContent = b; }
+}
+function frame(t){
+  var dt = Math.min(0.033, Math.max(0, (t - last) / 1000)); last = t;
+  if (!cur.paused) cur.tick(dt);
+  cur.draw(); hud();
+  raf = requestAnimationFrame(frame);
+}
+function run(){ if (!raf){ last = now(); raf = requestAnimationFrame(frame); } }
+function stop(){ cancelAnimationFrame(raf); raf = 0; }
+function select(id){
+  stop();
+  if (cur && cur.state === 'play') cur.paused = true;
+  cur = games[id];
+  if (!cur.inited){ best[cur.id] = loadBest(cur.id); cur.reset(); cur.inited = true; }
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) tabs[i].setAttribute('aria-selected', tabs[i].dataset.g === id ? 'true' : 'false');
+  document.getElementById('gname').textContent = cur.name;
+  document.getElementById('ghow').textContent = cur.how;
+  document.getElementById('ghowbn').textContent = cur.howBn;
+  shownS = shownB = -1; cur.draw(); hud(); run();
+}
+document.getElementById('tabs').addEventListener('click', function(e){
+  var b = e.target.closest('.tab'); if (b) select(b.dataset.g);
+});
+document.getElementById('restart').addEventListener('click', function(){ cur.paused = false; cur.start(); });
+
+function pos(e){ var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * W / r.width, (e.clientY - r.top) * H / r.height]; }
+cv.addEventListener('pointerdown', function(e){
+  e.preventDefault();
+  try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+  var p = pos(e); cur.down(p[0], p[1]);
+});
+cv.addEventListener('pointermove', function(e){ if (cur.move){ var p = pos(e); cur.move(p[0], p[1]); } });
+addEventListener('keydown', function(e){
+  var k = e.key, onBtn = e.target.closest && e.target.closest('button');
+  if (onBtn && (k === ' ' || k === 'Enter')) return;
+  if (k === ' ' || k.indexOf('Arrow') === 0) e.preventDefault();
+  if (e.repeat && k.indexOf('Arrow') !== 0) return;
+  cur.key(k);
+});
+addEventListener('keyup', function(e){ if (cur.keyup) cur.keyup(e.key); });
+document.addEventListener('visibilitychange', function(){
+  if (document.hidden){ if (cur.state === 'play') cur.paused = true; stop(); } else run();
+});
+
+select('rick');
+})();
+</script>
+</body>
+</html>

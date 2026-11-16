@@ -308,7 +308,7 @@
   function send(el, q) {
     const body = $('.ai-body', el), hello = $('.ai-hello', el);
     if (hello) hello.remove();
-    body.insertAdjacentHTML('beforeend', `<div class="ai-msg me"><p>${K.esc(q)}</p></div><div class="ai-msg bot typing"><span></span><span></span><span></span></div>`);
+    body.insertAdjacentHTML('beforeend', `<div class="ai-msg me"><p>${K.esc(q)}</p></div><div class="ai-msg bot typing"><span class="t-shimmer" data-text="${t('ai_thinking')}">${t('ai_thinking')}</span></div>`);
     body.scrollTo({ top: body.scrollHeight, behavior: 'smooth' });
     const p = withMemory(parse(q));
     memory = p;
