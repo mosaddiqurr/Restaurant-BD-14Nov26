@@ -10,8 +10,15 @@
    well under that, so phones still read it. Colours stay dark on white. */
 import qrcode from 'qrcode-generator';
 
-/** where printed codes point to. In the browser the page's own address is used instead (see useQrOrigin) */
-export const QR_ORIGIN = 'https://khabo.app';
+/** the live site's address. Set NEXT_PUBLIC_SITE_URL; on Netlify it is filled in by itself (next.config.ts) */
+export const QR_ORIGIN = (process.env.NEXT_PUBLIC_SITE_URL || 'https://khabo.app').replace(/\/$/, '');
+
+/** the address codes point to. Normally this site's own address, so a code made on the live site opens the live
+    site. A code made on this computer (localhost) would only open on this computer, so it points to the live site. */
+export const qrOrigin = () => {
+  if (typeof location === 'undefined') return QR_ORIGIN;
+  return /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname) ? QR_ORIGIN : location.origin;
+};
 
 /** the address a table code opens: /t/<id>, with the table number when there is one */
 export const tableUrl = (id: string, o: { table?: number | string | null; origin?: string } = {}) =>
@@ -87,8 +94,9 @@ const circ = (cx: number, cy: number, r: number) => `M${f(cx - r)} ${f(cy)}a${r}
 
 function moduleShape(style: QrDots, x: number, y: number, on: On) {
   switch (style) {
-    case 'dots': return circ(x + 0.5, y + 0.5, 0.43);
-    case 'diamond': return `M${x + 0.5} ${f(y - 0.02)}L${f(x + 1.02)} ${y + 0.5}L${x + 0.5} ${f(y + 1.02)}L${f(x - 0.02)} ${y + 0.5}Z`;
+    /* dots and diamonds are drawn full size (they touch their neighbours): smaller ones look nice but cameras miss them */
+    case 'dots': return circ(x + 0.5, y + 0.5, 0.56);
+    case 'diamond': { const c = 0.15; return `M${f(x + c)} ${y}H${f(x + 1 - c)}L${x + 1} ${f(y + c)}V${f(y + 1 - c)}L${f(x + 1 - c)} ${y + 1}H${f(x + c)}L${x} ${f(y + 1 - c)}V${f(y + c)}Z`; }
     case 'rounded': return blob(x, y, on, 0.5);
     default: return `M${x} ${y}h1v1h-1Z`;
   }
@@ -235,7 +243,7 @@ export function qrSvg(url: string, st: QrStyle, label = 'QR code') {
     for (let x = 0; x < n; x++) for (let y = 0; y < n; y++) {
       if (!on(x, y) || on(x, y - 1)) continue;
       let e = y; while (on(x, e + 1)) e++;
-      d += rrect(x + 0.1, y + 0.05, 0.8, e - y + 0.9, [0.4, 0.4, 0.4, 0.4]);
+      d += rrect(x + 0.04, y, 0.92, e - y + 1, [0.42, 0.42, 0.42, 0.42]);
     }
   } else {
     for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (on(x, y)) d += moduleShape(st.dots, x, y, on);

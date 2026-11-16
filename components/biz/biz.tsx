@@ -14,6 +14,7 @@ import { useApp } from '@/lib/store';
 import { C, EASE, areaOf, src } from '@/lib/khabo';
 import type { Text, Theme, TourRoom } from '@/lib/data/types';
 import { QR, QRL, type QRLook } from './qr';
+import { QR_ORIGIN, qrOrigin } from '@/components/qr/qr-core';
 import '@/styles/pages-extra.css';
 
 export type BizShow = {
@@ -69,7 +70,7 @@ export function BizView({ sh, picks }: { sh: BizShow; picks: BizPick[] }) {
   }, [vIn, sh.kitchen]);
 
   /* the QR codes point at this site's own table menu, so they work when scanned from the screen */
-  const tableUrl = (id: string) => (mounted ? location.origin : 'https://khabo.app') + href('/t/' + id);
+  const tableUrl = (id: string) => (mounted ? qrOrigin() : QR_ORIGIN) + href('/t/' + id);
   const price = (p: { dhaka: number }) => (city === 'dhaka' ? p.dhaka : p.dhaka - 500);
   const toForm = (id?: string) => { if (id) setPlan(id); fref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); };
   const submit = (ev: FormEvent<HTMLFormElement>) => {

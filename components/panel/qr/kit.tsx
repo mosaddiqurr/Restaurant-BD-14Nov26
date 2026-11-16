@@ -8,7 +8,7 @@ import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState, type CSSP
 import clsx from 'clsx';
 import { toast } from 'sonner';
 import { useI } from '@/components/providers/i18n';
-import { frameOf, qrFrameParts, qrStyle, qrSvg, QR_FRAME_CATS, QR_FRAMES, type FrameCat, type FrameOpts, type QrStyle } from '@/components/qr/qr';
+import { frameOf, qrFrameParts, qrOrigin, qrStyle, qrSvg, QR_FRAME_CATS, QR_FRAMES, type FrameCat, type FrameOpts, type QrStyle } from '@/components/qr/qr';
 import { C, esc } from '@/lib/khabo';
 import type { PR } from '@/lib/panel/store';
 import { useT } from '../ui';
@@ -39,9 +39,9 @@ export function svgFor(url: string, st: QrStyle) {
   return v;
 }
 
-/** the address diners open: a restaurant's page, or its table menu */
-export const siteLink = (lang: string, r: Pick<PR, 'id'>) => `${location.origin}/${lang}/r/${encodeURIComponent(r.id)}`;
-export const tableLink = (lang: string, r: Pick<PR, 'id'>, table?: number | null) => `${location.origin}/${lang}/t/${encodeURIComponent(r.id)}${table ? `?table=${table}` : ''}`;
+/** the address diners open: a restaurant's page, or its table menu (on localhost: the live site, see qrOrigin) */
+export const siteLink = (lang: string, r: Pick<PR, 'id'>) => `${qrOrigin()}/${lang}/r/${encodeURIComponent(r.id)}`;
+export const tableLink = (lang: string, r: Pick<PR, 'id'>, table?: number | null) => `${qrOrigin()}/${lang}/t/${encodeURIComponent(r.id)}${table ? `?table=${table}` : ''}`;
 
 /** a QR drawing (SVG text) in a box */
 export function QrSvg({ svg, cls, style }: { svg: string; cls?: string; style?: CSSProperties }) {

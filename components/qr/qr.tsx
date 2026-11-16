@@ -13,9 +13,10 @@
      qrFor(r, { table: 4, origin, look })      the same code as SVG text (downloads, print windows, the server)
      qrFrameHtml(frameId, { d, a, t1, t2, qr }) a framed code as HTML text
 
-   ADDRESSES: codes point to https://khabo.app/t/<id> when drawn on the server. In the browser they switch to the
-   page's own address (location.origin + '/t/<id>') right after the page loads, so a code printed from a test
-   site opens that test site. Pass `origin` to fix it to one address.
+   ADDRESSES: codes point to the live site (NEXT_PUBLIC_SITE_URL) + '/t/<id>' when drawn on the server. In the
+   browser they switch to the page's own address right after the page loads, so a code printed from a test site
+   opens that test site; on localhost they keep the live address, since a phone cannot open localhost (qrOrigin).
+   Pass `origin` to fix it to one address.
 
    SERVER COMPONENTS: this file is a client module. On the server, import the text helpers (qrFor, qrSvg, qrStyle,
    tableUrl, QR_LOOKS) from '@/components/qr/qr-core' and the frames from '@/components/qr/frames'.
@@ -24,16 +25,16 @@
    shape, r.brand.shape; only offered by qrLooksFor(r) when the restaurant has one). Colours stay dark on white
    so every phone camera reads them. */
 import { useId, useMemo, useSyncExternalStore, type CSSProperties } from 'react';
-import { QR_ORIGIN, qrStyle, qrSvg, tableUrl, type QrRest, type QrStyle } from './qr-core';
+import { QR_ORIGIN, qrOrigin, qrStyle, qrSvg, tableUrl, type QrRest, type QrStyle } from './qr-core';
 import { qrFrameParts, type FrameOpts } from './frames';
 
-export { QR_ORIGIN, QR_LOOKS, qrLooksFor, qrStyle, qrSvg, qrFor, tableUrl, type QrLook, type QrRest, type QrStyle, type QrDots, type QrEyes, type QrShape } from './qr-core';
+export { QR_ORIGIN, qrOrigin, QR_LOOKS, qrLooksFor, qrStyle, qrSvg, qrFor, tableUrl, type QrLook, type QrRest, type QrStyle, type QrDots, type QrEyes, type QrShape } from './qr-core';
 export { QR_FRAMES, QR_FRAME_CATS, frameOf, qrFrameHtml, qrFrameParts, type QrFrame, type FrameCat, type FrameOpts } from './frames';
 
-/** the address codes point to: khabo.app on the server and while the page loads, then this site's own address */
+/** the address codes point to: the live site on the server and while the page loads, then qrOrigin() */
 const noop = () => () => {};
 export function useQrOrigin(fixed?: string) {
-  const here = useSyncExternalStore(noop, () => location.origin, () => QR_ORIGIN);
+  const here = useSyncExternalStore(noop, qrOrigin, () => QR_ORIGIN);
   return fixed || here;
 }
 
