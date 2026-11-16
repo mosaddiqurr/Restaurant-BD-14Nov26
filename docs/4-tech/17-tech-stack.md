@@ -1,108 +1,163 @@
-# Tech Stack (Decision Record)
+# Tech Stack (Final)
 
-**Status:** ✅ Decided by the founders on 13 Nov 2026. **Updated 16 Nov 2026:** Supabase replaces InsForge, the website runs on Cloudflare Workers, files go to R2 from day one, payments through SSLCommerz.
-The detailed System Architecture document and CLAUDE.md follow after the design direction is chosen.
+**Status:** ✅ Final, confirmed by the founder on 16 Nov 2026. This is the stack khabo keeps as it grows. New pieces get added around it; the core does not get replaced.
+
+History: decided 13 Nov 2026; 16 Nov 2026 Supabase replaced InsForge, the site moved to Cloudflare Workers, files to R2, payments to SSLCommerz; later on 16 Nov the founder confirmed this final version, adding domain, email, SMS, search, maps and monitoring.
 
 ---
 
-## 1. The stack
+## 1. The idea in one line
+
+The only part that is truly hard to change later is **the database**, so it is the industry standard (PostgreSQL). Every other part can be swapped in a day or two without touching the data.
 
 ```
 Diner's phone / computer
         ↓
-Cloudflare: domain, SSL (HTTPS), DDoS protection, firewall, bot protection (Turnstile)
+Cloudflare: domain, HTTPS, attack and bot protection
         ↓
-Website: Next.js (React, TypeScript), hosted on Cloudflare Workers (OpenNext adapter)
+Website: Next.js (already built), hosted on Cloudflare Workers
         ↓
-Supabase: PostgreSQL database, login (Supabase Auth), security rules (row level security), server functions
+Supabase: PostgreSQL database + logins + security rules
         ↓
-Cloudflare R2: photos, menu photos, 360° and 3D files · Cloudflare Stream: restaurant films
+Cloudflare R2: photos, 360°, 3D files · Cloudflare Stream: films
         +
-Claude API: AI assistant (reads only from our database)
+Claude API (AI) · SSLCommerz (payments) · SMS · Resend (email) · Sentry · PostHog
 ```
 
-| Layer | Choice | Why |
+## 2. What is stored where
+
+| What | Where | Why there |
 |---|---|---|
-| Website framework | **Next.js (React, TypeScript)** | Best for a premium, animated, fast, SEO-friendly site; largest component ecosystem (e.g. 21st.dev); easy path to a native app later |
-| Website hosting | **Cloudflare Workers** with the OpenNext adapter (`@opennextjs/cloudflare`) | Fast in Bangladesh and Asia, free to start (~$5/month after), handles Eid and Friday-night spikes without big bills; domain, files and films in the same account. Every push to GitHub goes live by itself |
-| Backend | **Supabase** | Years of large apps in production; database, login, security rules and functions in one place; servers in Singapore and Mumbai; big community and docs |
-| Database | **PostgreSQL** (inside Supabase) | Strong for price history, reports, search, roles and later payments and POS; can be exported and moved anywhere |
-| Login | **Supabase Auth** | Email + password, SMS code, Google. Passwords are stored hashed (scrambled), so nobody can read them. Usernames and roles (diner, owner, staff, khabo team levels) live in our own `profiles` table linked to each account |
-| Security & domain | **Cloudflare** | DDoS protection, firewall, SSL, bot protection; fast in Bangladesh |
-| Media storage | **Cloudflare R2** from day one | Very cheap storage (~$0.015/GB/month) and free to send files to visitors; works like Amazon S3, so files can move later. Uploads go through our server first, which checks the Supabase login and that the file belongs to the person's own restaurant, then hands out a short-lived upload link |
-| Films | **Cloudflare Stream** | Plays smoothly on slow phone connections, makes poster frames |
-| 3D / 360° / motion | **Three.js** (360° tours and 3D dish viewer; the v1 prototype used it; the current prototype in `archive/prototype/` uses its own 8 KB WebGL 360 viewer, which can move to Three.js in the real build if needed) · `<model-viewer>` for real 3D dish captures (GLB, with AR on phones) · CSS motion first, **Motion** (`motion/react`) only where needed | Proven, browser-only, no app needed. Three.js loads only on pages with 3D, after the page is ready |
-| Page transitions & motion | The browser's **View Transitions API** + CSS, kept in one shared layer (`motion.css`, `motion.js` in the prototype). Each page style has its own move: pages slide up or back, a restaurant photo grows out of its card and shrinks back on Back, list cards slide when filters change, a dish category swaps its plate | No library to download. Browsers without View Transitions simply swap pages. Everything turns off under "reduce motion". Moves use only `transform`, `opacity` and `clip-path`, so they stay smooth on cheap Android phones |
-| Fonts | **Figtree** + **Noto Sans Bengali**, self-hosted with `next/font` | Variable fonts (one file per script); Noto Sans Bengali matches the Android system Bangla font |
-| Icons | **Phosphor Icons** (`@phosphor-icons/react`) | One family, regular + fill weights |
-| Maps | **Leaflet 1.9** + map tiles (provider open, see decision 5.6) | Small, free, works on low-end phones; loads only when the map scrolls into view. Pins come from `BRANCH.lat/lng`; labels de-overlap, and pins cluster by area above 60 per view |
-| QR codes | **qrcode-generator** for the code + our own SVG renderer for branded styles (logo, colours, shapes) | One renderer for screen and print, so table cards and the PDF menu always match. Each style is checked by reading every square back from the rendered image; cards are also test-scanned on real phones before printing |
-| Media delivery | Cloudflare R2 + Cloudflare Images (resizing) · video as short MP4/HLS with poster frames | Small images on phones; video only plays when asked (autoplay on laptops only, never on data saver) |
-| AI assistant | **Claude API**: Haiku 5.5 vs Sonnet 5.5, decided by testing | See section 3 |
-| Payments | **SSLCommerz** (bKash, Nagad, cards, bank) for restaurant plans; direct bKash gateway later if fees are better. Stripe does not accept businesses registered in Bangladesh | One connection covers every local way to pay. Payment code runs only on the server and is confirmed by the gateway's webhook |
-| Offline table menu | Service worker (PWA) saves the menu, prices and photos after the first scan | Menu opens with weak or no signal; shows when it was last updated; orders and reviews wait and send when back online |
-| Phone login | SMS OTP through a local Bangladeshi SMS provider | Familiar for users |
+| Words and numbers: restaurants, menus, prices, price history, portions, deals, events, reviews, users, plans, invoices | **PostgreSQL** (run by Supabase) | A database is made for this: fast search, reports, "who can change what" |
+| Big files: photos, menu photos, 360° tours, 3D dishes, logos | **Cloudflare R2** | Files are big; R2 is much cheaper than keeping them in the database, and free to send to visitors |
+| Restaurant films | **Cloudflare Stream** | Plays smoothly on slow phone data, makes poster frames |
 
-**Not chosen:** PHP/Laravel (founder preference), Vercel (founder choice), InsForge (newer, less proven at scale; was the first pick on 13 Nov), Supabase Storage for files (R2 is cheaper and avoids a move later), all-Cloudflare backend (too much setup), Stripe (not available for Bangladesh businesses), whole site in Three.js (too heavy for phones).
+The database keeps only the link to each file, for example "Shahi Handi's cover photo is at this address in R2".
 
-**Can we change later?** Yes, each part on its own: Next.js can move to another host, the PostgreSQL database can be exported, R2 files work with any S3-compatible storage.
+## 3. The final stack
+
+| Part | Choice | Why |
+|---|---|---|
+| **Domain (main)** | **.com** from **Cloudflare Registrar** | Sold at the wholesale price: no markup and no surprise renewal price. Free privacy protection. Same account as hosting and security, so nothing to connect between companies |
+| **Domain (Bangladesh)** | **.com.bd** from **BTCL** (direct or an approved seller) | Cloudflare cannot sell .com.bd. Protects the name in Bangladesh and builds local trust; it points to the main site. Check the name is free (and on Facebook and Instagram) before buying |
+| **DNS, HTTPS, security** | **Cloudflare** | Free HTTPS, attack (DDoS) protection, firewall, bot protection (Turnstile); fast in Bangladesh |
+| **Website hosting** | **Cloudflare Workers** with the OpenNext adapter (`@opennextjs/cloudflare`) | Fast in Asia, cheap even on Eid and Friday-night spikes, same account as domain and files. Every push to GitHub goes live by itself |
+| **Website code** | **Next.js + TypeScript** | Already built (diner site, owner panel, team panel, QR table menu). Server code for the backend lives here too, so there is no separate server to look after |
+| **Database** | **PostgreSQL** | The most used database for new apps. Handles price history, reports, search, roles, payments and later POS. Free and open source; no one company owns it |
+| **Who runs the database** | **Supabase** (servers in Singapore) | Runs PostgreSQL for us with backups. Over 250,000 customers. Open source, and the data can be exported and moved any time |
+| **Logins** | **Supabase Auth** | Email + password, phone code, Google. Passwords are stored scrambled. Roles (diner, owner, staff, khabo team) live in our own `profiles` table |
+| **Who can change what** | **Supabase security rules** (row level security) | The database itself makes sure an owner can only change their own restaurant. Details: [18-security-and-access.md](18-security-and-access.md) |
+| **Search** | Built into PostgreSQL (full text + fuzzy matching) | Finds dishes and restaurants even with spelling mistakes and Banglish. A separate search service only if we ever outgrow it |
+| **Maps** | **Leaflet** (already built) + **PostGIS** in PostgreSQL for "near me" | Free and open; no Google Maps bills. Map tiles provider still open (decision 5.6) |
+| **Photos, 360°, 3D files** | **Cloudflare R2** + Cloudflare Images (resizing) | About $0.015 per GB a month, first 10 GB free, free to send to visitors. Works like Amazon S3, so files can move later. Uploads are checked by our server first (logged in, own restaurant only) |
+| **Films** | **Cloudflare Stream** | Smooth on slow data, poster frames, no extra bandwidth bill |
+| **3D, 360°, games** | **Three.js** + `<model-viewer>` for real 3D dish captures (AR on phones) | Already built; loads only where needed |
+| **Restaurant payments** | **SSLCommerz** | One connection takes bKash, Nagad, Rocket, cards and bank. Stripe does not serve Bangladesh businesses. Direct bKash later if fees are better |
+| **Phone login codes** | A **Bangladeshi SMS company** | Cheaper and more reliable on local networks than foreign services |
+| **Emails from the site** | **Resend** | Receipts, monthly reports, password emails; lands in the inbox, not spam |
+| **Team email** (name@khabo...) | **Google Workspace** | Professional mailboxes, calendar, documents |
+| **AI assistant + menu from a photo** | **Claude API** (Anthropic) | Strong in Bangla, English and Banglish; reads menu photos. Answers only from our database. Model chosen by testing (section 6) |
+| **Error alerts** | **Sentry** | Tells us when something breaks, before diners complain |
+| **Visitor stats** | **PostHog** | What diners do; also feeds the restaurant monthly reports |
+| **Code and versions** | **GitHub** | Every change saved; every past version can come back |
+| **Offline table menu and games** | Service worker (already built) | Menu and games open with weak or no signal after the first visit |
+
+**Not chosen:** PHP/Laravel, Vercel, Netlify, InsForge (newer, less proven), Firebase (not PostgreSQL, hard to leave), Supabase Storage for files (R2 is cheaper), Stripe (not for Bangladesh businesses), Google Maps (expensive at scale), many small services like Swiggy (that is for companies with thousands of engineers; we can split later if ever needed, keeping the same database).
+
+**Later, added on top (not replacing anything):** a phone app (React Native) on the same Supabase backend; a bigger database plan as traffic grows; a dedicated search service only if needed.
+
+**Before launch:** test a full build of this site on Cloudflare Workers, because it uses very new Next.js features. This is a check, not a change of plan.
 
 ---
 
-### Added for the final design (14 Nov 2026)
-- The final design prototype is plain HTML/CSS/JS in `archive/prototype/` (one folder per restaurant under `archive/prototype/restaurants/`) so it opens anywhere. It is written to port straight into Next.js: tokens become CSS variables in a global stylesheet, `assets/app.js` pieces become React components, `assets/data.js` matches the shape of our database tables.
-- 360° tours in the prototype use free CC0 panoramas from Poly Haven; production uses our own 360° captures.
+## 4. Cost
 
-## 2. Monthly cost at launch (estimate)
+Dollar prices are converted at about ৳120 per dollar. Prices checked on 16 Nov 2026 and can change; confirm at signup.
 
-| Item | Cost (USD) |
+### 4.1 One-time setup
+
+| Item | Cost | Notes |
+|---|---|---|
+| .com domain, first year | ~$10.50 (~৳1,300) | Cloudflare Registrar, wholesale price |
+| .com.bd domain, first year | ৳700 + VAT | BTCL price from Jan 2026 (renewal ৳1,020 a year) |
+| SSLCommerz merchant setup | ask SSLCommerz | One outside source says about ৳25,500 one time; not confirmed. Needs trade licence and business papers; apply early |
+| SMS provider | first recharge, e.g. ৳1,000 | Prepaid credit you use up, not a fee |
+| Security check by an experienced human developer before real payments | ~৳20,000 to ৳50,000 (estimate) | 1 to 2 days of work |
+| Building the backend | ৳0 extra | Built with Claude Code (your existing Claude plan) |
+| All accounts (Supabase, Cloudflare, GitHub, Resend, Sentry, PostHog, Anthropic) | ৳0 | Free to open |
+| **Total one-time** | **about ৳50,000 to ৳80,000** | Most of it is the SSLCommerz setup and the security check. Without payments yet: about ৳3,000 |
+
+Not counted here: shoot equipment for 360° and 3D, trade licence, company costs.
+
+### 4.2 Every month
+
+| Item | While testing | At launch (30 to 50 restaurants) | Growing (about 500 restaurants) |
+|---|---|---|---|
+| Supabase (database + logins) | $0 | $25 | $40 to $60 (bigger database plan) |
+| Cloudflare Workers (hosting) | $0 | $5 | $5 to $15 |
+| Cloudflare security | $0 | $0 | $0, or $25 for the Pro firewall |
+| Cloudflare R2 (files) | $0 | under $1 | $5 to $10 |
+| Cloudflare Stream (films) | $0 | $5 to $25 | $50 to $100 |
+| Domains (yearly, shown per month) | $0 | ~$1.50 | ~$1.50 |
+| Claude API (AI, with a spending cap) | ~$1 | $5 to $20 | $50 to $150 |
+| SMS login codes (~৳0.25 each) | $0 | ~$4 | ~$20 to $40 |
+| Resend (emails) | $0 | $0 (free up to 3,000 a month) | $20 |
+| Google Workspace (2 people) | $0 | $14 | $14 and up (per person) |
+| Sentry (errors) | $0 | $0 | $26 |
+| PostHog (stats) | $0 | $0 | $0 to $50 |
+| GitHub | $0 | $0 | $0 |
+| **Total** | **about $1** | **about $60 to $100 (৳7,200 to ৳12,000)** | **about $230 to $500 (৳28,000 to ৳60,000)** |
+
+Notes:
+- **While testing** everything runs on free plans. The free Supabase database sleeps after a week with no use; that is fine for testing.
+- **Films are the cost to watch:** Stream charges about $1 per 1,000 minutes watched, plus $5 per 1,000 minutes stored. Restaurant cover films autoplay, so busy pages add up. Keep cover films short.
+- **Payment fees are not a monthly bill:** SSLCommerz keeps a small share of each restaurant payment (outside sources say about 1.5% to 2.5%; confirm with SSLCommerz).
+- At launch, 30 to 50 restaurants on the cheapest plan already cover these costs many times over.
+
+---
+
+## 5. Who does what
+
+| Task | Who |
 |---|---|
-| Supabase Pro (database + login) | $25 |
-| Cloudflare Workers (website hosting) | $0–5 |
-| Cloudflare: free plan, or Pro for the advanced firewall | $0, or ~$20–25 |
-| Cloudflare R2 | under $1 |
-| Cloudflare Stream (films) | ~$5 |
-| Domain (~$10–15/year) | ~$1 |
-| AI assistant (with a spending cap) | ~$1–20 |
-| SMS for login | small, pay per message |
-| **Total** | **≈ $35–80/month** (≈ ৳4,200–9,600) |
-
-During development: free plans (the Supabase free plan pauses after a week without activity, so it's for development only).
+| Buy the domains; open accounts (Supabase, Cloudflare, GitHub, Resend, Google Workspace, Sentry, PostHog, Anthropic); billing; passwords | **Founders** (Claude guides each step, never handles passwords) |
+| SSLCommerz merchant account and SMS provider (need business documents; approval takes days to weeks) | **Founders** |
+| Code, database, security rules, deployment, testing, fixing | **Claude** (founder approves live deploys, deletions and anything that costs money) |
+| Security check before real payments and personal data | **An experienced human developer** (1 to 2 days) |
 
 ---
 
-## 3. AI model decision process
+## 6. AI model decision process
+
 1. Build the assistant so it answers **only from our database**.
-2. Prepare 30–50 real test questions in Bangla, English and Banglish (budget planning, family/group, area, dish search).
+2. Prepare 30 to 50 real test questions in Bangla, English and Banglish (budget planning, family or group, area, dish search).
 3. Run them on **Claude Haiku 5.5** ($0.10 / $0.50 per million tokens) and **Claude Sonnet 5.5** ($2 / $10).
 4. Founders compare the answers side by side and choose (or use Sonnet only for meal planning).
 5. Set a **monthly spending cap** and use caching to lower costs.
 
 ---
 
-## 4. Who does what
-| Task | Who |
-|---|---|
-| Create accounts (Supabase, Cloudflare, GitHub, domain, Anthropic API), billing, passwords | **Founders** |
-| SSLCommerz / bKash / Nagad merchant accounts, SMS provider (need business documents; apply early, approval takes days to weeks) | **Founders** |
-| Code, database, security rules, deployment, testing, debugging | **Claude** (with founder approval for live deploys, deletions, and anything that costs money) |
-| Security review before launch | **An experienced human developer** (1–2 days) |
+## 7. Security essentials
 
----
-
-## 5. Security essentials
-- Cloudflare in front of everything (DDoS, firewall, bot protection, HTTPS)
-- Database security rules: each restaurant can see only its own data; admin roles
-- Secret keys never exposed in the website code
-- Input validation, rate limits on login and AI
-- Daily backups
-- Human security review before handling real payments and personal data
+- Cloudflare in front of everything (attack and bot protection, firewall, HTTPS)
+- Database security rules: each restaurant sees and changes only its own data; team roles
+- Secret keys never in the website code that reaches phones
+- Input checks, limits on login tries and AI use
+- Daily backups (Supabase Pro)
+- Human security check before handling real payments and personal data
 
 ---
 
 ## Sources
+
 - Supabase pricing: https://supabase.com/pricing
+- Supabase Pro inclusions: https://www.jetadmin.io/blog/supabase-pricing-2026-guide-to-plans-limits-and-real-world-costs/
+- Supabase customers and funding: https://itbrief.co.uk/story/supabase-raises-usd-500-million-in-series-f-round
 - Next.js on Cloudflare (OpenNext): https://opennext.js.org/cloudflare
 - Cloudflare R2 pricing: https://developers.cloudflare.com/r2/pricing/
-- SSLCommerz: https://developer.sslcommerz.com/
-- Cloudflare pricing overview: https://www.activepieces.com/blog/cloudflare-pricing-2026-plans-and-what-you-pay
+- Cloudflare Stream pricing: https://developers.cloudflare.com/stream/pricing
+- .bd domain prices (Jan 2026): https://thefinancialexpress.com.bd/trade/price-of-bd-domain-cut-by-36pc
+- SSLCommerz onboarding: https://sslcommerz.com/onboarding-requirements/
+- SSLCommerz fees (outside sources, unconfirmed): https://www.photonpay.com/hk/blog/article/payment-methods-in-Bangladesh
+- Google Workspace pricing: https://www.emailvendorselection.com/google-workspace-pricing/
+- Bangladesh SMS prices: https://sms.automas.com.bd/ and https://serverbd.net/sms-server-bangladesh

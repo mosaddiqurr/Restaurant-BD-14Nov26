@@ -1,5 +1,4 @@
 # Netlify: connect this GitHub repo and every push to main goes live by itself.
-# Netlify sees the Next.js site in the main folder and sets up the rest (its Next.js support turns on automatically).
 # docs/ and archive/ are not part of the website.
 
 [build]
@@ -8,3 +7,8 @@
 
 [build.environment]
   NODE_VERSION = "24"
+
+# Netlify's Next.js support. Named here on purpose: this site was first made by drag and drop,
+# so Netlify does not switch it on by itself, and without it every page shows "Page not found".
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

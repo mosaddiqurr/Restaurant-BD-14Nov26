@@ -37,7 +37,7 @@ Master list of every document the company needs, with status.
 | B6 | ERD (conceptual data model) | What data we store and how it connects | ✅ (physical schema after tech stack) | [15-erd.md](2-product/15-erd.md) |
 | B6a | Build Plan | How we go from prototype to live product, step by step; prototype test accounts | ✅ | [26-build-plan.md](2-product/26-build-plan.md) |
 | B6b | New Features Brief | How to build the features added 16 Nov 2026: price tracker, buffets, trending, events, menu from a photo, lists, stamp cards, voice reviews, Google/Facebook sync, own web address, how busy, scan a menu, pay through khabo, job board | ✅ (open questions inside) | [27-new-features-brief.md](2-product/27-new-features-brief.md) |
-| B7 | Tech Stack (decision record) | Technologies, hosting, costs, AI model process | ✅ Decided | [17-tech-stack.md](4-tech/17-tech-stack.md) |
+| B7 | Tech Stack (final) | Every service from domain to database, what is stored where, one-time and monthly costs, AI model process | ✅ Final (16 Nov 2026) | [17-tech-stack.md](4-tech/17-tech-stack.md) |
 | B7a | Security and Access | Who can change what: owners, 5 khabo team levels, sign-in safety, test accounts | ✅ Decided | [18-security-and-access.md](4-tech/18-security-and-access.md) |
 | B7b | Front end build prompt | The prompt to paste into Claude Code to build the whole front end in Next.js (backend later) | ✅ Ready | [19-frontend-build-prompt.md](4-tech/19-frontend-build-prompt.md) |
 | B7a | System Architecture | Detailed technical design | 🟡 After design direction | |
