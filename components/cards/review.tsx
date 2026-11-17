@@ -22,7 +22,7 @@ export function RvCard({ v, r, clamp, flat }: { v: Review & { own?: boolean }; r
       <header>
         <span className="av" style={{ '--d': tone[0], '--a': tone[1] } as CSSProperties}>{initials(v.who)}</span>
         <div><b>{v.who}</b><small>{i.L(v.when)}</small></div>
-        <span className="st" aria-label={i.t('n_stars', { n: v.st })}><Stars n={v.st} /></span>
+        <span className="st" role="img" aria-label={i.t('n_stars', { n: v.st })}><Stars n={v.st} /></span>
       </header>
       {v.own || v.mine ? <span className="vf pend"><I n="clock" />{i.t('rv_pending')}</span> : v.vf ? <span className="vf"><I n="seal-check" f />{i.t('verified_visit')}</span> : null}
       <p className={clsx('txt', clamp && long && !open && 'clamp')}>{v.t}</p>

@@ -7,7 +7,7 @@ import clsx from 'clsx';
 import { useInView } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
 import { I } from '@/components/ui/bits';
-import { panoFull, panoStill } from '@/lib/khabo';
+import { panoMid, panoStill } from '@/lib/khabo';
 import { reducedMotion } from './util';
 
 export function InlinePano({ pano, tall, label }: { pano: string; tall?: boolean; label?: string }) {
@@ -19,7 +19,7 @@ export function InlinePano({ pano, tall, label }: { pano: string; tall?: boolean
   useEffect(() => {
     if (!near) return;
     let dead = false;
-    const im = new Image(); im.decoding = 'async'; im.src = panoFull(pano);
+    const im = new Image(); im.decoding = 'async'; im.src = panoMid(pano);
     im.decode().then(() => { if (!dead) setFull(im.src); }).catch(() => {});
     return () => { dead = true; };
   }, [near, pano]);

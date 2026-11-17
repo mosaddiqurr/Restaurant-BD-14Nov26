@@ -11,7 +11,7 @@ import { DCard } from '@/components/cards/cards';
 import { openDish } from '@/components/cards/actions';
 import type { Q } from '@/components/shell/nav';
 import { useApp } from '@/lib/store';
-import { C, DF0, EASE, MAIN_DISHES, areaOf, cuName, cuOf, matchR, norm, planOf, src, type DFilter } from '@/lib/khabo';
+import { C, DF0, DISH_X, EASE, MAIN_DISHES, SPICE, areaOf, cuName, cuOf, matchR, norm, planOf, src, type DFilter } from '@/lib/khabo';
 import type { DishCard, RestaurantCard } from '@/lib/data/types';
 import { SORTS, areaLabel, areaOpts, areaValue, chipsOf, countAll, dropChip, pickArea, sortLabel, useLiveText, useUrlState, ActiveChips } from './filters';
 import '@/styles/pages-extra.css';
@@ -33,7 +33,10 @@ export function filterDishes(all: DishCard[], cards: RestaurantCard[], f: DFilte
   if (f.cu) ds = ds.filter(d => cuOf(d) === f.cu);
   if (f.max) ds = ds.filter(d => d.price <= Number(f.max));
   if (f.veg) ds = ds.filter(d => d.veg);
-  if (f.mild) ds = ds.filter(d => d.spice <= 1);
+  /* "Mild only" links from before still work: they mean up to mild */
+  const sp = SPICE.find(z => z.id === (f.spice || (f.mild ? '1' : '')));
+  if (sp) ds = ds.filter(d => sp.ok(d.spice));
+  for (const x of DISH_X) if ((f.dx || []).includes(x.id)) ds = ds.filter(d => x.ok(d));
   if (f.q) {
     const words = norm(f.q).split(/\s+/).filter(Boolean);
     ds = ds.filter(d => {
@@ -78,18 +81,31 @@ function PricePanel({ solo }: { solo: DishCard[] }) {
   );
 }
 
-/* ---------- the full price list: one block per dish, cheapest first, each price against the typical one ---------- */
+/* ---------- the full price list: one block per dish, cheapest first, each price against the typical one ----------
+   Built for thousands of places: each block shows its cheapest few rows and opens the rest on request, and
+   the page shows a handful of blocks at a time with a button for the next ones. */
+const PL_ROWS = 6, PL_BLOCKS = 8;
 function PriceList({ ds, order }: { ds: DishCard[]; order: string[] }) {
   const i = useI();
-  const types = [...new Set(ds.map(d => d.type))].sort((a, b) => (order.indexOf(a) + 1 || 999) - (order.indexOf(b) + 1 || 999));
+  const [blocks, setBlocks] = useState(PL_BLOCKS);
+  const types = [...new Set(ds.map(d => d.type))].sort((a, b) => (order.indexOf(a) + 1 || 999) - (order.indexOf(b) + 1 || 999))
+    .filter(ty => ds.some(d => d.type === ty && !d.share));
   return (
     <div className="plist">
-      {types.map(ty => {
-        const g = ds.filter(d => d.type === ty && !d.share).sort((a, b) => a.price - b.price);
-        if (!g.length) return null;
-        const { lo, hi, mid, pos } = spread(g.map(d => d.price));
-        return (
-          <Rise key={ty} className="pl-b">
+      {types.slice(0, blocks).map(ty => <PLBlock key={ty} ty={ty} g={ds.filter(d => d.type === ty && !d.share).sort((a, b) => a.price - b.price)} />)}
+      {types.length > blocks ? (
+        <div className="cat-more"><button className="btn btn-line" onClick={() => setBlocks(blocks + PL_BLOCKS)}>{i.L(DW.moreDishes).replace('{n}', i.N(types.length - blocks))}<I n="caret-down" b /></button></div>
+      ) : null}
+    </div>
+  );
+}
+function PLBlock({ ty, g }: { ty: string; g: DishCard[] }) {
+  const i = useI();
+  const [all, setAll] = useState(false);
+  const { lo, hi, mid, pos } = spread(g.map(d => d.price));
+  const rows = all ? g : g.slice(0, PL_ROWS);
+  return (
+          <Rise className="pl-b">
             <div className="pl-h">
               <div><h3 className="h3">{i.L(C.types[ty])}</h3><p className="meta">{i.t('stat_dishes', { n: i.N(g.length), p: i.N(new Set(g.map(d => d.r)).size) })}</p></div>
               <dl className="pl-k">
@@ -99,7 +115,7 @@ function PriceList({ ds, order }: { ds: DishCard[]; order: string[] }) {
               </dl>
             </div>
             <div className="pl-rows">
-              {g.map(d => {
+              {rows.map(d => {
                 const r = d.rest, diff = d.price - mid, tn = diff < 0 ? 'lo' : diff > 0 ? 'hi' : 'typ';
                 return (
                   <button key={keyOf(d)} className="pl-r" onClick={() => openDish(r, d)}>
@@ -111,14 +127,51 @@ function PriceList({ ds, order }: { ds: DishCard[]; order: string[] }) {
                 );
               })}
             </div>
+            {g.length > PL_ROWS ? (
+              <button className="link pl-more" onClick={() => setAll(!all)} aria-expanded={all}>
+                {all ? i.t('show_less') : i.L(DW.showAll).replace('{n}', i.N(g.length))}<I n={all ? 'caret-up' : 'caret-down'} b />
+              </button>
+            ) : null}
           </Rise>
-        );
-      })}
-    </div>
   );
 }
 
 const CAPS = [150, 250, 400, 600, 1000];
+const DW = {
+  spice: { en: 'Spice', bn: 'ঝাল' },
+  spiceT: { en: 'How spicy', bn: 'কতটা ঝাল' },
+  anySpice: { en: 'Any spice', bn: 'যেকোনো ঝাল' },
+  allCats: { en: 'All kinds', bn: 'সব ধরন' },
+  findCat: { en: 'Find a kind of dish', bn: 'খাবারের ধরন খুঁজুন' },
+  noCat: { en: 'No kind of dish by that name.', bn: 'এই নামে কোনো ধরন নেই।' },
+  showAll: { en: 'Show all {n}', bn: 'সব {n}টি দেখুন' },
+  moreDishes: { en: 'Show more dishes ({n})', bn: 'আরও খাবার দেখুন ({n})' },
+};
+
+/* every kind of dish in one panel, grouped by cuisine, with a search box: the rail above shows the
+   popular ones, this holds them all however many there are */
+function AllKinds({ order, counts, value, onPick }: { order: string[]; counts: Record<string, number>; value: string; onPick: (id: string) => void }) {
+  const i = useI();
+  const [q, setQ] = useState('');
+  const qq = norm(q.trim());
+  const ok = (id: string) => !qq || norm(C.types[id].en + ' ' + C.types[id].bn).includes(qq);
+  const groups = C.cuisines.map(c => ({ c, ts: order.filter(id => C.types[id]?.cu === c.id && ok(id)) })).filter(g => g.ts.length);
+  return (
+    <div className="kinds">
+      <label className="tb-q kinds-q"><I n="magnifying-glass" /><input type="search" value={q} onChange={ev => setQ(ev.target.value)} placeholder={i.L(DW.findCat)} aria-label={i.L(DW.findCat)} /></label>
+      {groups.length ? (
+        <div className="kinds-g">
+          {groups.map(({ c, ts }) => (
+            <div key={c.id}>
+              <h4>{i.L(c)}</h4>
+              <div className="chips">{ts.map(id => <button key={id} className={clsx('chip sm', value === id && 'on')} aria-pressed={value === id} onClick={() => onPick(id)}>{i.L(C.types[id])}<em>{i.N(counts[id] || 0)}</em></button>)}</div>
+            </div>
+          ))}
+        </div>
+      ) : <p className="meta">{i.L(DW.noCat)}</p>}
+    </div>
+  );
+}
 const pop = { initial: { opacity: 0, scale: 0.96 }, animate: { opacity: 1, scale: 1 }, exit: { opacity: 0, scale: 0.96, transition: { duration: 0.16, ease: EASE } }, transition: { duration: 0.3, ease: EASE } };
 
 export function DishesView({ dishes, cards, order, pics }: { dishes: DishCard[]; cards: RestaurantCard[]; order: string[]; pics: Record<string, string | null> }) {
@@ -131,6 +184,8 @@ export function DishesView({ dishes, cards, order, pics }: { dishes: DishCard[];
 
   /* the toolbar scrolls away; once it has, a slim bar shows what is applied */
   const tbRef = useRef<HTMLDivElement>(null);
+  const [kinds, setKinds] = useState(false);
+  const kindCount = useMemo(() => { const n: Record<string, number> = {}; dishes.forEach(d => { n[d.type] = (n[d.type] || 0) + 1; }); return n; }, [dishes]);
   const [stuck, setStuck] = useState(false);
   useEffect(() => {
     const el = tbRef.current; if (!el) return;
@@ -149,6 +204,8 @@ export function DishesView({ dishes, cards, order, pics }: { dishes: DishCard[];
   const sorts = SORTS(i, 'dishes');
   const priceOpts: Opt[] = [['', i.t('any_price')], ...CAPS.map(v => [String(v), i.t('dish_upto', { v: i.tk(v) })] as Opt)];
   const nAll = countAll(f, ['type']);
+  const spiceNow = SPICE.find(z => z.id === (f.spice || (f.mild ? '1' : '')));
+  const spiceOpts: Opt[] = [['', i.L(DW.anySpice)], ...SPICE.map(z => [z.id, i.L(z)] as Opt)];
 
   let body: React.ReactNode;
   if (!ds.length) {
@@ -213,6 +270,9 @@ export function DishesView({ dishes, cards, order, pics }: { dishes: DishCard[];
           <button className={clsx('cr', !f.type && 'on')} role="tab" aria-selected={!f.type} onClick={() => pickType('')}>
             {!f.type ? <Pill id="crail" /> : null}<span className="cr-ph"><I n="squares-four" /></span>{i.t('all_food')}
           </button>
+          <button className={clsx('cr cr-all', kinds && 'open')} aria-expanded={kinds} onClick={() => setKinds(!kinds)}>
+            <span className="cr-ph"><I n={kinds ? 'x' : 'list-bullets'} /></span>{i.L(DW.allCats)}<em>{i.N(order.length)}</em>
+          </button>
           {order.map(id => {
             const p = pics[id], on = f.type === id;
             return (
@@ -224,14 +284,26 @@ export function DishesView({ dishes, cards, order, pics }: { dishes: DishCard[];
             );
           })}
         </div>
+        <AnimatePresence initial={false}>
+          {kinds ? (
+            <m.div key="k" className="kinds-w" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0, transition: { duration: 0.18, ease: EASE } }} transition={{ duration: 0.3, ease: EASE }}>
+              <AllKinds order={order} counts={kindCount} value={f.type || ''} onPick={id => { pickType(id); setKinds(false); }} />
+            </m.div>
+          ) : null}
+        </AnimatePresence>
         <div className="tb-row">
           <label className="tb-q"><I n="magnifying-glass" /><input type="search" value={q} onChange={ev => setQ(ev.target.value)} placeholder={i.t('dish_search')} aria-label={i.t('dish_search')} enterKeyHint="search" /></label>
           <div className="tb-sc">
             <Choose icon="map-pin" label={areaLabel(i, f)} on={!!(f.area || f.city)} title={i.t('area')} opts={areaOpts(i)} value={areaValue(f)} onPick={v => setF({ ...f, ...pickArea(v) })} align="start" />
             <Choose icon="money" label={f.max ? i.t('dish_upto', { v: i.tk(Number(f.max)) }) : i.t('any_price')} on={!!f.max} title={i.t('max_price')} opts={priceOpts} value={String(f.max || '')} onPick={v => setF({ ...f, max: v })} align="start" />
-            {([['veg', 'leaf', i.t('veg')], ['mild', 'pepper', i.t('mild')], ['open', 'clock', i.t('q_open')]] as const).map(([k, ic, l]) => (
+            <Choose icon="pepper" label={spiceNow ? i.L(spiceNow) : i.L(DW.spice)} on={!!spiceNow} title={i.L(DW.spiceT)} opts={spiceOpts} value={spiceNow?.id || ''} onPick={v => setF({ ...f, spice: v, mild: '' })} align="start" />
+            {([['veg', 'leaf', i.t('veg')], ['open', 'clock', i.t('q_open')]] as const).map(([k, ic, l]) => (
               <button key={k} className={clsx('tb-btn', f[k] && 'on')} aria-pressed={!!f[k]} onClick={() => setF({ ...f, [k]: f[k] ? '' : '1' })}><I n={ic} />{l}</button>
             ))}
+            {DISH_X.map(x => {
+              const on = (f.dx || []).includes(x.id);
+              return <button key={x.id} className={clsx('tb-btn', on && 'on')} aria-pressed={on} onClick={() => setF({ ...f, dx: on ? (f.dx || []).filter(z => z !== x.id) : [...(f.dx || []), x.id] })}><I n={x.i} />{i.L(x)}</button>;
+            })}
             <span className="sp" />
             <Seg id="dmode" items={[['grid', <><I n="squares-four" />{i.tx('photos_v')}</>], ['prices', <><I n="list-numbers" />{i.tx('price_list')}</>]]} value={f.mode} onChange={v => setF({ ...f, mode: v, sort: v === 'prices' ? 'price' : f.sort })} />
             {!f.type && f.mode !== 'prices' ? <Seg id="dgroup" items={[['cu', i.t('by_cuisine')], ['type', i.t('by_dish')]]} value={f.group} onChange={v => setF({ ...f, group: v })} /> : null}

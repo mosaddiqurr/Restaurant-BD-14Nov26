@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Header, TabBar } from '@/components/shell/header';
 import { Footer } from '@/components/shell/footer';
+import { NavProgress } from '@/components/shell/nav-progress';
 import { getNav } from '@/lib/data/catalog';
 import { getI18n } from '@/lib/i18n/server';
 import { isLang } from '@/lib/i18n/core';
@@ -23,6 +24,7 @@ export default async function SiteLayout({ children, params }: LayoutProps<'/[la
   return (
     <div className="screen">
       <a className="skip" href="#main">{i.t('skip_main') === 'skip_main' ? (i.bn ? 'মূল অংশে যান' : 'Skip to content') : i.t('skip_main')}</a>
+      <NavProgress />
       <Header nav={nav} />
       <main id="main">{children}</main>
       <Footer />

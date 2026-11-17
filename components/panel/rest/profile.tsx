@@ -28,15 +28,33 @@ export function socialUrl(k: string, v0: string) {
 type F = {
   en: string; bn: string; tag: string; tagbn: string; story: string; storybn: string; phone: string; spot: string; spotbn: string; addr: string; addrbn: string; area: string;
   soc: Record<string, { url: string; n: string }>; main: string; open: string; close: string; ppl0: string; ppl1: string; showppl: boolean; vat: string; service: string; seats: string;
-  fac: string[]; pay: string[]; deep: string; accent: string;
+  fac: string[]; pay: string[]; deep: string; accent: string; font: 'serif' | 'sans';
 };
 const toF = (r: PR): F => ({
   en: r.name.en, bn: r.name.bn, tag: r.tagline?.en || '', tagbn: r.tagline?.bn || '', story: r.story?.en || '', storybn: r.story?.bn || '',
   phone: r.phone || '', spot: r.spot?.en || '', spotbn: r.spot?.bn || '', addr: r.address?.en || '', addrbn: r.address?.bn || '', area: r.area,
   soc: Object.fromEntries(Object.keys(C.socials).map(k => [k, { url: r.social?.links[k]?.url || '', n: r.social?.links[k]?.n || '' }])), main: r.social?.main || '',
   open: r.hours[0], close: r.hours[1], ppl0: String(r.ppl[0]), ppl1: String(r.ppl[1]), showppl: !r.hidePpl, vat: String(r.vat), service: String(r.service), seats: r.seats ? String(r.seats) : '',
-  fac: (r.fac || []).slice(), pay: (r.pay || []).slice(), deep: r.theme.deep, accent: r.theme.accent,
+  fac: (r.fac || []).slice(), pay: (r.pay || []).slice(), deep: r.theme.deep, accent: r.theme.accent, font: r.theme.font || 'sans',
 });
+
+/* how easy the words are to read on the chosen background (WCAG contrast). Custom colours must pass,
+   so a page never ends up hard to read or out of place on khabo */
+const lum = (hex: string) => {
+  const n = parseInt(hex.replace('#', ''), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; });
+  return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+};
+const ratio = (a: string, b: string) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+function ReadCheck({ deep, accent }: { deep: string; accent: string }) {
+  const t = useT();
+  const w = ratio('#FFFFFF', deep), a = ratio(accent, deep), ok = w >= 7 && a >= 4.5;
+  return (
+    <span className={clsx('badge', ok ? 'ok' : 'warn')}>
+      {ok ? t('Easy to read', 'সহজে পড়া যায়') : w < 7 ? t('Background too light: use a darker one', 'পটভূমি বেশি হালকা: আরও গাঢ় দিন') : t('Accent too close to the background', 'উজ্জ্বল রং পটভূমির খুব কাছাকাছি')}
+      {' '}({a.toFixed(1)}:1)
+    </span>
+  );
+}
 
 export function Profile() {
   const i = useI(), t = useT(), { r, me, db } = useR(), saved = useSaved(), live = useLive();
@@ -59,6 +77,7 @@ export function Profile() {
     const p0 = Number(f.ppl0), p1 = Number(f.ppl1);
     if (p0 && p1 && p1 < p0) return fail(t('"Up to" must be more than "from".', '"পর্যন্ত" অবশ্যই "থেকে"-র চেয়ে বেশি হতে হবে।'));
     if (!team && !C.palettes.some(x => x.deep === f.deep && x.accent === f.accent) && !(f.deep === r.theme.deep && f.accent === r.theme.accent)) return fail(t('Pick one of the colour pairs.', 'একটি রঙের জোড়া বাছুন।'));
+    if (team && (f.deep !== base.deep || f.accent !== base.accent) && (ratio('#FFFFFF', f.deep) < 7 || ratio(f.accent, f.deep) < 4.5)) return fail(t('These colours are hard to read. Use a darker background or a brighter accent.', 'এই রংগুলো পড়তে কষ্ট হয়। আরও গাঢ় পটভূমি বা আরও উজ্জ্বল রং দিন।'));
     const links: Record<string, { url: string; n?: string }> = {}; let badSoc = '';
     Object.keys(C.socials).forEach(k => { const u = socialUrl(k, f.soc[k].url); if (u === null) badSoc = badSoc || C.socials[k].en; else if (u) links[k] = { url: u, ...(f.soc[k].n.trim() ? { n: f.soc[k].n.trim() } : {}) }; });
     if (badSoc) return fail(t(`That ${badSoc} link does not look right. Paste the link to your ${badSoc} page, or just @yourname.`, `${badSoc} লিংকটি ঠিক মনে হচ্ছে না। আপনার ${badSoc} পেজের লিংক দিন, বা শুধু @আপনারনাম।`));
@@ -70,12 +89,12 @@ export function Profile() {
     nr.hours = [f.open || r.hours[0], f.close || r.hours[1]]; nr.ppl = [p0 || r.ppl[0], p1 || r.ppl[1]];
     if (f.showppl) delete nr.hidePpl; else nr.hidePpl = true;
     nr.vat = Number(f.vat) || 0; nr.service = Number(f.service) || 0; if (Number(f.seats)) nr.seats = Number(f.seats); else delete nr.seats;
-    nr.fac = f.fac; nr.pay = f.pay; nr.theme = { ...nr.theme, deep: f.deep, accent: f.accent };
+    nr.fac = f.fac; nr.pay = f.pay; nr.theme = { ...nr.theme, deep: f.deep, accent: f.accent, font: f.font };
     const main = links[f.main] ? f.main : Object.keys(links)[0] || '';
     if (Object.keys(links).length) nr.social = { links, main }; else delete nr.social;
     return saved(nr, { en: 'Updated page details', bn: 'পেজের তথ্য বদলেছেন' });
   };
-  useSaveEntry({ count: countChanges(base, f, ['deep', 'accent']) + (f.deep !== base.deep || f.accent !== base.accent ? 1 : 0), save, discard: () => setF(base), pri: 0 });
+  useSaveEntry({ count: countChanges(base, f, ['deep', 'accent', 'font']) + (f.deep !== base.deep || f.accent !== base.accent || f.font !== base.font ? 1 : 0), save, discard: () => setF(base), pri: 0 });
   return (
     <Page title={t('Restaurant page', 'রেস্টুরেন্টের পেজ')} sub={t('What diners see on your khabo page.', 'খাবোতে আপনার পেজে ডাইনাররা যা দেখেন।')}
       acts={<a className="btn" href={live(r)} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('View page', 'পেজ দেখুন')}</a>}>
@@ -135,21 +154,49 @@ export function Profile() {
             {PAYS.map(p => <button key={p} type="button" className={clsx('tchip', f.pay.includes(p) && 'on')} aria-pressed={f.pay.includes(p)} onClick={() => tog('pay', p)}>{i.L(PAY_N[p])}</button>)}
           </div></Field>
         </>)}
-        {sec(t('Page look', 'পেজের রং'), t('Pick a colour pair. Every pair is made to sit well with khabo, so your page always looks like it belongs.', 'একটি রঙের জোড়া বাছুন। প্রতিটি জোড়া খাবোর সঙ্গে মানিয়ে বানানো, তাই আপনার পেজ সবসময় মানানসই দেখায়।'), <>
+        {sec(t('Page look', 'পেজের রং'), t('Your colours and lettering. Every choice is made to sit well with khabo, so your page feels like yours and still belongs.', 'আপনার রং আর অক্ষরের ধরন। প্রতিটি বাছাই খাবোর সঙ্গে মানিয়ে বানানো, তাই পেজ আপনার নিজের মতো লাগে, আবার খাবোর সঙ্গেও মানায়।'), <>
+          {/* the preview is the real name card from the page, in the chosen colours and lettering */}
           <div className="full">
-            <div className={clsx('look', r.theme.font === 'serif' && 'serif')} style={{ '--d': f.deep, '--a': f.accent } as CSSProperties}>
+            <div className={clsx('look look2', f.font === 'serif' && 'serif')} style={{ '--d': f.deep, '--a': f.accent } as CSSProperties}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              {r.hero?.[0] ? <img src={src(r.hero[0], 700)} alt="" /> : null}
-              <div><span>{where(i, r)}</span><b>{i.L(r.name)}</b><span className="lb">{t('See the menu', 'মেনু দেখুন')}</span></div>
+              {r.hero?.[0] ? <img src={src(r.hero[0], 900)} alt="" /> : null}
+              <div className="l2-card">
+                <span className="l2-mono">{r.mono}</span>
+                <div>
+                  <b>{i.L(r.name)}</b>
+                  <em>{r.name.bn}</em>
+                  <i className="l2-rule" />
+                  <p>{i.L(r.tagline) || t('Your one-line tagline shows here.', 'আপনার এক লাইনের পরিচয় এখানে দেখাবে।')}</p>
+                </div>
+              </div>
+              <span className="lb">{t('See the menu', 'মেনু দেখুন')}</span>
             </div>
           </div>
-          <Field full label={t('Colour pairs', 'রঙের জোড়া')}><div className="pals">
-            {C.palettes.map(p => <button key={p.id} type="button" className={clsx('pal', f.deep === p.deep && f.accent === p.accent && 'on')} style={{ '--d': p.deep, '--a': p.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: p.deep, accent: p.accent }))}><i /><span>{i.L(p)}</span></button>)}
-            {custom ? <button type="button" className={clsx('pal', f.deep === r.theme.deep && f.accent === r.theme.accent && 'on')} style={{ '--d': r.theme.deep, '--a': r.theme.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: r.theme.deep, accent: r.theme.accent }))}><i /><span>{t('Custom (set by khabo)', 'নিজস্ব (খাবো ঠিক করেছে)')}</span></button> : null}
+          <Field full label={t('Lettering', 'অক্ষরের ধরন')}><div className="fonts">
+            {([['serif', t('Classic', 'ক্লাসিক'), t('Elegant, for heritage and fine dining', 'রুচিশীল, ঐতিহ্য আর ফাইন ডাইনিংয়ের জন্য')], ['sans', t('Modern', 'আধুনিক'), t('Clean, for cafés and casual places', 'পরিষ্কার, ক্যাফে আর সাধারণ জায়গার জন্য')]] as const).map(([k, n, h]) => (
+              <button key={k} type="button" className={clsx('fontc', k, f.font === k && 'on')} aria-pressed={f.font === k} onClick={() => up('font')(k)}>
+                <span className="aa">Aa</span><span><b>{n}</b><small>{h}</small></span>
+              </button>
+            ))}
+          </div></Field>
+          <Field full label={t('Colour pairs', 'রঙের জোড়া')}><div className="palg">
+            {(C.paletteGroups || [{ id: '', en: '', bn: '' }]).map(g => {
+              const list = C.palettes.filter(p => !g.id || p.g === g.id);
+              return list.length ? (
+                <div key={g.id}>
+                  {g.id ? <h4>{i.L(g)}</h4> : null}
+                  <div className="pals">
+                    {list.map(p => <button key={p.id} type="button" className={clsx('pal', f.deep === p.deep && f.accent === p.accent && 'on')} aria-pressed={f.deep === p.deep && f.accent === p.accent} style={{ '--d': p.deep, '--a': p.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: p.deep, accent: p.accent }))}><i /><span>{i.L(p)}</span></button>)}
+                  </div>
+                </div>
+              ) : null;
+            })}
+            {custom ? <div className="pals"><button type="button" className={clsx('pal', f.deep === r.theme.deep && f.accent === r.theme.accent && 'on')} style={{ '--d': r.theme.deep, '--a': r.theme.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: r.theme.deep, accent: r.theme.accent }))}><i /><span>{t('Custom (set by khabo)', 'নিজস্ব (খাবো ঠিক করেছে)')}</span></button></div> : null}
           </div></Field>
           {team ? <div className="full colors">
             <label><input type="color" value={f.deep} onChange={e => up('deep')(e.target.value)} /> {t('Background', 'পটভূমি')}</label>
             <label><input type="color" value={f.accent} onChange={e => up('accent')(e.target.value)} /> {t('Accent', 'উজ্জ্বল রং')}</label>
+            <ReadCheck deep={f.deep} accent={f.accent} />
             <span className="meta">{t('khabo team only: custom colours. Keep the background dark and the accent bright.', 'শুধু খাবো টিম: নিজস্ব রং। পটভূমি গাঢ় আর উজ্জ্বল রং উজ্জ্বল রাখুন।')}</span>
           </div> : null}
         </>)}

@@ -20,11 +20,25 @@ function useWhen() {
   return (x: Partial<Deal>) => x.week ? t('This week', 'এই সপ্তাহ') : x.from && x.to ? `${d(x.from)} ${t('to', 'থেকে')} ${d(x.to)}` : x.to ? t(`Until ${d(x.to)}`, `${d(x.to)} পর্যন্ত`) : x.from ? t(`From ${d(x.from)}`, `${d(x.from)} থেকে`) : '';
 }
 
+/** what diners save, worked out from the deal price and the usual price */
+export const saveOf = (price: number, was: number) => (was > price && price > 0 ? { v: was - price, pct: Math.round(((was - price) / was) * 100) } : null);
+function SaveLine({ price, was }: { price: number; was: number }) {
+  const i = useI(), t = useT();
+  const sv = saveOf(price, was);
+  if (!price || !was) return <p className="full dsave">{t('Add the usual price and khabo works out the saving for you.', 'সাধারণ দাম দিন, খাবো নিজেই হিসাব করবে কত বাঁচছে।')}</p>;
+  if (!sv) return <p className="full dsave bad"><Ico n="warning" sm />{t('The usual price should be higher than the deal price.', 'সাধারণ দাম অফারের দামের চেয়ে বেশি হতে হবে।')}</p>;
+  return (
+    <p className="full dsave ok"><Ico n="tag" sm />
+      {t(`Diners save ${i.tk(sv.v)} (${sv.pct}% off). Worked out for you from the two prices.`, `ডাইনাররা বাঁচাবেন ${i.tk(sv.v)} (${i.N(sv.pct)}% ছাড়)। দুই দাম থেকে নিজে থেকেই হিসাব করা।`)}
+    </p>
+  );
+}
+
 /** how the deal looks to diners: the restaurant's colours, the photo, the tag, the price and what it was */
 function DealLook({ r, x }: { r: PR; x: Partial<Deal> }) {
   const i = useI(), t = useT(), when = useWhen();
   const tag = x.week ? t('Deal of the week', 'সপ্তাহের অফার') : i.L(C.dealTags[x.tag || 'offer'] || C.dealTags.offer);
-  const pct = x.was && x.price && x.was > x.price ? Math.round(((x.was - x.price) / x.was) * 100) : 0;
+  const sv = saveOf(x.price || 0, x.was || 0), pct = sv ? sv.pct : 0;
   const w = when(x);
   return (
     <div className="look dlook" style={{ '--d': r.theme.deep, '--a': r.theme.accent, minHeight: 200 } as CSSProperties}>
@@ -35,7 +49,7 @@ function DealLook({ r, x }: { r: PR; x: Partial<Deal> }) {
         <b>{i.bn ? x.bn || x.en : x.en}</b>
         {x.desc ? <p style={{ color: 'rgba(255,255,255,.75)', marginTop: 6 }}>{i.L(x.desc)}</p> : null}
         {x.when && i.L(x.when) ? <p style={{ color: 'rgba(255,255,255,.65)', fontSize: 13 }}>{i.L(x.when)}</p> : null}
-        <span className="lb">{x.price ? i.tk(x.price) : ''}{x.was ? <s style={{ opacity: 0.6, marginLeft: 6 }}>{i.tk(x.was)}</s> : null}</span>
+        <span className="lb">{x.price ? i.tk(x.price) : ''}{sv ? <><s style={{ opacity: 0.6, marginLeft: 6 }}>{i.tk(x.was!)}</s><em className="dl-save">{i.t('you_save', { v: i.tk(sv.v) })}</em></> : null}</span>
       </div>
     </div>
   );
@@ -160,7 +174,9 @@ function DealEdit({ open, onClose }: { open: { d: Deal | null } | null; onClose:
         <TextF label={t('Days and times (English)', 'দিন আর সময় (ইংরেজি)')} value={f.when} onChange={up('when')} ph="Sunday to Thursday, 12pm to 4pm" />
         <TextF bn label={t('Days and times (Bangla)', 'দিন আর সময় (বাংলা)')} value={f.whenbn} onChange={up('whenbn')} />
         <MoneyF label={t('Deal price', 'অফারের দাম')} value={f.price} onChange={up('price')} />
-        <MoneyF label={t('Usual price', 'সাধারণ দাম')} value={f.was} onChange={up('was')} hint={t('Diners see how much they save', 'ডাইনাররা দেখেন কত বাঁচছে')} />
+        <MoneyF label={t('Usual price', 'সাধারণ দাম')} value={f.was} onChange={up('was')} hint={t('What it costs without the deal', 'অফার ছাড়া যে দাম')} />
+        {/* the saving is worked out from the two prices, never typed in, so it is always right */}
+        <SaveLine price={Number(f.price) || 0} was={Number(f.was) || 0} />
       </div>
       <div className="card" style={{ padding: '0 16px' }}><SwRow label={t('Show this deal on khabo', 'এই অফার খাবোতে দেখান')} on={f.on} onChange={up('on')} /></div>
       <p className="dw-sub">{t('Preview', 'যেমন দেখাবে')}</p>

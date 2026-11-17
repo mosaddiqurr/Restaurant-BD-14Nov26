@@ -8,7 +8,7 @@ import 'server-only';
 import { cache } from 'react';
 import { RESTAURANT_FILES } from '@/data/catalog/index';
 import prices from '@/data/catalog/prices.json';
-import { C, cuOf, liveDealsOf, rankDeals, toCard, toMini, type DealRow } from '@/lib/khabo';
+import { C, cuOf, dhakaAt, liveDealsOf, rankDeals, toCard, toMini, type DealRow } from '@/lib/khabo';
 import type { DishCard, KhaboEvent, PriceLog, Restaurant, RestaurantCard, Review } from './types';
 
 type Raw = Restaurant & { reviewList?: Review[]; deal?: unknown };
@@ -72,7 +72,7 @@ export type EventRow = { r: RestaurantCard; ev: KhaboEvent; k: string };
 export const getEvents = async (): Promise<EventRow[]> => {
   const cards = new Map((await getCards()).map(c => [c.id, c]));
   return load().restaurants.flatMap(r => (r.events || []).map(ev => ({ r: cards.get(r.id)!, ev, k: r.id + '/' + ev.id })))
-    .sort((a, b) => +new Date(a.ev.start) - +new Date(b.ev.start));
+    .sort((a, b) => dhakaAt(a.ev.start) - dhakaAt(b.ev.start));
 };
 
 /* ---------- reviews ---------- */
@@ -118,11 +118,16 @@ export const getNav = async () => {
   const cards = await getCards();
   const areaCount: Record<string, number> = {};
   cards.forEach(c => { areaCount[c.area] = (areaCount[c.area] || 0) + 1; });
-  const wk = (await getLiveDeals()).find(z => z.d.week);
-  return {
-    areaCount,
-    total: cards.length,
-    week: wk ? { rid: wk.r.id, rname: wk.r.name, deal: { en: wk.d.en, bn: wk.d.bn }, price: wk.d.price, p: wk.d.p || null } : null,
-  };
+  /* the drop-down's sliding deals: the deal of the week first, then Premium, Pro and Starter (rankDeals order) */
+  const live = await getLiveDeals();
+  const pick = [...live.filter(z => z.d.week), ...live.filter(z => !z.d.week)].slice(0, 6);
+  const deals = pick.map(z => ({ k: z.k, rid: z.r.id, rname: z.r.name, plan: z.r.plan, week: !!z.d.week, deal: { en: z.d.en, bn: z.d.bn }, price: z.d.price, p: z.d.p || null }));
+  /* every kind of dish places really serve, with how many dishes, so a new kind shows up in the menu by itself */
+  const st = await getTypeStats();
+  const types = (await getTypeOrder()).map(id => ({ id, n: st[id].n, lo: st[id].lo }));
+  /* cities that have places, busiest first */
+  const cities = Object.keys(C.cities).filter(c => cards.some(r => r.city === c))
+    .sort((a, b) => cards.filter(r => r.city === b).length - cards.filter(r => r.city === a).length);
+  return { areaCount, total: cards.length, deals, types, cities };
 };
 export type Nav = Awaited<ReturnType<typeof getNav>>;

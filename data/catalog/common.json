@@ -51,84 +51,144 @@
    "deep": "#2A0C14",
    "accent": "#E2B04A",
    "en": "Saffron night",
-   "bn": "জাফরান রাত"
+   "bn": "জাফরান রাত",
+   "g": "classic"
   },
   {
    "id": "indigo",
    "deep": "#14192B",
    "accent": "#F4D77E",
    "en": "Indigo and gold",
-   "bn": "নীল ও সোনালি"
+   "bn": "নীল ও সোনালি",
+   "g": "classic"
   },
   {
-   "id": "forest",
-   "deep": "#13281C",
-   "accent": "#E9A23B",
-   "en": "Forest marigold",
-   "bn": "বন ও গাঁদা"
+   "id": "onyx",
+   "deep": "#151412",
+   "accent": "#E6C98F",
+   "en": "Onyx and champagne",
+   "bn": "কালো ও শ্যাম্পেন",
+   "g": "classic"
   },
   {
-   "id": "garden",
-   "deep": "#0F2619",
-   "accent": "#A5DB7E",
-   "en": "Garden",
-   "bn": "বাগান"
+   "id": "burgundy",
+   "deep": "#3B0D1C",
+   "accent": "#E8C37A",
+   "en": "Burgundy and gold",
+   "bn": "বারগান্ডি ও সোনালি",
+   "g": "classic"
+  },
+  {
+   "id": "emerald",
+   "deep": "#0E2A22",
+   "accent": "#D9B26A",
+   "en": "Emerald and brass",
+   "bn": "পান্না ও পিতল",
+   "g": "classic"
   },
   {
    "id": "ember",
    "deep": "#1A1110",
    "accent": "#FF8A4C",
    "en": "Ember",
-   "bn": "অঙ্গার"
-  },
-  {
-   "id": "river",
-   "deep": "#0A2A3E",
-   "accent": "#8FD0F2",
-   "en": "River",
-   "bn": "নদী"
+   "bn": "অঙ্গার",
+   "g": "spice"
   },
   {
    "id": "clay",
    "deep": "#3A1606",
    "accent": "#E8955A",
    "en": "Terracotta",
-   "bn": "পোড়ামাটি"
+   "bn": "পোড়ামাটি",
+   "g": "spice"
   },
   {
    "id": "chili",
    "deep": "#3A120A",
    "accent": "#F2B33D",
    "en": "Chili and turmeric",
-   "bn": "মরিচ ও হলুদ"
+   "bn": "মরিচ ও হলুদ",
+   "g": "spice"
   },
   {
    "id": "cocoa",
    "deep": "#1E140C",
    "accent": "#F28C4B",
    "en": "Cocoa",
-   "bn": "কোকো"
+   "bn": "কোকো",
+   "g": "spice"
+  },
+  {
+   "id": "midnight",
+   "deep": "#0B1F2A",
+   "accent": "#E39A6A",
+   "en": "Midnight copper",
+   "bn": "মাঝরাত ও তামা",
+   "g": "spice"
+  },
+  {
+   "id": "forest",
+   "deep": "#13281C",
+   "accent": "#E9A23B",
+   "en": "Forest marigold",
+   "bn": "বন ও গাঁদা",
+   "g": "fresh"
+  },
+  {
+   "id": "garden",
+   "deep": "#0F2619",
+   "accent": "#A5DB7E",
+   "en": "Garden",
+   "bn": "বাগান",
+   "g": "fresh"
+  },
+  {
+   "id": "river",
+   "deep": "#0A2A3E",
+   "accent": "#8FD0F2",
+   "en": "River",
+   "bn": "নদী",
+   "g": "fresh"
   },
   {
    "id": "teal",
    "deep": "#062B33",
    "accent": "#86D3C6",
    "en": "Lagoon",
-   "bn": "লেগুন"
+   "bn": "লেগুন",
+   "g": "fresh"
+  },
+  {
+   "id": "olive",
+   "deep": "#232A12",
+   "accent": "#D8C27A",
+   "en": "Olive and sesame",
+   "bn": "জলপাই ও তিল",
+   "g": "fresh"
   },
   {
    "id": "rose",
    "deep": "#2D0F2A",
    "accent": "#FF9BB8",
    "en": "Rose",
-   "bn": "গোলাপ"
+   "bn": "গোলাপ",
+   "g": "soft"
   },
   {
    "id": "plum",
    "deep": "#2A1636",
    "accent": "#F2A93B",
    "en": "Plum and amber",
-   "bn": "বেগুনি ও অ্যাম্বার"
+   "bn": "বেগুনি ও অ্যাম্বার",
+   "g": "soft"
+  },
+  {
+   "id": "mulberry",
+   "deep": "#2B0F24",
+   "accent": "#E7B7C8",
+   "en": "Mulberry and pearl",
+   "bn": "তুঁত ও মুক্তা",
+   "g": "soft"
   }
  ],
  "socials": {
@@ -275,9 +335,9 @@
  ],
  "cuisines": [
   {
-   "id": "mughlai",
-   "en": "Mughlai & biryani",
-   "bn": "মোগলাই ও বিরিয়ানি",
+   "id": "biryani",
+   "en": "Biryani & kacchi",
+   "bn": "বিরিয়ানি ও কাচ্চি",
    "p": "kt"
   },
   {
@@ -287,10 +347,22 @@
    "p": "po"
   },
   {
+   "id": "mughlai",
+   "en": "Mughlai",
+   "bn": "মোগলাই",
+   "p": null
+  },
+  {
    "id": "grill",
    "en": "Kebab & grill",
    "bn": "কাবাব ও গ্রিল",
    "p": "ch"
+  },
+  {
+   "id": "fish",
+   "en": "Fish & seafood",
+   "bn": "মাছ ও সি-ফুড",
+   "p": null
   },
   {
    "id": "street",
@@ -299,21 +371,39 @@
    "p": "fu"
   },
   {
-   "id": "asian",
-   "en": "Chinese & Thai",
-   "bn": "চাইনিজ ও থাই",
+   "id": "chinese",
+   "en": "Chinese",
+   "bn": "চাইনিজ",
+   "p": null
+  },
+  {
+   "id": "thai",
+   "en": "Thai",
+   "bn": "থাই",
    "p": null
   },
   {
    "id": "cafe",
-   "en": "Café & bakery",
-   "bn": "ক্যাফে ও বেকারি",
+   "en": "Tea & coffee",
+   "bn": "চা ও কফি",
+   "p": null
+  },
+  {
+   "id": "bakery",
+   "en": "Cakes & bakery",
+   "bn": "কেক ও বেকারি",
    "p": "ph:strawberry_chocolate_cake"
   },
   {
    "id": "dessert",
-   "en": "Desserts & drinks",
-   "bn": "মিষ্টি ও পানীয়",
+   "en": "Desserts",
+   "bn": "মিষ্টি ও ডেজার্ট",
+   "p": null
+  },
+  {
+   "id": "drinks",
+   "en": "Drinks",
+   "bn": "পানীয়",
    "p": null
   }
  ],
@@ -321,7 +411,7 @@
   "kacchi": {
    "en": "Kacchi",
    "bn": "কাচ্চি",
-   "cu": "mughlai",
+   "cu": "biryani",
    "p": "kt",
    "i": "cooking-pot",
    "made": {
@@ -362,7 +452,7 @@
   "biryani": {
    "en": "Biryani",
    "bn": "বিরিয়ানি",
-   "cu": "mughlai",
+   "cu": "biryani",
    "p": "b4",
    "i": "bowl-food",
    "made": {
@@ -564,7 +654,7 @@
   "fish": {
    "en": "Fish",
    "bn": "মাছ",
-   "cu": "bangladeshi",
+   "cu": "fish",
    "p": "fi",
    "i": "fish-simple",
    "made": {
@@ -707,7 +797,7 @@
   "chinese": {
    "en": "Chinese",
    "bn": "চাইনিজ",
-   "cu": "asian",
+   "cu": "chinese",
    "p": null,
    "i": "bowl-steam",
    "made": {
@@ -740,7 +830,7 @@
   "thai": {
    "en": "Thai",
    "bn": "থাই",
-   "cu": "asian",
+   "cu": "thai",
    "p": null,
    "i": "pepper",
    "made": {
@@ -784,7 +874,7 @@
   "bakery": {
    "en": "Cakes & bakes",
    "bn": "কেক ও বেকারি",
-   "cu": "cafe",
+   "cu": "bakery",
    "p": "ph:carrot_cake",
    "i": "cake",
    "made": {
@@ -806,7 +896,7 @@
   "drink": {
    "en": "Drinks",
    "bn": "পানীয়",
-   "cu": "dessert",
+   "cu": "drinks",
    "p": null,
    "i": "drop",
    "made": {
@@ -1073,5 +1163,27 @@
   "shamiana",
   "nawabpur-kacchi",
   "satmatha-fuchka"
+ ],
+ "paletteGroups": [
+  {
+   "id": "classic",
+   "en": "Classic and rich",
+   "bn": "ক্লাসিক ও জমকালো"
+  },
+  {
+   "id": "spice",
+   "en": "Warm spice",
+   "bn": "উষ্ণ মসলা"
+  },
+  {
+   "id": "fresh",
+   "en": "Fresh and green",
+   "bn": "তাজা ও সবুজ"
+  },
+  {
+   "id": "soft",
+   "en": "Soft and sweet",
+   "bn": "নরম ও মিষ্টি"
+  }
  ]
 }

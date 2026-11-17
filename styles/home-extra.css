@@ -143,29 +143,51 @@
 @media (hover: hover) and (pointer: fine) { .leaflet-marker-icon:hover .kc { transform: translate(-21px, -21px) scale(1.07); } .leaflet-marker-icon:hover .kc-l { transform: translate(-24px, -24px) scale(1.07); } }
 .leaflet-marker-icon:focus-visible .kc { box-shadow: 0 0 0 3px #fff, 0 0 0 6px var(--hl); }
 
-/* ---------- browse every way: photo tiles, one big, a few wide, rows always end flush ---------- */
-.hub-x { display: grid; margin-top: 24px; }
-.hub-x > .hub-g { grid-area: 1 / 1; margin-top: 0; min-width: 0; }
-.hub-m { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 236px; grid-auto-flow: dense; gap: 18px 14px; }
-.hub-t { display: flex; flex-direction: column; gap: 3px; min-width: 0; min-height: 0; text-align: left; }
-.hub-t .pic { flex: 1 1 auto; min-height: 0; border-radius: 14px; margin-bottom: 7px; }
-.hub-t .pic img { position: absolute; inset: 0; transition: transform .8s var(--ease); }
-@media (hover: hover) and (pointer: fine) { .hub-t:hover .pic img { transform: scale(1.05); } }
+/* ---------- browse every way: a big photo beside a clean list ----------
+   Laptops: photo and its words on the left, the rows on the right (two columns of rows when there are many),
+   the chips and "See all" under the photo. Phones: only the rows, as photo cards you swipe (see the phone block). */
+.hub { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "pv list" "in list"; grid-template-rows: 1fr auto; gap: 18px 36px; margin-top: 26px; }
+.hub-pv { grid-area: pv; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.hub-pv-ph { position: relative; flex: 1 1 auto; min-height: 280px; border-radius: 20px; overflow: hidden; background: var(--sunk); }
+.hub-pv-im { position: absolute; inset: 0; }
+.hub-pv-im .pic { width: 100%; height: 100%; }
+.hub-pv-w { display: grid; margin-top: 16px; min-width: 0; }
+.hub-pv-tx { grid-area: 1 / 1; display: grid; align-content: start; gap: 3px; min-width: 0; }
+.hub-pv-tx b { font-size: 24px; font-weight: 800; line-height: 1.2; letter-spacing: -.01em; }
+.hub-pv-tx span { color: var(--ink-3); font-size: 14.5px; }
+.hub-pv-tx p { color: var(--ink-2); font-size: 15px; margin-top: 4px; max-width: 46ch; }
+.hub-in { grid-area: in; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px; min-width: 0; }
+.hub-ch { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+.hub-ch small { color: var(--ink-3); font-size: 13px; font-weight: 600; margin-right: 4px; }
+.hub-c { display: inline-flex; align-items: center; height: 32px; padding: 0 12px; border-radius: 99px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); font-size: 13.5px; font-weight: 600; color: var(--ink); white-space: nowrap; transition: box-shadow .2s, transform .15s var(--ease); }
+.hub-c:active { transform: scale(.96); }
+@media (hover: hover) and (pointer: fine) { .hub-c:hover { box-shadow: inset 0 0 0 1px var(--ink-3); } }
+.hub-go { flex: none; }
+
+.hub-lx { grid-area: list; display: grid; min-width: 0; }
+.hub-lx > .hub-l { grid-area: 1 / 1; min-width: 0; }
+.hub-l { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; gap: 6px; }
+.hub-l.two { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px 12px; }
+.hub-r { position: relative; isolation: isolate; display: grid; grid-template-columns: 68px minmax(0, 1fr) auto; align-items: center; gap: 14px; padding: 8px 16px 8px 8px; border-radius: 16px; text-align: left; min-width: 0; }
+.hub-on { position: absolute; inset: 0; z-index: -1; border-radius: 16px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); }
+.hub-r .pic { width: 68px; height: 68px; border-radius: 12px; }
+.hub-r .pic img { transition: transform .6s var(--ease); }
+.hub-r.on .pic img { transform: scale(1.08); }
 .hub-tx { display: grid; gap: 2px; min-width: 0; }
-.hub-tx b { font-size: 17px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hub-tx span { color: var(--ink-3); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.hub-tx p { color: var(--ink-2); font-size: 14.5px; margin-top: 2px; }
-.hub-t.big { grid-column: span 2; grid-row: span 2; }
-.hub-t.big .hub-tx b { font-size: 21px; }
-.hub-t.wide { grid-column: span 2; }
+.hub-tx b { font-size: 16.5px; font-weight: 700; line-height: 1.25; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hub-tx span { color: var(--ink-3); font-size: 13.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hub-r > .ph { color: var(--ink-3); opacity: 0; transform: translateX(-6px); transition: opacity .2s, transform .25s var(--ease), color .2s; }
+.hub-r.on > .ph { opacity: 1; transform: none; color: var(--link); }
+.hub-r:focus-visible { outline: 2px solid var(--hl); outline-offset: 2px; }
+
+@media (max-width: 1100px) { .hub-l.two { grid-template-columns: minmax(0, 1fr); } .hub { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px 24px; } }
 @media (max-width: 900px) {
-  .hub-m { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 196px; gap: 16px 12px; }
-  .hub-t.big { grid-row: span 1; }
-  .hub-t.big .pic { flex: none; aspect-ratio: 16 / 9; }
-  .hub-m:has(> .big) { grid-auto-rows: minmax(196px, auto); }
-  .hub-t.wide { grid-column: span 1; }
-  .hub-m.odd > .hub-t:last-child { grid-column: span 2; }
-  .hub-t.big .hub-tx p { display: none; }
+  .hub { grid-template-columns: minmax(0, 1fr); grid-template-areas: "list"; grid-template-rows: none; }
+  .hub-pv, .hub-in { display: none; }
+  .hub-l, .hub-l.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hub-r .hub-on { display: none; }
+  .hub-r { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); padding-right: 12px; }
+  .hub-r > .ph { opacity: 1; transform: none; }
 }
 
 /* ---------- price check: the dish tabs, then a way to every dish ---------- */
@@ -184,18 +206,21 @@
    Tall grids become rows you swipe sideways (cravings, browse tiles, Ask examples, "See it" boxes),
    so the page is about half as long while every section stays. Each row bleeds to the screen edge. */
 @media (max-width: 600px) {
-  .cats, .hub-m, .bento, .ai-ex {
+  .cats, .hub-l, .bento, .ai-ex {
     display: grid; grid-template-columns: none; grid-template-rows: none; grid-auto-flow: column;
     overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none;
     margin-left: -16px; margin-right: -16px; padding: 2px 16px 6px; scroll-padding-inline: 16px;
   }
-  .cats::-webkit-scrollbar, .hub-m::-webkit-scrollbar, .bento::-webkit-scrollbar, .ai-ex::-webkit-scrollbar { display: none; }
-  .cats > *, .hub-m > *, .bento > *, .ai-ex > * { scroll-snap-align: start; }
+  .cats::-webkit-scrollbar, .hub-l::-webkit-scrollbar, .bento::-webkit-scrollbar, .ai-ex::-webkit-scrollbar { display: none; }
+  .cats > *, .hub-l > *, .bento > *, .ai-ex > * { scroll-snap-align: start; }
 
   .cats { grid-auto-columns: 31%; gap: 12px; }
-  .hub-m { grid-auto-columns: 64%; grid-auto-rows: 210px; gap: 12px; }
-  .hub-m > .hub-t.big, .hub-m > .hub-t.wide { grid-column: auto; grid-row: auto; }
-  .hub-m > .hub-t.big .pic { flex: 1 1 auto; aspect-ratio: auto; }
+  /* browse every way: each row turns into a photo card */
+  .hub-l, .hub-l.two { grid-template-columns: none; grid-auto-columns: 62%; gap: 12px; }
+  .hub-r { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto auto; gap: 10px 8px; padding: 0 0 4px; background: none; box-shadow: none; border-radius: 0; align-items: end; }
+  .hub-r .pic { grid-column: 1 / -1; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 16px; }
+  .hub-r.on .pic img { transform: none; }
+  .hub-r > .ph { margin-bottom: 4px; }
   .bento { display: flex; gap: 12px; }
   .bento > .bx { flex: 0 0 86%; }
   .bento > .bx { min-height: 380px; }
@@ -213,3 +238,88 @@
 @media (max-width: 600px) {
   .cats.all { grid-auto-flow: row; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-columns: auto; overflow: visible; scroll-snap-type: none; margin-left: 0; margin-right: 0; padding: 2px 0 6px; }
 }
+
+/* ---------- see it before you go: a list of the four views beside one big stage ----------
+   Laptops: the list on the left (number, icon, title, one line), the stage on the right. The chosen row
+   gets a solid card behind it that slides from row to row. Phones: the list turns into a row of short
+   chips above the stage. The boxes inside drop their own titles: the list already says it. */
+.see { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: 28px; margin-top: 28px; align-items: stretch; }
+.see-nav { display: grid; align-content: start; gap: 6px; }
+.see-t { position: relative; isolation: isolate; display: grid; grid-template-columns: auto 44px minmax(0, 1fr); align-items: center; gap: 14px; padding: 16px 18px 16px 14px; border-radius: 18px; text-align: left; color: var(--ink-2); transition: color .2s; }
+.see-on { position: absolute; inset: 0; z-index: -1; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.see-n { font-size: 13px; font-weight: 700; color: var(--ink-3); width: 20px; }
+.see-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; font-size: 21px; background: var(--sunk); color: var(--ink-2); transition: background .25s, color .25s; }
+.see-t.on .see-ic { background: var(--brand); color: #fff; }
+:root[data-theme="dark"] .see-t.on .see-ic { background: var(--gold); color: #1A1300; }
+.see-tx { display: grid; gap: 3px; min-width: 0; }
+.see-tx b { font-size: 17px; font-weight: 750; line-height: 1.3; color: var(--ink); letter-spacing: -.01em; }
+.see-tx > span { font-size: 14px; color: var(--ink-3); }
+.see-t:not(.on) .see-tx > span { display: none; }
+.see-sh { display: none; }
+@media (hover: hover) and (pointer: fine) { .see-t:not(.on):hover { color: var(--ink); } .see-t:not(.on):hover .see-ic { color: var(--ink); } }
+.see-t:focus-visible { outline: 2px solid var(--hl); outline-offset: 2px; }
+.see-stage { position: relative; display: grid; min-height: 480px; }
+.see-box { grid-area: 1 / 1; display: grid; min-width: 0; }
+.see-box > .bx { min-height: 480px; height: 100%; border-radius: 24px; }
+.see-box .bx-cap h3, .see-box .bx-cap > p { display: none; }
+.see-box .bx-3d .stage3 { inset: 28px 20px 84px; }
+
+/* the full bill, as a receipt */
+.bx-d { display: grid; background: var(--sunk); box-shadow: inset 0 0 0 1px var(--line); }
+.bill2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 28px; align-items: center; padding: 32px; }
+.bill2-pick { display: grid; gap: 14px; justify-items: start; }
+.bill2-pick .k { font-size: 14px; font-weight: 650; color: var(--ink-3); }
+.mb-step.big { gap: 14px; }
+.mb-step.big button { width: 48px; height: 48px; font-size: 18px; }
+.mb-step.big b { font-size: 44px; font-weight: 800; min-width: 1.4em; text-align: center; letter-spacing: -.03em; }
+.bill2-d { color: var(--ink-2); font-size: 15px; }
+.rcpt { display: grid; gap: 10px; padding: 22px 22px 18px; border-radius: 18px; background: var(--surface); box-shadow: var(--shadow), inset 0 0 0 1px var(--line); }
+.rcpt-h { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px dashed var(--line-2); }
+.rcpt-h b { font-weight: 750; }
+.rcpt-r { display: flex; justify-content: space-between; gap: 12px; font-size: 15px; }
+.rcpt-r.m { color: var(--ink-3); font-size: 14px; }
+.rcpt-r.tot { margin-top: 4px; padding-top: 12px; border-top: 1px dashed var(--line-2); font-weight: 750; font-size: 17px; align-items: baseline; }
+.rcpt-r.tot .price { font-size: 26px; }
+.rcpt-pp { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 2px; padding: 10px 14px; border-radius: 12px; background: var(--brand); color: #fff; font-weight: 700; }
+:root[data-theme="dark"] .rcpt-pp { background: var(--gold); color: #1A1300; }
+
+@media (max-width: 900px) {
+  .see { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .see-nav { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin: 0 -16px; padding: 2px 16px; }
+  .see-nav::-webkit-scrollbar { display: none; }
+  .see-t { flex: none; grid-template-columns: auto auto; gap: 8px; padding: 8px 16px 8px 8px; border-radius: 99px; box-shadow: inset 0 0 0 1px var(--line-2); }
+  .see-on { border-radius: 99px; box-shadow: none; background: var(--ink); }
+  .see-t.on { color: var(--surface); }
+  .see-n, .see-tx { display: none; }
+  .see-sh { display: block; font-size: 14.5px; font-weight: 700; white-space: nowrap; }
+  .see-ic { width: 30px; height: 30px; border-radius: 50%; font-size: 16px; }
+  .see-stage, .see-box > .bx { min-height: 420px; }
+  .see-box .bx-cap > p { display: block; }
+  .bill2 { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 20px; }
+  .bill2-pick { grid-template-columns: auto 1fr; align-items: center; justify-items: start; }
+  .bill2-pick .k { display: none; }
+  .mb-step.big b { font-size: 32px; }
+  .mb-step.big button { width: 40px; height: 40px; }
+}
+
+/* ---------- header drop-downs: sliding deals, every kind of dish ---------- */
+.dd .mg-deals { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.mg-dx { display: grid; overflow: hidden; border-radius: 14px; }
+.mg-dw { grid-area: 1 / 1; min-width: 0; }
+.mg-dots { display: flex; gap: 6px; justify-content: center; }
+.dd .mg-dots button { width: 7px; height: 7px; padding: 0; border-radius: 99px; background: var(--line-2); transition: width .3s var(--ease), background .3s; }
+.dd .mg-dots button[aria-current="true"] { width: 20px; background: var(--hl); }
+.dd .mg-dots button:hover { background: var(--ink-3); }
+.dd .dd-all { color: var(--link); font-weight: 650; }
+.dd .dd-all i { color: currentColor; margin-left: auto; }
+.dd.dd-dish { grid-template-columns: minmax(0, 1fr) 220px; gap: 18px; width: min(860px, calc(100vw - 48px)); }
+.dd-cols { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 10px 14px; }
+.dd-g { min-width: 0; }
+.dd .dd-g h4 a { height: auto; padding: 0; font-size: 13px; font-weight: 700; color: var(--ink-3); }
+.dd .dd-g h4 a:hover { background: none; color: var(--ink); }
+.dd-side { display: grid; gap: 8px; align-content: start; padding-left: 18px; border-left: 1px solid var(--line); }
+.dd .dd-big { height: auto; padding: 12px; gap: 12px; align-items: center; white-space: normal; border-radius: 14px; background: var(--sunk); }
+.dd .dd-big i { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; flex: none; background: var(--surface); color: var(--hl); font-size: 19px; }
+.dd .dd-big b { display: block; font-size: 14.5px; }
+.dd .dd-big small { display: block; font-size: 12.5px; color: var(--ink-3); }
+.dd .dd-big:hover { background: var(--line); }

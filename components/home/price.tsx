@@ -1,6 +1,6 @@
 'use client';
 /* Price check: one dish across town. The typical price rolls to the new number when you switch dish,
-   the dots show where every plate sits, and each row opens that dish. Menu prices only. */
+   the bars show how the prices spread, and each row opens that dish. Menu prices only. */
 import { useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
@@ -8,6 +8,7 @@ import { m } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
 import { I, Mono, Pic, Rise, Seg, Tk, type SegItem } from '@/components/ui/bits';
 import { openDish } from '@/components/cards/actions';
+import { PriceBars } from '@/components/ui/price-bars';
 import { useHref } from '@/components/shell/nav';
 import { C, EASE, areaOf } from '@/lib/khabo';
 import type { HomeData } from './data';
@@ -37,9 +38,7 @@ export function PriceSec({ list }: { list: HomeData['price'] }) {
           <span className="k">{i.t('pc_typical', { d: nm.toLowerCase() })}</span>
           <b className="big"><Tk v={cur.mid} flow /></b>
           <m.div key={cur.id} className="pc-var" initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, ease: EASE }}>
-            <div className="scale" aria-hidden="true">
-              {cur.dots.map(d => <i key={d.x} className={d.mid ? 'mid' : ''} style={{ '--x': d.x + '%' } as CSSProperties} />)}
-            </div>
+            <PriceBars prices={cur.pr} lo={cur.lo} hi={cur.hi} mid={cur.mid} id={cur.id} />
             <div className="ends">
               <span><b><Tk v={cur.lo} /></b>{i.t('lowest')}</span>
               <span style={{ textAlign: 'right' }}><b><Tk v={cur.hi} /></b>{i.t('highest')}</span>

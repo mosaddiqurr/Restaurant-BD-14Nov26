@@ -9,7 +9,7 @@ import { useI } from '@/components/providers/i18n';
 import { I, Mono, Num, Pic, Tk, useMounted, useNow } from '@/components/ui/bits';
 import { useHref } from '@/components/shell/nav';
 import { useApp } from '@/lib/store';
-import { C, EASE, areaOf, clock, codeOf, cuName, dealDates, dealEnd, dealRing, dealTag, openState, src } from '@/lib/khabo';
+import { C, EASE, areaOf, dhakaAt, clock, codeOf, cuName, dealDates, dealEnd, dealRing, dealTag, evPath, openState, src } from '@/lib/khabo';
 import type { Deal, Dish, DishCard, KhaboEvent, RestaurantCard, RestaurantMini } from '@/lib/data/types';
 import { addDish, lessDish, openDish, plates } from './actions';
 
@@ -44,7 +44,7 @@ export function RCard({ r, eager }: { r: RestaurantCard; plain?: boolean; eager?
         {r.featured || r.hasTour || r.hasFilm || r.has3d ? (
           <div className="rc-f">
             {r.featured ? <span className="feat">{i.t('featured')}</span> : null}
-            {r.hasTour ? <span><I n="virtual-reality" />360°</span> : null}
+            {r.hasTour ? <span><I n="virtual-reality" />{i.L({ en: 'Walkthrough', bn: 'ওয়াকথ্রু' })}</span> : null}
             {r.hasFilm ? <span><I n="play" />{i.t('film')}</span> : null}
             {r.has3d ? <span><I n="cube" />3D</span> : null}
           </div>
@@ -195,7 +195,7 @@ export const ETYPE: Record<string, [{ en: string; bn: string }, string]> = {
   music: [{ en: 'Live music', bn: 'লাইভ মিউজিক' }, 'music-notes'], match: [{ en: 'Match screening', bn: 'খেলা দেখা' }, 'television-simple'],
   iftar: [{ en: 'Iftar special', bn: 'ইফতার স্পেশাল' }, 'moon-stars'], festival: [{ en: 'Festival menu', bn: 'উৎসবের মেনু' }, 'confetti'], other: [{ en: 'Event', bn: 'ইভেন্ট' }, 'calendar-star'],
 };
-export const evS = (ev: KhaboEvent) => +new Date(ev.start), evE = (ev: KhaboEvent) => +new Date(ev.end);
+export const evS = (ev: KhaboEvent) => dhakaAt(ev.start), evE = (ev: KhaboEvent) => dhakaAt(ev.end);
 export function useEvWhen() {
   const i = useI();
   return (ev: KhaboEvent) => {
@@ -224,7 +224,8 @@ export function ECard({ x, place = true }: { x: EventX; place?: boolean }) {
   const style = { '--rd': r.theme.deep, '--ra': r.theme.accent } as CSSProperties;
   return (
     <m.article className="evc" style={style} whileHover={{ y: -4 }} transition={{ duration: 0.25, ease: EASE }}>
-      {place ? <Link href={href('/r/' + r.id) + '#events'} className="cp-a" aria-label={i.L(ev) + ', ' + i.L(r.name)} /> : null}
+      {/* every event card opens the event's own page */}
+      <Link href={href('/events/' + evPath(x.k.includes('/') ? x.k : r.id + '/' + ev.id))} className="cp-a" aria-label={i.L(ev) + ', ' + i.L(r.name)} />
       {inner}
     </m.article>
   );

@@ -17,7 +17,7 @@ export const SPR = { type: 'spring', stiffness: 520, damping: 40, mass: 0.8 } as
 const stillBase = (id: string) => {
   if (id.startsWith('pv:')) { const [, p, v] = id.split(':'); return `/media/360/${p}-${v}`; }
   const m = /^\/media\/360\/([\w-]+?)\.jpg$/.exec(id);
-  return m && !/-(4k|24|480|960)$/.test(m[1]) ? `/media/360/${m[1]}` : null;
+  return m && !/-(4k|2k|24|480|960)$/.test(m[1]) ? `/media/360/${m[1]}` : null;
 };
 export function src(id: string | null | undefined, w = 800) {
   if (!id) return '';
@@ -44,6 +44,8 @@ export function lqip(id: string | null | undefined) {
   return C.photos[id] ? `https://images.unsplash.com/photo-${C.photos[id]}?w=24&q=30&auto=format&fit=crop` : '';
 }
 export const panoFull = (pano: string) => `/media/360/${pano}-4k.jpg`;
+/** a 2048px copy (about a quarter of the 4K file) for the strip on the page; full screen keeps 4K */
+export const panoMid = (pano: string) => `/media/360/${pano}-2k.jpg`;
 export const panoStill = (pano: string) => `/media/360/${pano}-a.jpg`;
 export const restFile = (rid: string, f: string) => `/media/r/${rid}/${f}`;
 
@@ -58,7 +60,9 @@ export const esc = (s: unknown) => String(s == null ? '' : s).replace(/[&<>"']/g
 /* ---------- places ---------- */
 export const areaOf = (id: string) => C.areas.find(a => a.id === id) || C.areas[0];
 export const cuOf = (d: Pick<Dish, 'type'>) => C.types[d.type]?.cu;
-export const cuName = (i: I18n, id: string) => i.L(C.cuisines.find(c => c.id === id));
+/** cuisines that were split in two (Nov 2026): a copy saved before then still shows a name */
+const CU_WAS: Record<string, string> = { asian: 'chinese' };
+export const cuName = (i: I18n, id: string) => i.L(C.cuisines.find(c => c.id === (CU_WAS[id] || id)));
 export const where = (i: I18n, r: { area: string; city: string }) => `${i.L(areaOf(r.area))}, ${i.L(C.cities[r.city])}`;
 export const LL: Record<string, [number, number]> = { dhanmondi: [23.7461, 90.3742], gulshan: [23.7925, 90.4078], banani: [23.7937, 90.4066], mirpur: [23.8223, 90.3654], mohammadpur: [23.7662, 90.3589], uttara: [23.8759, 90.3795], 'old-dhaka': [23.7104, 90.4074], jaleshwaritola: [24.8465, 89.3776], satmatha: [24.8481, 89.3730] };
 export const distKm = (a?: [number, number] | null, b?: [number, number] | null) => {
@@ -68,6 +72,8 @@ export const distKm = (a?: [number, number] | null, b?: [number, number] | null)
   return 2 * R * Math.asin(Math.sqrt(h));
 };
 export const mapUrl = (r: { address: { en: string } }) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(r.address.en)}`;
+/** an event's page address from its key ("restaurant/event"): /events/restaurant--event */
+export const evPath = (k: string) => k.replace('/', '--');
 export const dirUrl = (r: { geo: [number, number] }) => `https://www.google.com/maps/dir/?api=1&destination=${r.geo[0]},${r.geo[1]}`;
 export const waUrl = (r: { phone: string }) => `https://wa.me/${r.phone.replace(/[^\d]/g, '')}`;
 /** how the star ratings spread, from the average (demo data) */
@@ -79,8 +85,15 @@ export function clock(i: I18n, s: string) {
   const [h0, mi] = s.split(':').map(Number); let h = h0; const ap = h >= 12 && h < 24 ? 'PM' : 'AM'; h = h % 12 || 12;
   return i.dg(`${h}${mi ? ':' + String(mi).padStart(2, '0') : ''} ${i.bn ? (ap === 'AM' ? 'এএম' : 'পিএম') : ap}`);
 }
+/* Bangladesh is UTC+6 all year (no summer time). Opening hours, deal days and event times are Dhaka times,
+   so they are read on Dhaka's clock, whatever the clock of the phone or the server says */
+const BD = 6 * 3600e3;
+/** minutes past midnight in Dhaka */
+export const dhakaMin = (now = new Date()) => { const d = new Date(now.getTime() + BD); return d.getUTCHours() * 60 + d.getUTCMinutes(); };
+/** a Dhaka wall-clock time like "2026-11-20T19:30" as a moment in time (an explicit offset or Z is kept) */
+export const dhakaAt = (t: string) => Date.parse(/(Z|[+-]\d\d:?\d\d)$/i.test(t) ? t : t + '+06:00');
 export function isOpen(r: { hours: [string, string] }, now = new Date()) {
-  const o = toMin(r.hours[0]); let c = toMin(r.hours[1]); const m = now.getHours() * 60 + now.getMinutes();
+  const o = toMin(r.hours[0]); let c = toMin(r.hours[1]); const m = dhakaMin(now);
   if (c <= o) c += 1440;
   const mm = m < o && m + 1440 < c ? m + 1440 : m;
   return mm >= o && mm < c;
@@ -96,8 +109,8 @@ export const checkedLabel = (i: I18n, days: number) => days <= 1 ? i.t('checked_
 export const PLAN: Record<Plan, number> = { premium: 3, pro: 2, starter: 1 };
 export const PLAN_N = { premium: { en: 'Premium', bn: 'প্রিমিয়াম' }, pro: { en: 'Pro', bn: 'প্রো' }, starter: { en: 'Starter', bn: 'স্টার্টার' } };
 export const planOf = (r: { plan: Plan }) => PLAN[r.plan] || 0;
-/** today's date in Dhaka style YYYY-MM-DD (local time) */
-export const today = () => { const n = new Date(); return new Date(n.getTime() - n.getTimezoneOffset() * 6e4).toISOString().slice(0, 10); };
+/** today's date in Dhaka, YYYY-MM-DD */
+export const today = () => new Date(Date.now() + BD).toISOString().slice(0, 10);
 export const dealState = (d: Deal) => { const t = today(); return d.off ? 'off' : d.from && d.from > t ? 'soon' : d.to && d.to < t ? 'ended' : 'live'; };
 export const liveDealsOf = (r: { deals?: Deal[] }) => (r.deals || []).filter(d => dealState(d) === 'live');
 /** the headline deal used by cards and filters: the deal of the week first */
@@ -126,10 +139,23 @@ export function dealDates(i: I18n, d: Deal) {
 
 /* ---------- filters (the same rules as the live listing pages) ---------- */
 export type RFilter = { area?: string; city?: string; cu?: string; type?: string; q?: string; bud?: string; open?: string | boolean; late?: string | boolean; rating?: string; occ?: string; fac: string[]; media: string[]; tags: string[]; sort: string };
-export type DFilter = { area?: string; city?: string; cu?: string; type?: string; q?: string; max?: string; veg?: string | boolean; mild?: string | boolean; sort: string; group: string; mode: string; bud?: string; fac?: string[]; media?: string[]; tags?: string[]; rating?: string; open?: string | boolean };
-export const LIST_KEYS = ['fac', 'media', 'tags'] as const;
+export type DFilter = { area?: string; city?: string; cu?: string; type?: string; q?: string; max?: string; veg?: string | boolean; mild?: string | boolean; spice?: string; dx?: string[]; sort: string; group: string; mode: string; bud?: string; fac?: string[]; media?: string[]; tags?: string[]; rating?: string; open?: string | boolean };
+export const LIST_KEYS = ['fac', 'media', 'tags', 'dx'] as const;
 export const F0 = (): RFilter => ({ fac: [], media: [], tags: [], sort: 'rel' });
 export const DF0 = (): DFilter => ({ sort: 'rel', group: 'cu', mode: 'grid', type: '', cu: '', q: '' });
+/** how hot a dish may be (dish.spice: 0 none, 1 mild, 2 medium, 3 hot). '0' none, '1' up to mild, '2' up to medium, '3' hot only */
+export const SPICE = [
+  { id: '0', i: 'snowflake', en: 'Not spicy', bn: 'ঝাল নেই', ok: (s: number) => s === 0 },
+  { id: '1', i: 'pepper', en: 'Mild or less', bn: 'কম ঝাল', ok: (s: number) => s <= 1 },
+  { id: '2', i: 'pepper', en: 'Medium or less', bn: 'মাঝারি ঝাল পর্যন্ত', ok: (s: number) => s <= 2 },
+  { id: '3', i: 'fire', en: 'Hot only', bn: 'শুধু বেশি ঝাল', ok: (s: number) => s >= 3 },
+] as const;
+/** more ways to narrow dishes, each one a yes or no about the dish */
+export const DISH_X = [
+  { id: 'best', i: 'star', en: 'Best sellers', bn: 'বেস্ট সেলার', ok: (d: { best?: boolean }) => !!d.best },
+  { id: 'share', i: 'users-three', en: 'For sharing', bn: 'ভাগ করে খাওয়ার', ok: (d: { share?: number }) => (d.share || 0) > 1 },
+  { id: '3d', i: 'cube', en: 'See in 3D', bn: '৩ডিতে দেখা যায়', ok: (d: { d3?: string }) => !!d.d3 },
+] as const;
 export function matchR(r: RestaurantCard, f: Partial<RFilter> & Partial<DFilter>, dishLevel = false) {
   if (f.area && r.area !== f.area) return false;
   if (f.city && r.city !== f.city) return false;

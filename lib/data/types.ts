@@ -177,12 +177,15 @@ export type DishType = { en: string; bn: string; cu: string; p?: PhotoId; i?: st
 export type Facility = { en: string; bn: string; i: string };
 export type Occasion = { id: string; en: string; bn: string; i: string; q: { fac?: string[]; maxPP?: number; late?: boolean; media?: string[] } };
 export type Budget = { id: string; en: string; bn: string; min?: number; max?: number };
-export type Palette = { id: string; deep: string; accent: string; en: string; bn: string };
+/** a colour pair a restaurant can pick: a dark background and a bright accent. g = the mood group it is listed under */
+export type Palette = { id: string; deep: string; accent: string; en: string; bn: string; g?: string };
+export type PaletteGroup = { id: string; en: string; bn: string };
 
 export type Common = {
   photos: Record<string, string>;
   films: Record<string, string>;
   palettes: Palette[];
+  paletteGroups?: PaletteGroup[];
   socials: Record<string, { en: string; base: string; icon: string; host: string }>;
   cities: Record<string, Text>;
   areas: Area[];

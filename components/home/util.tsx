@@ -2,6 +2,7 @@
 /* Small helpers for the home page and the overlays it opens. */
 import { Fragment, useSyncExternalStore, type ReactNode } from 'react';
 import type { I18n } from '@/lib/i18n/core';
+import { everyMinute } from '@/components/listing/hooks';
 
 /** a word with parts inside it (a price, a link): "from {p}" with p = <Tk v={280} /> */
 export function tj(i: I18n, k: string, v: Record<string, ReactNode>) {
@@ -20,8 +21,9 @@ export function useMedia(q: string) {
 }
 
 const still = () => () => {};
-/** the current minute, known only in the browser (0 on the server and in the first paint, so pages hydrate cleanly) */
-export const useMinute = () => useSyncExternalStore(still, () => Math.floor(Date.now() / 60000), () => 0);
+/** the current minute, known only in the browser (0 on the server and in the first paint, so pages hydrate cleanly).
+    It moves on by itself every minute */
+export const useMinute = () => useSyncExternalStore(everyMinute, () => Math.floor(Date.now() / 60000), () => 0);
 /** true when the phone asks to save data */
 export const useSaveData = () => useSyncExternalStore(still, () => !!(navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData, () => false);
 

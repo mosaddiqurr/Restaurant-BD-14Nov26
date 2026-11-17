@@ -2,6 +2,8 @@
 /* The sections of a restaurant page, top to bottom. Ported from archive/prototype/app/app.js (same class names). */
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useHref } from '@/components/shell/nav';
 import { AnimatePresence, m } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
 import { I, Pic, Pill, RailX, Rise, Seg, Spice, Stars, useMounted } from '@/components/ui/bits';
@@ -16,7 +18,7 @@ import type { Deal, Dish, KhaboEvent, Restaurant, RestaurantCard, Review, Text }
 import type { I18n } from '@/lib/i18n/core';
 import { W } from './words';
 import { InlinePano } from './pano-inline';
-import { photoCats, reducedMotion, type RMini, type RvAllX, type WriteX } from './util';
+import { photoCats, reducedMotion, type RMini, type WriteX } from './util';
 import { specialDay, specialOf } from '@/lib/special';
 import { tagsOf } from '@/lib/tags';
 
@@ -321,7 +323,7 @@ export function RPhotos({ r }: { r: Restaurant }) {
 
 /* ---------- reviews ---------- */
 export function RReviews({ r, mini, reviews }: { r: Restaurant; mini: RMini; reviews: Review[] }) {
-  const i = useI(), set = useApp(s => s.set), myRv = useApp(s => s.myRv);
+  const i = useI(), href = useHref(), myRv = useApp(s => s.myRv);
   const [f, setF] = useState('all');
   const list = useLiveReviews(reviews);
   const ds = useMemo(() => ratingSpread(r.rating), [r.rating]);
@@ -331,7 +333,7 @@ export function RReviews({ r, mini, reviews }: { r: Restaurant; mini: RMini; rev
   const write = () => needSign(() => S().set({ write: { r: { ...mini, menu: r.menu.map(d => ({ id: d.id, name: d.name })) } as RMini & WriteX } }));
   return (
     <section className="sec" id="reviews">
-      <div className="sec-head"><Rise as="h2" className="rh2">{i.t('reviews')}</Rise><Seg id="rvf" items={RVF} value={f} onChange={setF} /></div>
+      <div className="sec-head"><Rise as="h2" className="rh2">{i.t('reviews')}</Rise><Seg id="rvf" items={RVF.map(([k, l]) => [k, l, i.N(k === 'all' ? mine.length + list.length : filterRv(list, k).length)])} value={f} onChange={setF} /></div>
       <div className="rvs">
         <Rise className="rv-sum">
           <div className="big"><b>{i.N(r.rating)}</b><div><div className="stars"><Stars n={Math.round(r.rating)} /></div><p className="meta">{i.t('rv_counts', { n: i.N(r.reviews), v: i.N(r.verified) })}</p></div></div>
@@ -351,7 +353,8 @@ export function RReviews({ r, mini, reviews }: { r: Restaurant; mini: RMini; rev
             <div className="rv-grid">{items.slice(0, 4).map((v, k) => <RvCard key={v.who + k + f} v={v} r={r} clamp />)}</div>
           ) : <div className="empty"><I n="chat-circle-dots" /><b>{i.t('no_reviews')}</b></div>}
           <div className="rv-acts">
-            <button className="btn btn-line" onClick={() => set({ rvAll: { r: { ...mini, reviews: r.reviews, verified: r.verified } as RMini & RvAllX, list } })}><I n="list-bullets" />{i.tx('see_all_rv')}</button>
+            {/* every review has its own page, with filters, order and paging */}
+            <Link className="btn btn-line" href={href('/r/' + r.id + '/reviews')}><I n="list-bullets" />{i.tx('see_all_rv')}</Link>
             <span className="meta">{i.tx('showing', { n: i.N(Math.min(4, items.length)), t: i.N(r.reviews) })}</span>
           </div>
         </div>

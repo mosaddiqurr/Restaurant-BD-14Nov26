@@ -5,7 +5,7 @@
 import { useMemo, useState } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
-import { I, Rise, Seg, useMounted } from '@/components/ui/bits';
+import { I, Rise, Seg, useMounted, type SegItem } from '@/components/ui/bits';
 import { Coupon, type DealX } from '@/components/cards/cards';
 import { Slider } from '@/components/cards/slider';
 import { useApp } from '@/lib/store';
@@ -24,6 +24,8 @@ export function DealsView({ rows }: { rows: DealRow<DealR>[] }) {
   const all = useMemo(() => rankDeals(live ? rows.filter(z => dealState(z.d) === 'live') : rows, order), [rows, order, live]);
   const prem = all.filter(z => z.r.plan === 'premium'), top = (prem.length ? prem : all.slice(0, 5)) as DealX[];
   const list = all.filter(z => city === 'all' || z.r.city === city);
+  /* only the cities that have deals, so a new city shows up by itself */
+  const cities = Object.keys(C.cities).filter(c => all.some(z => z.r.city === c));
   return (
     <div className="wrap lp">
       <div className="lh"><div>
@@ -34,7 +36,7 @@ export function DealsView({ rows }: { rows: DealRow<DealR>[] }) {
       <section className="sec" style={{ paddingTop: 72 }}>
         <div className="sec-head">
           <h2 className="h2">{i.t('all_deals')}</h2>
-          <Seg id="dcity" items={[['all', i.t('all')], ['dhaka', i.L(C.cities.dhaka)], ['bogura', i.L(C.cities.bogura)]]} value={city} onChange={setCity} />
+          {cities.length > 1 ? <Seg id="dcity" items={[['all', i.t('all')], ...cities.map(c => [c, i.L(C.cities[c])] as SegItem)]} value={city} onChange={setCity} /> : null}
         </div>
         {list.length ? (
           <div className="deal-grid">
@@ -50,7 +52,6 @@ export function DealsView({ rows }: { rows: DealRow<DealR>[] }) {
         ) : (
           <div className="empty"><I n="tag" /><b>{i.t('no_deals')}</b></div>
         )}
-        <p className="meta" style={{ marginTop: 18, display: 'flex', gap: 8, alignItems: 'flex-start' }}><I n="info" /><span>{i.t('deal_note')} {i.tx('sample_code')}</span></p>
       </section>
     </div>
   );

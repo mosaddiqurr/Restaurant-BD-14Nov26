@@ -26,7 +26,7 @@ export type BizPick = { id: string; name: Text; theme: Theme; look: QRLook };
 
 const BPLANS = [
   { id: 'starter', name: { en: 'Starter', bn: 'স্টার্টার' }, dhaka: 1999, sub: { en: 'A professional page with a menu that is always right.', bn: 'সবসময় সঠিক মেনুসহ পেশাদার পেজ।' }, f: ['f_page', 'f_menu', 'f_photos', 'f_qr', 'f_print', 'f_reviews', 'f_report'] },
-  { id: 'pro', name: { en: 'Pro', bn: 'প্রো' }, dhaka: 4999, pop: true, sub: { en: 'Stand out with a 360° tour, a film and price insights.', bn: '৩৬০° ট্যুর, ফিল্ম আর দামের তুলনা দিয়ে আলাদা হোন।' }, f: ['f_all_starter', 'f_film', 'f_kitchen', 'f_tour', 'f_video_menu', 'f_insights', 'f_deals'] },
+  { id: 'pro', name: { en: 'Pro', bn: 'প্রো' }, dhaka: 4999, pop: true, sub: { en: 'Stand out with a virtual walkthrough, a film and price insights.', bn: 'ভার্চুয়াল ওয়াকথ্রু, ফিল্ম আর দামের তুলনা দিয়ে আলাদা হোন।' }, f: ['f_all_starter', 'f_film', 'f_kitchen', 'f_tour', 'f_video_menu', 'f_insights', 'f_deals'] },
   { id: 'premium', name: { en: 'Premium', bn: 'প্রিমিয়াম' }, dhaka: 9999, sub: { en: 'Maximum reach: featured placement and Deal of the Week.', bn: 'সর্বোচ্চ প্রচার: ফিচারড জায়গা আর সপ্তাহের ডিল।' }, f: ['f_all_pro', 'f_long_film', 'f_3d', 'f_featured', 'f_dotw', 'f_social', 'f_priority'] },
 ] as const;
 const HOW = [['how1', 'calendar-blank', 'pv:warm_restaurant:a'], ['how2', 'camera', 'kc1'], ['how3', 'broadcast', 'kt'], ['how4', 'chart-line-up', 'iB']] as const;
@@ -102,7 +102,8 @@ export function BizView({ sh, picks }: { sh: BizShow; picks: BizPick[] }) {
         <Rise d={1}>
           <div className="phone" ref={phRef}>
             <div className="notch" />
-            {phIn ? <iframe title={i.t('see_live')} src={href('/r/' + sh.id)} allow="autoplay" loading="lazy" onLoad={() => setPhReady(true)} /> : null}
+            {/* the live page drawn at a real phone width (375px) and scaled down to the frame, so it looks as it does in a hand */}
+            <div className="ph-scr">{phIn ? <iframe title={i.t('see_live')} src={href('/r/' + sh.id)} allow="autoplay" loading="lazy" onLoad={() => setPhReady(true)} /> : null}</div>
             <AnimatePresence>{!phReady ? <m.div key="w" className="ph-wait" exit={{ opacity: 0 }} transition={{ duration: 0.3 }}><span className="sk" style={{ position: 'absolute', inset: 0, borderRadius: 38 }} /><span className="meta" style={{ position: 'relative' }}>{i.L(W.phone_wait)}</span></m.div> : null}</AnimatePresence>
           </div>
         </Rise>

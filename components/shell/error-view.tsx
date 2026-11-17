@@ -8,7 +8,7 @@ import { PlayBlock } from '@/components/games/play-block';
 import '@/styles/error.css';
 
 const W = {
-  title: { en: 'Something went wrong in the kitchen', bn: 'রান্নাঘরে একটু সমস্যা হয়েছে' },
+  title: { en: 'Something went wrong', bn: 'কিছু একটা সমস্যা হয়েছে' },
   sub: { en: 'This page did not load. Try again, or go back to the home page.', bn: 'পেজটি খোলেনি। আবার চেষ্টা করুন, অথবা হোমে ফিরে যান।' },
   again: { en: 'Try again', bn: 'আবার চেষ্টা করুন' },
   home: { en: 'Home', bn: 'হোম' },

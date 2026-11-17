@@ -15,6 +15,7 @@ import { toast } from '@/lib/toast';
 import { useI } from '@/components/providers/i18n';
 import { I, Pic, Rise, Seg, Tk, useNow } from '@/components/ui/bits';
 import { Choose } from '@/components/ui/choose';
+import { PriceBars } from '@/components/ui/price-bars';
 import { openDish } from '@/components/cards/actions';
 import { useHref, type Q } from '@/components/shell/nav';
 import { useDemoDB, type HistRow } from '@/lib/demo-db';
@@ -41,7 +42,6 @@ const W = {
   trendH: { en: 'Typical price, last 6 months', bn: 'সাধারণ দাম, গত ৬ মাস' },
   trendNeed: { en: 'We show a trend once 3 or more places here serve this dish, so it is about the area, never one restaurant.', bn: 'এখানে ৩টি বা বেশি জায়গায় খাবারটি থাকলে তবেই দামের ধারা দেখাই, যাতে এটি পুরো এলাকার কথা বলে, কোনো একটি রেস্টুরেন্টের নয়।' },
   trendNote: { en: 'The typical price across every place here, week by week. We never show one restaurant’s price changes on this page.', bn: 'এখানকার সব জায়গার সাধারণ দাম, সপ্তাহে সপ্তাহে। এই পাতায় কোনো একটি রেস্টুরেন্টের দাম বদল দেখানো হয় না।' },
-  order: { en: 'Every place is listed the same way: by price, never by plan or Featured.', bn: 'সব জায়গা একইভাবে সাজানো: দাম অনুযায়ী, প্ল্যান বা ফিচারড দিয়ে নয়।' },
   noDish: { en: 'No place here has this dish yet. Try another area.', bn: 'এই এলাকায় এখনো এই খাবার নেই। অন্য এলাকা দেখুন।' },
   idxSub: { en: 'The typical menu price of everyday dishes in {c}, and how it moved. Only dishes that 3 or more places serve.', bn: '{c} শহরে রোজকার খাবারের সাধারণ মেনু দাম, আর তা কীভাবে বদলেছে। শুধু যেসব খাবার ৩টি বা বেশি জায়গায় আছে।' },
   idx6: { en: 'In 6 months', bn: '৬ মাসে' },
@@ -77,17 +77,6 @@ type PF = { tab: 'now' | 'index'; type: string; area: string; city: string };
 const readP = (q: Record<string, string | string[]>): PF => ({ tab: q.tab === 'index' ? 'index' : 'now', type: String(q.type || ''), area: String(q.area || ''), city: String(q.city || '') });
 const writeP = (f: PF): Q => ({ tab: f.tab === 'index' ? 'index' : '', type: f.type, area: f.area, city: f.city });
 type Ctx = { dishes: DishCard[]; log: PriceLog; hist: Record<string, HistRow[]>; now: number | null; order: string[] };
-
-/* ---------- the strip: one dot per price, the typical price marked ---------- */
-function Strip({ prices, lo, hi, mid, cls }: { prices: number[]; lo: number; hi: number; mid: number; cls?: string }) {
-  const xs = [...new Set(prices)];
-  return (
-    <span className={clsx('px-strip', cls)} aria-hidden="true">
-      {xs.map(p => <i key={p} style={{ '--p': at01(p, lo, hi) } as CSSProperties} />)}
-      <s style={{ '--p': at01(mid, lo, hi) } as CSSProperties} />
-    </span>
-  );
-}
 
 /* ---------- today's prices for one dish ---------- */
 function Compare({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; cx: Ctx }) {
@@ -162,7 +151,7 @@ function Compare({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; cx:
                 </div>
                 {many ? (
                   <div>
-                    <Strip prices={ds.map(d => d.price)} lo={lo} hi={hi} mid={mid} />
+                    <PriceBars prices={ds.map(d => d.price)} lo={lo} hi={hi} mid={mid} id={ty + pf.area + pf.city} />
                     <div className="px-ends">
                       <span><Tk v={lo} /><small>{i.t('lowest')}</small></span>
                       <span><Tk v={hi} /><small>{i.t('highest')}</small></span>
@@ -214,7 +203,6 @@ function Compare({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; cx:
           )}
         </m.div>
       </AnimatePresence>
-      <p className="meta px-rule"><I n="info" />{i.L(W.order)}</p>
     </div>
   );
 }
@@ -283,7 +271,7 @@ function PriceIndex({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; 
           <h2 className="h2">{i.tx('pi_title')}</h2>
           <p className="sub">{w(i, W.idxSub, { c: i.L(C.cities[city]) })}{ready ? ' ' + monthName(i, now) + '.' : ''}</p>
         </div>
-        <Seg id="picity" items={[['dhaka', i.L(C.cities.dhaka)], ['bogura', i.L(C.cities.bogura)]]} value={city} onChange={v => setP({ city: v, area: '' })} />
+        <Seg id="picity" items={Object.keys(C.cities).filter(c => cx.dishes.some(d => d.rest.city === c)).map(c => [c, i.L(C.cities[c])] as [string, string])} value={city} onChange={v => setP({ city: v, area: '' })} />
       </div>
       {rows.length && top ? (
         <div className="pxi">
@@ -291,7 +279,7 @@ function PriceIndex({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; 
             <button className="px-sum pxi-hero" onClick={() => go(top.id)}>
               <span className="k">{w(i, W.typOf, { d: i.bn ? i.L(C.types[top.id]) : i.L(C.types[top.id]).toLowerCase() })}, {i.L(C.cities[city])}</span>
               <b className="big"><Tk v={top.now} flow /></b>
-              <Strip prices={cx.dishes.filter(d => d.type === top.id && d.rest.city === city).map(d => d.price)} lo={top.lo} hi={top.hi} mid={top.now} />
+              <PriceBars prices={cx.dishes.filter(d => d.type === top.id && d.rest.city === city).map(d => d.price)} lo={top.lo} hi={top.hi} mid={top.now} id={top.id + city} />
               <span className="px-ends"><span><Tk v={top.lo} /><small>{i.t('lowest')}</small></span><span><Tk v={top.hi} /><small>{i.t('highest')}</small></span></span>
               <span className="k px-move">{top.tr ? <><I n={moveIcon(top.tr.pct)} b />{cap(moveText(i, top.tr.pct))}</> : top.tr === null ? null : <span className="sk" style={{ display: 'block', height: 18, width: '70%' }} />}</span>
             </button>

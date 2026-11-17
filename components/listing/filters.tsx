@@ -10,7 +10,7 @@ import { useI } from '@/components/providers/i18n';
 import { I, Seg, TNum } from '@/components/ui/bits';
 import type { Opt } from '@/components/ui/choose';
 import { parseQs, qs, useHref, type Q } from '@/components/shell/nav';
-import { C, EASE, LIST_KEYS, areaOf, cuName, type DFilter, type RFilter } from '@/lib/khabo';
+import { C, DISH_X, EASE, LIST_KEYS, SPICE, areaOf, cuName, type DFilter, type RFilter } from '@/lib/khabo';
 import type { I18n } from '@/lib/i18n/core';
 import type { RestaurantCard } from '@/lib/data/types';
 
@@ -86,7 +86,9 @@ export function chipsOf(i: I18n, f: AnyF): Chip[] {
   if (f.open) z('open', '', i.t('q_open'));
   if (f.late) z('late', '', i.t('late_night'));
   if (f.veg) z('veg', '', i.t('veg'));
-  if (f.mild) z('mild', '', i.t('mild'));
+  if (f.mild && !f.spice) z('mild', '', i.t('mild'));
+  const sp = SPICE.find(s => s.id === f.spice); if (sp) z('spice', '', i.L(sp));
+  (f.dx || []).forEach(v => { const x = DISH_X.find(s => s.id === v); if (x) z('dx', v, i.L(x)); });
   (f.fac || []).forEach(v => z('fac', v, i.L(C.facilities[v])));
   const media: Record<string, string> = { tour: i.t('q_tour'), film: i.t('film'), '3d': i.t('menu_3d'), kitchen: i.t('kitchen_film') };
   (f.media || []).forEach(v => z('media', v, media[v] || v));
@@ -109,7 +111,7 @@ export const sortLabel = (opts: Opt[], v: string) => (opts.find(z => z[0] === v)
 /** the area picker: anywhere, a whole city, or one area. Values: '', 'c:dhaka', 'a:gulshan' */
 export const areaOpts = (i: I18n): Opt[] => [
   ['', i.t('anywhere')],
-  ...['dhaka', 'bogura'].flatMap(c => [
+  ...Object.keys(C.cities).filter(c => C.areas.some(a => a.city === c)).flatMap(c => [
     [c + 'h', i.L(C.cities[c]), true] as Opt,
     ['c:' + c, i.t('all_of', { c: i.L(C.cities[c]) })] as Opt,
     ...C.areas.filter(a => a.city === c).map(a => ['a:' + a.id, i.L(a)] as Opt),
@@ -171,7 +173,7 @@ export function SideFilters({ f, setF, id, cards }: { f: RFilter; setF: (f: RFil
   return (
     <div>
       <Grp title={i.t('where')}>
-        <Seg id={id + 'city'} items={[['', i.t('anywhere')], ['dhaka', i.L(C.cities.dhaka)], ['bogura', i.L(C.cities.bogura)]]} value={city} onChange={v => setF({ ...f, city: v, area: '' })} />
+        <Seg id={id + 'city'} items={[['', i.t('anywhere')], ...Object.keys(C.cities).filter(c => cards.some(r => r.city === c)).map(c => [c, i.L(C.cities[c])] as [string, string])]} value={city} onChange={v => setF({ ...f, city: v, area: '' })} />
         <div role="radiogroup">{C.areas.filter(a => !city || a.city === city).map(a => radio('area', a.id, i.L(a), cnt(r => r.area === a.id)))}</div>
       </Grp>
       <Grp title={i.t('budget_pp')}><div role="radiogroup">{C.budgets.map(b => radio('bud', b.id, i.L(b)))}</div></Grp>

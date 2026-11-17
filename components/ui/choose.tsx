@@ -36,7 +36,7 @@ export function Choose(p: ChooseProps) {
 export function AreaPop({ cls, children, counts }: { cls?: string; children?: ReactNode; counts?: Record<string, number> }) {
   const i = useI();
   const area = useApp(s => s.area), set = useApp(s => s.set);
-  const opts: Opt[] = ['dhaka', 'bogura'].flatMap(c => [
+  const opts: Opt[] = Object.keys(C.cities).filter(c => C.areas.some(a => a.city === c)).flatMap(c => [
     [c, i.L(C.cities[c]), true] as Opt,
     ...C.areas.filter(a => a.city === c).map(a => [a.id, <><span style={{ flex: 1 }}>{i.L(a)}</span>{counts ? <em>{i.N(counts[a.id] || 0)}</em> : null}</>] as Opt),
   ]);

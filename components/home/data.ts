@@ -4,7 +4,7 @@
 import 'server-only';
 import { getCards, getCuisineStats, getDishes, getEvents, getLiveDeals, getRestaurant, getRestaurants, getTypeOrder, getTypeStats } from '@/lib/data/catalog';
 import { answer, demoQuestion } from '@/lib/ask';
-import { C, matchR, planOf, src, toMini } from '@/lib/khabo';
+import { C, dhakaAt, matchR, planOf, src, toMini } from '@/lib/khabo';
 import type { Dish, Lang, Restaurant, RestaurantCard } from '@/lib/data/types';
 
 /* The khabo team's picks for the "see it before you go" boxes.
@@ -77,26 +77,35 @@ export async function getHomeData(lang: Lang) {
   };
   const placesOf = (ok: (c: RestaurantCard) => boolean) => cards.filter(ok).sort(byPlan).map(c => full.get(c.id)!).filter(Boolean);
   const pOcc = chooser(), pBud = chooser(), pFac = chooser(), pCu = chooser();
+  /* a few real places behind each tile, best plan first, shown beside the photo */
+  const top = (ps: Restaurant[]) => ps.slice(0, 3).map(r => ({ id: r.id, name: r.name }));
   const hub = {
-    areas: C.areas.map(a => ({ id: a.id, n: areaCount[a.id] || 0, pic: cards.filter(r => r.area === a.id).sort(byPlan)[0]?.hero[0] || null })).filter(z => z.n),
+    areas: C.areas.map(a => {
+      const ps = placesOf(c => c.area === a.id);
+      return { id: a.id, n: areaCount[a.id] || 0, pic: cards.filter(r => r.area === a.id).sort(byPlan)[0]?.hero[0] || null, top: top(ps) };
+    }).filter(z => z.n),
     occasions: C.occasions.map(o => {
       const ps = placesOf(c => matchR(c, { occ: o.id }));
-      return { id: o.id, n: ps.length, pic: pOcc(ps.map(roomPics)) };
+      return { id: o.id, n: ps.length, pic: pOcc(ps.map(roomPics)), top: top(ps) };
     }).filter(z => z.n),
     cuisines: C.cuisines.map(c => {
       const list = ds.filter(d => C.types[d.type]?.cu === c.id).sort((a, b) => planOf(b.rest) - planOf(a.rest) || Number(!!b.best) - Number(!!a.best));
-      return { id: c.id, d: cu[c.id]?.d || 0, p: cu[c.id]?.p || 0, pic: pCu([
+      const ps = placesOf(r => r.cuisines.includes(c.id));
+      /* the kinds of dish inside this cuisine that places really serve, most dishes first */
+      const n: Record<string, number> = {};
+      list.forEach(d => { n[d.type] = (n[d.type] || 0) + 1; });
+      return { id: c.id, d: cu[c.id]?.d || 0, p: cu[c.id]?.p || 0, top: top(ps), types: Object.keys(n).sort((a, b) => n[b] - n[a]), pic: pCu([
         /* the cuisine's own dishes (real photos, then studio shots), then food from places that cook it */
-        list.map(d => d.p).filter(real), [c.p], list.map(d => d.p), ...placesOf(r => r.cuisines.includes(c.id)).map(r => foodPics(r).filter(real)),
+        list.map(d => d.p).filter(real), [c.p], list.map(d => d.p), ...ps.map(r => foodPics(r).filter(real)),
       ]) };
     }).filter(z => z.d),
     budgets: C.budgets.map(b => {
       const ps = placesOf(r => r.ppl[0] < (b.max || 1e9) && r.ppl[1] > (b.min || 0));
-      return { id: b.id, n: ps.length, pic: pBud([...ps.map(r => foodPics(r).filter(real)), ...ps.map(foodPics)]) };
+      return { id: b.id, n: ps.length, pic: pBud([...ps.map(r => foodPics(r).filter(real)), ...ps.map(foodPics)]), top: top(ps) };
     }).filter(z => z.n),
     facilities: Object.keys(C.facilities).map(id => {
       const ps = placesOf(r => r.fac.includes(id));
-      return { id, n: ps.length, pic: pFac(ps.map(roomPics)) };
+      return { id, n: ps.length, pic: pFac(ps.map(roomPics)), top: top(ps) };
     }).filter(z => z.n),
   };
 
@@ -121,7 +130,7 @@ export async function getHomeData(lang: Lang) {
 
   /* upcoming events (ended ones are dropped here and again in the browser) */
   const t = Date.now();
-  const events = (await getEvents()).filter(z => +new Date(z.ev.end) > t).slice(0, 12)
+  const events = (await getEvents()).filter(z => dhakaAt(z.ev.end) > t).slice(0, 24)
     .map(z => ({ r: { id: z.r.id, name: z.r.name, mono: z.r.mono, theme: z.r.theme, area: z.r.area, city: z.r.city }, ev: z.ev, k: z.k }));
 
   /* price check: one dish across town */
@@ -129,13 +138,8 @@ export async function getHomeData(lang: Lang) {
     const list = ds.filter(d => d.type === id && !d.share).sort((a, b) => a.price - b.price);
     if (!list.length) return null;
     const pr = list.map(d => d.price), lo = pr[0], hi = pr[pr.length - 1], mid = pr[Math.floor(pr.length / 2)];
-    const pos = (p: number) => (hi === lo ? 50 : ((p - lo) / (hi - lo)) * 100);
-    /* the dots on the scale: one per price, merged when they sit on top of each other */
-    const dm = new Map<number, boolean>();
-    pr.forEach(p => { const x = Math.round(pos(p) * 2) / 2; dm.set(x, dm.get(x) || p === mid); });
-    const dots = [...dm].map(([x, m]) => ({ x, mid: m }));
     const rows = list.slice(0, 6).map(({ r: _r, rest, ...d }) => { void _r; return { d: d as Dish, r: rest }; });
-    return { id, lo, hi, mid, places: new Set(list.map(d => d.r)).size, dots, rows };
+    return { id, lo, hi, mid, places: new Set(list.map(d => d.r)).size, pr, rows };
   }).filter((z): z is NonNullable<typeof z> => !!z);
 
   return {

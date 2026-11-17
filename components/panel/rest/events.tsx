@@ -4,13 +4,13 @@
 import { useState } from 'react';
 import clsx from 'clsx';
 import { useI } from '@/components/providers/i18n';
-import { src } from '@/lib/khabo';
+import { dhakaAt, src } from '@/lib/khabo';
 import type { EventType, KhaboEvent } from '@/lib/data/types';
 import { clone, type PR } from '@/lib/panel/store';
 import { EVENT_TYPES } from '@/lib/panel/words';
 import { AreaF, Drawer, Empty, Field, Ico, MoneyF, Page, SelF, TextF, confirm, pickPhotos, useR, useSaved, useT } from '../ui';
 
-const stateOf = (ev: KhaboEvent, now = Date.now()) => { const s = +new Date(ev.start), e = +new Date(ev.end); return e < now ? 'ended' : s <= now ? 'now' : 'soon'; };
+const stateOf = (ev: KhaboEvent, now = Date.now()) => { const s = dhakaAt(ev.start), e = dhakaAt(ev.end); return e < now ? 'ended' : s <= now ? 'now' : 'soon'; };
 const pad = (n: number) => String(n).padStart(2, '0');
 const local = (t: string | number) => { const d = new Date(t); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`; };
 
@@ -26,7 +26,7 @@ function useWhen() {
 export function Events() {
   const t = useT(), i = useI(), { r } = useR(), saved = useSaved(), when = useWhen();
   const [edit, setEdit] = useState<{ ev: KhaboEvent | null } | null>(null);
-  const list = (r.events || []).slice().sort((a, b) => +new Date(a.start) - +new Date(b.start));
+  const list = (r.events || []).slice().sort((a, b) => dhakaAt(a.start) - dhakaAt(b.start));
   const live = list.filter(ev => stateOf(ev) !== 'ended'), past = list.filter(ev => stateOf(ev) === 'ended');
   const remove = async (ev: KhaboEvent) => {
     if (!await confirm({ title: t('Remove this event?', 'এই ইভেন্ট সরাবেন?'), text: t(`${ev.en} will no longer show to diners.`, `${ev.bn || ev.en} আর ডাইনারদের কাছে দেখাবে না।`), ok: t('Remove', 'সরান'), danger: true })) return;
@@ -81,7 +81,7 @@ function EventEdit({ open, onClose }: { open: { ev: KhaboEvent | null } | null; 
     const price = Math.round(Number(f.price)); if (price > 0) o.price = price;
     if (f.desc.trim() || f.descbn.trim()) o.desc = { en: f.desc.trim() || f.descbn.trim(), bn: f.descbn.trim() || f.desc.trim() };
     const nr: PR = clone(r);
-    nr.events = (nr.events || []).filter(x => x.id !== o.id).concat(o).sort((a, b) => +new Date(a.start) - +new Date(b.start));
+    nr.events = (nr.events || []).filter(x => x.id !== o.id).concat(o).sort((a, b) => dhakaAt(a.start) - dhakaAt(b.start));
     if (saved(nr, { en: `${isNew ? 'Added' : 'Edited'} the event "${o.en}"`, bn: `"${o.bn}" ইভেন্ট ${isNew ? 'যোগ করেছেন' : 'বদলেছেন'}` },
       isNew ? { en: 'Event added. Diners can see it now.', bn: 'ইভেন্ট যোগ হয়েছে। ডাইনাররা এখন দেখতে পাবেন।' } : { en: 'Event saved.', bn: 'ইভেন্ট রাখা হয়েছে।' })) onClose();
   };

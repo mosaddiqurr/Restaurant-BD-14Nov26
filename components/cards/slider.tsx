@@ -2,17 +2,19 @@
 /* The big deal slider for Premium partners (Home and the Deals page).
    All slides sit in one row (the track). While you drag, the track follows your finger or mouse
    (a motion value, so no React render per frame). On release it springs to the nearest slide, carrying
-   the speed of your flick. Arrows and dots move the same track. It moves on by itself every 6 seconds,
-   but waits while you hover, touch or focus it, while it is off screen, and never with reduced motion. */
+   the speed of your flick. Arrows and dots move the same track. It moves on by itself every 5 seconds.
+   It waits while the mouse is on it, while a finger holds it, while you move through it with the keyboard,
+   while it is off screen and with reduced motion. A pause keeps the time already run, so it carries on
+   from there instead of starting the wait again (clicking an arrow never leaves it stuck). */
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { animate, m, useInView, useMotionValue, useReducedMotion, type PanInfo } from 'motion/react';
+import { animate, m, useInView, useMotionValue, useReducedMotion, type AnimationPlaybackControls, type PanInfo } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
 import { I } from '@/components/ui/bits';
 import { useHref } from '@/components/shell/nav';
 import { Coupon, type DealX } from './cards';
 
-const WAIT = 6000;
+const WAIT = 5000;
 const SPRING = { type: 'spring', stiffness: 380, damping: 38, mass: 1 } as const;
 
 export function Slider({ items }: { items: DealX[] }) {
@@ -27,6 +29,8 @@ export function Slider({ items }: { items: DealX[] }) {
   const x = useMotionValue(0);
   const w = useRef(0), dragged = useRef(false), kRef = useRef(0);
   const anim = useRef<ReturnType<typeof animate> | null>(null);
+  /* how far the current wait has run (0 to 1), drawn by the bar under the slide */
+  const prog = useMotionValue(0), run = useRef<AnimationPlaybackControls | null>(null);
 
   /* slide width follows the box; the track jumps (no animation) when the width changes */
   useLayoutEffect(() => {
@@ -47,18 +51,21 @@ export function Slider({ items }: { items: DealX[] }) {
   const to = useCallback((t: number, velocity = 0) => {
     const nx = ((t % n) + n) % n;
     kRef.current = nx; setK(nx);
+    run.current?.stop(); prog.set(0);
     anim.current?.stop();
     const target = -nx * w.current;
     if (reduce) { x.set(target); return; }
     anim.current = animate(x, target, { ...SPRING, velocity });
-  }, [n, reduce, x]);
+  }, [n, reduce, x, prog]);
 
   const paused = hover || focus || held || hidden || !inView || !!reduce;
   useEffect(() => {
     if (paused || n < 2) return;
-    const tm = setTimeout(() => to(kRef.current + 1), WAIT);
-    return () => clearTimeout(tm);
-  }, [k, paused, n, to]);
+    /* run what is left of this slide's wait; a pause stops the bar where it is */
+    const left = Math.max(0.05, 1 - prog.get()) * WAIT;
+    run.current = animate(prog, 1, { duration: left / 1000, ease: 'linear', onComplete: () => to(kRef.current + 1) });
+    return () => { run.current?.stop(); };
+  }, [k, paused, n, to, prog]);
 
   const onDragEnd = (_: unknown, info: PanInfo) => {
     setHeld(false);
@@ -76,7 +83,7 @@ export function Slider({ items }: { items: DealX[] }) {
   if (!n) return null;
   return (
     <div className="slider" onPointerEnter={e => { if (e.pointerType === 'mouse') setHover(true); }} onPointerLeave={e => { if (e.pointerType === 'mouse') setHover(false); }}
-      onFocus={() => setFocus(true)} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setFocus(false); }}
+      onFocus={e => { if (e.target.matches(':focus-visible')) setFocus(true); }} onBlur={e => { if (!e.currentTarget.contains(e.relatedTarget as Node)) setFocus(false); }}
       role="region" aria-roledescription="carousel">
       <div className="slides" ref={box} style={{ overflow: 'hidden', paddingBottom: 30, marginBottom: -30 }}>
         <m.div className="sl-track" style={{ x, display: 'flex', touchAction: 'pan-y' }}
@@ -98,10 +105,7 @@ export function Slider({ items }: { items: DealX[] }) {
           <div className="slide-dots">
             {items.map((it, ix) => (
               <button key={it.k} onClick={() => to(ix)} aria-label={i.L(it.d)} aria-current={ix === k}>
-                {ix === k
-                  ? (reduce ? <i style={{ transform: 'none' }} />
-                    : <m.i key={'p' + k + (paused ? 'p' : 'r')} initial={{ scaleX: 0 }} animate={{ scaleX: paused ? 0.12 : 1 }} transition={{ duration: paused ? 0.2 : WAIT / 1000, ease: 'linear' }} />)
-                  : ix < k ? <i style={{ transform: 'none' }} /> : null}
+                {ix === k ? <m.i style={{ scaleX: reduce ? 1 : prog }} /> : ix < k ? <i style={{ transform: 'none' }} /> : null}
               </button>
             ))}
           </div>

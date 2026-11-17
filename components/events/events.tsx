@@ -63,7 +63,7 @@ export function EventsView({ rows }: { rows: EventX[] }) {
         ))}
       </div>
       {list == null ? <EventGridSkeleton /> : list.length ? (
-        <div className="ev-g" style={{ marginTop: 24 }}>
+        <div className={clsx('ev-g', list.length > 2 && 'lead')} style={{ marginTop: 24 }}>
           <AnimatePresence mode="popLayout">
             {list.map((z, k) => (
               <m.div key={z.k} layout initial={{ opacity: 0, scale: 0.97, y: intro ? 10 : 0 }} animate={{ opacity: 1, scale: 1, y: 0 }}

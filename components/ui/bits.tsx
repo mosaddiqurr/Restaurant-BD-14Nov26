@@ -1,7 +1,7 @@
 'use client';
 /* Small shared parts used on every page: icons, prices, numbers, photos, the moving pill, segmented tabs.
    Ported from archive/prototype/app/app.js ("small parts"). */
-import { useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { AnimatePresence, m } from 'motion/react';
 import NumberFlow from '@number-flow/react';
@@ -130,8 +130,17 @@ export const Pill = ({ id }: { id: string }) => <m.span layoutId={id} className=
 
 export type SegItem = [string, ReactNode, ReactNode?];
 export function Seg({ items, value, onChange, id, cls }: { items: SegItem[]; value: string; onChange: (v: string) => void; id: string; cls?: string }) {
+  /* on a narrow screen the row scrolls sideways: the chosen tab always slides into view, never left behind the edge */
+  const box = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = box.current, on = el?.querySelector<HTMLElement>('[aria-selected="true"]');
+    if (!el || !on || el.scrollWidth <= el.clientWidth) return;
+    const l = on.offsetLeft - el.offsetLeft, pad = 24;
+    const to = l < el.scrollLeft + pad ? l - pad : l + on.offsetWidth > el.scrollLeft + el.clientWidth - pad ? l + on.offsetWidth - el.clientWidth + pad : null;
+    if (to != null) el.scrollTo({ left: to, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  }, [value]);
   return (
-    <div className={clsx('seg', cls)} role="tablist">
+    <div className={clsx('seg', cls)} role="tablist" ref={box}>
       {items.map(([v, l, extra]) => (
         <button key={v} role="tab" aria-selected={v === value} className={v === value ? 'on' : ''} onClick={() => onChange(v)}>
           {v === value ? <Pill id={'seg-' + id} /> : null}{l}{extra != null ? <em>{extra}</em> : null}

@@ -2,7 +2,7 @@
 /* Small helpers for the restaurant page and the sheets it opens (dish, bill, tour, photos, reviews). */
 import { useSyncExternalStore } from 'react';
 import { S, useApp } from '@/lib/store';
-import { toMini } from '@/lib/khabo';
+import { dhakaAt, toMini } from '@/lib/khabo';
 import type { Dish, KhaboEvent, Restaurant, RestaurantMini, Text } from '@/lib/data/types';
 import type { I18n } from '@/lib/i18n/core';
 
@@ -29,7 +29,7 @@ export function scrollToId(id: string, smooth = true) {
   return true;
 }
 
-export const evS = (ev: KhaboEvent) => +new Date(ev.start), evE = (ev: KhaboEvent) => +new Date(ev.end);
+export const evS = (ev: KhaboEvent) => dhakaAt(ev.start), evE = (ev: KhaboEvent) => dhakaAt(ev.end);
 /** events that have not ended yet, soonest first */
 export const eventsOf = (r: Pick<Restaurant, 'events'>, now = Date.now()) =>
   (r.events || []).filter(ev => evE(ev) > now).sort((a, b) => evS(a) - evS(b));

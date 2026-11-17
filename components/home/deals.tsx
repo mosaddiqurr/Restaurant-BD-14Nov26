@@ -9,9 +9,14 @@ import { Coupon, ECard } from '@/components/cards/cards';
 import { Slider } from '@/components/cards/slider';
 import { useHref } from '@/components/shell/nav';
 import { useApp } from '@/lib/store';
-import { rankDeals } from '@/lib/khabo';
+import { dhakaAt, rankDeals } from '@/lib/khabo';
 import type { HomeData } from './data';
 import { useMinute } from './util';
+
+const W = {
+  today: { en: "Today's deals", bn: 'আজকের অফার' },
+  sub: { en: 'Offers running now at restaurants on khabo', bn: 'খাবোর রেস্টুরেন্টগুলোতে এখন চলা অফার' },
+};
 
 export function HomeDeals({ rows }: { rows: HomeData['deals'] }) {
   const i = useI(), href = useHref();
@@ -21,6 +26,10 @@ export function HomeDeals({ rows }: { rows: HomeData['deals'] }) {
   const prem = all.filter(z => z.r.plan === 'premium'), big = prem.length ? prem : all.slice(0, 1), rest = all.filter(z => !big.includes(z));
   return (
     <section className="sec home-deals"><div className="wrap">
+      <div className="sec-head">
+        <div><Rise as="h2" className="h2">{i.L(W.today)}</Rise><Rise as="p" className="sub" d={1}>{i.L(W.sub)}</Rise></div>
+        <Link className="link" href={href('/deals')}>{i.t('all_deals')} <span className="meta">{i.N(all.length)}</span><I n="arrow-right" b /></Link>
+      </div>
       {big.length > 1 ? <Slider items={big} /> : <Coupon x={big[0]} big />}
       {rest.length ? (
         <div style={{ marginTop: 40 }}>
@@ -37,7 +46,7 @@ export function HomeDeals({ rows }: { rows: HomeData['deals'] }) {
 export function HomeEvents({ list }: { list: HomeData['events'] }) {
   const i = useI(), href = useHref(), min = useMinute();
   /* the server already dropped ended events; the browser checks again with its own clock */
-  const shown = useMemo(() => (min ? list.filter(z => +new Date(z.ev.end) > min * 60000) : list).slice(0, 8), [list, min]);
+  const shown = useMemo(() => (min ? list.filter(z => dhakaAt(z.ev.end) > min * 60000) : list).slice(0, 8), [list, min]);
   if (!shown.length) return null;
   return (
     <section className="sec"><div className="wrap">

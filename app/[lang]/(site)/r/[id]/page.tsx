@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { cacheLife } from 'next/cache';
 import { getCards, getRestaurant, getRestaurantIds, getReviews } from '@/lib/data/catalog';
 import { isLang } from '@/lib/i18n/core';
-import { liveDealsOf } from '@/lib/khabo';
+import { dhakaAt, liveDealsOf } from '@/lib/khabo';
 import { Rest } from '@/components/restaurant/rest';
 
 export async function generateStaticParams() {
@@ -22,7 +22,7 @@ async function pageData(id: string) {
     .sort((a, b) => Number(b.area === r.area) - Number(a.area === r.area) || b.rating - a.rating).slice(0, 6);
   const now = Date.now();
   const dealIds = liveDealsOf(r).map(d => d.id);
-  const evIds = (r.events || []).filter(ev => +new Date(ev.end) > now).sort((a, b) => +new Date(a.start) - +new Date(b.start)).map(ev => ev.id);
+  const evIds = (r.events || []).filter(ev => dhakaAt(ev.end) > now).sort((a, b) => dhakaAt(a.start) - dhakaAt(b.start)).map(ev => ev.id);
   return { r, reviews, more, dealIds, evIds };
 }
 

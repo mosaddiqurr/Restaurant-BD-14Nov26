@@ -23,7 +23,7 @@ import { C, EASE, checkedLabel, src, where } from '@/lib/khabo';
 import type { Dish, DishMedia, DishType, Review, Text } from '@/lib/data/types';
 import type { DishExtras } from '@/app/api/dish/route';
 import { tagsOf } from '@/lib/tags';
-import { logOf, reducedMotion, sixMonths, useIsPhone, type RMini, type RvAllX } from '@/components/restaurant/util';
+import { logOf, reducedMotion, sixMonths, useIsPhone, type RMini } from '@/components/restaurant/util';
 import { W } from '@/components/restaurant/words';
 
 type TypeX = DishType & { ing?: Text[]; side?: Text };
@@ -280,7 +280,7 @@ function DishBody({ o, cur, setCur, phone, T }: { o: DishOpen; cur: Cur; setCur:
                   </div>
                   {revs.length ? revs.slice(0, 2).map((v, k) => <RvCard key={v.who + k} v={v} r={r} clamp flat />) : x ? <p className="meta">{i.tx('rv_dish_none')}</p> : failed ? failNote : <span className="sk sk-line" style={{ width: '60%' }} />}
                   {revs.length > 2 ? (
-                    <button className="link" style={{ justifySelf: 'start' }} onClick={() => { close(); set({ rvAll: { r: { ...r, dish: d.name } as RMini & RvAllX, list: x?.reviews || [] } }); }}>
+                    <button className="link" style={{ justifySelf: 'start' }} onClick={() => { close(); router.push(href('/r/' + r.id + '/reviews', { dish: d.id })); }}>
                       {i.tx('rv_dish_all', { n: i.N(revs.length) })}<I n="arrow-right" b />
                     </button>
                   ) : null}
