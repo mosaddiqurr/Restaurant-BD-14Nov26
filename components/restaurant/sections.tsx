@@ -18,6 +18,7 @@ import { W } from './words';
 import { InlinePano } from './pano-inline';
 import { photoCats, reducedMotion, type RMini, type RvAllX, type WriteX } from './util';
 import { specialDay, specialOf } from '@/lib/special';
+import { tagsOf } from '@/lib/tags';
 
 /* ---------- follow the restaurant ---------- */
 const handleOf = (k: string, url: string) => {
@@ -179,7 +180,7 @@ export function RMenu({ r, mini }: { r: Restaurant; mini: RMini }) {
     <article key={d.id} className={clsx('mi', d.out && 'is-out')} tabIndex={0} role="button" aria-label={i.L(d.name)}
       onClick={() => open(d)} onKeyDown={ev => { if (ev.key === 'Enter' && ev.target === ev.currentTarget) open(d); }}>
       <div style={{ minWidth: 0 }}>
-        <b>{i.L(d.name)}</b>{d.out ? <SoldOut /> : d.best ? <span className="best">{i.t('best_seller')}</span> : null}
+        <b>{i.L(d.name)}</b>{d.out ? <SoldOut /> : tagsOf(d).map(g => <span key={g.id} className="best">{i.L(g)}</span>)}
         <div className="bnl">{i.bn ? d.name.en : d.name.bn}</div>
         <div className="srv">{i.L(d.por)}{d.spice ? <> · <Spice n={d.spice} /></> : null}{d.veg ? <> · <span className="veg"><I n="leaf" f />{i.t('veg')}</span></> : null}</div>
         {d.desc ? <p>{i.L(d.desc)}</p> : null}

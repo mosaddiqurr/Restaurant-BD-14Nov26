@@ -23,6 +23,7 @@ import { GamesButton, GamesCard, TableGames } from './games';
 import type { GameId } from '@/components/games/types';
 import { warmGames } from '@/components/games/host';
 import { specialDay, specialOf } from '@/lib/special';
+import { tagsOf } from '@/lib/tags';
 
 const noop = () => () => {};
 /** the address's ?query, read after the page has loaded (the page itself is made ahead of time) */
@@ -105,7 +106,7 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
   const item = (d: Dish) => (
     <article key={d.id} className={clsx('tm-i', d.out && 'is-out')} role="button" tabIndex={0} aria-label={i.L(d.name)} onClick={() => openDish(d)} onKeyDown={keyOpen(d)}>
       <div className="tm-t">
-        <b>{i.L(d.name)}{d.best ? <span className="tm-best">{i.t('best_seller')}</span> : null}</b>
+        <b>{i.L(d.name)}{tagsOf(d).map(g => <span key={g.id} className="tm-best">{i.L(g)}</span>)}</b>
         <span className="tm-alt">{i.bn ? d.name.en : d.name.bn}</span>
         <span className="tm-por">{i.L(d.por)}{d.spice ? <>{' · '}<Spice n={d.spice} /></> : null}{d.veg ? <>{' · '}<span className="tm-veg">{i.t('veg')}</span></> : null}</span>
         {d.sizes?.length ? <span className="tm-price"><PriceOf d={d} /></span> : <Tk v={d.price} cls="tm-price" />}

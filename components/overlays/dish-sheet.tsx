@@ -22,6 +22,7 @@ import { useDemoDB, useLiveReviews } from '@/lib/demo-db';
 import { C, EASE, checkedLabel, src, where } from '@/lib/khabo';
 import type { Dish, DishMedia, DishType, Review, Text } from '@/lib/data/types';
 import type { DishExtras } from '@/app/api/dish/route';
+import { tagsOf } from '@/lib/tags';
 import { logOf, reducedMotion, sixMonths, useIsPhone, type RMini, type RvAllX } from '@/components/restaurant/util';
 import { W } from '@/components/restaurant/words';
 
@@ -199,7 +200,7 @@ function DishBody({ o, cur, setCur, phone, T }: { o: DishOpen; cur: Cur; setCur:
                   <span>{i.L(sz?.por || d.por)}</span>
                   {d.spice ? <span><Spice n={d.spice} />{i.t('spice_' + d.spice)}</span> : null}
                   {d.veg ? <span className="badge b-green"><I n="leaf" f />{i.t('veg')}</span> : null}
-                  {d.best ? <span className="badge b-gold">{i.t('best_seller')}</span> : null}
+                  {tagsOf(d).map(g => <span key={g.id} className="badge b-gold">{i.L(g)}</span>)}
                   {d.share ? <span className="badge b-green"><I n="users-three" />{i.t('for_n', { n: i.N(d.share) })}</span> : null}
                 </div>
                 {d.desc ? <p className="ds-desc">{i.L(d.desc)}</p> : null}

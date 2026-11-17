@@ -15,6 +15,8 @@ import { allR, clone, histOf, priceChange, slugOf, type PDish, type PR } from '@
 import { SPICE_N } from '@/lib/panel/words';
 import { AreaF, Drawer, Empty, Field, Ico, Modal, MoneyF, Page, Seg, SelF, Sw, SwRow, TextF, Thumb, confirm, pickPhotos, useAgo, useR, useSaved, useT } from '../ui';
 import { MenuPhoto } from './menuphoto';
+import { PORTIONS, TAGS, TAG_LEN, TAG_MAX, tagsOf } from '@/lib/tags';
+import type { DishTag } from '@/lib/data/types';
 import { SpecialBox } from './special';
 
 /** the middle price for the same kind of dish nearby: the same area if two or more places have it, else the same city */
@@ -111,7 +113,7 @@ function DishRow({ r, d, am, drag, onEdit, onToggle }: { r: PR; d: PDish; am: { 
       <button className="handle" {...attributes} {...listeners} aria-label={t(`Move ${d.name.en}`, `${d.name.bn} সরান`)} disabled={!drag}><Ico n="dots-six-vertical" sm b /></button>
       <Thumb p={d.p} word={d.name.en} />
       <div className="nm">
-        <b>{i.bn ? d.name.bn || d.name.en : d.name.en}{d.best ? <span className="badge gold">{t('Best seller', 'বেস্ট সেলার')}</span> : null}{d.share ? <span className="badge">{t(`For ${d.share}`, `${i.N(d.share)} জনের`)}</span> : null}</b>
+        <b>{i.bn ? d.name.bn || d.name.en : d.name.en}{tagsOf(d).map(g => <span key={g.id} className={clsx('badge', g.id === 'best' && 'gold')}>{i.L(g)}</span>)}{d.share ? <span className="badge">{t(`For ${d.share}`, `${i.N(d.share)} জনের`)}</span> : null}</b>
         <span className="bn">{i.bn ? d.name.en : d.name.bn}</span>
         <span className="meta" style={{ display: 'block' }}>{i.L(d.por)}{ty ? ' · ' + i.L(ty) : ''}{d.spice ? <> · <span className="spice" aria-label={i.L(SPICE_N[d.spice])}>{Array.from({ length: d.spice }, (_, k) => <Ico key={k} n="pepper" sm f />)}</span></> : null}{d.veg ? ' · ' + t('Veg', 'নিরামিষ') : ''}</span>
       </div>
@@ -157,7 +159,7 @@ function PriceIn({ r, d }: { r: PR; d: PDish }) {
 }
 
 /* ---------- add or edit a dish ---------- */
-type DF = { en: string; bn: string; price: string; cat: string; type: string; poren: string; porbn: string; share: string; spice: number; veg: boolean; best: boolean;
+type DF = { en: string; bn: string; price: string; cat: string; type: string; poren: string; porbn: string; share: string; spice: number; veg: boolean; tags: DishTag[];
   desc: string; descbn: string; made: string; madebn: string; ing: string; ingbn: string; side: string; sidebn: string; p: string | null;
   /** every photo and video of the dish in order; p is the main photo */
   media: DishMedia[];
@@ -166,7 +168,7 @@ type DF = { en: string; bn: string; price: string; cat: string; type: string; po
 type SzF = { id: string; en: string; bn: string; price: string; poren: string; porbn: string };
 const toF = (d: PDish | null, cat: string): DF => ({
   en: d?.name.en || '', bn: d?.name.bn || '', price: d ? String(d.price) : '', cat: d?.cat || cat, type: d?.type || 'curry',
-  poren: d?.por.en || 'Serves 1', porbn: d?.por.bn || '১ জন', share: d?.share ? String(d.share) : '', spice: d?.spice || 0, veg: !!d?.veg, best: !!d?.best,
+  poren: d?.por.en || 'Serves 1', porbn: d?.por.bn || '১ জন', share: d?.share ? String(d.share) : '', spice: d?.spice || 0, veg: !!d?.veg, tags: d ? tagsOf(d) : [],
   desc: d?.desc?.en || '', descbn: d?.desc?.bn || '', made: d?.made?.en || '', madebn: d?.made?.bn || '',
   ing: (d?.ing || []).map(x => x.en).join(', '), ingbn: (d?.ing || []).map(x => x.bn || '').join(', '), side: d?.side?.en || '', sidebn: d?.side?.bn || '', p: d?.p || null,
   media: [...(d?.p ? [{ kind: 'photo' as const, src: d.p }] : []), ...(d?.gallery || []).filter(m => !(m.kind === 'photo' && m.src === d?.p))],
@@ -206,7 +208,9 @@ function DishEdit({ open, onClose }: { open: { d: PDish | null; cat: string } | 
       return { id: z.id || slugOf(en) || 's' + k, name: { en, bn }, price: Math.round(Number(z.price)), ...(por ? { por } : {}) };
     }); else delete x.sizes;
     if (f.veg) x.veg = true; else delete x.veg;
-    if (f.best) x.best = true; else delete x.best;
+    /* Best seller stays d.best (lists and search rank by it); the other tags go in d.tags */
+    if (f.tags.some(z => z.id === 'best')) x.best = true; else delete x.best;
+    const tg = f.tags.filter(z => z.id !== 'best'); if (tg.length) x.tags = tg; else delete x.tags;
     const sh = Number(f.share); if (sh >= 2) x.share = sh; else delete x.share;
     const extra = { desc: two(f.desc, f.descbn), made: two(f.made, f.madebn), ing: list(f.ing, f.ingbn), side: two(f.side, f.sidebn) } as const;
     (Object.keys(extra) as (keyof typeof extra)[]).forEach(k => { const v = extra[k]; if (v) (x as Record<string, unknown>)[k] = v; else delete (x as Record<string, unknown>)[k]; });
@@ -232,7 +236,8 @@ function DishEdit({ open, onClose }: { open: { d: PDish | null; cat: string } | 
         <TextF label={t('Name (Bangla)', 'নাম (বাংলা)')} value={f.bn} onChange={up('bn')} bn ph="যেমন মাটন কাচ্চি" />
         {f.sizes.length ? null : <MoneyF label={t('Price', 'দাম')} value={f.price} onChange={up('price')} hint={t(`Before VAT ${r.vat}% and service ${r.service}%`, `ভ্যাট ${i.N(r.vat)}% আর সার্ভিস ${i.N(r.service)}% ছাড়া`)} />}
         <SelF label={t('Category', 'ক্যাটাগরি')} value={f.cat} onChange={up('cat')} opts={r.cats.map(c => [c.id, i.L(c)])} />
-        <TextF label={t('Portion (English)', 'পরিমাণ (ইংরেজি)')} value={f.poren} onChange={up('poren')} ph="Serves 1 · 2 pcs" />
+        <PorPick en={f.poren} onPick={p => setF(o => ({ ...o, poren: p.en, porbn: p.bn }))} />
+        <TextF label={t('Portion (English)', 'পরিমাণ (ইংরেজি)')} value={f.poren} onChange={up('poren')} ph="Serves 1 · 2 pcs" hint={t('Tap one above, or type your own', 'ওপরে একটি চাপুন, অথবা নিজে লিখুন')} />
         <TextF label={t('Portion (Bangla)', 'পরিমাণ (বাংলা)')} value={f.porbn} onChange={up('porbn')} bn />
         <SelF label={t('Kind of dish', 'খাবারের ধরন')} value={f.type} onChange={up('type')} opts={Object.entries(C.types).map(([k, v]) => [k, i.L(v)])} hint={t('Used for search and the Dishes page', 'খোঁজ আর খাবারের পেজে কাজে লাগে')} />
         <TextF label={t('Shared by (people)', 'কতজন ভাগ করে খাবেন')} value={f.share} onChange={up('share')} type="number" ph={t('Leave empty for one person', 'একজনের হলে খালি রাখুন')} attr={{ min: 2, max: 20 }} />
@@ -243,8 +248,8 @@ function DishEdit({ open, onClose }: { open: { d: PDish | null; cat: string } | 
       </Field>
       <div className="card" style={{ padding: '0 16px' }}>
         <SwRow label={t('Vegetarian', 'নিরামিষ')} on={f.veg} onChange={up('veg')} />
-        <SwRow label={t('Best seller', 'বেস্ট সেলার')} hint={t('Shows a "Best seller" label', '"বেস্ট সেলার" লেখা দেখায়')} on={f.best} onChange={up('best')} />
       </div>
+      <TagsEd tags={f.tags} onChange={up('tags')} />
       <p className="dw-sub">{t('Description', 'বিবরণ')}</p>
       <div className="f-grid">
         <AreaF label={t('Short description (English)', 'ছোট বিবরণ (ইংরেজি)')} value={f.desc} onChange={up('desc')} rows={2} />
@@ -265,6 +270,56 @@ function DishEdit({ open, onClose }: { open: { d: PDish | null; cat: string } | 
         <div className="hist">{hist.slice().reverse().map((h, k) => <div key={k}><span className="num" style={{ fontWeight: 700 }}>{i.tk(h.v)}</span><span className="meta">{h.who === 'Before' ? t('Before changes', 'বদলের আগে') : `${h.who} · ${ago(h.at)}`}</span></div>)}</div>
       </> : null}
     </Drawer>
+  );
+}
+
+/* ---------- quick portions: tap one to fill both portion boxes ---------- */
+function PorPick({ en, onPick }: { en: string; onPick: (p: { en: string; bn: string }) => void }) {
+  const i = useI(), t = useT();
+  return (
+    <Field label={t('Portion', 'পরিমাণ')} full>
+      <div className="tchips">
+        {PORTIONS.map(p => <button key={p.en} type="button" className={clsx('tchip sm', en.trim() === p.en && 'on')} aria-pressed={en.trim() === p.en} onClick={() => onPick(p)}>{i.L(p)}</button>)}
+      </div>
+    </Field>
+  );
+}
+
+/* ---------- tags: ready-made ones to tap, or the owner's own words; up to TAG_MAX ---------- */
+function TagsEd({ tags, onChange }: { tags: DishTag[]; onChange: (t: DishTag[]) => void }) {
+  const i = useI(), t = useT();
+  const [en, setEn] = useState(''), [bn, setBn] = useState('');
+  const has = (id: string) => tags.some(z => z.id === id);
+  const full = () => { toast.error(t(`Up to ${TAG_MAX} tags on a dish. A few say more than many.`, `একটি খাবারে সর্বোচ্চ ${i.N(TAG_MAX)}টি ট্যাগ। কম ট্যাগই বেশি চোখে পড়ে।`)); };
+  const flip = (g: DishTag) => {
+    if (has(g.id)) return onChange(tags.filter(z => z.id !== g.id));
+    if (tags.length >= TAG_MAX) return full();
+    onChange([...tags, g]);
+  };
+  const own = tags.filter(z => !TAGS.some(p => p.id === z.id));
+  const add = () => {
+    const e = en.trim(), b = bn.trim();
+    if (!e && !b) return toast.error(t('Type the tag first.', 'আগে ট্যাগটি লিখুন।'));
+    if (tags.length >= TAG_MAX) return full();
+    const name = e || b;
+    if (tags.some(z => z.en.toLowerCase() === name.toLowerCase())) return toast.error(t('This dish already has that tag.', 'এই খাবারে এই ট্যাগ আগেই আছে।'));
+    onChange([...tags, { id: 'own-' + (slugOf(name) || Date.now().toString(36)), en: name, bn: b || e }]);
+    setEn(''); setBn('');
+  };
+  return (
+    <div className="tged">
+      <p className="dw-sub">{t('Tags', 'ট্যাগ')}</p>
+      <p className="meta" style={{ marginTop: -10 }}>{t(`Short labels next to the dish name, on your menu, Today's special and your table QR menu. Up to ${TAG_MAX}.`, `খাবারের নামের পাশে ছোট লেখা: আপনার মেনু, আজকের স্পেশাল আর টেবিলের কিউআর মেনুতে। সর্বোচ্চ ${i.N(TAG_MAX)}টি।`)}</p>
+      <div className="tchips">
+        {TAGS.map(g => <button key={g.id} type="button" className={clsx('tchip sm', has(g.id) && 'on')} aria-pressed={has(g.id)} onClick={() => flip(g)}>{has(g.id) ? <Ico n="check" sm /> : null}{i.L(g)}</button>)}
+        {own.map(g => <button key={g.id} type="button" className="tchip sm on" onClick={() => flip(g)} aria-label={t(`Remove tag ${g.en}`, `${g.bn} ট্যাগ সরান`)}>{i.L(g)}<Ico n="x" sm /></button>)}
+      </div>
+      <div className="tged-own">
+        <TextF label={t('Your own tag (English)', 'নিজের ট্যাগ (ইংরেজি)')} value={en} onChange={setEn} ph="e.g. Ramadan only" attr={{ maxLength: TAG_LEN }} />
+        <TextF label={t('Your own tag (Bangla)', 'নিজের ট্যাগ (বাংলা)')} value={bn} onChange={setBn} bn ph="যেমন শুধু রমজানে" attr={{ maxLength: TAG_LEN }} />
+        <button type="button" className="btn ghost sm" onClick={add}><Ico n="plus" sm />{t('Add tag', 'ট্যাগ যোগ করুন')}</button>
+      </div>
+    </div>
   );
 }
 

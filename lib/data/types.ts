@@ -21,6 +21,8 @@ export type Dish = {
   spice: number;
   cat: string;
   best?: boolean;
+  /** the owner's tags besides Best seller (Chef's pick, New or their own words). See lib/tags.ts */
+  tags?: DishTag[];
   d3?: string;
   veg?: boolean;
   desc?: Text;
@@ -36,6 +38,8 @@ export type Dish = {
       adding it to the bill. The restaurant edits these in the owner panel */
   sizes?: DishSize[];
 };
+/** a short label next to the dish name. id is a ready-made tag's id (lib/tags.ts TAGS) or 'own-…' for one the owner typed */
+export type DishTag = { id: string; en: string; bn: string };
 export type DishSize = { id: string; name: Text; price: number; por?: Text };
 export type DishMedia = { kind: 'photo' | 'video'; src: string; poster?: string };
 

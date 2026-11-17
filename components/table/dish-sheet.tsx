@@ -11,6 +11,7 @@ import { I, Spice, Tk } from '@/components/ui/bits';
 import { C, SPR, src } from '@/lib/khabo';
 import type { Dish, Restaurant, RestaurantMini } from '@/lib/data/types';
 import { Img, TAdd, rVars, useChecked } from './parts';
+import { tagsOf } from '@/lib/tags';
 import { W } from './words';
 import { sized } from '@/components/cards/actions';
 
@@ -74,7 +75,7 @@ export function TableDishSheet({ r, mini, dish, open, onClose, onPick, theme }: 
                   <span>{i.L(sz?.por || d.por)}</span>
                   {d.spice ? <span><Spice n={d.spice} />{i.t('spice_' + d.spice)}</span> : null}
                   {d.veg ? <span className="tmx-tag veg"><I n="leaf" />{i.t('veg')}</span> : null}
-                  {d.best ? <span className="tmx-tag">{i.t('best_seller')}</span> : null}
+                  {tagsOf(d).map(g => <span key={g.id} className="tmx-tag">{i.L(g)}</span>)}
                   {d.share ? <span className="tmx-tag"><I n="users-three" />{i.t('for_n', { n: i.N(d.share) })}</span> : null}
                 </div>
                 {d.desc && i.L(d.desc) ? <p className="tmx-desc">{i.L(d.desc)}</p> : null}
