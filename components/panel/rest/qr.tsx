@@ -222,7 +222,6 @@ export function TableQr() {
           <span className="hint">{t(`${per} cards on each ${P.name} sheet, each ${Math.round(cw)} × ${Math.round(cw * 1.4)} mm. ${sheets} ${sheets === 1 ? 'sheet' : 'sheets'} for ${n} tables.`,
             `প্রতিটি ${P.name} কাগজে ${i.N(per)}টি কার্ড, প্রতিটি ${i.N(Math.round(cw))} × ${i.N(Math.round(cw * 1.4))} মিমি। ${i.N(n)}টি টেবিলের জন্য ${i.N(sheets)}টি কাগজ।`)}</span>
         </div>
-        <button type="button" className="btn pri" onClick={doPrint}><Ico n="printer" sm />{t('Print cards', 'কার্ড প্রিন্ট')}</button>
       </div>
       {/* the printer's page: this paper, small margins; the cards are sized in mm so a full grid fills each sheet */}
       <style>{`@media print { @page { size: ${P.w}mm ${P.h}mm; margin: ${MARGIN}mm; } .pnl .qr-print { --pc: ${P.cols}; --cw: ${cw}mm; } }`}</style>

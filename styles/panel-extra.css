@@ -202,6 +202,6 @@
 @media (max-width: 560px) { .pnl .tged-own { grid-template-columns: 1fr; } .pnl .tged-own .btn { justify-self: start; } }
 
 /* ---------- Table QR: paper size for printing the cards (components/panel/rest/qr.tsx) ---------- */
-.pnl .qr-paper { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding: 16px; margin-bottom: 16px; }
-.pnl .qr-paper .field { flex: 1; min-width: 240px; }
+.pnl .qr-paper { padding: 16px; margin-bottom: 16px; }
+.pnl .qr-paper .seg { width: max-content; max-width: 100%; }
 @media print { .pnl .qr-paper { display: none; } }
