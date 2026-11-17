@@ -1457,3 +1457,11 @@ button.fact:hover b { text-decoration: underline; text-decoration-thickness: 1.5
 
 /* the big coupon needs its full height on phones (the code, saving and countdown sit at the bottom) */
 @media (max-width: 720px) { .slides .coupon.big { height: 600px; } }
+
+/* ---------- Today's special: first on the menu (components/restaurant/sections.tsx RMenu) ---------- */
+.spx { margin-top: 26px; padding: 2px 20px 6px; border-radius: 18px; background: color-mix(in srgb, var(--ra) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ra) 30%, var(--line)); }
+.spx .mcat-h { display: flex; align-items: center; gap: 8px; margin-top: 18px; }
+.spx .mcat-h i.ph { color: color-mix(in srgb, var(--ra) 70%, var(--ink)); font-size: .85em; }
+.spx-note { color: var(--ink-2); font-size: 15px; margin: 2px 0 0; }
+.spx .mlist .mi:last-child, .spx .mlist .mi:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
+@media (max-width: 860px) { .spx { padding: 2px 14px 4px; } .spx .mlist .mi:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--line); } }

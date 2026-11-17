@@ -23,7 +23,7 @@ export type Offline = {
 };
 
 /* the same names as in public/sw.js */
-const PAGES = 'khabo-pages-v1';
+const PAGES = 'khabo-pages-v5';
 const KEEP = /^\/(_next\/static|icons|media)\//;
 const PHOTO_HOSTS = /^(images\.unsplash\.com|cdn\.polyhaven\.com|fonts\.(gstatic|googleapis)\.com)$/;
 
@@ -49,7 +49,14 @@ function usedFiles() {
   return [...out].slice(0, 200);
 }
 
-export function useTableOffline(): Offline {
+/** is the line good enough to download extra files ahead of time? (not with data saver or a very slow line) */
+function roomy() {
+  const c = (navigator as Navigator & { connection?: { saveData?: boolean; effectiveType?: string } }).connection;
+  return !c || (!c.saveData && !/(^|-)2g$/.test(c.effectiveType || ''));
+}
+
+/** `warm` downloads things the page will need later (the games), so they are saved for no signal too */
+export function useTableOffline(warm?: () => Promise<unknown>): Offline {
   const [s, setS] = useState<Offline>({ off: false, fromCopy: false, savedAt: null, saved: false, seenAt: 0 });
   useEffect(() => {
     let alive = true;
@@ -79,6 +86,8 @@ export function useTableOffline(): Offline {
       const save = async () => {
         const done = await ask<{ at: number | null }>(sw, { type: 'save', page, files: usedFiles() }, 20000);
         if (done?.at) set({ savedAt: done.at, saved: true });
+        /* then the games: download them and ask the worker to keep their files as well */
+        if (warm && alive && roomy()) { await warm(); if (alive) await ask(sw, { type: 'save', page, files: usedFiles(), quiet: true }, 20000); }
       };
       const ric = (window as Window & { requestIdleCallback?: (f: () => void, o?: { timeout: number }) => number }).requestIdleCallback;
       if (ric) idle = ric(() => { save(); }, { timeout: 4000 }); else idle = window.setTimeout(save, 1500);
@@ -87,7 +96,7 @@ export function useTableOffline(): Offline {
     const hide = () => { if (document.visibilityState === 'hidden' && navigator.serviceWorker.controller) navigator.serviceWorker.controller.postMessage({ type: 'save', page, files: usedFiles(), quiet: true }); };
     document.addEventListener('visibilitychange', hide);
     return () => { alive = false; clearTimeout(idle); removeEventListener('online', net); removeEventListener('offline', net); document.removeEventListener('visibilitychange', hide); };
-  }, []);
+  }, [warm]);
   return s;
 }
 

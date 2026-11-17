@@ -15,6 +15,7 @@ import { allR, clone, histOf, priceChange, slugOf, type PDish, type PR } from '@
 import { SPICE_N } from '@/lib/panel/words';
 import { AreaF, Drawer, Empty, Field, Ico, Modal, MoneyF, Page, Seg, SelF, Sw, SwRow, TextF, Thumb, confirm, pickPhotos, useAgo, useR, useSaved, useT } from '../ui';
 import { MenuPhoto } from './menuphoto';
+import { SpecialBox } from './special';
 
 /** the middle price for the same kind of dish nearby: the same area if two or more places have it, else the same city */
 function useAreaMid(r: PR) {
@@ -66,6 +67,7 @@ export function MenuPage() {
         <button className="btn" onClick={() => setCats(true)}><Ico n="sliders-horizontal" sm />{t('Categories', 'ক্যাটাগরি')}</button>
         <button className="btn pri" onClick={() => setEdit({ d: null, cat: cat !== 'all' ? cat : r.cats[0]?.id })}><Ico n="plus" sm />{t('Add dish', 'খাবার যোগ করুন')}</button>
       </>}>
+      <SpecialBox />
       <div className="card" style={{ marginBottom: 6 }}>
         <div className="toolbar" style={{ border: 0 }}>
           <div className="search"><Ico n="magnifying-glass" sm /><input className="inp" type="search" placeholder={t('Search your menu', 'আপনার মেনুতে খুঁজুন')} value={q} onChange={e => setQ(e.target.value)} aria-label={t('Search your menu', 'আপনার মেনুতে খুঁজুন')} /></div>

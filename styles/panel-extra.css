@@ -171,3 +171,25 @@
   .pnl .savebar > span .ico { display: none; }
   .pnl .savebar .btn { flex: none; padding-inline: 12px; }
 }
+
+/* ---------- Today's special (Menu & prices, components/panel/rest/special.tsx) ---------- */
+.pnl .spc { padding: 16px; margin-bottom: 12px; display: grid; gap: 12px; }
+.pnl .spc.on { border-color: color-mix(in srgb, var(--gold) 55%, var(--line-2)); }
+.pnl .spc-h { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.pnl .spc-i { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--gold-soft); color: var(--gold-ink); flex: none; }
+.pnl .spc-t { display: grid; gap: 2px; flex: 1; min-width: 180px; }
+.pnl .spc-t b { font-size: 16px; }
+.pnl .spc-a { display: flex; gap: 8px; flex-wrap: wrap; }
+.pnl .spc-a .btn { min-width: max-content; }
+.pnl .spc-note { margin: 0; padding: 8px 12px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink-2); }
+.pnl .spc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.pnl .spc-d, .pnl .spc-pick { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface); min-width: 0; text-align: left; color: var(--ink); }
+.pnl .spc-d.out, .pnl .spc-pick.out { opacity: .7; }
+.pnl .spc-n { display: grid; min-width: 0; flex: 1; }
+.pnl .spc-n b { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pnl .spc-g { display: grid; gap: 6px; margin-top: 6px; }
+.pnl .spc-pick { width: 100%; cursor: pointer; transition: border-color .15s, background .15s; }
+.pnl .spc-pick:hover { border-color: var(--line-2); }
+.pnl .spc-pick.on { border-color: var(--indigo); background: var(--indigo-soft); }
+.pnl .spc-k { width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; flex: none; border: 1px solid var(--line-2); color: var(--ink-3); font-weight: 750; font-size: 13px; }
+.pnl .spc-pick.on .spc-k { background: var(--indigo); border-color: var(--indigo); color: var(--surface); }

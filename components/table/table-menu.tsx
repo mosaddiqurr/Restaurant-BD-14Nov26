@@ -2,7 +2,7 @@
 /* QR table menu: what a guest sees after scanning the card on the table. Ported from archive/prototype/code/pages/table.js.
    Light on purpose: one small header photo, small dish photos, works on slow connections and offline. No login.
    The restaurant picks its layout, top and colours in its panel (r.qr.layout, r.qr.header, r.qr.theme). */
-import { useDeferredValue, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react';
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { m } from 'motion/react';
@@ -10,7 +10,7 @@ import { useI } from '@/components/providers/i18n';
 import { I, Mono, Spice, Tk, useMounted } from '@/components/ui/bits';
 import { useHref } from '@/components/shell/nav';
 import { useLiveRestaurant } from '@/lib/demo-db';
-import { C, SPR, areaOf, clock, isOpen, norm, toMini } from '@/lib/khabo';
+import { C, SPR, areaOf, clock, isOpen, norm, restFile, toMini } from '@/lib/khabo';
 import { useApp } from '@/lib/store';
 import type { Dish, Restaurant } from '@/lib/data/types';
 import { TableDishSheet } from './dish-sheet';
@@ -19,7 +19,10 @@ import { OfflineNote, useTableOffline } from './offline';
 import { Img, TAdd, sums, useChecked } from './parts';
 import { PriceOf } from '@/components/cards/cards';
 import { W, fillW } from './words';
-import { GamesCard, TableGames } from './games';
+import { GamesButton, GamesCard, TableGames } from './games';
+import type { GameId } from '@/components/games/types';
+import { warmGames } from '@/components/games/host';
+import { specialOf } from '@/lib/special';
 
 const noop = () => () => {};
 /** the address's ?query, read after the page has loaded (the page itself is made ahead of time) */
@@ -30,7 +33,10 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
   const i = useI(), href = useHref(), mounted = useMounted();
   const r = useLiveRestaurant(r0);
   const mini = useMemo(() => toMini(r), [r]);
-  const off = useTableOffline();
+  /* once the menu is saved, the games (and the logo they wear) are downloaded too, so they work with no signal */
+  const logo = r.brand?.logo ? restFile(r.id, r.brand.logo) : '';
+  const warm = useCallback(() => Promise.all([warmGames(), logo ? fetch(logo).catch(() => null) : null]), [logo]);
+  const off = useTableOffline(warm);
   const checked = useChecked(r);
 
   /* the table number comes from the code on the table (?table=4). The panel's live preview may pass unsaved
@@ -82,7 +88,8 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
   };
 
   /* the dish sheet and the bill */
-  const [dish, setDish] = useState<Dish | null>(null), [dishOpen, setDishOpen] = useState(false), [billOpen, setBillOpen] = useState(false), [games, setGames] = useState(false);
+  const [dish, setDish] = useState<Dish | null>(null), [dishOpen, setDishOpen] = useState(false), [billOpen, setBillOpen] = useState(false), [games, setGames] = useState(false), [game, setGame] = useState<GameId>();
+  const openGames = (g?: GameId) => { setGame(g); setGames(true); };
   const openDish = (d: Dish) => { setDish(d); setDishOpen(true); };
   const bill = useApp(s => s.bill[r.id]), people = useApp(s => s.people);
   const x = sums(r, bill, people);
@@ -117,6 +124,7 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
         <div className="tm-w">
           <div className="tm-top">
             <Mono r={r} /><span className="sp" />
+            <GamesButton onOpen={() => openGames()} />
             <a className="tm-lang" href={langHref} lang={other} aria-label={i.L(W.langLabel)}
               onClick={() => { document.cookie = `lang=${other}; path=/; max-age=31536000; samesite=lax`; }}>
               {i.L(W.viewIn)}
@@ -156,6 +164,15 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
           {checked ? <p className="tm-ok"><I n="check-circle" /><span>{checked}</span></p> : null}
         </div>
 
+        {/* today's special, picked by the restaurant; it depends on today's date (Dhaka), so it shows once loaded */}
+        {mounted && !dq && specialOf(r).length ? (
+          <section className="tm-g tm-spc">
+            <h2><span className="tm-spc-h"><I n="star" f />{i.t('today_special')}</span></h2>
+            {r.special?.note ? <p className="tm-spc-note">{i.L(r.special.note)}</p> : null}
+            {specialOf(r).map(item)}
+          </section>
+        ) : null}
+
         {pop.length && !dq ? (
           <section className="tm-pop">
             <h2>{i.t('tm_popular')}</h2>
@@ -171,8 +188,6 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
           </section>
         ) : null}
 
-        {!dq ? <GamesCard onOpen={() => setGames(true)} /> : null}
-
         {shown.map(({ c, ds }) => (
           <section key={c.id} className="tm-g" id={'tc-' + c.id} data-cat={c.id}>
             <h2>{i.L(c)}<span>{i.t('tm_items', { n: i.N(ds.length) })}</span></h2>
@@ -182,6 +197,7 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
         {!shown.length ? <p className="tm-none">{i.t('menu_none')}</p> : null}
 
         <div className="tm-end">
+          <GamesCard onOpen={openGames} />
           <Link className="tm-card" href={href('/r/' + r.id, { open: 'review' })}>
             <I n="star" f /><span><b>{i.t('tm_rate')}</b><span>{i.t('tm_rate_sub')}</span></span><I n="caret-right" b />
           </Link>
@@ -197,7 +213,7 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
 
       <TableTray r={r} x={x} hidden={billOpen} onOpen={() => setBillOpen(true)} />
       <TableBill r={r} mini={mini} x={x} open={billOpen} onClose={() => setBillOpen(false)} table={table} theme={th} />
-      <TableGames r={r} open={games} onClose={() => setGames(false)} theme={th} />
+      <TableGames r={r} open={games} onClose={() => setGames(false)} theme={th} start={game} />
       <TableDishSheet r={r} mini={mini} dish={dish} open={dishOpen} onClose={() => setDishOpen(false)} onPick={openDish} theme={th} />
     </div>
   );

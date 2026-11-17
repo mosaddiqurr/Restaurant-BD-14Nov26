@@ -590,6 +590,18 @@
       }
     }
   ],
+  "special": {
+    "ids": [
+      "butter-chicken",
+      "mutton-rezala",
+      "firni"
+    ],
+    "until": null,
+    "note": {
+      "en": "Cooked fresh this morning.",
+      "bn": "আজ সকালে রান্না করা।"
+    }
+  },
   "deal": {
     "id": "family-feast",
     "en": "Family Feast for 4",

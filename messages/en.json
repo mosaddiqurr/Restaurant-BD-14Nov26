@@ -189,6 +189,7 @@
  "signature": "Signature dishes",
  "video": "Video",
  "best_seller": "Best seller",
+ "today_special": "Today's special",
  "veg": "Veg",
  "menu_note": "Prices before VAT {v}% and service {s}%. Your bill adds them.",
  "search_menu": "Search the menu",

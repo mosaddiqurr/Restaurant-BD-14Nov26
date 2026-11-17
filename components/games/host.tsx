@@ -38,6 +38,9 @@ const LOADERS: Record<GameId, () => Promise<{ default: GameFactory }>> = {
   cha: () => import('./cha'),
 };
 
+/** download all three games ahead of time (the table menu does this once it is idle, so they work with no signal) */
+export const warmGames = () => Promise.all(Object.values(LOADERS).map(l => l().catch(() => null)));
+
 const W = {
   start: { en: 'Tap to start', bn: 'শুরু করতে চাপুন' },
   again: { en: 'Play again', bn: 'আবার খেলুন' },
@@ -49,8 +52,8 @@ const W = {
   loading: { en: 'Getting the game ready', bn: 'খেলা তৈরি হচ্ছে' },
 };
 
-const bestKey = (id: GameId, scope?: string) => `khabo.game.${id}${scope ? '.' + scope : ''}`;
-const readBest = (k: string) => { try { return Number(localStorage.getItem(k)) || 0; } catch { return 0; } };
+export const bestKey = (id: GameId, scope?: string) => `khabo.game.${id}${scope ? '.' + scope : ''}`;
+export const readBest = (k: string) => { try { return Number(localStorage.getItem(k)) || 0; } catch { return 0; } };
 const saveBest = (k: string, v: number) => { try { localStorage.setItem(k, String(v)); } catch { /* private window */ } };
 
 type Phase = 'loading' | 'ready' | 'play' | 'paused' | 'over';

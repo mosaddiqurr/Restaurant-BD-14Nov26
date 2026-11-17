@@ -297,16 +297,44 @@ html[lang="bn"] .tmx-name { letter-spacing: 0; line-height: 1.3; }
 .tm-add.plus.has-n { background: var(--tm-act-bg); color: var(--tm-act-fg); box-shadow: none; }
 
 /* games while you wait (components/table/games.tsx) */
-.tm-play { width: 100%; margin: 4px 0 18px; text-align: left; }
+/* the small button at the top, next to the language switch */
+.tm-play-b { gap: 6px; }
+.tm-play-b i.ph { font-size: 16px; }
+/* the card at the end of the menu: a title row and the three games */
+.tm-play { display: grid; gap: 12px; padding: 14px; }
+.tm-play-h { display: flex; align-items: center; gap: 14px; padding: 2px 2px 0; text-align: left; color: var(--ink); }
+.tm-play-h > i.ph:first-child { color: var(--tm-act-bg); font-size: 24px; }
+.tm-play-h > span { flex: 1; display: grid; line-height: 1.3; }
+.tm-play-h > span > span { font-size: 13px; color: var(--ink-3); }
+.tm-play-h > i.ph:last-child { color: var(--ink-3); }
+.tm-play-g { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.tm-play-g button { display: grid; justify-items: center; gap: 6px; padding: 12px 4px 10px; border-radius: 14px; background: var(--tm-soft); color: var(--ink); font-size: 12.5px; font-weight: 700; line-height: 1.25; text-align: center; transition: transform .15s var(--ease); }
+.tm-play-g button:active { transform: scale(.97); }
+.tg-ic { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; background: color-mix(in srgb, var(--r-accent) 22%, var(--surface)); color: var(--tm-act-bg); font-size: 24px; flex: none; }
+
+/* the games sheet */
 .tmx.tmx-c.tmx-games { padding-bottom: calc(14px + var(--tm-safe-b)); overflow: clip; }
-.tmx-g-h { position: relative; padding: 10px 64px 8px 20px; }
-.tmx-g-h .tmx-grip { display: block; width: 44px; height: 5px; border-radius: 3px; background: var(--line-2); margin: 0 auto 12px; }
-.tmx-g-h .tmx-name { font-size: 24px; }
-.tmx-g-h .tmx-x { top: 22px; background: var(--sunk); color: var(--ink); backdrop-filter: none; -webkit-backdrop-filter: none; }
-.tmx-g-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 4px 16px 12px; }
-.tmx-g-tabs button { display: grid; justify-items: center; gap: 4px; padding: 10px 4px; border-radius: 14px; background: var(--sunk); color: var(--ink-2); font-size: 13px; font-weight: 700; transition: background-color .2s, color .2s, transform .15s var(--ease); }
-.tmx-g-tabs button i { font-size: 22px; }
-.tmx-g-tabs button.on { background: var(--r-deep); color: #fff; }
+.tmx-games > .tmx-grip { display: block; width: 44px; height: 5px; border-radius: 3px; background: var(--line-2); margin: 10px auto 4px; }
+.tmx-g-h { display: flex; align-items: center; gap: 12px; padding: 8px 16px 14px 20px; }
+.tmx-g-h .mono { width: 44px; height: 44px; border-radius: 13px; font-size: 14px; }
+.tmx-g-t { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.tmx-g-h .tmx-name { font-size: 22px; }
+.tmx-g-sub { margin: 0; font-size: 13.5px; color: var(--ink-3); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tmx-g-h .tmx-x { position: static; flex: none; background: var(--sunk); color: var(--ink); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.tmx-g-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding: 0 16px 14px; }
+.tmx-g-tabs button { display: grid; justify-items: center; gap: 4px; padding: 12px 4px 10px; border-radius: 16px; background: var(--tm-soft); box-shadow: inset 0 0 0 1.5px transparent; color: var(--ink); text-align: center; transition: box-shadow .2s, background-color .2s, transform .15s var(--ease); }
+.tmx-g-tabs button .tg-ic { margin-bottom: 2px; }
+.tmx-g-tabs button b { font-size: 13px; font-weight: 750; line-height: 1.25; }
+.tmx-g-tabs button small { font-size: 11.5px; color: var(--ink-3); font-weight: 600; }
+.tmx-g-tabs button.on { background: color-mix(in srgb, var(--r-accent) 12%, var(--surface)); box-shadow: inset 0 0 0 2px var(--tm-act-bg); }
+.tmx-g-tabs button.on .tg-ic { background: var(--tm-act-bg); color: var(--tm-act-fg); }
 .tmx-g-tabs button:active { transform: scale(.97); }
 .tmx-g-play { padding: 0 16px; }
-.tmx-g-play .gm { max-height: 62dvh; }
+.tmx-g-play .gm { max-height: 58dvh; border-radius: 18px; }
+
+/* ---------- Today's special: first on the table menu ---------- */
+.tm-spc { margin-top: 18px; padding: 4px 14px 2px; border-radius: 16px; background: color-mix(in srgb, var(--r-accent) 12%, var(--surface)); border: 1px solid color-mix(in srgb, var(--r-accent) 30%, var(--line)); }
+.tm-g h2 .tm-spc-h { display: inline-flex; align-items: center; gap: 8px; font: inherit; color: inherit; letter-spacing: inherit; }
+.tm-spc-h i.ph { font-size: .85em; color: color-mix(in srgb, var(--r-accent) 70%, var(--ink)); }
+.tm-spc-note { color: var(--ink-2); font-size: 14px; margin: 2px 0 0; }
+.tm-spc .tm-i:last-child { border-bottom: 0; }

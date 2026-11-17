@@ -17,6 +17,7 @@ import type { I18n } from '@/lib/i18n/core';
 import { W } from './words';
 import { InlinePano } from './pano-inline';
 import { photoCats, reducedMotion, type RMini, type RvAllX, type WriteX } from './util';
+import { specialOf } from '@/lib/special';
 
 /* ---------- follow the restaurant ---------- */
 const handleOf = (k: string, url: string) => {
@@ -139,7 +140,7 @@ export function REvents({ r, events }: { r: Restaurant; events: KhaboEvent[] }) 
 
 /* ---------- the menu: category tabs that follow your reading, search, rows with the + button ---------- */
 export function RMenu({ r, mini }: { r: Restaurant; mini: RMini }) {
-  const i = useI();
+  const i = useI(), mounted = useMounted();
   const [q, setQ] = useState(''), [cat, setCat] = useState(r.cats[0]?.id);
   const catsRef = useRef<HTMLDivElement>(null), lock = useRef(0);
   const qq = q.trim().toLowerCase(), hit = (d: Dish) => !qq || (d.name.en + ' ' + d.name.bn).toLowerCase().includes(qq);
@@ -172,6 +173,21 @@ export function RMenu({ r, mini }: { r: Restaurant; mini: RMini }) {
     box.scrollTo({ left: Math.max(0, el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2), behavior: reducedMotion() ? 'auto' : 'smooth' });
   }, [cat]);
   const open = (d: Dish) => openDish(mini, d, { house: true });
+  /* today's special goes first; it depends on today's date (Dhaka), so it shows once the page has loaded */
+  const special = mounted && !qq ? specialOf(r) : [];
+  const row = (d: Dish) => { const ml = mediaLabel(i, d); return (
+    <article key={d.id} className={clsx('mi', d.out && 'is-out')} tabIndex={0} role="button" aria-label={i.L(d.name)}
+      onClick={() => open(d)} onKeyDown={ev => { if (ev.key === 'Enter' && ev.target === ev.currentTarget) open(d); }}>
+      <div style={{ minWidth: 0 }}>
+        <b>{i.L(d.name)}</b>{d.out ? <SoldOut /> : d.best ? <span className="best">{i.t('best_seller')}</span> : null}
+        <div className="bnl">{i.bn ? d.name.en : d.name.bn}</div>
+        <div className="srv">{i.L(d.por)}{d.spice ? <> · <Spice n={d.spice} /></> : null}{d.veg ? <> · <span className="veg"><I n="leaf" f />{i.t('veg')}</span></> : null}</div>
+        {d.desc ? <p>{i.L(d.desc)}</p> : null}
+        <div className="pr"><PriceOf d={d} />{d.d3 && !d.p ? <span className="tagm"><I n="cube" />3D</span> : null}{ml ? <span className="tagm"><I n="images" />{ml}</span> : d.video ? <span className="tagm"><I n="play" f />{i.t('video')}</span> : null}</div>
+      </div>
+      {d.p ? <div className="mi-ph"><Pic id={d.p} w={260} alt="" sizes="108px" />{d.d3 ? <button type="button" className="mi-3d" aria-label={i.t('in_3d')} onClick={ev => { ev.stopPropagation(); openDish(mini, d, { house: true, tab: 'd3' }); }}><I n="cube" b />3D</button> : null}<Add r={mini} d={d} /></div> : <div className="mi-add"><Add r={mini} d={d} /></div>}
+    </article>
+  ); };
   return (
     <section className="sec" id="menu">
       <div className="menu-h">
@@ -192,23 +208,18 @@ export function RMenu({ r, mini }: { r: Restaurant; mini: RMini }) {
           ))}
         </div>
       </div>
+      {special.length ? (
+        <div className="mgrp spx" id="mc-special">
+          <h3 className="mcat-h"><I n="star" f />{i.t('today_special')}</h3>
+          {r.special?.note ? <p className="spx-note">{i.L(r.special.note)}</p> : null}
+          <div className="mlist">{special.map(row)}</div>
+        </div>
+      ) : null}
       {groups.length ? groups.map(({ c, ds }) => (
         <div key={c.id} id={'mc-' + c.id} className="mgrp">
           <h3 className="mcat-h">{i.L(c)}</h3>
           <div className="mlist">
-            {ds.map(d => { const ml = mediaLabel(i, d); return (
-              <article key={d.id} className={clsx('mi', d.out && 'is-out')} tabIndex={0} role="button" aria-label={i.L(d.name)}
-                onClick={() => open(d)} onKeyDown={ev => { if (ev.key === 'Enter' && ev.target === ev.currentTarget) open(d); }}>
-                <div style={{ minWidth: 0 }}>
-                  <b>{i.L(d.name)}</b>{d.out ? <SoldOut /> : d.best ? <span className="best">{i.t('best_seller')}</span> : null}
-                  <div className="bnl">{i.bn ? d.name.en : d.name.bn}</div>
-                  <div className="srv">{i.L(d.por)}{d.spice ? <> · <Spice n={d.spice} /></> : null}{d.veg ? <> · <span className="veg"><I n="leaf" f />{i.t('veg')}</span></> : null}</div>
-                  {d.desc ? <p>{i.L(d.desc)}</p> : null}
-                  <div className="pr"><PriceOf d={d} />{d.d3 && !d.p ? <span className="tagm"><I n="cube" />3D</span> : null}{ml ? <span className="tagm"><I n="images" />{ml}</span> : d.video ? <span className="tagm"><I n="play" f />{i.t('video')}</span> : null}</div>
-                </div>
-                {d.p ? <div className="mi-ph"><Pic id={d.p} w={260} alt="" sizes="108px" />{d.d3 ? <button type="button" className="mi-3d" aria-label={i.t('in_3d')} onClick={ev => { ev.stopPropagation(); openDish(mini, d, { house: true, tab: 'd3' }); }}><I n="cube" b />3D</button> : null}<Add r={mini} d={d} /></div> : <div className="mi-add"><Add r={mini} d={d} /></div>}
-              </article>
-            ); })}
+            {ds.map(row)}
           </div>
         </div>
       )) : <p className="meta" style={{ marginTop: 24 }}>{i.t('menu_none')}</p>}

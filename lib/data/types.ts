@@ -91,6 +91,11 @@ export type Review = {
 
 export type Film = { src: string; poster: PhotoId; len?: string };
 
+/** Today's special: dishes the owner picks from their own menu, shown at the top of the menu (restaurant page and
+    table QR menu) at their normal menu price. until = the last day it shows ('YYYY-MM-DD', Dhaka time), so a
+    "today only" special hides by itself at midnight; no until = every day until the owner changes it. */
+export type Special = { ids: string[]; until?: string | null; note?: Text };
+
 export type Restaurant = {
   id: string;
   name: Text;
@@ -135,6 +140,8 @@ export type Restaurant = {
   menu: Dish[];
   deals?: Deal[];
   events?: KhaboEvent[];
+  /** today's special: dishes from this menu the owner picked (see lib/special.ts) */
+  special?: Special;
   hidden?: boolean;
   look?: Record<string, string>;
   /** the owner's print menu choices (design, size, languages): see components/print/menu.tsx PmOpts */
