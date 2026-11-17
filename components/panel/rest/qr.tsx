@@ -11,7 +11,7 @@ import { QR_LOOKS, qrLooksFor, QR_FRAMES, type QrLook } from '@/components/qr/qr
 import { C, src } from '@/lib/khabo';
 import type { Text } from '@/lib/data/types';
 import { clone, type PR, type QrOpts } from '@/lib/panel/store';
-import { Page, SwRow, useR, useSaved, useT, Ico } from '../ui';
+import { Modal, Page, SwRow, useR, useSaved, useT, Ico } from '../ui';
 import { countChanges, useSaveEntry } from '../draft';
 import { FramePicker, Framed, palOf, QrSvg, qrStyleFor, Scaled, svgFor, Swatches, tableLink } from '../qr/kit';
 
@@ -107,9 +107,12 @@ export function TableQr() {
     return ok;
   };
   const discard = () => { setEdits({}); setNText(null); };
+  /* Print cards opens a small window first: pick the paper there, see how many sheets, then print */
+  const [printOpen, setPrintOpen] = useState(false);
   const doPrint = () => {
+    setPrintOpen(false);
     if (dirty) toast(t('Printing what you see. Save to keep these choices.', 'যা দেখছেন তাই প্রিন্ট হচ্ছে। এই পছন্দগুলো রাখতে সেভ করুন।'));
-    setTimeout(() => window.print(), 60);
+    setTimeout(() => window.print(), 250);
   };
   useSaveEntry({ count: countChanges(base, draft), save, discard, pri: 0 });
 
@@ -132,7 +135,7 @@ export function TableQr() {
       sub={t('Guests scan the card on their table and see your menu in your colours. No app needed. Try a choice, see it on the right, then save.', 'অতিথিরা টেবিলের কার্ড স্ক্যান করে আপনার রঙে মেনু দেখেন। কোনো অ্যাপ লাগে না। একটা পছন্দ করে ডান পাশে দেখুন, তারপর সেভ করুন।')}
       acts={<>
         <a className="btn" href={tableLink(i.lang, r, 1)} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('Open table menu', 'টেবিল মেনু খুলুন')}</a>
-        <button type="button" className="btn pri" onClick={doPrint}><Ico n="printer" sm />{t('Print cards', 'কার্ড প্রিন্ট')}</button>
+        <button type="button" className="btn pri" onClick={() => setPrintOpen(true)}><Ico n="printer" sm />{t('Print cards', 'কার্ড প্রিন্ট')}</button>
       </>}>
       <div className="pq">
       <div className="grid g-main">
@@ -213,16 +216,6 @@ export function TableQr() {
       </div>
 
       <div className="sec-t"><h2>{t('Cards to print', 'প্রিন্টের কার্ড')}</h2><span className="meta">{t(`${n} tables`, `${i.N(n)}টি টেবিল`)} · {i.L(CARDS[view.card])}</span></div>
-      <div className="card qr-paper">
-        <div className="field">
-          <span className="lbl">{t('Paper size', 'কাগজের মাপ')}</span>
-          <div className="seg" role="radiogroup" aria-label={t('Paper size', 'কাগজের মাপ')}>
-            {(Object.keys(PAPERS) as Paper[]).map(k => <button key={k} type="button" role="radio" aria-checked={paper === k} className={paper === k ? 'on' : ''} onClick={() => setPaper(k)}>{PAPERS[k].name}</button>)}
-          </div>
-          <span className="hint">{t(`${per} cards on each ${P.name} sheet, each ${Math.round(cw)} × ${Math.round(cw * 1.4)} mm. ${sheets} ${sheets === 1 ? 'sheet' : 'sheets'} for ${n} tables.`,
-            `প্রতিটি ${P.name} কাগজে ${i.N(per)}টি কার্ড, প্রতিটি ${i.N(Math.round(cw))} × ${i.N(Math.round(cw * 1.4))} মিমি। ${i.N(n)}টি টেবিলের জন্য ${i.N(sheets)}টি কাগজ।`)}</span>
-        </div>
-      </div>
       {/* the printer's page: this paper, small margins; the cards are sized in mm so a full grid fills each sheet */}
       <style>{`@media print { @page { size: ${P.w}mm ${P.h}mm; margin: ${MARGIN}mm; } .pnl .qr-print { --pc: ${P.cols}; --cw: ${cw}mm; } }`}</style>
       <div className="qr-print">
@@ -232,6 +225,28 @@ export function TableQr() {
       </div>
       </div>
 
+      <Modal open={printOpen} onClose={() => setPrintOpen(false)} title={t('Print table cards', 'টেবিল কার্ড প্রিন্ট')}
+        foot={<><button type="button" className="btn ghost l" onClick={() => setPrintOpen(false)}>{t('Cancel', 'বাতিল')}</button>
+          <button type="button" className="btn pri" onClick={doPrint}><Ico n="printer" sm />{t(`Print ${sheets} ${sheets === 1 ? 'sheet' : 'sheets'}`, `${i.N(sheets)}টি কাগজ প্রিন্ট`)}</button></>}>
+        <div className="field">
+          <span className="lbl">{t('Paper size', 'কাগজের মাপ')}</span>
+          <div className="qr-pp" role="radiogroup" aria-label={t('Paper size', 'কাগজের মাপ')}>
+            {(Object.keys(PAPERS) as Paper[]).map(k => {
+              const q = PAPERS[k];
+              return (
+                <button key={k} type="button" role="radio" aria-checked={paper === k} className={clsx('qr-pp-o', paper === k && 'on')} onClick={() => setPaper(k)}>
+                  <span className="qr-pp-ic" aria-hidden="true" style={{ aspectRatio: `${q.w} / ${q.h}`, '--c': q.cols } as CSSProperties}>{Array.from({ length: q.cols * q.rows }, (_, j) => <i key={j} />)}</span>
+                  <b>{q.name}</b>
+                  <small>{i.N(q.w)} × {i.N(q.h)} {t('mm', 'মিমি')}</small>
+                  <small>{t(`${q.cols * q.rows} cards a sheet`, `প্রতি কাগজে ${i.N(q.cols * q.rows)}টি`)}</small>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <p className="qr-pp-sum"><Ico n="printer" sm /><span>{t(`${n} cards on ${sheets} ${P.name} ${sheets === 1 ? 'sheet' : 'sheets'}. Each card is ${Math.round(cw)} × ${Math.round(cw * 1.4)} mm.`, `${i.N(n)}টি কার্ড, ${i.N(sheets)}টি ${P.name} কাগজে। প্রতিটি কার্ড ${i.N(Math.round(cw))} × ${i.N(Math.round(cw * 1.4))} মিমি।`)}</span></p>
+        <p className="meta">{t('In your printer window, pick the same paper and keep the scale at 100% (not "Fit to page").', 'প্রিন্টারের উইন্ডোতে একই কাগজ বেছে নিন আর স্কেল ১০০% রাখুন ("Fit to page" নয়)।')}</p>
+      </Modal>
     </Page>
   );
 }
