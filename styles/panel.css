@@ -438,6 +438,8 @@
 .pnl .dish { grid-template-columns: 48px minmax(0, 1fr) 40px; gap: 12px; padding: 12px; }
 .pnl .dish .thumb { width: 48px; height: 48px; }
 .pnl .dish .pr-in { grid-column: 2; grid-row: 2; }
+.pnl .dish .szp { grid-column: 2; grid-row: 2; max-width: 220px; }
+.pnl .dish .szp em { display: flex; }
 .pnl .dish .avail { grid-column: 2 / 4; grid-row: 3; min-width: 0; }
 .pnl .dish > .ibtn { grid-column: 3; grid-row: 1; }
 .pnl .savebar { left: 50%; bottom: 14px; width: calc(100vw - 24px); gap: 8px; padding-left: 16px; }
@@ -459,8 +461,9 @@
 body * { visibility: hidden; }
 .pnl .qr-print, .pnl .qr-print * { visibility: visible; }
 .pnl .qr-print { position: absolute; left: 0; top: 0; width: 100%; }
-.pnl .qr-print .qr-grid { grid-template-columns: repeat(3, 1fr); }
+.pnl .qr-print .qr-grid { grid-template-columns: repeat(var(--pc, 3), var(--cw, 1fr)); gap: 4mm; justify-content: center; }
 .pnl .qr-card { break-inside: avoid; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pnl .qr-print .qr-card { width: var(--cw, auto); }
 }
 @media (prefers-reduced-motion: reduce) {
 .pnl *, .pnl *::before, .pnl *::after { animation: none !important; transition: none !important; }
@@ -1133,10 +1136,17 @@ body * { visibility: hidden; }
 .pnl .st-shape .st-by { color: var(--d); }
 
 /* portions in the menu list (each portion's price; tap to edit) and in the dish editor */
-.pnl .szp { display: grid; gap: 2px; justify-items: end; padding: 6px 10px; border-radius: 10px; background: var(--sunk); color: var(--ink); text-align: right; }
-.pnl .szp span { display: inline-flex; gap: 6px; align-items: baseline; }
-.pnl .szp small { font-size: 12px; color: var(--ink-3); font-weight: 600; }
-.pnl .szp b { font-size: 14px; }
+/* portion prices in the menu list: names left, prices lined up right, a thin line between; tap to edit */
+.pnl .szp { display: grid; grid-template-columns: minmax(0, 1fr) auto; width: 100%; min-width: 0; padding: 2px 0; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); text-align: left; transition: border-color .15s, background-color .15s; }
+.pnl .szp:hover { border-color: var(--ink-3); background: var(--surface-2); }
+.pnl .szp > span { display: contents; }
+.pnl .szp small, .pnl .szp b { padding: 6px 10px; }
+.pnl .szp > span + span small, .pnl .szp > span + span b { border-top: 1px solid var(--line); }
+.pnl .szp small { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+.pnl .szp b { font-size: 14px; font-weight: 750; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pnl .szp .tk { font-style: normal; font-size: .78em; font-weight: 700; color: var(--ink-3); margin-right: 1px; }
+.pnl .szp em { grid-column: 1 / -1; display: none; align-items: center; gap: 5px; padding: 5px 10px 4px; border-top: 1px solid var(--line); font-style: normal; font-size: 12px; font-weight: 650; color: var(--ink-3); }
+.pnl .szp:hover em, .pnl .szp:focus-visible em { display: flex; }
 .pnl .szed { display: grid; gap: 12px; }
 .pnl .szed-r { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) 40px; gap: 10px 12px; align-items: end; padding: 14px; border-radius: 14px; background: var(--sunk); }
 .pnl .szed-r > :nth-child(4), .pnl .szed-r > :nth-child(5) { grid-row: 2; }

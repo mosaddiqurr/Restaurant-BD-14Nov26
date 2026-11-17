@@ -8,6 +8,8 @@
 :root[data-theme="dark"] .tm-th-auto, .tm-th-night, .tm-th-brand { --tm-act-bg: var(--r-accent); --tm-act-fg: var(--r-deep); }
 
 /* colour themes (r.qr.theme). Each one only resets the page colours, so every layout works with every theme */
+/* light: always light, whatever the guest's phone is set to (auto follows the phone) */
+.tm-th-light { --bg: #F5F6F3; --surface: #FFFFFF; --sunk: #EDF0EB; --ink: #0E1712; --ink-2: #45514B; --ink-3: #66726C; --line: #E0E5DE; --line-2: #CBD2CA; --good: #11704A; --bad: #B8432F; --warn: #94570A; color-scheme: light; }
 .tm-th-paper { --bg: #F6F0E4; --surface: #FFFBF3; --sunk: #EAE0CC; --ink: #2B2117; --ink-2: #5A4B3B; --ink-3: #7D6C58; --line: rgba(43, 33, 23, .1); --line-2: rgba(43, 33, 23, .2); color-scheme: light; }
 .tm-th-night { --bg: #0E1018; --surface: #171B27; --sunk: #232838; --ink: #F2F0EC; --ink-2: #C3C0BA; --ink-3: #96938D; --line: rgba(242, 240, 236, .09); --line-2: rgba(242, 240, 236, .18); color-scheme: dark; }
 .tm-th-brand { --bg: var(--r-deep); --surface: color-mix(in srgb, var(--r-deep) 86%, #fff); --sunk: color-mix(in srgb, var(--r-deep) 78%, #fff); --ink: #fff; --ink-2: rgba(255, 255, 255, .8); --ink-3: rgba(255, 255, 255, .64); --line: rgba(255, 255, 255, .12); --line-2: rgba(255, 255, 255, .22); color-scheme: dark; }

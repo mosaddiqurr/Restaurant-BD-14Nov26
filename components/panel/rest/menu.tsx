@@ -125,7 +125,8 @@ function DishRow({ r, d, am, drag, onEdit, onToggle }: { r: PR; d: PDish; am: { 
       {/* a dish with portions shows each portion's price; they are changed in the dish editor */}
       {d.sizes?.length ? (
         <button type="button" className="szp" onClick={onEdit} aria-label={t(`Edit portions of ${d.name.en}`, `${d.name.bn}-এর পরিমাণ বদলান`)}>
-          {d.sizes.map(z => <span key={z.id}><small>{i.L(z.name)}</small><b className="num">{i.tk(z.price)}</b></span>)}
+          {d.sizes.map(z => <span key={z.id}><small title={i.L(z.name)}>{i.L(z.name)}</small><b className="num"><i className="tk">৳</i>{i.N(z.price)}</b></span>)}
+          <em><Ico n="sliders-horizontal" sm />{t('Edit portions', 'পরিমাণ বদলান')}</em>
         </button>
       ) : <PriceIn r={r} d={d} />}
       <label className="avail"><Sw on={!d.out} onChange={onToggle} label={t(`${d.name.en} available today`, `আজ ${d.name.bn} পাওয়া যাচ্ছে`)} /><span>{d.out ? t('Sold out', 'শেষ') : t('Available', 'পাওয়া যাচ্ছে')}</span></label>

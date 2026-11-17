@@ -3,7 +3,7 @@
    Guests scan the card on their table and see the menu in the restaurant's colours. No app needed.
    Every choice shows straight away in the phone preview and the cards below, but nothing is saved until
    "Save changes". Leaving the page with unsaved changes asks first. */
-import { useDeferredValue, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useDeferredValue, useMemo, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
 import clsx from 'clsx';
 import { toast } from 'sonner';
 import { useI } from '@/components/providers/i18n';
@@ -37,7 +37,7 @@ const HINTS: Record<string, Text> = {
   classic: { en: 'Like a printed menu card: name, dotted line, price. Elegant for fine dining.', bn: 'ছাপা মেনু কার্ডের মতো: নাম, ডট লাইন, দাম। ফাইন ডাইনিংয়ের জন্য মানানসই।' },
 };
 const HEADERS: Record<string, Text> = { photo: { en: 'Cover photo', bn: 'কভার ছবি' }, colour: { en: 'Your colour', bn: 'আপনার রং' } };
-const THEMES: Record<string, Text> = { auto: { en: 'Light', bn: 'হালকা' }, paper: { en: 'Warm paper', bn: 'উষ্ণ কাগজ' }, night: { en: 'Dark', bn: 'গাঢ়' }, brand: { en: 'Your colour', bn: 'আপনার রং' } };
+const THEMES: Record<string, Text> = { light: { en: 'Light', bn: 'হালকা' }, auto: { en: 'Match phone', bn: 'ফোনের মতো' }, paper: { en: 'Warm paper', bn: 'উষ্ণ কাগজ' }, night: { en: 'Dark', bn: 'গাঢ়' }, brand: { en: 'Your colour', bn: 'আপনার রং' } };
 /* what each setting is called in the activity log */
 const NAMES: Record<keyof Draft, Text> = {
   layout: { en: 'menu layout', bn: 'মেনুর ধরন' }, header: { en: 'menu top', bn: 'মেনুর ওপরের অংশ' }, theme: { en: 'menu colours', bn: 'মেনুর রং' },
@@ -53,6 +53,24 @@ const baseOf = (r: PR, t: Tx): Draft => {
   if (!QR_FRAMES.some(f => f.id === d.frame)) d.frame = 'banner';
   return d;
 };
+/* paper for printing the cards: size in mm, and how many cards across and down fit nicely on one sheet.
+   The card width is worked out so a full grid fits inside the margins; cards are 5:7 like on screen */
+type Paper = 'a4' | 'a3' | 'a5' | 'letter';
+const PAPERS: Record<Paper, { name: string; w: number; h: number; cols: number; rows: number }> = {
+  a4: { name: 'A4', w: 210, h: 297, cols: 3, rows: 3 },
+  a3: { name: 'A3', w: 297, h: 420, cols: 4, rows: 4 },
+  a5: { name: 'A5', w: 148, h: 210, cols: 2, rows: 2 },
+  letter: { name: 'Letter', w: 216, h: 279, cols: 3, rows: 3 },
+};
+const MARGIN = 8, GAP = 4;
+const cardMm = (p: (typeof PAPERS)[Paper]) => {
+  const byW = (p.w - 2 * MARGIN - GAP * (p.cols - 1)) / p.cols, byH = ((p.h - 2 * MARGIN - GAP * (p.rows - 1)) / p.rows) * 5 / 7;
+  return Math.floor(Math.min(byW, byH) * 10) / 10;
+};
+const PAPER_KEY = 'khabo.qr.paper';
+const noSub = () => () => {};
+const readPaper = (): Paper => { try { const v = localStorage.getItem(PAPER_KEY); return v && v in PAPERS ? (v as Paper) : 'a4'; } catch { return 'a4'; } };
+
 const clampN = (v: unknown) => Math.min(60, Math.max(1, Math.round(Number(v)) || 1));
 
 export function TableQr() {
@@ -61,6 +79,11 @@ export function TableQr() {
   const base = useMemo(() => baseOf(r, t), [r, t]);
   const [edits, setEdits] = useState<Partial<Draft>>({});
   const [nText, setNText] = useState<string | null>(null);
+  /* the paper is a printing choice for this computer, not part of the restaurant's saved settings */
+  const stored = useSyncExternalStore(noSub, readPaper, () => 'a4' as Paper);
+  const [picked, setPicked] = useState<Paper | null>(null);
+  const paper = picked ?? stored;
+  const setPaper = (p: Paper) => { setPicked(p); try { localStorage.setItem(PAPER_KEY, p); } catch { /* private window */ } };
   const draft: Draft = { ...base, ...edits };
   const dirty = JSON.stringify(draft) !== JSON.stringify(base);
   const set = <K extends keyof Draft>(k: K, v: Draft[K]) => setEdits(e => ({ ...e, [k]: v }));
@@ -69,7 +92,7 @@ export function TableQr() {
 
   const prevUrl = `/${i.lang}/t/${encodeURIComponent(r.id)}?table=4&tml=${draft.layout}&tmh=${draft.header}&tmt=${draft.theme}&embed=1`;
   const looks = qrLooksFor(r);
-  const swOf: Record<string, [string, string]> = { auto: ['#FFFFFF', '#E9ECF5'], paper: ['#F6F0E4', '#E3D5BB'], night: ['#0E1018', '#2A2F40'], brand: [r.theme.deep, r.theme.accent] };
+  const swOf: Record<string, [string, string]> = { light: ['#FFFFFF', '#E9ECF5'], auto: ['#FFFFFF', '#0E1018'], paper: ['#F6F0E4', '#E3D5BB'], night: ['#0E1018', '#2A2F40'], brand: [r.theme.deep, r.theme.accent] };
 
   /** puts the choices into the restaurant's draft; the save bar saves them */
   const save = () => {
@@ -102,6 +125,7 @@ export function TableQr() {
   const th = palOf(r, view.cpal);
   const fo = (k: number): Fo => ({ d: th.deep, a: th.accent, l: view.cpal === 'mono' ? th.deep : th.accent, t1: view.tnum ? `${t('Table', 'টেবিল')} ${i.N(k)}` : r.name.en, t2: view.tnum ? view.ctext || r.name.en : view.ctext });
   const qr1 = svgFor(tableLink(i.lang, r, 1), st);
+  const P = PAPERS[paper], cw = cardMm(P), per = P.cols * P.rows, sheets = Math.ceil(n / per);
 
   return (
     <Page title={t('Table QR', 'টেবিল কিউআর')}
@@ -135,7 +159,9 @@ export function TableQr() {
                   </button>
                 ))}
               </div>
-              <span className="hint">{t('Light follows the guest’s phone: dark at night if their phone is set that way.', 'হালকা রং অতিথির ফোন মেনে চলে: ফোনে সেটা চালু থাকলে রাতে গাঢ় হয়ে যায়।')}</span>
+              {draft.theme === 'auto' || draft.theme === 'light' ? <span className="hint">{draft.theme === 'auto'
+                ? t('Match phone: light by day, dark if the guest’s phone is set to dark mode.', 'ফোনের মতো: সাধারণত হালকা, অতিথির ফোনে ডার্ক মোড চালু থাকলে গাঢ়।')
+                : t('Always light, even if the guest’s phone is in dark mode.', 'সবসময় হালকা, অতিথির ফোনে ডার্ক মোড থাকলেও।')}</span> : null}
             </div>
             <div className="field">
               <span className="lbl">{t('Top of the menu', 'মেনুর ওপরের অংশ')}</span>
@@ -187,6 +213,19 @@ export function TableQr() {
       </div>
 
       <div className="sec-t"><h2>{t('Cards to print', 'প্রিন্টের কার্ড')}</h2><span className="meta">{t(`${n} tables`, `${i.N(n)}টি টেবিল`)} · {i.L(CARDS[view.card])}</span></div>
+      <div className="card qr-paper">
+        <div className="field">
+          <span className="lbl">{t('Paper size', 'কাগজের মাপ')}</span>
+          <div className="seg" role="radiogroup" aria-label={t('Paper size', 'কাগজের মাপ')}>
+            {(Object.keys(PAPERS) as Paper[]).map(k => <button key={k} type="button" role="radio" aria-checked={paper === k} className={paper === k ? 'on' : ''} onClick={() => setPaper(k)}>{PAPERS[k].name}</button>)}
+          </div>
+          <span className="hint">{t(`${per} cards on each ${P.name} sheet, each ${Math.round(cw)} × ${Math.round(cw * 1.4)} mm. ${sheets} ${sheets === 1 ? 'sheet' : 'sheets'} for ${n} tables.`,
+            `প্রতিটি ${P.name} কাগজে ${i.N(per)}টি কার্ড, প্রতিটি ${i.N(Math.round(cw))} × ${i.N(Math.round(cw * 1.4))} মিমি। ${i.N(n)}টি টেবিলের জন্য ${i.N(sheets)}টি কাগজ।`)}</span>
+        </div>
+        <button type="button" className="btn pri" onClick={doPrint}><Ico n="printer" sm />{t('Print cards', 'কার্ড প্রিন্ট')}</button>
+      </div>
+      {/* the printer's page: this paper, small margins; the cards are sized in mm so a full grid fills each sheet */}
+      <style>{`@media print { @page { size: ${P.w}mm ${P.h}mm; margin: ${MARGIN}mm; } .pnl .qr-print { --pc: ${P.cols}; --cw: ${cw}mm; } }`}</style>
       <div className="qr-print">
         <div className="qr-grid">
           {Array.from({ length: n }, (_, k) => <TableCard key={k} r={r} d={view} n={k + 1} svg={svgFor(tableLink(i.lang, r, k + 1), st)} fo={fo(k + 1)} t={t} N={i.N} />)}

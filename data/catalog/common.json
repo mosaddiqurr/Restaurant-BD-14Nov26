@@ -1053,10 +1053,11 @@
    "colour": "Your colour"
   },
   "themes": {
-   "auto": "Light",
+   "light": "Light",
    "paper": "Warm paper",
    "night": "Dark",
-   "brand": "Your colour"
+   "brand": "Your colour",
+   "auto": "Match phone"
   }
  },
  "order": [
