@@ -7,6 +7,10 @@ import type { Dish, Restaurant } from './data/types';
 export const dhakaDay = (at: number | Date = Date.now()) =>
   new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Dhaka', year: 'numeric', month: '2-digit', day: '2-digit' }).format(at);
 
+/** today's day and date for the special's heading, in Dhaka time: "Tuesday 17 November" / "মঙ্গলবার ১৭ নভেম্বর" */
+export const specialDay = (bn: boolean, at: number | Date = Date.now()) =>
+  new Intl.DateTimeFormat(bn ? 'bn-BD' : 'en-GB', { timeZone: 'Asia/Dhaka', weekday: 'long', day: 'numeric', month: 'long' }).format(at).replace(',', '');
+
 /** the most dishes a special can have: enough for a small row, few enough to still feel special */
 export const SPECIAL_MAX = 6;
 

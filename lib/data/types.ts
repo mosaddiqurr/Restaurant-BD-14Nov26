@@ -94,7 +94,7 @@ export type Film = { src: string; poster: PhotoId; len?: string };
 /** Today's special: dishes the owner picks from their own menu, shown at the top of the menu (restaurant page and
     table QR menu) at their normal menu price. until = the last day it shows ('YYYY-MM-DD', Dhaka time), so a
     "today only" special hides by itself at midnight; no until = every day until the owner changes it. */
-export type Special = { ids: string[]; until?: string | null; note?: Text };
+export type Special = { ids: string[]; until?: string | null };
 
 export type Restaurant = {
   id: string;

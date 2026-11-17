@@ -11,15 +11,17 @@
      (/en/offline, /bn/offline, with the Rickshaw Run game) is shown instead of the browser's error. That page and
      its files are saved when the worker is installed, and refreshed on later installs.
    - Never touched: anything that is not a GET (API posts, forms) and /api. */
-const V = 'v5';
+const V = 'v6';
 const PAGES = 'khabo-pages-' + V, FILES = 'khabo-files-' + V, PICS = 'khabo-pics-' + V, OFF = 'khabo-offline-' + V;
 const CAP = { [PAGES]: 30, [FILES]: 220, [PICS]: 120 };
 const TABLE = /^\/(en|bn)\/t\/([^/]+)\/?$/;
 const SHORT = /^\/t\/([^/]+)\/?$/;
 const PHOTO_HOSTS = /^(images\.unsplash\.com|cdn\.polyhaven\.com)$/;
 const FONT_HOSTS = /^fonts\.(gstatic|googleapis)\.com$/;
-/* on a computer running the site for testing, code changes all the time: there files are network first */
-const DEV = /^(localhost|127\.0\.0\.1|\[::1\])$|\.localhost$|\.test$/.test(self.location.hostname);
+/* on a computer running the site for testing, code changes all the time: there files are network first. That
+   includes a phone on the same wifi opening the test computer by its home network address (10.x, 192.168.x,
+   172.16-31.x), or the phone would keep showing old code and old menus */
+const DEV = /^(localhost|127\.0\.0\.1|\[::1\])$|\.localhost$|\.test$|^10\.\d+\.\d+\.\d+$|^192\.168\.\d+\.\d+$|^172\.(1[6-9]|2\d|3[01])\.\d+\.\d+$/.test(self.location.hostname);
 /* how long a weak line gets before the saved copy is shown (longer on a test computer, where pages build on demand) */
 const WAIT = DEV ? 12000 : 3500;
 

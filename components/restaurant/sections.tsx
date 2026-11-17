@@ -17,7 +17,7 @@ import type { I18n } from '@/lib/i18n/core';
 import { W } from './words';
 import { InlinePano } from './pano-inline';
 import { photoCats, reducedMotion, type RMini, type RvAllX, type WriteX } from './util';
-import { specialOf } from '@/lib/special';
+import { specialDay, specialOf } from '@/lib/special';
 
 /* ---------- follow the restaurant ---------- */
 const handleOf = (k: string, url: string) => {
@@ -210,8 +210,10 @@ export function RMenu({ r, mini }: { r: Restaurant; mini: RMini }) {
       </div>
       {special.length ? (
         <div className="mgrp spx" id="mc-special">
-          <h3 className="mcat-h"><I n="star" f />{i.t('today_special')}</h3>
-          {r.special?.note ? <p className="spx-note">{i.L(r.special.note)}</p> : null}
+          <div className="spx-h">
+            <span className="spx-ic" aria-hidden="true"><I n="star" f /></span>
+            <div><h3>{i.t('today_special')}</h3><span>{specialDay(i.bn)}</span></div>
+          </div>
           <div className="mlist">{special.map(row)}</div>
         </div>
       ) : null}

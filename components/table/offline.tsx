@@ -23,7 +23,7 @@ export type Offline = {
 };
 
 /* the same names as in public/sw.js */
-const PAGES = 'khabo-pages-v5';
+const PAGES = 'khabo-pages-v6';
 const KEEP = /^\/(_next\/static|icons|media)\//;
 const PHOTO_HOSTS = /^(images\.unsplash\.com|cdn\.polyhaven\.com|fonts\.(gstatic|googleapis)\.com)$/;
 

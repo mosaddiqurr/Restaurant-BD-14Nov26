@@ -596,11 +596,7 @@
       "mutton-rezala",
       "firni"
     ],
-    "until": null,
-    "note": {
-      "en": "Cooked fresh this morning.",
-      "bn": "আজ সকালে রান্না করা।"
-    }
+    "until": null
   },
   "deal": {
     "id": "family-feast",

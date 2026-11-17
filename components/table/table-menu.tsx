@@ -22,7 +22,7 @@ import { W, fillW } from './words';
 import { GamesButton, GamesCard, TableGames } from './games';
 import type { GameId } from '@/components/games/types';
 import { warmGames } from '@/components/games/host';
-import { specialOf } from '@/lib/special';
+import { specialDay, specialOf } from '@/lib/special';
 
 const noop = () => () => {};
 /** the address's ?query, read after the page has loaded (the page itself is made ahead of time) */
@@ -167,8 +167,10 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
         {/* today's special, picked by the restaurant; it depends on today's date (Dhaka), so it shows once loaded */}
         {mounted && !dq && specialOf(r).length ? (
           <section className="tm-g tm-spc">
-            <h2><span className="tm-spc-h"><I n="star" f />{i.t('today_special')}</span></h2>
-            {r.special?.note ? <p className="tm-spc-note">{i.L(r.special.note)}</p> : null}
+            <div className="tm-spc-h">
+              <span className="tm-spc-ic" aria-hidden="true"><I n="star" f /></span>
+              <div><h2>{i.t('today_special')}</h2><span>{specialDay(i.bn)}</span></div>
+            </div>
             {specialOf(r).map(item)}
           </section>
         ) : null}

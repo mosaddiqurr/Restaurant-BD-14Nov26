@@ -1459,9 +1459,14 @@ button.fact:hover b { text-decoration: underline; text-decoration-thickness: 1.5
 @media (max-width: 720px) { .slides .coupon.big { height: 600px; } }
 
 /* ---------- Today's special: first on the menu (components/restaurant/sections.tsx RMenu) ---------- */
-.spx { margin-top: 26px; padding: 2px 20px 6px; border-radius: 18px; background: color-mix(in srgb, var(--ra) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ra) 30%, var(--line)); }
-.spx .mcat-h { display: flex; align-items: center; gap: 8px; margin-top: 18px; }
-.spx .mcat-h i.ph { color: color-mix(in srgb, var(--ra) 70%, var(--ink)); font-size: .85em; }
-.spx-note { color: var(--ink-2); font-size: 15px; margin: 2px 0 0; }
+/* a band in the restaurant's own colour with a marigold star, then the dishes on a soft tint. Flat, no glow */
+.spx { margin-top: 26px; border-radius: 20px; overflow: hidden; background: color-mix(in srgb, var(--ra) 9%, var(--surface)); border: 1px solid color-mix(in srgb, var(--ra) 30%, var(--line)); }
+.spx-h { display: flex; align-items: center; gap: 14px; padding: 16px 20px; background: var(--rd); color: #fff; }
+.spx-ic { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none; background: var(--ra); color: var(--rd); font-size: 22px; }
+.spx-h h3 { margin: 0; font-size: 26px; font-weight: 800; letter-spacing: -.02em; line-height: 1.15; color: #fff; }
+.spx-h span:not(.spx-ic) { display: block; margin-top: 2px; font-size: 14px; font-weight: 600; color: color-mix(in srgb, var(--ra) 55%, #fff); }
+.rp[data-font="serif"] .spx-h h3 { font-family: var(--serif); font-weight: 400; font-size: 30px; letter-spacing: 0; }
+:lang(bn) .spx-h h3, :lang(bn) .rp[data-font="serif"] .spx-h h3 { font-family: var(--sans); font-weight: 750; letter-spacing: 0; line-height: 1.3; font-size: 25px; }
+.spx .mlist { padding: 0 20px; }
 .spx .mlist .mi:last-child, .spx .mlist .mi:nth-last-child(2):nth-child(odd) { border-bottom: 0; }
-@media (max-width: 860px) { .spx { padding: 2px 14px 4px; } .spx .mlist .mi:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--line); } }
+@media (max-width: 860px) { .spx-h { padding: 14px 16px; } .spx .mlist { padding: 0 16px; } .spx .mlist .mi:nth-last-child(2):nth-child(odd) { border-bottom: 1px solid var(--line); } }

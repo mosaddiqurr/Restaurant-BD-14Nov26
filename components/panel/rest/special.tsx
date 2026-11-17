@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { useI } from '@/components/providers/i18n';
 import { SPECIAL_MAX, dhakaDay, specialOf, specialOn } from '@/lib/special';
 import { clone, type PDish } from '@/lib/panel/store';
-import { AreaF, Drawer, Ico, Seg, Thumb, useR, useSaved, useT } from '../ui';
+import { Drawer, Ico, Seg, Thumb, useR, useSaved, useT } from '../ui';
 
 type Keep = 'today' | 'always';
 
@@ -43,7 +43,6 @@ export function SpecialBox() {
         </div>
       </div>
       {on ? <>
-        {s?.note ? <p className="spc-note">{i.L(s.note)}</p> : null}
         <div className="spc-list">
           {list.map(d => (
             <div key={d.id} className={clsx('spc-d', d.out && 'out')}>
@@ -61,7 +60,7 @@ export function SpecialBox() {
 
 function SpecialEdit({ open, onClose }: { open: boolean; onClose: () => void }) {
   const i = useI(), t = useT(), { r } = useR(), saved = useSaved();
-  const [ids, setIds] = useState<string[]>([]), [keep, setKeep] = useState<Keep>('today'), [en, setEn] = useState(''), [bn, setBn] = useState(''), [q, setQ] = useState('');
+  const [ids, setIds] = useState<string[]>([]), [keep, setKeep] = useState<Keep>('today'), [q, setQ] = useState('');
   const [was, setWas] = useState(false);
   /* fill the form each time it opens: the dishes showing now, or a fresh pick */
   if (open && !was) {
@@ -69,7 +68,7 @@ function SpecialEdit({ open, onClose }: { open: boolean; onClose: () => void }) 
     const on = specialOn(r);
     setIds(on ? specialOf(r).map(d => d.id) : []);
     setKeep(on && r.special && !r.special.until ? 'always' : 'today');
-    setEn(on ? r.special?.note?.en || '' : ''); setBn(on ? r.special?.note?.bn || '' : ''); setQ('');
+    setQ('');
   }
   if (!open && was) setWas(false);
   const qq = q.trim().toLowerCase();
@@ -81,8 +80,7 @@ function SpecialEdit({ open, onClose }: { open: boolean; onClose: () => void }) 
   const save = () => {
     if (!ids.length) return toast.error(t('Pick at least one dish, or use Turn off.', 'অন্তত একটি খাবার বাছুন, অথবা "বন্ধ করুন" চাপুন।'));
     const nr = clone(r);
-    const note = en.trim() || bn.trim() ? { en: en.trim() || bn.trim(), bn: bn.trim() || en.trim() } : undefined;
-    nr.special = { ids, until: keep === 'today' ? dhakaDay() : null, ...(note ? { note } : {}) };
+    nr.special = { ids, until: keep === 'today' ? dhakaDay() : null };
     const names = ids.map(id => r.menu.find(d => d.id === id)?.name.en).filter(Boolean).join(', ');
     if (saved(nr, { en: `Set today's special: ${names}`, bn: 'আজকের স্পেশাল ঠিক করেছেন' },
       keep === 'today' ? { en: "Today's special is set. It hides by itself after midnight.", bn: 'আজকের স্পেশাল ঠিক হয়েছে। মাঝরাতের পর নিজেই লুকিয়ে যাবে।' }
@@ -96,10 +94,6 @@ function SpecialEdit({ open, onClose }: { open: boolean; onClose: () => void }) 
       <div className="stack" style={{ gap: 8 }}>
         <b>{t('How long', 'কতদিন')}</b>
         <Seg<Keep> value={keep} onChange={setKeep} items={[['today', t('Today only', 'শুধু আজ')], ['always', t('Every day until I change it', 'না বদলানো পর্যন্ত প্রতিদিন')]]} />
-      </div>
-      <div className="f-grid">
-        <AreaF label={t('Short note (English, optional)', 'ছোট কথা (ইংরেজি, ঐচ্ছিক)')} value={en} onChange={setEn} rows={2} ph="e.g. Fresh hilsa from Chandpur today" />
-        <AreaF bn label={t('Short note (Bangla, optional)', 'ছোট কথা (বাংলা, ঐচ্ছিক)')} value={bn} onChange={setBn} rows={2} ph="যেমন আজ চাঁদপুরের তাজা ইলিশ" />
       </div>
       <div className="stack" style={{ gap: 8 }}>
         <b>{t(`Dishes (${ids.length} of up to ${SPECIAL_MAX})`, `খাবার (সর্বোচ্চ ${i.N(SPECIAL_MAX)}টির মধ্যে ${i.N(ids.length)}টি)`)}</b>

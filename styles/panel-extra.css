@@ -181,7 +181,6 @@
 .pnl .spc-t b { font-size: 16px; }
 .pnl .spc-a { display: flex; gap: 8px; flex-wrap: wrap; }
 .pnl .spc-a .btn { min-width: max-content; }
-.pnl .spc-note { margin: 0; padding: 8px 12px; border-radius: var(--r-sm); background: var(--surface-2); color: var(--ink-2); }
 .pnl .spc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
 .pnl .spc-d, .pnl .spc-pick { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: var(--r-sm); border: 1px solid var(--line); background: var(--surface); min-width: 0; text-align: left; color: var(--ink); }
 .pnl .spc-d.out, .pnl .spc-pick.out { opacity: .7; }
