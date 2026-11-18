@@ -31,7 +31,7 @@
 
 /* ---------- keyboard focus ----------
    Search boxes whose input hides its own outline show a ring on the whole box instead. */
-:is(.ai-form, .tm-q, .tb-q, .field, .lp-q, .hs-q):has(input:focus-visible) {
+:is(.ai-form, .tm-q, .tb-q, .field, .lp-q, .hs-q):has(input:focus-visible, textarea:focus-visible) {
   outline: 2px solid var(--hl, #E0A42E); outline-offset: 2px;
 }
 /* everything you can tab to gets a clear ring (mouse clicks do not show it) */

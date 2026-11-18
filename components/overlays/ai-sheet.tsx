@@ -58,7 +58,14 @@ export function AiSheet() {
   const [copied, setCopied] = useState<number | null>(null);
   /* the sheet only mounts in the browser (store.ai is never set on the server), so this check is safe here */
   const [canMic] = useState(() => !!recCtor()), [mic, setMic] = useState(false), [micErr, setMicErr] = useState<MicErr | null>(null);
-  const rec = useRef<Rec | null>(null), input = useRef<HTMLInputElement>(null);
+  const rec = useRef<Rec | null>(null), input = useRef<HTMLTextAreaElement>(null);
+  /* the box grows with the question so the whole text stays visible (CSS caps it at about 5 lines) */
+  useEffect(() => {
+    const el = input.current;
+    if (!el || CSS.supports('field-sizing', 'content')) return;
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }, [q]);
   /* voice typing state that must survive the browser's own restarts: does the diner still want it on, the words
      already final, and how many restarts in a row heard nothing (so a broken mic cannot loop forever) */
   const want = useRef(false), said = useRef(''), fails = useRef(0);
@@ -238,9 +245,10 @@ export function AiSheet() {
           </div>
           {mic || micErr ? <p className={micErr ? 'ai-mic-note bad' : 'ai-mic-note'} role="status">{micErr ? i.L(MIC_ERR[micErr]) : i.L(W.listenTap)}</p> : null}
           <form className="ai-form" onSubmit={ev => { ev.preventDefault(); ask(q); }}>
-            <input ref={input} value={q} onChange={ev => setQ(ev.target.value)} placeholder={i.t('ai_ph')} aria-label={i.t('ask_title')} enterKeyHint="send" autoComplete="off" />
+            <textarea ref={input} rows={1} value={q} onChange={ev => setQ(ev.target.value)} placeholder={i.t('ai_ph')} aria-label={i.t('ask_title')} enterKeyHint="send" autoComplete="off"
+              onKeyDown={ev => { if (ev.key === 'Enter' && !ev.shiftKey && !ev.nativeEvent.isComposing) { ev.preventDefault(); if (!busy) ask(q); } }} />
             {canMic ? <button type="button" className={mic ? 'ai-mic on' : 'ai-mic'} onClick={listen} aria-pressed={mic} aria-label={i.L(mic ? W.stop : W.mic)} title={i.L(mic ? W.stop : W.mic)}><I n="microphone" f={mic} b={!mic} /></button> : null}
-            <mo.button className="btn btn-pri" type="submit" disabled={!q.trim() || busy} whileTap={{ scale: 0.97 }}><I n="paper-plane-right" f />{i.t('send')}</mo.button>
+            <mo.button className="btn btn-pri ai-send" type="submit" aria-label={i.t('send')} disabled={!q.trim() || busy} whileTap={{ scale: 0.97 }}><I n="paper-plane-right" f /><span className="ai-send-t">{i.t('send')}</span></mo.button>
           </form>
         </Drawer.Content>
       </Drawer.Portal>

@@ -45,7 +45,7 @@
 .ai-hello { display: grid; gap: 14px; }
 .ai-hello > p { color: var(--ink-2); }
 .ai-sheet .ai-form { margin: 0 16px 16px; margin-bottom: max(16px, env(safe-area-inset-bottom)); }
-.ai-sheet .ai-form input { font-size: 16px; }
+.ai-sheet .ai-form :is(input, textarea) { font-size: 16px; }
 .ai-grab { display: none; }
 @media (max-width: 720px) {
   .ai-grab { display: block; flex: none; width: 40px; height: 5px; margin: 8px auto -4px; border-radius: 3px; background: var(--line-2); }
@@ -333,3 +333,5 @@
 .ai-mic-note.bad { color: var(--bad); }
 .ai-body .bot, .ai-body .me { user-select: text; -webkit-user-select: text; }
 @media (max-width: 480px) { .ai-new { width: 36px; padding: 0; justify-content: center; } .ai-new span { display: none; } }
+/* phones: Send is just the arrow, so the question gets the width */
+@media (max-width: 480px) { .ai-form .ai-send { width: 44px; padding: 0; justify-content: center; } .ai-form .ai-send-t { display: none; } }
