@@ -49,7 +49,7 @@ export function Users() {
 
   return (
     <Page title={t('Team & users', 'টিম ও ব্যবহারকারী')}
-      sub={t('Everyone who can sign in. Restaurant accounts only see their own restaurant. The khabo team has levels; only a Master can manage team accounts.', 'যাঁরা সাইন ইন করতে পারেন, সবাই। রেস্টুরেন্টের অ্যাকাউন্ট শুধু নিজের রেস্টুরেন্ট দেখে। খাবো টিমের লেভেল আছে; টিমের অ্যাকাউন্ট শুধু মাস্টার সামলাতে পারেন।')}
+      sub={t('Everyone who can sign in. Restaurant accounts only see their own restaurant. The Khaoya team has levels; only a Master can manage team accounts.', 'যাঁরা সাইন ইন করতে পারেন, সবাই। রেস্টুরেন্টের অ্যাকাউন্ট শুধু নিজের রেস্টুরেন্ট দেখে। খাওয়া টিমের লেভেল আছে; টিমের অ্যাকাউন্ট শুধু মাস্টার সামলাতে পারেন।')}
       acts={<button type="button" className="btn pri" onClick={() => setAdd(true)}><Ico n="plus" sm />{can('users.admin', me) ? t('Add user', 'ব্যবহারকারী যোগ করুন') : t('Add restaurant account', 'রেস্টুরেন্টের অ্যাকাউন্ট যোগ করুন')}</button>}>
       <div className="lv-grid">
         {(Object.keys(LEVELS) as Level[]).map(k => (
@@ -98,8 +98,8 @@ export function Users() {
         </div>
       </div>
       <div className="alert info ad-gap"><Ico n="shield-check" /><div><b>{t('How sign-in is protected', 'সাইন-ইন যেভাবে সুরক্ষিত')}</b>
-        <div className="meta">{t('Passwords are stored salted and hashed, never as typed. Nobody sets a password for someone else: new people and resets get a 6-digit invite code. Five wrong tries lock an account for 10 minutes. The khabo team is signed out after 30 minutes without activity, and a new password signs the person out everywhere. Every page and every change is checked against the person’s level. In the real product this all runs on the server, with a phone code as a second step for the khabo team.',
-          'পাসওয়ার্ড লবণ মিশিয়ে হ্যাশ করে রাখা হয়, লেখা অবস্থায় কখনো না। কেউ অন্য কারো পাসওয়ার্ড ঠিক করে না: নতুন মানুষ আর রিসেটে আসে ৬ সংখ্যার আমন্ত্রণ কোড। পাঁচবার ভুল হলে অ্যাকাউন্ট ১০ মিনিট বন্ধ থাকে। খাবো টিম ৩০ মিনিট কিছু না করলে সাইন আউট হয়ে যায়, আর নতুন পাসওয়ার্ড দিলে সব জায়গা থেকে সাইন আউট হয়। প্রতিটি পেজ আর প্রতিটি বদল সেই মানুষের লেভেল দেখে যাচাই হয়। আসল পণ্যে এসব সার্ভারে চলবে, খাবো টিমের জন্য দ্বিতীয় ধাপে ফোন কোডসহ।')}</div></div></div>
+        <div className="meta">{t('Passwords are stored salted and hashed, never as typed. Nobody sets a password for someone else: new people and resets get a 6-digit invite code. Five wrong tries lock an account for 10 minutes. The Khaoya team is signed out after 30 minutes without activity, and a new password signs the person out everywhere. Every page and every change is checked against the person’s level. In the real product this all runs on the server, with a phone code as a second step for the Khaoya team.',
+          'পাসওয়ার্ড লবণ মিশিয়ে হ্যাশ করে রাখা হয়, লেখা অবস্থায় কখনো না। কেউ অন্য কারো পাসওয়ার্ড ঠিক করে না: নতুন মানুষ আর রিসেটে আসে ৬ সংখ্যার আমন্ত্রণ কোড। পাঁচবার ভুল হলে অ্যাকাউন্ট ১০ মিনিট বন্ধ থাকে। খাওয়া টিম ৩০ মিনিট কিছু না করলে সাইন আউট হয়ে যায়, আর নতুন পাসওয়ার্ড দিলে সব জায়গা থেকে সাইন আউট হয়। প্রতিটি পেজ আর প্রতিটি বদল সেই মানুষের লেভেল দেখে যাচাই হয়। আসল পণ্যে এসব সার্ভারে চলবে, খাওয়া টিমের জন্য দ্বিতীয় ধাপে ফোন কোডসহ।')}</div></div></div>
       <UserModal open={add} onClose={() => setAdd(false)} done={x => setInv(x)} />
       <InviteCard inv={inv} onClose={() => setInv(null)} />
     </Page>

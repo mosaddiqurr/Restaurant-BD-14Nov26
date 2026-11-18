@@ -9,7 +9,7 @@ import { areaOf, src } from '@/lib/khabo';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = 'khabo';
+export const alt = 'Khaoya';
 
 export async function generateStaticParams() {
   return (await getRestaurantIds()).map(id => ({ id }));
@@ -54,7 +54,7 @@ export default async function Image({ params }: { params: Promise<{ lang: string
   const per = 'per person';
   const rv = `${r.reviews.toLocaleString('en-IN')} reviews`;
   const line = 'Real menu, real prices, see inside';
-  const allText = `${nameMain}${r.tagline.en}${where}${price}${per}${rv}${line}khabo0123456789.,-৳`;
+  const allText = `${nameMain}${r.tagline.en}${where}${price}${per}${rv}${line}khaoyaK0123456789.,-৳`;
 
   const [pic, latin, latinBold, bangla] = await Promise.all([
     photo(r.hero[0]),
@@ -82,7 +82,7 @@ export default async function Image({ params }: { params: Promise<{ lang: string
                 <div style={{ width: 8, height: 8, borderRadius: 4, background: '#E0A42E' }} />
               </div>
             </div>
-            <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: -1 }}>khabo</div>
+            <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: -1 }}>khaoya</div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <div style={{ fontSize: nameMain.length > 18 ? 54 : 64, fontWeight: 800, lineHeight: 1.05, letterSpacing: -1.5 }}>{nameMain}</div>

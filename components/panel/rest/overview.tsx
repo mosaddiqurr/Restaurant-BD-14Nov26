@@ -52,14 +52,14 @@ export function Overview() {
   type Todo = { k: string; cls?: string; icon: string; b: string; s: string; a: string; href?: string; fn?: () => void };
   const todo: Todo[] = [
     ...news.map(q => ({ k: q.id, cls: q.state === 'done' ? 'ok' : 'bad', icon: q.state === 'done' ? 'check-circle' : 'warning',
-      b: q.state === 'done' ? t(`khabo said yes: ${REQ[q.kind].en}`, `খাবো হ্যাঁ বলেছে: ${REQ[q.kind].bn}`) : t(`khabo said no: ${REQ[q.kind].en}`, `খাবো না বলেছে: ${REQ[q.kind].bn}`),
+      b: q.state === 'done' ? t(`Khaoya said yes: ${REQ[q.kind].en}`, `খাওয়া হ্যাঁ বলেছে: ${REQ[q.kind].bn}`) : t(`Khaoya said no: ${REQ[q.kind].en}`, `খাওয়া না বলেছে: ${REQ[q.kind].bn}`),
       s: q.reply || (q.state === 'done' ? t('The change is live.', 'বদলটি এখন দেখা যাচ্ছে।') : t('Open the request to see why.', 'কেন, তা অনুরোধ খুলে দেখুন।')), a: t('See', 'দেখুন'), href: rto('team') + '#requests' })),
-    ...(waiting ? [{ k: 'wait', cls: 'info', icon: 'clock', b: t(`${waiting} request${waiting > 1 ? 's' : ''} with the khabo team`, `খাবো টিমের কাছে ${i.N(waiting)}টি অনুরোধ`), s: t('You will see the answer here.', 'উত্তর এখানেই দেখবেন।'), a: t('See', 'দেখুন'), href: rto('team') + '#requests' }] : []),
+    ...(waiting ? [{ k: 'wait', cls: 'info', icon: 'clock', b: t(`${waiting} request${waiting > 1 ? 's' : ''} with the Khaoya team`, `খাওয়া টিমের কাছে ${i.N(waiting)}টি অনুরোধ`), s: t('You will see the answer here.', 'উত্তর এখানেই দেখবেন।'), a: t('See', 'দেখুন'), href: rto('team') + '#requests' }] : []),
     ...(stale ? [{ k: 'stale', cls: 'bad', icon: 'warning', b: t(`Prices were last confirmed ${days(r.checked)}.`, `দাম শেষবার মিলিয়ে দেখা হয়েছে ${days(r.checked)}।`), s: t('Diners see this date. Check your prices and confirm them.', 'ডাইনাররা এই তারিখ দেখেন। দাম মিলিয়ে নিশ্চিত করুন।'), a: t('Confirm', 'নিশ্চিত করুন'), fn: confirmPrices }] : []),
     ...(needReply.length ? [{ k: 'rv', icon: 'chat-circle-dots', b: t(`${needReply.length} low rating${needReply.length > 1 ? 's' : ''} without a reply`, `${i.N(needReply.length)}টি কম রেটিংয়ের উত্তর দেওয়া হয়নি`), s: t('A short, polite reply helps the next diner decide.', 'ছোট, ভদ্র উত্তর পরের ডাইনারকে সিদ্ধান্ত নিতে সাহায্য করে।'), a: t('Reply', 'উত্তর দিন'), href: rto('reviews') }] : []),
     ...(out.length ? [{ k: 'out', cls: 'info', icon: 'info', b: t(`${out.length} dish${out.length > 1 ? 'es' : ''} marked sold out`, `${i.N(out.length)}টি খাবার শেষ বলে চিহ্নিত`), s: `${out.map(d => i.L(d.name)).join(', ')}. ${t('Switch back when available.', 'আবার পাওয়া গেলে চালু করুন।')}`, a: t('Menu', 'মেনু'), href: rto('menu') }] : []),
     ...(noPhoto ? [{ k: 'ph', cls: 'info', icon: 'camera', b: t(`${noPhoto} dish${noPhoto > 1 ? 'es have' : ' has'} no photo`, `${i.N(noPhoto)}টি খাবারের ছবি নেই`), s: t('Dishes with photos get viewed far more.', 'ছবিসহ খাবার অনেক বেশি দেখা হয়।'), a: t('Add', 'যোগ করুন'), href: rto('menu') }] : []),
-    ...(!headDeal(r) ? [{ k: 'deal', cls: 'info', icon: 'tag', b: t('No deal running', 'কোনো অফার চলছে না'), s: t('Deals show on the khabo Deals page and your page.', 'অফার খাবোর অফার পেজে আর আপনার পেজে দেখায়।'), a: t('Add', 'যোগ করুন'), href: rto('deals') }] : []),
+    ...(!headDeal(r) ? [{ k: 'deal', cls: 'info', icon: 'tag', b: t('No deal running', 'কোনো অফার চলছে না'), s: t('Deals show on the Khaoya Deals page and your page.', 'অফার খাওয়া-র অফার পেজে আর আপনার পেজে দেখায়।'), a: t('Add', 'যোগ করুন'), href: rto('deals') }] : []),
   ];
   const chart = tr.days.map((v, k) => ({ d: i.dm(new Date(now - (29 - k) * 864e5)), v }));
   const delta = (p: number) => <><span className={p >= 0 ? 'up' : 'down'}>{p >= 0 ? '+' : ''}{i.N(p)}%</span> {t('vs last week', 'গত সপ্তাহের তুলনায়')}</>;
@@ -71,7 +71,7 @@ export function Overview() {
   const hr = new Date(now).getHours();
   return (
     <Page title={admin ? i.L(r.name) : hr < 12 ? t('Good morning', 'শুভ সকাল') : hr < 17 ? t('Good afternoon', 'শুভ দুপুর') : t('Good evening', 'শুভ সন্ধ্যা')}
-      sub={admin ? where(i, r) : t(`Here is how ${r.name.en} is doing on khabo.`, `খাবোতে ${r.name.bn} কেমন করছে, দেখুন।`)}>
+      sub={admin ? where(i, r) : t(`Here is how ${r.name.en} is doing on Khaoya.`, `খাওয়া-তে ${r.name.bn} কেমন করছে, দেখুন।`)}>
       <div className="sec-t ov-first"><h2>{t('This week', 'এই সপ্তাহে')}</h2><Sample /></div>
       <div className="grid g4">
         {stat(t('Page views', 'পেজ দেখা'), 'eye', week(tr.views.s), 0)}{stat(t('QR menu scans', 'কিউআর মেনু স্ক্যান'), 'qr-code', week(tr.qr.s), 1)}
@@ -85,7 +85,7 @@ export function Overview() {
             <h2 className={clsx(r.theme.font === 'serif' && 'serif')}>{i.L(r.name)}</h2>
             <p>{where(i, r)} · {t(`${i.tk(r.ppl[0])} to ${i.tk(r.ppl[1])} per person`, `জনপ্রতি ${i.tk(r.ppl[0])} থেকে ${i.tk(r.ppl[1])}`)}</p>
             <div className="chips">
-              <span className={clsx('chip', r.hidden && 'warn')}><i className="dot" />{r.hidden ? t('Hidden from khabo', 'খাবোতে লুকানো') : t('Live on khabo', 'খাবোতে দেখা যাচ্ছে')}</span>
+              <span className={clsx('chip', r.hidden && 'warn')}><i className="dot" />{r.hidden ? t('Hidden from Khaoya', 'খাওয়া-তে লুকানো') : t('Live on Khaoya', 'খাওয়া-তে দেখা যাচ্ছে')}</span>
               <span className={clsx('chip', stale && 'warn')}><Ico n="receipt" sm />{t(`Prices checked ${days(r.checked)}`, `দাম মিলিয়ে দেখা ${days(r.checked)}`)}</span>
               <span className="chip"><Ico n="fork-knife" sm />{t(`${r.menu.length} dishes`, `${i.N(r.menu.length)}টি খাবার`)}</span>
               <span className="chip"><Ico n="star" sm f />{r.rating ? i.dg(r.rating.toFixed(1)) : t('New', 'নতুন')} · {t(`${i.N(r.reviews)} reviews`, `${i.N(r.reviews)}টি রিভিউ`)}</span>

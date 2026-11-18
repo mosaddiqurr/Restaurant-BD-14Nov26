@@ -3,7 +3,7 @@
    Every frame is one small SVG drawing plus two boxes:
      q  where the QR sits (always on white, so phones read it), in the drawing's own units
      t  where the words go (t1 big, t2 small), and the colour they are written in
-   Colours come from the restaurant or the khabo pair the owner picked: d = deep, a = accent,
+   Colours come from the restaurant or the Khaoya pair the owner picked: d = deep, a = accent,
    l = accent that still shows on white paper (black when the owner picked black and white).
    To add a frame: one F(...) line below. The picker in the panel lists them by group. */
 

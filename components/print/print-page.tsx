@@ -17,7 +17,7 @@ const T = {
   design: { en: 'Design', bn: 'ডিজাইন' },
   print: { en: 'Print or save PDF', bn: 'প্রিন্ট বা পিডিএফ' },
   both: { en: 'English + বাংলা', bn: 'English + বাংলা' },
-  help: { en: 'Filled from the menu on khabo, so a fresh print always has today’s dishes and prices. The QR code opens the menu with photos.', bn: 'খাবোর মেনু থেকে তৈরি, তাই নতুন প্রিন্টে সবসময় আজকের খাবার আর দাম থাকে। কিউআর কোড ছবিসহ মেনু খোলে।' },
+  help: { en: 'Filled from the menu on Khaoya, so a fresh print always has today’s dishes and prices. The QR code opens the menu with photos.', bn: 'খাওয়া-র মেনু থেকে তৈরি, তাই নতুন প্রিন্টে সবসময় আজকের খাবার আর দাম থাকে। কিউআর কোড ছবিসহ মেনু খোলে।' },
 };
 type Q = { d?: string; size?: 'a4' | 'a5'; lang?: PmOpts['lang'] };
 const noop = () => () => {};

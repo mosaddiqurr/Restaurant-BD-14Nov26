@@ -55,7 +55,7 @@ export function Restaurants() {
                   <td data-k={t('Prices', 'দাম')}>{r.checked >= 30 ? <span className="badge bad">{days(r.checked)}</span> : <span className="meta">{days(r.checked)}</span>}</td>
                   <td className="r num" data-k={t('Dishes', 'খাবার')}>{i.N(r.menu.length)}</td>
                   <td className="r num" data-k={t('Rating', 'রেটিং')}>{r.rating ? i.dg(r.rating.toFixed(1)) : t('New', 'নতুন')}</td>
-                  <td className="r end"><a className="ibtn sm" href={`/${i.lang}/r/${r.id}`} target="_blank" rel="noopener" aria-label={t(`View ${r.name.en} on khabo`, `খাবোতে ${r.name.bn} দেখুন`)}><Ico n="arrow-up-right" sm /></a></td>
+                  <td className="r end"><a className="ibtn sm" href={`/${i.lang}/r/${r.id}`} target="_blank" rel="noopener" aria-label={t(`View ${r.name.en} on Khaoya`, `খাওয়া-তে ${r.name.bn} দেখুন`)}><Ico n="arrow-up-right" sm /></a></td>
                 </tr>
               ))}
               {!rows.length ? <tr><td colSpan={8}><div className="empty"><Ico n="magnifying-glass" /><b>{t('No restaurant matches', 'কোনো রেস্টুরেন্ট মেলেনি')}</b>{t('Try another name or filter.', 'অন্য নাম বা ফিল্টার দিয়ে দেখুন।')}</div></td></tr> : null}

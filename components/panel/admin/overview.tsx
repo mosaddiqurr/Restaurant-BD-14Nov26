@@ -33,7 +33,7 @@ export function AdminOverview() {
     ...stale.map(r => ({ r, i: 'receipt', t: { en: `Prices last confirmed ${r.checked} days ago`, bn: `দাম শেষ যাচাই হয়েছে ${i.N(r.checked)} দিন আগে` }, k: 'bad', go: rgo(r, 'menu'), b: { en: 'Check menu', bn: 'মেনু দেখুন' } })),
     ...(can('billing', me) ? overdue.map(x => ({ r: x.r, i: 'credit-card', t: { en: `${PLANS[x.r.plan].name.en} payment overdue`, bn: `${PLANS[x.r.plan].name.bn} প্ল্যানের টাকা বাকি, সময় পার` }, k: 'bad', go: a('billing'), b: { en: 'Billing', bn: 'বিল' } })) : []),
     ...(can('reviews.moderate', me) ? flagged.map(v => ({ r: getR(db, v.r)!, i: 'warning', t: { en: `Review by ${v.who} reported by the restaurant`, bn: `${v.who}-এর রিভিউ নিয়ে রেস্টুরেন্ট অভিযোগ করেছে` }, k: 'warn', go: a('reviews'), b: { en: 'Review', bn: 'রিভিউ' } })) : []),
-    ...rs.filter(r => r.hidden).map(r => ({ r, i: 'eye', t: { en: 'Hidden from khabo', bn: 'খাবোতে লুকানো' }, k: '', go: rgo(r, 'settings'), b: { en: 'Settings', bn: 'সেটিংস' } })),
+    ...rs.filter(r => r.hidden).map(r => ({ r, i: 'eye', t: { en: 'Hidden from Khaoya', bn: 'খাওয়া-তে লুকানো' }, k: '', go: rgo(r, 'settings'), b: { en: 'Settings', bn: 'সেটিংস' } })),
   ];
   const byPlan = (Object.keys(PLANS) as Plan[]).map(k => [k, rs.filter(r => r.plan === k).length] as const), pmax = Math.max(1, ...byPlan.map(x => x[1]));
   const byCity = Object.keys(C.cities).map(k => [C.cities[k], rs.filter(r => r.city === k).length] as const);
@@ -42,7 +42,7 @@ export function AdminOverview() {
   const hello = h < 12 ? t(`Good morning, ${first}`, `শুভ সকাল, ${first}`) : h < 17 ? t(`Good afternoon, ${first}`, `শুভ দুপুর, ${first}`) : t(`Good evening, ${first}`, `শুভ সন্ধ্যা, ${first}`);
   const dishes = rs.reduce((s, r) => s + r.menu.length, 0);
   return (
-    <Page title={hello} sub={t('Everything on khabo today.', 'আজ খাবোতে যা কিছু।')}
+    <Page title={hello} sub={t('Everything on Khaoya today.', 'আজ খাওয়া-তে যা কিছু।')}
       acts={can('rest.add', me) ? <button type="button" className="btn pri" onClick={() => setAdd(true)}><Ico n="plus" sm />{t('Add restaurant', 'রেস্টুরেন্ট যোগ করুন')}</button> : null}>
       {qs.length ? (
         <div className="card rq-card" style={{ marginBottom: 16 }}>

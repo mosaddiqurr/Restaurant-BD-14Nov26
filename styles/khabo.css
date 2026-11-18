@@ -5,6 +5,7 @@
   --bg: #F5F6F3; --surface: #FFFFFF; --sunk: #EDF0EB; --ink: #0E1712; --ink-2: #45514B; --ink-3: #66726C; --line: #E0E5DE; --line-2: #CBD2CA;
   --brand: #0C5A3E; --brand-2: #0A4D35; --on-brand: #F7F1DE; --brand-soft: #E3EFE7; --link: #0C5A3E; --deep: #0B3B29; --on-deep: #F4F1E6; --on-deep-2: rgba(244, 241, 230, .74);
   --gold: #F4B91A; --on-gold: #1A1300; --gold-text: #8A5E00; --btn: var(--brand); --on-btn: var(--on-brand); --hl: var(--brand);
+  --logo-word: #0C5A3E; /* the green name in the Khaoya logo; cream on dark */
   --good: #11704A; --bad: #B8432F; --warn: #94570A;
   --shadow: 0 1px 0 rgba(14, 23, 18, .04), 0 1px 2px rgba(14, 23, 18, .06), 0 12px 30px -18px rgba(14, 23, 18, .26);
   --ease: cubic-bezier(.23, 1, .32, 1);
@@ -13,7 +14,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0B120F; --surface: #121B17; --sunk: #18231E; --ink: #E9EFEA; --ink-2: #B3C1B9; --ink-3: #8C9A92; --line: #223029; --line-2: #2E3E36;
-  --brand: #1C6E4C; --brand-2: #23805A; --brand-soft: #16261E; --link: #F4B91A; --deep: #0B4D35; --btn: #F4B91A; --on-btn: #1A1300; --hl: #F4B91A; --gold-text: #F4B91A;
+  --logo-word: #F7F1DE; --brand: #1C6E4C; --brand-2: #23805A; --brand-soft: #16261E; --link: #F4B91A; --deep: #0B4D35; --btn: #F4B91A; --on-btn: #1A1300; --hl: #F4B91A; --gold-text: #F4B91A;
   --good: #4CC88F; --bad: #F0745F; --warn: #F2B24C;
   --shadow: 0 1px 0 rgba(255, 255, 255, .03) inset, 0 14px 30px -18px rgba(0, 0, 0, .85);
   color-scheme: dark;
@@ -121,18 +122,26 @@ number-flow-react { --number-flow-char-height: .92em; }
 
 /* ================= header (today's layout, in green) ================= */
 .hdr { position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--bg) 86%, transparent); backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px); box-shadow: 0 1px 0 var(--line); transition: background .3s, box-shadow .3s, color .3s; }
-.hdr.over { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; color: #fff; }
+:root[data-theme="dark"] .hdr.over { background: transparent; backdrop-filter: none; -webkit-backdrop-filter: none; box-shadow: none; color: #fff; }
 .hdr .wrap { display: flex; align-items: center; gap: 22px; height: 68px; }
 .logo { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; font-size: 21px; letter-spacing: -.03em; }
 .logo svg { width: 30px; height: 30px; flex: none; }
+/* the Khaoya logo (plate + name + smile) and Mama, the AI's talking plate */
+.logo .brand-logo, .brand-logo { height: 36px; width: auto; display: block; }
+:root[data-theme="dark"] .hdr.over, .foot, .dark-logo { --logo-word: #F7F1DE; }
+.mama-mark { width: 1.25em; height: 1.25em; flex: none; display: block; }
+.orb .mama-mark { width: 74%; height: 74%; }
+/* on marigold buttons Mama swaps to a green plate with a marigold smile, so she never disappears */
+.btn-gold .mama-mark, :root[data-theme="dark"] .btn-pri .mama-mark { --mama-plate: #0C5A3E; --mama-smile: #F4B91A; }
+@media (max-width: 560px) { .hdr .logo .brand-logo { height: 31px; } }
 .hnav { display: flex; gap: 2px; align-items: center; }
 .hnav > a, .mm > a { position: relative; isolation: isolate; display: inline-flex; align-items: center; gap: 5px; height: 38px; padding: 0 12px; border-radius: 12px; font-weight: 600; color: var(--ink-2); font-size: 15px; }
 .hnav i { font-size: 13px; }
-.hdr.over .hnav > a, .hdr.over .mm > a { color: rgba(255, 255, 255, .86); }
+:root[data-theme="dark"] .hdr.over .hnav > a, :root[data-theme="dark"] .hdr.over .mm > a { color: rgba(255, 255, 255, .86); }
 .hnav > a.on, .hnav > a:hover, .mm > a:hover, .mm > a.on { color: var(--ink); }
-.hdr.over .hnav > a:hover, .hdr.over .mm > a:hover, .hdr.over .hnav .on { color: #fff; }
+:root[data-theme="dark"] .hdr.over .hnav > a:hover, :root[data-theme="dark"] .hdr.over .mm > a:hover, :root[data-theme="dark"] .hdr.over .hnav .on { color: #fff; }
 .hnav .pill { background: var(--sunk); }
-.hdr.over .hnav .pill { background: rgba(255, 255, 255, .16); }
+:root[data-theme="dark"] .hdr.over .hnav .pill { background: rgba(255, 255, 255, .16); }
 .mm { position: relative; }
 .mm-pop { position: absolute; left: -12px; top: calc(100% + 10px); z-index: 50; border-radius: 20px; background: var(--surface); color: var(--ink); box-shadow: 0 28px 60px -20px rgba(0, 0, 0, .4), inset 0 0 0 1px var(--line); transform-origin: top left; }
 .mm-pop::before { content: ""; position: absolute; left: 0; right: 0; top: -12px; height: 12px; }
@@ -152,14 +161,14 @@ number-flow-react { --number-flow-char-height: .92em; }
 .hsearch:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
 .hsearch > span:not(.kbd) { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .hsearch .kbd { margin-left: auto; white-space: nowrap; flex: none; }
-.hdr.over .hsearch { background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); color: rgba(255, 255, 255, .82); backdrop-filter: blur(8px); }
-.hdr.over .hsearch .kbd { background: none; color: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3); }
+:root[data-theme="dark"] .hdr.over .hsearch { background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); color: rgba(255, 255, 255, .82); backdrop-filter: blur(8px); }
+:root[data-theme="dark"] .hdr.over .hsearch .kbd { background: none; color: rgba(255, 255, 255, .8); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .3); }
 .circ { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line-2); background: var(--surface); font-size: 17px; font-weight: 700; flex: none; transition: transform .15s var(--ease); }
 .circ:active { transform: scale(.9); }
-.hdr.over .circ { background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); color: #fff; }
+:root[data-theme="dark"] .hdr.over .circ { background: rgba(255, 255, 255, .12); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); color: #fff; }
 .signin { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 16px 0 12px; border-radius: 999px; box-shadow: inset 0 0 0 1.5px var(--ink); font-weight: 650; }
 .signin i { font-size: 19px; }
-.hdr.over .signin { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .85); }
+:root[data-theme="dark"] .hdr.over .signin { box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .85); }
 @media (max-width: 1060px) { .hsearch { width: auto; } .hsearch span, .hsearch .kbd { display: none; } }
 @media (max-width: 900px) { .hnav { display: none; } .signin span { display: none; } .signin { padding: 0 11px; } }
 .tabbar { display: none; }

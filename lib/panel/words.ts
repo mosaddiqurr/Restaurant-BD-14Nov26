@@ -50,7 +50,7 @@ export const PERMS = {
   'rest.delete': tx('Delete restaurants', 'রেস্টুরেন্ট মুছে ফেলা'),
   'reviews.moderate': tx('Hide or keep reported reviews', 'অভিযোগ আসা রিভিউ লুকানো বা রাখা'),
   'users.rest': tx('Restaurant sign-in accounts', 'রেস্টুরেন্টের সাইন-ইন অ্যাকাউন্ট'),
-  'users.admin': tx('khabo team accounts and levels', 'খাবো টিমের অ্যাকাউন্ট আর লেভেল'),
+  'users.admin': tx('Khaoya team accounts and levels', 'খাওয়া টিমের অ্যাকাউন্ট আর লেভেল'),
   billing: tx('Plans, payments and invoices', 'প্ল্যান, পেমেন্ট আর ইনভয়েস'),
   leads: tx('Sales leads', 'বিক্রির লিড'),
   site: tx('Site text (home page and more)', 'সাইটের লেখা (হোম পেজ ও আরও)'),
@@ -81,7 +81,7 @@ export const REQ = {
 } as const;
 export type ReqKind = keyof typeof REQ;
 export const REQ_STATE = {
-  open: [tx('Waiting for khabo', 'খাবোর উত্তরের অপেক্ষায়'), 'warn'], done: [tx('Done', 'হয়ে গেছে'), 'ok'],
+  open: [tx('Waiting for Khaoya', 'খাওয়া-র উত্তরের অপেক্ষায়'), 'warn'], done: [tx('Done', 'হয়ে গেছে'), 'ok'],
   declined: [tx('Declined', 'না বলা হয়েছে'), 'bad'], cancelled: [tx('Cancelled', 'বাতিল'), ''],
 } as const;
 

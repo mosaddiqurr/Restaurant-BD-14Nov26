@@ -3,8 +3,8 @@ import type { MetadataRoute } from 'next';
 /* lets a phone keep khabo on its home screen (and is what the table menu's offline copy belongs to) */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'khabo',
-    short_name: 'khabo',
+    name: 'Khaoya',
+    short_name: 'Khaoya',
     description: 'Real menus, real prices and a real look inside, before you leave home. আসল মেনু, আসল দাম, বের হওয়ার আগেই।',
     id: '/',
     start_url: '/',
@@ -19,7 +19,7 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: '/icon.svg', sizes: 'any', type: 'image/svg+xml' },
       { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
       { src: '/icon-512.png', sizes: '512x512', type: 'image/png' },
-      { src: '/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+      { src: '/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
   };
 }

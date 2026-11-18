@@ -1,12 +1,12 @@
 'use client';
 /* The search palette (Ctrl K, / or the search buttons): restaurants, dishes, kinds of dish and areas,
-   fed by /api/search as you type, with the matched words marked. Plus quick links and Ask khabo. */
+   fed by /api/search as you type, with the matched words marked. Plus quick links and Ask Mama. */
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useRouter } from 'next/navigation';
 import { Command } from 'cmdk';
 import { m } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
-import { I, Pic, Tk } from '@/components/ui/bits';
+import { I, MamaMark, Pic, Tk } from '@/components/ui/bits';
 import { useHref } from '@/components/shell/nav';
 import { openDish } from '@/components/cards/actions';
 import { useApp } from '@/lib/store';
@@ -151,9 +151,9 @@ export function Palette() {
         {!data ? <Command.Loading><div className="pal-sk">{[0, 1, 2, 3, 4].map(k => <div key={k} className="sk" />)}</div></Command.Loading> : null}
         {none ? <div className="pal-none"><b>{i.t('no_match', { q: data!.q })}</b><span>{i.t('no_match_sub')}</span></div> : null}
         {groups}
-        <Command.Group heading="khabo">
+        <Command.Group heading="Khaoya">
           <Command.Item value="go:ask" onSelect={pick(() => set({ ai: { q: q.trim() } }))}>
-            <div className="pal-r"><I n="sparkle" f /><div className="pal-t"><div>{i.t('ask_title')}{q.trim() ? `: “${q.trim()}”` : ''}</div><small>{i.t('ask_ai_sub')}</small></div></div>
+            <div className="pal-r"><MamaMark /><div className="pal-t"><div>{i.t('ask_title')}{q.trim() ? `: “${q.trim()}”` : ''}</div><small>{i.t('ask_ai_sub')}</small></div></div>
           </Command.Item>
           {([['/deals', i.t('nav_deals'), 'tag'], ['/dishes', i.t('nav_dishes'), 'bowl-food'], ['/business', i.t('nav_business'), 'handshake'], ['/partner', i.t('partner_sign_in'), 'squares-four']] as const).map(([p, l, ic]) => (
             <Command.Item key={p} value={'go:' + p} onSelect={go(p)}>

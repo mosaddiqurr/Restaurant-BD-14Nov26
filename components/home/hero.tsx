@@ -1,12 +1,12 @@
 'use client';
 /* The top of the home page: a slow wall of real photos, the headline, the search bar with the area
-   picker and Ask khabo, then the partner names running by. */
+   picker and Ask Mama, then the partner names running by. */
 import { Morph } from '@/components/ui/morph';
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import clsx from 'clsx';
 import { useI } from '@/components/providers/i18n';
-import { I, Mono } from '@/components/ui/bits';
+import { I, MamaMark, Mono } from '@/components/ui/bits';
 import { AreaPop } from '@/components/ui/choose';
 import { useHref } from '@/components/shell/nav';
 import { useApp } from '@/lib/store';
@@ -71,7 +71,7 @@ export function Hero({ wall, areaCount }: { wall: string[]; areaCount: Record<st
               <Morph>{ex[ri]}</Morph>
             </span>
           </button>
-          <button className="btn btn-gold ai-b" onClick={() => set({ ai: { q: '' } })}><I n="sparkle" f />{i.t('ask_ai')}</button>
+          <button className="btn btn-gold ai-b" onClick={() => set({ ai: { q: '' } })}><MamaMark />{i.t('ask_ai')}</button>
         </div>
       </div>
     </section>

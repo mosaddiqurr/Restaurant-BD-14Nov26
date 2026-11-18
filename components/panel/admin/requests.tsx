@@ -11,7 +11,7 @@ export function Requests() {
   const open = openRequests(db);
   const past = requestsOf(db).filter(q => q.state !== 'open' && !!getR(db, q.rid)).slice(0, 40);
   return (
-    <Page title={t('Requests', 'অনুরোধ')} sub={t('Changes restaurants asked for that only the khabo team can make. New ones pop up in every open admin tab.', 'রেস্টুরেন্ট যে বদল চেয়েছে, যা শুধু খাবো টিম করতে পারে। নতুন অনুরোধ খোলা প্রতিটি অ্যাডমিন ট্যাবে ভেসে ওঠে।')}>
+    <Page title={t('Requests', 'অনুরোধ')} sub={t('Changes restaurants asked for that only the Khaoya team can make. New ones pop up in every open admin tab.', 'রেস্টুরেন্ট যে বদল চেয়েছে, যা শুধু খাওয়া টিম করতে পারে। নতুন অনুরোধ খোলা প্রতিটি অ্যাডমিন ট্যাবে ভেসে ওঠে।')}>
       <div className="card">
         <div className="card-h"><h2>{t('Waiting', 'অপেক্ষায়')}</h2>{open.length ? <span className="badge gold">{i.N(open.length)}</span> : null}</div>
         <div className="rows" style={{ padding: '4px 0' }}>

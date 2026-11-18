@@ -6,7 +6,7 @@ import { useEffect, useMemo, useRef, useState, type CSSProperties, type RefObjec
 import clsx from 'clsx';
 import { AnimatePresence, animate, m as mo } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
-import { I, Num, TNum, Tk, useMounted } from '@/components/ui/bits';
+import { I, MamaMark, Num, TNum, Tk, useMounted } from '@/components/ui/bits';
 import { coverName } from '@/components/cards/cards';
 import { useApp, billCount, billSub, S } from '@/lib/store';
 import { needSign } from '@/components/cards/actions';
@@ -32,6 +32,10 @@ export function Rest({ r: r0, reviews, more, dealIds, evIds }: RestProps) {
   const deals = mounted ? liveDealsOf(r) : (r.deals || []).filter(d => dealIds.includes(d.id));
   const events = mounted ? eventsOf(r) : evIds.map(id => (r.events || []).find(ev => ev.id === id)!).filter(Boolean);
   const srcRef = useRef<HTMLDivElement>(null);
+
+  /* Mama knows which restaurant you are looking at while you are on its page */
+  const setApp = useApp(s => s.set);
+  useEffect(() => { setApp({ here: { id: r0.id, name: r0.name } }); return () => setApp({ here: null }); }, [r0.id, r0.name, setApp]);
 
   /* /r/<id>#menu, #deals, #events, #reviews: go there once the page has settled */
   useEffect(() => {
@@ -73,7 +77,7 @@ export function Rest({ r: r0, reviews, more, dealIds, evIds }: RestProps) {
       <RNav r={r} mini={mini} srcRef={srcRef} deals={deals.length > 0} events={events.length > 0} />
       {/* the menu comes first, right under the hours and prices: it is what most diners came for */}
       <div className="wrap">
-        {/* the 360° walk-through sits first, right under the section bar: it is the premium thing khabo brings */}
+        {/* the 360° walk-through sits first, right under the section bar: it is the premium thing Khaoya brings */}
         <RTour r={r} />
         <RMenu r={r} mini={mini} />
         <RDeals r={r} deals={deals} />
@@ -192,7 +196,7 @@ function Cover({ r }: { r: Restaurant }) {
 
 /* ---------- under the cover: rating, price, open now, where; the tour button and Call, Directions, Bill ---------- */
 function Under({ r, mini, srcRef }: { r: Restaurant; mini: RMini; srcRef: RefObject<HTMLDivElement | null> }) {
-  const i = useI(), area = useApp(s => s.area), m = useMounted();
+  const i = useI(), area = useApp(s => s.area), set = useApp(s => s.set), m = useMounted();
   const os = m ? openState(i, r) : null;
   const a = areaOf(area), km = m && a.city === r.city ? distKm(LL[a.id], r.geo) : null;
   const labels = [r.featured ? i.t('featured') : '', r.founding ? i.t('founding') : ''].filter(Boolean);
@@ -224,6 +228,9 @@ function Under({ r, mini, srcRef }: { r: Restaurant; mini: RMini; srcRef: RefObj
           </button>
         )}
         <div className="racts-2" ref={srcRef}><ActBtns r={r} mini={mini} wa /></div>
+        <button className="mama-b" onClick={() => set({ ai: { q: '' } })}>
+          <span className="orb"><MamaMark /></span><span><b>{i.t('ask_here')}</b><small>{i.t('ask_here_sub')}</small></span><I n="arrow-right" b cls="go" />
+        </button>
       </div>
     </div>
   );

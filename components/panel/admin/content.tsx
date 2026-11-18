@@ -90,7 +90,7 @@ const Row = memo(function Row({ k, v, o, changed, dirty, label, tag, onEdit, onU
     <div className={clsx('tx', dirty && 'dirty')}>
       <div className="tx-h">{label ? <b>{label}</b> : null}{tag ? <span className="tx-tag">{tag}</span> : null}
         {dirty ? <span className="tx-st dr">{t('Not saved', 'রাখা হয়নি')}</span> : changed ? <span className="tx-st ch">{t('Changed', 'বদলানো')}</span> : null}
-        {toks.length ? <span className="tx-tok" title={t('khabo fills these in. Keep them as they are.', 'এগুলো খাবো নিজে বসায়। যেমন আছে রাখুন।')}>{toks.map(x => <code key={x}>{x}</code>)}</span> : null}
+        {toks.length ? <span className="tx-tok" title={t('Khaoya fills these in. Keep them as they are.', 'এগুলো খাওয়া নিজে বসায়। যেমন আছে রাখুন।')}>{toks.map(x => <code key={x}>{x}</code>)}</span> : null}
         {changed || dirty ? <button type="button" className="tx-undo" onClick={() => onUndo(k)}><Ico n="arrow-clockwise" sm />{t('Back to original', 'আগের লেখায় ফিরুন')}</button> : null}
       </div>
       <div className="tx-in">{inp('en')}{inp('bn')}</div>
@@ -179,15 +179,15 @@ export function SiteText() {
       {S[s.id].map(k => <Row key={k} k={k} v={cur(k)} o={orig(k)} changed={changed(k)} dirty={!!draft[k]} label={label(k)} onEdit={onEdit} onUndo={onUndo} />)}
       <p className="meta tx-foot">{s.about
         ? t('Shown under “About this dish” for every dish of that kind, unless the restaurant wrote its own.', 'ওই ধরনের প্রতিটি খাবারের “এই খাবার সম্পর্কে” অংশে দেখায়, যদি রেস্টুরেন্ট নিজে কিছু না লেখে।')
-        : t('Words in {curly brackets} are filled in by khabo, like a number or a name. Keep them as they are.', '{বাঁকা বন্ধনীর} ভেতরের শব্দ খাবো নিজে বসায়, যেমন একটি সংখ্যা বা নাম। যেমন আছে রাখুন।')}</p>
+        : t('Words in {curly brackets} are filled in by Khaoya, like a number or a name. Keep them as they are.', '{বাঁকা বন্ধনীর} ভেতরের শব্দ খাওয়া নিজে বসায়, যেমন একটি সংখ্যা বা নাম। যেমন আছে রাখুন।')}</p>
     </>;
   }
 
   return (
     <Page title={t('Site text', 'সাইটের লেখা')}
-      sub={t('Every word on khabo’s own pages, in English and Bangla. Pick a page or search for any words you see on the site.', 'খাবোর নিজের পেজের প্রতিটি শব্দ, ইংরেজি আর বাংলায়। একটি পেজ বাছুন, বা সাইটে দেখা যেকোনো শব্দ খুঁজুন।')}
-      acts={<a className="btn" href={`/${i.lang}`} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('Open khabo', 'খাবো খুলুন')}</a>}>
-      <div className="alert info tx-live"><Ico n="info" /><div className="meta">{t('Saved words are kept in this prototype for now. The live site will read them once the backend is ready; until then khabo still shows the original words.', 'রাখা লেখা আপাতত এই প্রোটোটাইপে থাকছে। ব্যাকএন্ড তৈরি হলে লাইভ সাইট এগুলো পড়বে; ততদিন খাবো আগের লেখাই দেখাবে।')}</div></div>
+      sub={t('Every word on Khaoya’s own pages, in English and Bangla. Pick a page or search for any words you see on the site.', 'খাওয়া-র নিজের পেজের প্রতিটি শব্দ, ইংরেজি আর বাংলায়। একটি পেজ বাছুন, বা সাইটে দেখা যেকোনো শব্দ খুঁজুন।')}
+      acts={<a className="btn" href={`/${i.lang}`} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('Open Khaoya', 'খাওয়া খুলুন')}</a>}>
+      <div className="alert info tx-live"><Ico n="info" /><div className="meta">{t('Saved words are kept in this prototype for now. The live site will read them once the backend is ready; until then Khaoya still shows the original words.', 'রাখা লেখা আপাতত এই প্রোটোটাইপে থাকছে। ব্যাকএন্ড তৈরি হলে লাইভ সাইট এগুলো পড়বে; ততদিন খাওয়া আগের লেখাই দেখাবে।')}</div></div>
       <div className="tx-wrap">
         <aside className="tx-side card">
           <label className="search"><span className="sr">{t('Search all site text', 'সাইটের সব লেখা খুঁজুন')}</span><Ico n="magnifying-glass" sm />

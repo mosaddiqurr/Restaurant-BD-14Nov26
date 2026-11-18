@@ -60,7 +60,7 @@ export function Sticker({ r, id, o, url, uid }: { r: PR; id: string; o: StkOpts;
   const head = (o.head || '').trim();
   const line = o.line ? <p className="st-say">{o.line}</p> : null;
   const addr = o.addr ? <div className="st-addr">{siteAddr(r)}</div> : null;
-  const by = <div className="st-by">{t('on khabo', 'খাবোতে')}</div>;
+  const by = <div className="st-by">{t('on Khaoya', 'খাওয়া-তে')}</div>;
   const scan = head ? <span className="st-scan">{phoneIco}{head}</span> : null;
   const words = head.split(/\s+/).filter(Boolean), half = Math.ceil(words.length / 2);
   const big = words.length ? <h2 className="st-big">{words.slice(0, half).join(' ')}<span>{words.slice(half).join(' ')}</span></h2> : null;

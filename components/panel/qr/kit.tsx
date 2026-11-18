@@ -15,7 +15,7 @@ import { useT } from '../ui';
 import '@/styles/panel-qr.css';
 
 /* ---------- colours for anything printed with a QR ----------
-   '' = the restaurant's own colours, a khabo colour pair by id, or 'mono' = black and white (cheapest to print) */
+   '' = the restaurant's own colours, a Khaoya colour pair by id, or 'mono' = black and white (cheapest to print) */
 export const MONO = { id: 'mono', deep: '#111111', accent: '#FFFFFF', en: 'Black and white', bn: 'সাদা-কালো' };
 export type Pal = { deep: string; accent: string };
 export const palOf = (r: Pick<PR, 'theme'>, id?: string | null): Pal => (id === 'mono' ? MONO : C.palettes.find(p => p.id === id) || r.theme);

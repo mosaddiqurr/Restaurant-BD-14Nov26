@@ -21,12 +21,12 @@ export function AskKhabo({ open, kind = 'name', onClose }: { open: boolean; kind
     if (k === 'name' && (!f.en.trim() || f.en.trim() === r.name.en)) return toast.error(t('Write the new English name.', 'নতুন ইংরেজি নাম লিখুন।'));
     if (k !== 'name' && f.text.trim().length < 4) return toast.error(t('Write what should change.', 'কী বদলাতে হবে, লিখুন।'));
     if (!request(r.id, k, k === 'name' ? { en: f.en.trim(), bn: f.bn.trim() } : { text: f.text.trim() }, f.note.trim() || undefined)) return;
-    onClose(); toast.success(t('Sent. The khabo team has been told and will answer here.', 'পাঠানো হয়েছে। খাবো টিমকে জানানো হয়েছে, উত্তর এখানেই পাবেন।'));
+    onClose(); toast.success(t('Sent. The Khaoya team has been told and will answer here.', 'পাঠানো হয়েছে। খাওয়া টিমকে জানানো হয়েছে, উত্তর এখানেই পাবেন।'));
   };
   return (
-    <Modal open={open} onClose={onClose} title={t('Ask the khabo team', 'খাবো টিমকে বলুন')}
-      foot={<><button className="btn ghost l" onClick={onClose}>{t('Cancel', 'বাতিল')}</button><button className="btn pri" onClick={send}><Ico n="paper-plane-right" sm />{t('Send to khabo', 'খাবোকে পাঠান')}</button></>}>
-      <p className="meta">{t('Some things only the khabo team changes, so diners, reviews and printed QR codes never lose track of you. We usually answer within a day.', 'কিছু জিনিস শুধু খাবো টিম বদলায়, যাতে ডাইনার, রিভিউ আর ছাপানো কিউআর কোড কখনো আপনাকে হারিয়ে না ফেলে। আমরা সাধারণত এক দিনের মধ্যে উত্তর দিই।')}</p>
+    <Modal open={open} onClose={onClose} title={t('Ask the Khaoya team', 'খাওয়া টিমকে বলুন')}
+      foot={<><button className="btn ghost l" onClick={onClose}>{t('Cancel', 'বাতিল')}</button><button className="btn pri" onClick={send}><Ico n="paper-plane-right" sm />{t('Send to Khaoya', 'খাওয়া-কে পাঠান')}</button></>}>
+      <p className="meta">{t('Some things only the Khaoya team changes, so diners, reviews and printed QR codes never lose track of you. We usually answer within a day.', 'কিছু জিনিস শুধু খাওয়া টিম বদলায়, যাতে ডাইনার, রিভিউ আর ছাপানো কিউআর কোড কখনো আপনাকে হারিয়ে না ফেলে। আমরা সাধারণত এক দিনের মধ্যে উত্তর দিই।')}</p>
       <div className="f-grid">
         <SelF full label={t('What do you want to change?', 'কী বদলাতে চান?')} value={f.kind} onChange={up('kind')} opts={(Object.keys(REQ) as ReqKind[]).map(k => [k, i.L(REQ[k])])} />
         {f.kind === 'name' ? <>

@@ -202,7 +202,7 @@ export function signIn(id: string, p: string, keep: boolean, restExists: (rid: s
   return mutate<SignRes>(db => {
     const user = findUser(db, id), now = Date.now();
     const badMsg = T('That username and password do not match.', 'ইউজারনেম আর পাসওয়ার্ড মিলছে না।');
-    if (user && (user.lockUntil || 0) > now) { const m = Math.ceil((user.lockUntil! - now) / 60e3); return { error: T(`Too many wrong tries. Try again in ${m} minutes, or ask the khabo team.`, `অনেকবার ভুল হয়েছে। ${m} মিনিট পরে আবার চেষ্টা করুন, বা খাবো টিমকে বলুন।`) }; }
+    if (user && (user.lockUntil || 0) > now) { const m = Math.ceil((user.lockUntil! - now) / 60e3); return { error: T(`Too many wrong tries. Try again in ${m} minutes, or ask the Khaoya team.`, `অনেকবার ভুল হয়েছে। ${m} মিনিট পরে আবার চেষ্টা করুন, বা খাওয়া টিমকে বলুন।`) }; }
     if (user && !user.hash && user.p == null && user.inv) return { error: T('This account is not set up yet. Tap “I have an invite code” below.', 'এই অ্যাকাউন্ট এখনো চালু হয়নি। নিচে “আমার কাছে আমন্ত্রণ কোড আছে” চাপুন।') };
     if (!user || !checkPw(user, p)) {
       if (user) {
@@ -210,13 +210,13 @@ export function signIn(id: string, p: string, keep: boolean, restExists: (rid: s
         if (user.fails >= MAX_TRIES) {
           user.lockUntil = now + LOCK_MIN * 60e3; user.fails = 0;
           db.log.unshift({ at: now, who: 'Security', role: '', rid: user.rid, what: `Locked ${user.u} for ${LOCK_MIN} minutes after ${MAX_TRIES} wrong passwords`, bn: `${MAX_TRIES}বার ভুল পাসওয়ার্ডের পরে ${user.u} ${LOCK_MIN} মিনিটের জন্য বন্ধ` });
-          return { error: T(`Too many wrong tries. This account is locked for ${LOCK_MIN} minutes. The khabo team can unlock it sooner.`, `অনেকবার ভুল হয়েছে। অ্যাকাউন্টটি ${LOCK_MIN} মিনিটের জন্য বন্ধ। খাবো টিম আগেই খুলে দিতে পারে।`) };
+          return { error: T(`Too many wrong tries. This account is locked for ${LOCK_MIN} minutes. The Khaoya team can unlock it sooner.`, `অনেকবার ভুল হয়েছে। অ্যাকাউন্টটি ${LOCK_MIN} মিনিটের জন্য বন্ধ। খাওয়া টিম আগেই খুলে দিতে পারে।`) };
         }
         if (user.fails >= MAX_TRIES - 2) { const left = MAX_TRIES - user.fails; return { error: T(`${badMsg.en} ${left} tries left before the account is locked for a while.`, `${badMsg.bn} অ্যাকাউন্ট কিছুক্ষণের জন্য বন্ধ হওয়ার আগে আর ${left}বার চেষ্টা করা যাবে।`) }; }
       }
       return { error: badMsg };
     }
-    if (!user.active) return { error: T('This account is turned off. Ask the khabo team to turn it back on.', 'এই অ্যাকাউন্ট বন্ধ করা আছে। আবার চালু করতে খাবো টিমকে বলুন।') };
+    if (!user.active) return { error: T('This account is turned off. Ask the Khaoya team to turn it back on.', 'এই অ্যাকাউন্ট বন্ধ করা আছে। আবার চালু করতে খাওয়া টিমকে বলুন।') };
     if (user.role === 'restaurant' && (!user.rid || db.gone[user.rid] || !restExists(user.rid))) return { error: T('The restaurant for this account no longer exists.', 'এই অ্যাকাউন্টের রেস্টুরেন্টটি আর নেই।') };
     user.fails = 0; delete user.lockUntil;
     const long = keep && user.role !== 'admin';
@@ -295,7 +295,7 @@ export function saveR(r: PR, what?: Text): boolean {
       const names = keys.map(k => LOCKED[k]).concat(addedWeek.length ? [T('Deal of the week', 'সপ্তাহের অফার')] : []);
       const en = names.map(n => n.en).join(', '), bn = names.map(n => n.bn).join(', ');
       log(r.id, T(`Tried to change ${en} (blocked)`, `${bn} বদলানোর চেষ্টা (আটকানো হয়েছে)`));
-      return bad(T(`Only the khabo team can change ${en}.`, `${bn} শুধু খাবো টিম বদলাতে পারে।`));
+      return bad(T(`Only the Khaoya team can change ${en}.`, `${bn} শুধু খাওয়া টিম বদলাতে পারে।`));
     }
   }
   /* price changes waiting in a draft go into the price history now, with the save */
@@ -321,7 +321,7 @@ export function priceChange(r: PR, d: PDish, v: number) {
 }
 export const histOf = (db: PanelDB | null, rid: string, did: string) => db?.hist[rid + '|' + did] || [];
 export function addR(r: PR) {
-  const me = getMe(); if (!can('rest.add', me)) return bad(T('Only some khabo team levels can add restaurants.', 'শুধু কিছু খাবো টিম লেভেল রেস্টুরেন্ট যোগ করতে পারে।'));
+  const me = getMe(); if (!can('rest.add', me)) return bad(T('Only some Khaoya team levels can add restaurants.', 'শুধু কিছু খাওয়া টিম লেভেল রেস্টুরেন্ট যোগ করতে পারে।'));
   mutate(db => { db.rest[r.id] = clone(r); delete db.gone[r.id]; logIn(db, r.id, T('Added the restaurant', 'রেস্টুরেন্টটি যোগ করেছেন')); });
   return true;
 }
@@ -337,7 +337,7 @@ export function deleteR(id: string) {
   return true;
 }
 export function setPlan(r: PR, plan: Plan) {
-  if (!can('billing', getMe())) return bad(T('Only the khabo team can change plans.', 'প্ল্যান শুধু খাবো টিম বদলাতে পারে।'));
+  if (!can('billing', getMe())) return bad(T('Only the Khaoya team can change plans.', 'প্ল্যান শুধু খাওয়া টিম বদলাতে পারে।'));
   mutate(db => { db.rest[r.id] = { ...clone(r), plan }; logIn(db, r.id, T(`Changed the plan to ${PLANS[plan].name.en}`, `প্ল্যান বদলে ${PLANS[plan].name.bn} করেছেন`)); });
   return true;
 }
@@ -353,7 +353,7 @@ export function reviewsOf(db: PanelDB | null, rid?: string | null): (Review & { 
 }
 export function setRev(v: Review, patch: RevState, what: Text) {
   const db0 = fresh(), me = meOf(db0, readSesRaw()); if (!me) return false;
-  if ('hidden' in patch && !can('reviews.moderate', me)) return bad(T('Only the khabo team can change whether a review shows.', 'রিভিউ দেখাবে কি না, তা শুধু খাবো টিম ঠিক করে।'));
+  if ('hidden' in patch && !can('reviews.moderate', me)) return bad(T('Only the Khaoya team can change whether a review shows.', 'রিভিউ দেখাবে কি না, তা শুধু খাওয়া টিম ঠিক করে।'));
   if ('reply' in patch && (me.role === 'restaurant' ? me.rid !== v.r : !can('rest.edit', me))) return bad(T('You cannot reply for this restaurant.', 'আপনি এই রেস্টুরেন্টের হয়ে উত্তর দিতে পারবেন না।'));
   mutate(db => { const k = revKey(v); db.reviews[k] = { ...db.reviews[k], ...patch }; logIn(db, v.r, what, me); });
   return true;
@@ -361,7 +361,7 @@ export function setRev(v: Review, patch: RevState, what: Text) {
 
 /* ---------- users ---------- */
 /* who may manage an account: owners their own team, team members with users.rest any restaurant account,
-   only users.admin the khabo team. Nobody can remove or turn off themselves, or the last master. */
+   only users.admin the Khaoya team. Nobody can remove or turn off themselves, or the last master. */
 export const canManage = (target: Pick<User, 'role' | 'rid'>, me: User | null) =>
   !!me && (me.role === 'restaurant' ? target.role === 'restaurant' && target.rid === me.rid : target.role === 'admin' ? can('users.admin', me) : can('users.rest', me));
 const masters = (db: PanelDB) => db.users.filter(x => x.role === 'admin' && (x.level || 'master') === 'master' && x.active);
@@ -423,7 +423,7 @@ export function request(rid: string, kind: ReqKind, data: Req['data'], note?: st
   const me = getMe(); if (!me || (me.role === 'restaurant' && me.rid !== rid)) return false;
   mutate(db => {
     db.requests.unshift({ id: 'q' + Date.now().toString(36), rid, kind, data, note, by: me.name, at: Date.now(), state: 'open' });
-    logIn(db, rid, T(`Asked khabo to change the ${REQ[kind].en.toLowerCase()}`, `খাবোকে ${REQ[kind].bn} বদলাতে বলেছেন`), me);
+    logIn(db, rid, T(`Asked Khaoya to change the ${REQ[kind].en.toLowerCase()}`, `খাওয়া-কে ${REQ[kind].bn} বদলাতে বলেছেন`), me);
   });
   return true;
 }
@@ -439,7 +439,7 @@ export function cancelRequest(id: string) {
 }
 export function resolveRequest(id: string, ok: boolean, reply: string) {
   const db0 = fresh(), me = meOf(db0, readSesRaw());
-  if (!can('rest.admin', me)) return bad(T('Only the khabo team can answer requests.', 'অনুরোধের উত্তর শুধু খাবো টিম দেয়।'));
+  if (!can('rest.admin', me)) return bad(T('Only the Khaoya team can answer requests.', 'অনুরোধের উত্তর শুধু খাওয়া টিম দেয়।'));
   const q0 = db0.requests.find(x => x.id === id); if (!q0) return false;
   if (ok && q0.kind === 'name' && q0.data.en) {
     const r = getR(db0, q0.rid);
@@ -466,7 +466,7 @@ export function billOf(db: PanelDB | null, r: Pick<Restaurant, 'id'>): Bill {
   return { status: n < 6 ? 'paid' : n < 8 ? 'due' : n < 9 ? 'overdue' : 'trial', method: n % 2 ? 'bKash' : 'Nagad' };
 }
 export function setBill(rid: string, b: Bill, what: Text) {
-  if (!can('billing', getMe())) return bad(T('Only the khabo team can change billing.', 'বিল শুধু খাবো টিম বদলাতে পারে।'));
+  if (!can('billing', getMe())) return bad(T('Only the Khaoya team can change billing.', 'বিল শুধু খাওয়া টিম বদলাতে পারে।'));
   mutate(db => { db.billing[rid] = b; logIn(db, rid, what); });
   return true;
 }
@@ -478,7 +478,7 @@ export const rng = (seed: string) => { let a = hash(seed); return () => { a |= 0
 export const initials = (s: string) => String(s).split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('');
 export const monoOf = (en: string) => (initials(en) + en.replace(/\s/g, '').slice(1, 2).toUpperCase()).slice(0, 2);
 export const slugOf = (s: string) => String(s).toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'item';
-export const DOMAIN = 'khabo.com';
+export const DOMAIN = 'khaoya.com';
 export const siteAddr = (r: Pick<PR, 'id' | 'slug'>) => `${DOMAIN}/${r.slug || r.id}`;
 export { PERMS as PERM_NAMES };
 /** reset everything this browser saved (Master only) */

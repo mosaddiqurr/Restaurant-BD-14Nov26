@@ -4,8 +4,8 @@ import { PricesView } from '@/components/prices/prices';
 import { UrlParams } from '@/components/listing/url-params';
 
 const META = {
-  en: { title: 'What each place charges', description: 'Today’s menu price for a dish at every place on khabo, cheapest first, with the typical price and the range in each area.' },
-  bn: { title: 'কোথায় কত দাম', description: 'খাবোর প্রতিটি জায়গায় একটি খাবারের আজকের মেনু দাম, কম দাম আগে, প্রতিটি এলাকার সাধারণ দাম আর দামের পরিসর সহ।' },
+  en: { title: 'What each place charges', description: 'Today’s menu price for a dish at every place on Khaoya, cheapest first, with the typical price and the range in each area.' },
+  bn: { title: 'কোথায় কত দাম', description: 'খাওয়া-র প্রতিটি জায়গায় একটি খাবারের আজকের মেনু দাম, কম দাম আগে, প্রতিটি এলাকার সাধারণ দাম আর দামের পরিসর সহ।' },
 };
 
 export async function generateMetadata({ params }: PageProps<'/[lang]/prices'>): Promise<Metadata> {

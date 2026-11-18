@@ -44,7 +44,7 @@ export function UserModal({ open, onClose, rid, lockRole, done }: { open: boolea
         <TextF label={t('Mobile number or email', 'মোবাইল নম্বর বা ইমেইল')} value={f.contact} onChange={up('contact')} hint={t('Their own. They can sign in with it, and in the real build the invite code is sent here.', 'তাঁর নিজের। এটা দিয়ে সাইন ইন করা যাবে, আর আসল সংস্করণে আমন্ত্রণ কোড এখানেই যাবে।')} attr={{ autoCapitalize: 'off', spellCheck: false, inputMode: 'email' }} />
         <TextF label={t('Username', 'ইউজারনেম')} value={f.u} onChange={up('u')} hint={t('Small letters and numbers', 'ছোট অক্ষর আর সংখ্যা')} attr={{ autoCapitalize: 'off', spellCheck: false }} />
         {showRole ? <SelF full label={t('Account type', 'অ্যাকাউন্টের ধরন')} value={f.role} onChange={up('role')}
-          opts={[['restaurant', t('Restaurant (one restaurant only)', 'রেস্টুরেন্ট (শুধু একটি রেস্টুরেন্ট)')], ...(Object.keys(LEVELS) as Level[]).map(k => [k, `${t('khabo team', 'খাবো টিম')} · ${i.L(LEVELS[k].name)}: ${i.L(LEVELS[k].note)}`] as [string, string])]} /> : null}
+          opts={[['restaurant', t('Restaurant (one restaurant only)', 'রেস্টুরেন্ট (শুধু একটি রেস্টুরেন্ট)')], ...(Object.keys(LEVELS) as Level[]).map(k => [k, `${t('Khaoya team', 'খাওয়া টিম')} · ${i.L(LEVELS[k].name)}: ${i.L(LEVELS[k].note)}`] as [string, string])]} /> : null}
         {showRest ? <SelF full label={t('Restaurant', 'রেস্টুরেন্ট')} value={f.rid} onChange={up('rid')} opts={rs.map(r => [r.id, `${i.L(r.name)} · ${i.L(areaOf(r.area))}`])} /> : null}
       </div>
       <p className="meta">{owner ? t(`They will be able to change ${allR(db).find(r => r.id === me.rid)?.name.en || ''} only. `, `তাঁরা শুধু ${allR(db).find(r => r.id === me.rid)?.name.bn || ''} বদলাতে পারবেন। `) : ''}
@@ -61,8 +61,8 @@ export function InviteCard({ inv, onClose }: { inv: Invite | null; onClose: () =
   const link = typeof location !== 'undefined' ? `${location.origin}/${i.lang}/${u?.role === 'admin' ? 'admin' : 'partner'}` : '';
   const first = u ? u.name.split(' ')[0] : '';
   const msg = !u ? '' : i.bn
-    ? `${first}, আপনাকে খাবো প্যানেলে আমন্ত্রণ জানানো হয়েছে${rname ? ` (${rname.bn})` : ''}। ${link} খুলুন, "আমার কাছে আমন্ত্রণ কোড আছে" চাপুন, ${u.contact || u.u} আর কোড ${code} লিখুন। কোডটি ${i.N(INVITE_DAYS)} দিন কাজ করবে।`
-    : `Hi ${first}, you are invited to the khabo panel${rname ? ` for ${rname.en}` : ''}. Open ${link}, tap "I have an invite code", type ${u.contact || u.u} and the code ${code}. The code works for ${INVITE_DAYS} days.`;
+    ? `${first}, আপনাকে খাওয়া প্যানেলে আমন্ত্রণ জানানো হয়েছে${rname ? ` (${rname.bn})` : ''}। ${link} খুলুন, "আমার কাছে আমন্ত্রণ কোড আছে" চাপুন, ${u.contact || u.u} আর কোড ${code} লিখুন। কোডটি ${i.N(INVITE_DAYS)} দিন কাজ করবে।`
+    : `Hi ${first}, you are invited to the Khaoya panel${rname ? ` for ${rname.en}` : ''}. Open ${link}, tap "I have an invite code", type ${u.contact || u.u} and the code ${code}. The code works for ${INVITE_DAYS} days.`;
   const wa = u && /^\+880/.test(u.contact || '') ? `https://wa.me/${u.contact!.slice(1)}?text=${encodeURIComponent(msg)}` : null;
   return (
     <Modal open={!!inv} onClose={onClose} title={u ? t(`Invite for ${u.name}`, `${u.name}-এর আমন্ত্রণ`) : ''}
@@ -71,7 +71,7 @@ export function InviteCard({ inv, onClose }: { inv: Invite | null; onClose: () =
         <button className="btn pri" onClick={() => copyText(msg, t('Message copied.', 'বার্তা কপি হয়েছে।'))}><Ico n="copy" sm />{t('Copy message', 'বার্তা কপি করুন')}</button></>}>
       <div className="inv"><span className="meta">{t('Invite code', 'আমন্ত্রণ কোড')}</span><b className="num">{code.slice(0, 3)} {code.slice(3)}</b>
         <span className="meta">{t(`Works for ${INVITE_DAYS} days, once. You will not see it again.`, `${i.N(INVITE_DAYS)} দিন, একবার কাজ করবে। আর দেখতে পাবেন না।`)}</span></div>
-      <p className="meta">{t(`Send them this message. In the real build khabo sends the code to ${u?.contact || 'them'} by itself.`, `তাঁকে এই বার্তা পাঠান। আসল সংস্করণে খাবো নিজেই ${u?.contact || 'তাঁকে'} কোড পাঠাবে।`)}</p>
+      <p className="meta">{t(`Send them this message. In the real build Khaoya sends the code to ${u?.contact || 'them'} by itself.`, `তাঁকে এই বার্তা পাঠান। আসল সংস্করণে খাওয়া নিজেই ${u?.contact || 'তাঁকে'} কোড পাঠাবে।`)}</p>
       <textarea className="inp" rows={4} readOnly value={msg} />
     </Modal>
   );

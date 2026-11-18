@@ -19,7 +19,7 @@ export const generateStaticParams = () => LANGS.map(lang => ({ lang }));
    reading the language here would stop the panels' restaurant pages from being prepared ahead of time */
 export const metadata: Metadata = {
   metadataBase: new URL('https://khabo.app'),
-  title: { default: 'khabo', template: '%s · khabo' },
+  title: { default: 'Khaoya', template: '%s · Khaoya' },
   icons: { icon: '/icon.svg' },
 };
 

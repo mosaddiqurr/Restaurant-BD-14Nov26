@@ -208,7 +208,7 @@ export function TableMenu({ r: r0 }: { r: Restaurant }) {
             <I n="storefront" /><span><b>{i.t('tm_full')}</b><span>{i.t('tm_full_sub')}</span></span><I n="caret-right" b />
           </Link>
           <div className="tm-by">
-            <span>{i.t('tm_by', { b: 'khabo' })}</span>
+            <span>{i.t('tm_by', { b: 'Khaoya' })}</span>
             {off.saved && !off.off && !off.fromCopy ? <span><I n="cloud-arrow-down" />{i.L(W.savedHere)}</span> : null}
           </div>
         </div>

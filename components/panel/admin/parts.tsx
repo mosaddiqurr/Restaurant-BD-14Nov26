@@ -177,7 +177,7 @@ export function AddRestaurant({ open, onClose, pre }: { open: boolean; onClose: 
       const y = leadFix(l), at = Date.now(), won = stageOf('won').l;
       if (y.stage !== 'won') y.hist.unshift({ at, who: me.name, what: `Moved to ${won.en}`, bn: `“${won.bn}” ধাপে নেওয়া হয়েছে` });
       y.stage = 'won'; y.rid = id; y.upd = at;
-      logIn(db, id, { en: `Added lead ${y.name} to khabo`, bn: `লিড ${y.name} খাবোতে যোগ করেছেন` });
+      logIn(db, id, { en: `Added lead ${y.name} to Khaoya`, bn: `লিড ${y.name} খাওয়া-তে যোগ করেছেন` });
     });
     toast.success(t(`${en} was added. It starts hidden. Next: its menu.`, `${bn || en} যোগ হয়েছে। শুরুতে লুকানো থাকবে। এরপর: মেনু।`));
     const dest = `/${i.lang}/admin/r/${id}${can('rest.edit', me) ? '/menu' : ''}`;

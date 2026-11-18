@@ -9,6 +9,7 @@ import { useI } from '@/components/providers/i18n';
 import { EASE, SPR, lqip, src, srcSet } from '@/lib/khabo';
 import type { Theme } from '@/lib/data/types';
 import type { IconName } from './icon-names';
+import { BRAND } from './brand-art';
 
 export type { IconName };
 
@@ -157,8 +158,23 @@ export function Spice({ n }: { n: number }) {
   return <span className="spice" title={i.t('spice_' + n)}>{Array.from({ length: n }, (_, k) => <I key={k} n="pepper" f />)}</span>;
 }
 
-export const Logo = () => (
-  <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="10" fill="#0C5A3E" /><circle cx="16" cy="16" r="8.5" fill="none" stroke="#F7F1DE" strokeWidth="2.6" /><circle cx="19.2" cy="13" r="3.1" fill="#F4B91A" /></svg>
+/** the Khaoya logo: the smiling plate (marigold) and the name (green) with its marigold smile.
+    The name follows --logo-word, so it turns cream on dark backgrounds. Shapes come from public/brand/khaoya */
+export const Logo = ({ label = 'Khaoya' }: { label?: string }) => (
+  <svg className="brand-logo" viewBox={BRAND.lockup.viewBox} role="img" aria-label={label}>
+    <path fill="#F4B91A" d={BRAND.lockup.plate} />
+    <path fill="#0C5A3E" d={BRAND.lockup.platesmile} />
+    <path fill="var(--logo-word, #0C5A3E)" d={BRAND.lockup.word} />
+    <path fill="#F4B91A" d={BRAND.lockup.accent} />
+  </svg>
+);
+
+/** Mama, the Khaoya AI: the talking plate, marigold with a green smile. On a marigold button the two
+    colours swap (green plate, marigold smile) through --mama-plate and --mama-smile in khabo.css */
+export const MamaMark = () => (
+  <svg className="mama-mark" viewBox={BRAND.mama.viewBox} aria-hidden="true">
+    <path fill="var(--mama-plate, #F4B91A)" d={BRAND.mama.plate} /><path fill="var(--mama-smile, #0C5A3E)" d={BRAND.mama.platesmile} />
+  </svg>
 );
 
 /** a sideways row of cards with arrow buttons on laptops (phones just swipe) */

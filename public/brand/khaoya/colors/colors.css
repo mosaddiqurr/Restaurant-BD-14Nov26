@@ -1,0 +1,16 @@
+/* Khaoya brand colours. Rule: the plate and the smile under the name are marigold; the name and the smile inside the plate are green; behind the logo use cream or white. On dark backgrounds the name turns cream. Flat, solid colours only. */
+:root {
+  --khaoya-green: #0C5A3E;      /* main brand colour: logo words, buttons, headers */
+  --khaoya-green-deep: #0B3B29; /* darkest green: dark backgrounds, footer, text on gold */
+  --khaoya-green-light: #1C6E4C;/* green for dark mode, hover states */
+  --khaoya-green-soft: #E3EFE7; /* pale green tint: chips, soft panels */
+  --khaoya-marigold: #F4B91A;   /* accent: the smile, the plate, highlights. Decoration, not body text */
+  --khaoya-marigold-text: #8A5E00; /* marigold for small text on light backgrounds (readable) */
+  --khaoya-cream: #F7F1DE;      /* warm background behind the logo, cards, menus */
+  --khaoya-ink: #1A1300;        /* text on marigold */
+  --khaoya-white: #FFFFFF;
+  --khaoya-black: #000000;
+
+  --khaoya-font-en: 'Figtree', system-ui, sans-serif;               /* English, weights 400 to 800 */
+  --khaoya-font-bn: 'Noto Sans Bengali', 'Figtree', sans-serif;     /* Bangla */
+}

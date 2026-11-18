@@ -257,7 +257,7 @@ function DishEdit({ open, onClose }: { open: { d: PDish | null; cat: string } | 
         <AreaF label={t('Short description (Bangla)', 'ছোট বিবরণ (বাংলা)')} value={f.descbn} onChange={up('descbn')} rows={2} bn />
       </div>
       <p className="dw-sub">{t('About this dish', 'এই খাবার সম্পর্কে')}</p>
-      <p className="meta" style={{ marginTop: -10 }}>{t(`Shown under "About this dish". Leave empty to use khabo's general text for ${ty?.en || 'this kind of dish'}.`, `"এই খাবার সম্পর্কে" অংশে দেখায়। খালি রাখলে ${ty?.bn || 'এই ধরনের খাবার'}-এর জন্য খাবোর সাধারণ লেখা দেখাবে।`)}</p>
+      <p className="meta" style={{ marginTop: -10 }}>{t(`Shown under "About this dish". Leave empty to use Khaoya's general text for ${ty?.en || 'this kind of dish'}.`, `"এই খাবার সম্পর্কে" অংশে দেখায়। খালি রাখলে ${ty?.bn || 'এই ধরনের খাবার'}-এর জন্য খাওয়া-র সাধারণ লেখা দেখাবে।`)}</p>
       <div className="f-grid">
         <AreaF label={t('How it is made (English)', 'কীভাবে রান্না হয় (ইংরেজি)')} value={f.made} onChange={up('made')} rows={2} />
         <AreaF label={t('How it is made (Bangla)', 'কীভাবে রান্না হয় (বাংলা)')} value={f.madebn} onChange={up('madebn')} rows={2} bn />

@@ -3,7 +3,7 @@
    Tiles: Stadia Maps "Alidade Smooth", a clean light / dark base map (OpenStreetMap data), switched with
    the site theme. It works on localhost with no key; the live site needs a Stadia plan with the domain
    added (docs/4-tech/17-tech-stack.md). CARTO's free tiles (light_all / dark_all) now ask for an API key,
-   so they are kept below as the other choice once khabo has one.
+   so they are kept below as the other choice once Khaoya has one.
    Pins that sit close together merge into one round count; tap it to zoom in. A name shows next to a pin
    only where it has room, otherwise on hover or focus. */
 import { useEffect, useRef, useState } from 'react';

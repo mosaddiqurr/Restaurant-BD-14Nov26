@@ -1,6 +1,6 @@
 'use client';
 /* Your website (ported from archive/prototype/panel/site.js).
-   Every restaurant's khabo page is also its own website: the QR on the table opens it, and the owner can put the
+   Every restaurant's Khaoya page is also its own website: the QR on the table opens it, and the owner can put the
    same link on Facebook, Instagram, Google Maps and so on. This page gives them the link, the QR, the places
    to put it, and door stickers. */
 import { useMemo, useState, useSyncExternalStore, type CSSProperties } from 'react';
@@ -61,7 +61,7 @@ export function SitePage() {
   const n = SPOTS.filter(s => promo[s.id]).length;
 
   const copyLink = () => copyText(link, t('Link copied. Paste it anywhere.', 'লিংক কপি হয়েছে। যেকোনো জায়গায় পেস্ট করুন।'));
-  const dl = (kind: 'png' | 'svg') => qrFile(svg, `${r.id}-khabo-qr`, kind, t('Could not make the PNG. Try the SVG.', 'PNG তৈরি করা গেল না। SVG চেষ্টা করুন।'));
+  const dl = (kind: 'png' | 'svg') => qrFile(svg, `${r.id}-khaoya-qr`, kind, t('Could not make the PNG. Try the SVG.', 'PNG তৈরি করা গেল না। SVG চেষ্টা করুন।'));
   const save = (patch: Record<string, unknown>, what?: Text) => { const nr = clone(r); nr.promo = { ...(nr.promo || {}), ...patch }; saved(nr, what); };
   const spot = (s: (typeof SPOTS)[number], on: boolean) => save({ [s.id]: on || undefined },
     { en: `${on ? 'Added' : 'Removed'} the website link: ${s.t.en}`, bn: `ওয়েবসাইটের লিংক ${on ? 'যোগ করেছেন' : 'সরিয়েছেন'}: ${s.t.bn}` });
@@ -73,7 +73,7 @@ export function SitePage() {
 
   return (
     <Page title={t('Your website', 'আপনার ওয়েবসাইট')}
-      sub={t('Your khabo page is your restaurant’s own website. The QR on your tables opens it, and you can share the same link anywhere.', 'আপনার খাবো পেজই আপনার রেস্টুরেন্টের নিজের ওয়েবসাইট। টেবিলের কিউআর এটাই খোলে, আর একই লিংক যেকোনো জায়গায় শেয়ার করা যায়।')}
+      sub={t('Your Khaoya page is your restaurant’s own website. The QR on your tables opens it, and you can share the same link anywhere.', 'আপনার খাওয়া পেজই আপনার রেস্টুরেন্টের নিজের ওয়েবসাইট। টেবিলের কিউআর এটাই খোলে, আর একই লিংক যেকোনো জায়গায় শেয়ার করা যায়।')}
       acts={<>
         <a className="btn" href={live(r)} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('Open your website', 'ওয়েবসাইট খুলুন')}</a>
         <button type="button" className="btn pri" onClick={copyLink}><Ico n="check" sm />{t('Copy link', 'লিংক কপি করুন')}</button>
@@ -91,7 +91,7 @@ export function SitePage() {
             <h2>{t(`${r.name.en} has its own website`, `${r.name.bn || r.name.en}-এর নিজের ওয়েবসাইট আছে`)}</h2>
             <p>{t('No web designer and no hosting bill. Whatever you save in this panel shows on it straight away.', 'ওয়েব ডিজাইনার বা হোস্টিংয়ের বিল লাগে না। এই প্যানেলে যা রাখেন, সাথে সাথে সেখানে দেখা যায়।')}</p>
             <div className="ws-addr"><span><Ico n="globe-hemisphere-east" /><b>{addr}</b></span><button type="button" className="btn sm" onClick={copyLink}>{t('Copy', 'কপি')}</button></div>
-            <p className="meta">{t('This will be your address once khabo is live. For now the link opens this test site.', 'খাবো চালু হলে এটাই হবে আপনার ঠিকানা। এখন লিংকটি এই পরীক্ষার সাইট খোলে।')}</p>
+            <p className="meta">{t('This will be your address once Khaoya is live. For now the link opens this test site.', 'খাওয়া চালু হলে এটাই হবে আপনার ঠিকানা। এখন লিংকটি এই পরীক্ষার সাইট খোলে।')}</p>
             <div className="ws-share">
               <a className="btn sm" href={wa} target="_blank" rel="noopener"><Ico n="whatsapp-logo" sm />{t('WhatsApp', 'হোয়াটসঅ্যাপ')}</a>
               <a className="btn sm" href={fb} target="_blank" rel="noopener"><Ico n="share-network" sm />{t('Facebook', 'ফেসবুক')}</a>
@@ -158,7 +158,7 @@ export function SitePage() {
 
         <div className="sec-t"><h2>{t('Visits to your website, last 30 days', 'আপনার ওয়েবসাইটে ভিজিট, গত ৩০ দিন')}</h2><Sample /></div>
         <div className="grid g3">
-          {stat(t('All visits', 'সব ভিজিট'), 'eye', tr.views, t('From khabo, your link and your QR', 'খাবো, আপনার লিংক আর কিউআর থেকে'))}
+          {stat(t('All visits', 'সব ভিজিট'), 'eye', tr.views, t('From Khaoya, your link and your QR', 'খাওয়া, আপনার লিংক আর কিউআর থেকে'))}
           {stat(t('From your QR codes', 'আপনার কিউআর কোড থেকে'), 'qr-code', tr.qr, t('Tables, door, bills and bags', 'টেবিল, দরজা, বিল আর ব্যাগ'))}
           {stat(t('From your shared link', 'শেয়ার করা লিংক থেকে'), 'share-network', tr.shared, t('Facebook, Instagram, WhatsApp, Maps', 'ফেসবুক, ইনস্টাগ্রাম, হোয়াটসঅ্যাপ, ম্যাপস'))}
         </div>

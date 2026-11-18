@@ -1,6 +1,6 @@
 'use client';
 /* The panel frame: the sidebar on laptops; on phones a top bar, a tab bar at the bottom and the
-   full menu in a sheet. Same for owners and the khabo team (ported from archive/prototype/panel/app.js paintSide). */
+   full menu in a sheet. Same for owners and the Khaoya team (ported from archive/prototype/panel/app.js paintSide). */
 import { useState, type CSSProperties, type ReactNode } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -52,7 +52,7 @@ export function Shell({ area, db, me, children }: { area: 'partner' | 'admin'; d
     if (k === 'reviews') { const n = lowNoReply(owner ? me.rid! : null); return n ? <span className="cnt">{i.N(n)}</span> : null; }
     if (k === 'restaurants') return <span className="cnt dim">{i.N(allR(db).length)}</span>;
     if (k === 'requests') { const n = openRequests(db).length; return n ? <span className="cnt gold">{i.N(n)}</span> : null; }
-    if (k === 'team' && owner) { const n = repliesOf(db, me.rid!).length; return n ? <span className="cnt gold" title={t('New answer from khabo', 'খাবোর নতুন উত্তর')}>{i.N(n)}</span> : null; }
+    if (k === 'team' && owner) { const n = repliesOf(db, me.rid!).length; return n ? <span className="cnt gold" title={t('New answer from Khaoya', 'খাওয়া-র নতুন উত্তর')}>{i.N(n)}</span> : null; }
     return null;
   };
   const href = (k: string) => (k ? `${base}/${k}` : base);
@@ -67,10 +67,10 @@ export function Shell({ area, db, me, children }: { area: 'partner' | 'admin'; d
     <div className={clsx('pnl pnl-app', open && 'nav-open')} style={accent}>
       <div className="shell">
         <aside className="side" aria-label={t('Main menu', 'মূল মেনু')}>
-          <Link className="side-brand" href={base}><Logo /><span>khabo</span><small>{owner ? t('Partner', 'পার্টনার') : i.L(levelName(me))}</small></Link>
+          <Link className="side-brand" href={base}><Logo /><small>{owner ? t('Partner', 'পার্টনার') : i.L(levelName(me))}</small></Link>
           {owner && r ? <RestCard r={r} /> : null}
           <nav className="nav" aria-label={owner ? t('Restaurant', 'রেস্টুরেন্ট') : t('Admin', 'অ্যাডমিন')}>
-            {owner ? null : <h4>{t('khabo team', 'খাবো টিম')}</h4>}
+            {owner ? null : <h4>{t('Khaoya team', 'খাওয়া টিম')}</h4>}
             {navList}
           </nav>
           {!owner && r ? (
@@ -80,8 +80,8 @@ export function Shell({ area, db, me, children }: { area: 'partner' | 'admin'; d
             </nav>
           ) : null}
           <div className="side-foot">
-            <div className="side-tools"><LangThemeBtns /><a className="ibtn sm" href={`/${i.lang}`} target="_blank" rel="noopener" aria-label={t('Open khabo', 'খাবো খুলুন')}><Ico n="globe-hemisphere-east" sm /></a><span className="note">{t('Prototype', 'প্রোটোটাইপ')}</span></div>
-            <div className="me"><Av name={me.name} sm /><div><b>{me.name}</b><span>{owner ? t('Owner', 'মালিক') : `${i.L(levelName(me))} · ${t('khabo team', 'খাবো টিম')}`} · {me.u}</span></div>
+            <div className="side-tools"><LangThemeBtns /><a className="ibtn sm" href={`/${i.lang}`} target="_blank" rel="noopener" aria-label={t('Open Khaoya', 'খাওয়া খুলুন')}><Ico n="globe-hemisphere-east" sm /></a><span className="note">{t('Prototype', 'প্রোটোটাইপ')}</span></div>
+            <div className="me"><Av name={me.name} sm /><div><b>{me.name}</b><span>{owner ? t('Owner', 'মালিক') : `${i.L(levelName(me))} · ${t('Khaoya team', 'খাওয়া টিম')}`} · {me.u}</span></div>
               <button type="button" className="ibtn sm" onClick={() => guard(() => signOut())} aria-label={t('Sign out', 'সাইন আউট')}><Ico n="door-open" sm /></button></div>
           </div>
         </aside>
@@ -89,7 +89,7 @@ export function Shell({ area, db, me, children }: { area: 'partner' | 'admin'; d
         <div className="main">
           <div className="mtop">
             <button type="button" className="ibtn" onClick={() => setOpen(true)} aria-label={t('Open menu', 'মেনু খুলুন')}><Ico n="list" /></button>
-            <b>{r ? i.L(r.name) : t('khabo admin', 'খাবো অ্যাডমিন')}</b>
+            <b>{r ? i.L(r.name) : t('Khaoya admin', 'খাওয়া অ্যাডমিন')}</b>
             <span style={{ marginLeft: 'auto', display: 'flex', gap: 2 }}><LangThemeBtns cls="ibtn" /></span>
           </div>
           {children}

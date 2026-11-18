@@ -12,7 +12,7 @@ import type { IconName } from '@/components/ui/icon-names';
 import type { Brand, GameApi, GameFactory, GameId } from './types';
 import '@/styles/games.css';
 
-export const KHABO: Brand = { deep: '#123B28', accent: '#E0A42E', mono: 'kh', name: 'khabo' };
+export const KHABO: Brand = { deep: '#123B28', accent: '#E0A42E', mono: 'kh', name: 'Khaoya' };
 
 export const GAMES: Record<GameId, { name: { en: string; bn: string }; how: { en: string; bn: string }; icon: IconName }> = {
   rickshaw: {

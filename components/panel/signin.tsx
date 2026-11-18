@@ -21,7 +21,7 @@ export function SignIn({ db, area }: { db: PanelDB; area: 'partner' | 'admin' })
   const pRef = useRef<HTMLInputElement>(null), uRef = useRef<HTMLInputElement>(null);
   const list = allR(db);
   const accts = useMemo(() => [
-    { u: 'admin', name: t('khabo team · Master', 'খাবো টিম · মাস্টার'), s: t('Everything', 'সবকিছু'), r: null },
+    { u: 'admin', name: t('Khaoya team · Master', 'খাওয়া টিম · মাস্টার'), s: t('Everything', 'সবকিছু'), r: null },
     ...db.users.filter(x => ['client1', 'client2', 'client3'].includes(x.u) && getR(db, x.rid)).map(x => { const r = getR(db, x.rid)!; return { u: x.u, name: i.L(r.name), s: t('Only this restaurant', 'শুধু এই রেস্টুরেন্ট'), r }; }),
   ], [db, i, t]);
   const exists = (rid: string) => list.some(r => r.id === rid);
@@ -42,17 +42,17 @@ export function SignIn({ db, area }: { db: PanelDB; area: 'partner' | 'admin' })
     <main className="login">
       <section className="lg-art" aria-hidden="true">
         <div className="lg-wall">{col(0)}{col(1)}{col(2)}</div>
-        <div className="lg-brand"><Logo /><span>khabo</span></div>
+        <div className="lg-brand"><Logo /></div>
         <div className="lg-say">
           <h2>{t('Your restaurant, kept up to date in minutes.', 'আপনার রেস্টুরেন্ট, কয়েক মিনিটেই হালনাগাদ।')}</h2>
-          <p>{t('Change prices, mark dishes sold out, answer reviews and print table QR cards. Every change shows on khabo straight away.', 'দাম বদলান, শেষ হয়ে যাওয়া খাবার চিহ্নিত করুন, রিভিউর উত্তর দিন আর টেবিলের কিউআর কার্ড প্রিন্ট করুন। প্রতিটি বদল সঙ্গে সঙ্গে খাবোতে দেখা যায়।')}</p>
+          <p>{t('Change prices, mark dishes sold out, answer reviews and print table QR cards. Every change shows on Khaoya straight away.', 'দাম বদলান, শেষ হয়ে যাওয়া খাবার চিহ্নিত করুন, রিভিউর উত্তর দিন আর টেবিলের কিউআর কার্ড প্রিন্ট করুন। প্রতিটি বদল সঙ্গে সঙ্গে খাওয়া-তে দেখা যায়।')}</p>
         </div>
       </section>
       <section className="lg-form">
         <div className="lg-tools"><LangThemeBtns /></div>
         <form className="lg-box" noValidate onSubmit={go}>
           <h1>{inv ? t('Join your team', 'আপনার টিমে যোগ দিন') : t('Sign in', 'সাইন ইন')}</h1>
-          <p>{area === 'admin' ? t('For the khabo team and khabo partner restaurants.', 'খাবো টিম আর খাবোর পার্টনার রেস্টুরেন্টের জন্য।') : t('For khabo partner restaurants and the khabo team.', 'খাবোর পার্টনার রেস্টুরেন্ট আর খাবো টিমের জন্য।')}</p>
+          <p>{area === 'admin' ? t('For the Khaoya team and Khaoya partner restaurants.', 'খাওয়া টিম আর খাওয়া-র পার্টনার রেস্টুরেন্টের জন্য।') : t('For Khaoya partner restaurants and the Khaoya team.', 'খাওয়া-র পার্টনার রেস্টুরেন্ট আর খাওয়া টিমের জন্য।')}</p>
           <div className="lg-fields">
             <div key={shake} className={err ? 'lg-err on' : 'lg-err'} role="alert"><Ico n="warning" sm /><span>{err}</span></div>
             <div className="field"><label htmlFor="lg-u">{t('Username, mobile or email', 'ইউজারনেম, মোবাইল বা ইমেইল')}</label>
@@ -78,11 +78,11 @@ export function SignIn({ db, area }: { db: PanelDB; area: 'partner' | 'admin' })
                 </button>
               ))}
             </div>
-            <div className="lg-lv"><span className="meta">{t('Other khabo team levels:', 'খাবো টিমের অন্য লেভেল:')}</span>
+            <div className="lg-lv"><span className="meta">{t('Other Khaoya team levels:', 'খাওয়া টিমের অন্য লেভেল:')}</span>
               {(['manager', 'support', 'sales', 'finance'] as const).map(l => <button key={l} type="button" className="lg-acct sm" title={i.L(LEVELS[l].note)} onClick={() => fill(l)}><code>{l} / {l}</code></button>)}
             </div>
           </div>
-          <Link className="lg-back" href={`/${i.lang}`}><Ico n="arrow-left" sm />{t('Back to khabo', 'খাবোতে ফিরে যান')}</Link>
+          <Link className="lg-back" href={`/${i.lang}`}><Ico n="arrow-left" sm />{t('Back to Khaoya', 'খাওয়া-তে ফিরে যান')}</Link>
         </form>
       </section>
     </main>

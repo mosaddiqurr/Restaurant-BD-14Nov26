@@ -43,6 +43,6 @@ export function shareCanvas(rows: IndexRow[], w: ShareWords, fam: string) {
     g.textAlign = 'left'; y += 86;
   });
   g.fillStyle = 'rgba(244,241,230,.6)'; g.font = font(500, 28); g.fillText(w.foot, 80, H - 90);
-  g.fillStyle = '#F4F1E6'; g.font = font(800, 44); g.textAlign = 'right'; g.fillText('khabo', W - 80, H - 86); g.textAlign = 'left';
+  g.fillStyle = '#F4F1E6'; g.font = font(800, 44); g.textAlign = 'right'; g.fillText('Khaoya', W - 80, H - 86); g.textAlign = 'left';
   return c;
 }

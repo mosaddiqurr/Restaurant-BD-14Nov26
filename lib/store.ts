@@ -22,6 +22,8 @@ type State = {
   dish: DishOpen | null;
   palette: boolean;
   ai: { q: string } | null;
+  /** the restaurant page the diner is on, so Mama knows what "here" means */
+  here: { id: string; name: Text } | null;
   signin: { then?: 'write' } | null;
   user: string | null;
   film: FilmOpen | null;
@@ -39,7 +41,7 @@ type State = {
 };
 
 export const useApp = create<State>()(persist((set) => ({
-  area: 'dhanmondi', people: 2, bill: {}, billOpen: null, dish: null, palette: false, ai: null, signin: null, user: null,
+  area: 'dhanmondi', people: 2, bill: {}, billOpen: null, dish: null, palette: false, ai: null, here: null, signin: null, user: null,
   film: null, tour: null, lb: null, rvAll: null, write: null, myRv: [], dealOrder: [],
   set: o => set(o),
   add: (r, d, k = 1) => set(s => {

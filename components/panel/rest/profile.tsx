@@ -1,7 +1,7 @@
 'use client';
 /* Restaurant page: what diners see on the khabo page (name and story, contact, social links, hours and charges,
    facilities, payment, colours). Nothing is saved until "Save changes". Owners cannot change the name or area
-   (only the khabo team can, so diners and reviews never lose track); they ask for it instead.
+   (only the Khaoya team can, so diners and reviews never lose track); they ask for it instead.
    Ported from archive/prototype/panel/rest.js (V.page). */
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import clsx from 'clsx';
@@ -39,7 +39,7 @@ const toF = (r: PR): F => ({
 });
 
 /* how easy the words are to read on the chosen background (WCAG contrast). Custom colours must pass,
-   so a page never ends up hard to read or out of place on khabo */
+   so a page never ends up hard to read or out of place on Khaoya */
 const lum = (hex: string) => {
   const n = parseInt(hex.replace('#', ''), 16), c = [n >> 16, (n >> 8) & 255, n & 255].map(v => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; });
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
@@ -96,7 +96,7 @@ export function Profile() {
   };
   useSaveEntry({ count: countChanges(base, f, ['deep', 'accent', 'font']) + (f.deep !== base.deep || f.accent !== base.accent || f.font !== base.font ? 1 : 0), save, discard: () => setF(base), pri: 0 });
   return (
-    <Page title={t('Restaurant page', 'রেস্টুরেন্টের পেজ')} sub={t('What diners see on your khabo page.', 'খাবোতে আপনার পেজে ডাইনাররা যা দেখেন।')}
+    <Page title={t('Restaurant page', 'রেস্টুরেন্টের পেজ')} sub={t('What diners see on your Khaoya page.', 'খাওয়া-তে আপনার পেজে ডাইনাররা যা দেখেন।')}
       acts={<a className="btn" href={live(r)} target="_blank" rel="noopener"><Ico n="arrow-up-right" sm />{t('View page', 'পেজ দেখুন')}</a>}>
       <form className="card" noValidate onSubmit={e => { e.preventDefault(); save(); }}>
         {sec(t('Name and story', 'নাম আর গল্প'), t('Your name, a one-line tagline and a few words about the place.', 'আপনার নাম, এক লাইনের পরিচয় আর জায়গাটি নিয়ে কয়েকটি কথা।'), <>
@@ -104,7 +104,7 @@ export function Profile() {
             <TextF label={t('Name (English)', 'নাম (ইংরেজি)')} value={f.en} onChange={up('en')} req />
             <TextF bn label={t('Name (Bangla)', 'নাম (বাংলা)')} value={f.bn} onChange={up('bn')} />
           </> : (
-            <Field full label={t('Restaurant name', 'রেস্টুরেন্টের নাম')} hint={t('Only the khabo team changes names, so diners and reviews never lose track of you.', 'নাম শুধু খাবো টিম বদলায়, যাতে ডাইনার আর রিভিউ কখনো আপনাকে হারিয়ে না ফেলে।')}>
+            <Field full label={t('Restaurant name', 'রেস্টুরেন্টের নাম')} hint={t('Only the Khaoya team changes names, so diners and reviews never lose track of you.', 'নাম শুধু খাওয়া টিম বদলায়, যাতে ডাইনার আর রিভিউ কখনো আপনাকে হারিয়ে না ফেলে।')}>
               <div className="locked"><Ico n="lock-simple" sm /><div><b>{r.name.en}</b><span className="bn">{r.name.bn}</span></div>
                 {asked ? <span className="badge warn">{t(`Asked for “${asked.data.en}”`, `“${asked.data.en}” চাওয়া হয়েছে`)}</span> : <button type="button" className="btn sm" onClick={() => setAsk('name')}>{t('Ask for a change', 'বদলাতে বলুন')}</button>}</div>
             </Field>
@@ -121,7 +121,7 @@ export function Profile() {
           <TextF full label={t('Full address (English)', 'পুরো ঠিকানা (ইংরেজি)')} value={f.addr} onChange={up('addr')} />
           <TextF full bn label={t('Full address (Bangla)', 'পুরো ঠিকানা (বাংলা)')} value={f.addrbn} onChange={up('addrbn')} />
           {team ? <SelF label={t('Area', 'এলাকা')} value={f.area} onChange={up('area')} opts={C.areas.map(a => [a.id, `${i.L(a)}, ${i.L(C.cities[a.city])}`])} />
-            : <Field label={t('Area', 'এলাকা')} hint={t('Set by the khabo team', 'খাবো টিম ঠিক করে')}><div className="locked sm"><Ico n="lock-simple" sm /><b>{where(i, r)}</b><button type="button" className="btn sm" onClick={() => setAsk('area')}>{t('Ask for a change', 'বদলাতে বলুন')}</button></div></Field>}
+            : <Field label={t('Area', 'এলাকা')} hint={t('Set by the Khaoya team', 'খাওয়া টিম ঠিক করে')}><div className="locked sm"><Ico n="lock-simple" sm /><b>{where(i, r)}</b><button type="button" className="btn sm" onClick={() => setAsk('area')}>{t('Ask for a change', 'বদলাতে বলুন')}</button></div></Field>}
         </>)}
         {sec(t('Social media', 'সোশ্যাল মিডিয়া'), t('Shown on your page under your story and in Visit. Pick the one you post on most; it is shown first and bigger.', 'আপনার পেজে গল্পের নিচে আর "যাওয়া" অংশে দেখায়। যেটায় বেশি পোস্ট করেন সেটা বাছুন; সেটা আগে আর বড় করে দেখায়।'),
           <div className="full soc-ed">
@@ -141,7 +141,7 @@ export function Profile() {
           <MoneyF label={t('Per person, from', 'জনপ্রতি, থেকে')} value={f.ppl0} onChange={up('ppl0')} />
           <MoneyF label={t('Per person, up to', 'জনপ্রতি, পর্যন্ত')} value={f.ppl1} onChange={up('ppl1')} />
           <div className="full card" style={{ padding: '0 16px' }}><SwRow label={t('Show price per person on my page', 'আমার পেজে জনপ্রতি দাম দেখান')} on={f.showppl} onChange={up('showppl')}
-            hint={t('Off hides it from the top of your page. khabo still uses it for search filters like "under ৳500".', 'বন্ধ করলে পেজের ওপর থেকে লুকাবে। খাবো তবুও "৳৫০০-এর কম" এমন খোঁজের জন্য এটা ব্যবহার করে।')} /></div>
+            hint={t('Off hides it from the top of your page. Khaoya still uses it for search filters like "under ৳500".', 'বন্ধ করলে পেজের ওপর থেকে লুকাবে। খাওয়া তবুও "৳৫০০-এর কম" এমন খোঁজের জন্য এটা ব্যবহার করে।')} /></div>
           <TextF type="number" label={t('VAT (%)', 'ভ্যাট (%)')} value={f.vat} onChange={up('vat')} attr={{ min: 0, max: 20 }} />
           <TextF type="number" label={t('Service charge (%)', 'সার্ভিস চার্জ (%)')} value={f.service} onChange={up('service')} attr={{ min: 0, max: 20 }} />
           <TextF type="number" label={t('Seats', 'আসন')} value={f.seats} onChange={up('seats')} />
@@ -154,7 +154,7 @@ export function Profile() {
             {PAYS.map(p => <button key={p} type="button" className={clsx('tchip', f.pay.includes(p) && 'on')} aria-pressed={f.pay.includes(p)} onClick={() => tog('pay', p)}>{i.L(PAY_N[p])}</button>)}
           </div></Field>
         </>)}
-        {sec(t('Page look', 'পেজের রং'), t('Your colours and lettering. Every choice is made to sit well with khabo, so your page feels like yours and still belongs.', 'আপনার রং আর অক্ষরের ধরন। প্রতিটি বাছাই খাবোর সঙ্গে মানিয়ে বানানো, তাই পেজ আপনার নিজের মতো লাগে, আবার খাবোর সঙ্গেও মানায়।'), <>
+        {sec(t('Page look', 'পেজের রং'), t('Your colours and lettering. Every choice is made to sit well with Khaoya, so your page feels like yours and still belongs.', 'আপনার রং আর অক্ষরের ধরন। প্রতিটি বাছাই খাওয়া-র সঙ্গে মানিয়ে বানানো, তাই পেজ আপনার নিজের মতো লাগে, আবার খাওয়া-র সঙ্গেও মানায়।'), <>
           {/* the preview is the real name card from the page, in the chosen colours and lettering */}
           <div className="full">
             <div className={clsx('look look2', f.font === 'serif' && 'serif')} style={{ '--d': f.deep, '--a': f.accent } as CSSProperties}>
@@ -191,13 +191,13 @@ export function Profile() {
                 </div>
               ) : null;
             })}
-            {custom ? <div className="pals"><button type="button" className={clsx('pal', f.deep === r.theme.deep && f.accent === r.theme.accent && 'on')} style={{ '--d': r.theme.deep, '--a': r.theme.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: r.theme.deep, accent: r.theme.accent }))}><i /><span>{t('Custom (set by khabo)', 'নিজস্ব (খাবো ঠিক করেছে)')}</span></button></div> : null}
+            {custom ? <div className="pals"><button type="button" className={clsx('pal', f.deep === r.theme.deep && f.accent === r.theme.accent && 'on')} style={{ '--d': r.theme.deep, '--a': r.theme.accent } as CSSProperties} onClick={() => setF(o => ({ ...o, deep: r.theme.deep, accent: r.theme.accent }))}><i /><span>{t('Custom (set by Khaoya)', 'নিজস্ব (খাওয়া ঠিক করেছে)')}</span></button></div> : null}
           </div></Field>
           {team ? <div className="full colors">
             <label><input type="color" value={f.deep} onChange={e => up('deep')(e.target.value)} /> {t('Background', 'পটভূমি')}</label>
             <label><input type="color" value={f.accent} onChange={e => up('accent')(e.target.value)} /> {t('Accent', 'উজ্জ্বল রং')}</label>
             <ReadCheck deep={f.deep} accent={f.accent} />
-            <span className="meta">{t('khabo team only: custom colours. Keep the background dark and the accent bright.', 'শুধু খাবো টিম: নিজস্ব রং। পটভূমি গাঢ় আর উজ্জ্বল রং উজ্জ্বল রাখুন।')}</span>
+            <span className="meta">{t('Khaoya team only: custom colours. Keep the background dark and the accent bright.', 'শুধু খাওয়া টিম: নিজস্ব রং। পটভূমি গাঢ় আর উজ্জ্বল রং উজ্জ্বল রাখুন।')}</span>
           </div> : null}
         </>)}
       </form>

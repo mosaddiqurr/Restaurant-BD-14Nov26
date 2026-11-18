@@ -1,5 +1,5 @@
 /* Ask khabo: a small plain-words planner over the real menus. It reads Bangla, English and Banglish
-   ("amra 4 jon, 2500 taka, Dhanmondi, family") and answers only from restaurants and prices on khabo.
+   ("amra 4 jon, 2500 taka, Dhanmondi, family") and answers only from restaurants and prices on Khaoya.
    Runs on the server (app/api/ask and the home page demo) and returns plain cards the browser can draw.
    Ported from archive/prototype/app/app.js (parseQ, meal, answer). Later a real language model can sit in front
    of parseQ; the answer cards stay the same. */
@@ -129,8 +129,8 @@ function dishes(p: AskQuery, rs: Restaurant[], wh: string, i: ReturnType<typeof 
   }
   const lo = ds[0];
   return {
-    text: say(`${nm}${p.budget ? ' up to ' + i.tk(p.budget) : ''}${wh ? ' in ' + wh : ''}: ${ds.length} ${ds.length === 1 ? 'plate' : 'plates'} on khabo. The lowest is ${i.tk(lo.d.price)} at ${lo.r.name.en}.`,
-      `${wh ? inBn(wh) + ' ' : ''}${p.budget ? i.tk(p.budget) + '-এর মধ্যে ' : ''}${nm}: খাবোতে ${i.N(ds.length)}টি প্লেট। সবচেয়ে কম ${i.tk(lo.d.price)}, ${lo.r.name.bn}-এ।`),
+    text: say(`${nm}${p.budget ? ' up to ' + i.tk(p.budget) : ''}${wh ? ' in ' + wh : ''}: ${ds.length} ${ds.length === 1 ? 'plate' : 'plates'} on Khaoya. The lowest is ${i.tk(lo.d.price)} at ${lo.r.name.en}.`,
+      `${wh ? inBn(wh) + ' ' : ''}${p.budget ? i.tk(p.budget) + '-এর মধ্যে ' : ''}${nm}: খাওয়া-তে ${i.N(ds.length)}টি প্লেট। সবচেয়ে কম ${i.tk(lo.d.price)}, ${lo.r.name.bn}-এ।`),
     cards: ds.slice(0, 3).map(card),
   };
 }

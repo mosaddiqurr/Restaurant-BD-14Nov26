@@ -1,6 +1,6 @@
 'use client';
 /* The panel's root: loads the saved data, decides who is signed in, and only then draws the pages.
-   Restaurant owners only ever reach their own restaurant; khabo team levels only reach what their level allows.
+   Restaurant owners only ever reach their own restaurant; Khaoya team levels only reach what their level allows.
    This is a demo lock in the browser. THE REAL LOCK IS ON THE SERVER LATER (Supabase Auth + row level security). */
 import { useEffect, useMemo, useRef, type ReactNode } from 'react';
 import Link from 'next/link';
@@ -72,7 +72,7 @@ function useLiveNews(db: PanelDB | null, me: User | null) {
     });
     if (me.role === 'restaurant') requestsOf(db, me.rid).filter(q => before.get(q.id) === 'open' && (q.state === 'done' || q.state === 'declined')).forEach(q => {
       const yes = q.state === 'done';
-      (yes ? toast.success : toast.error)(t(`khabo ${yes ? 'said yes to' : 'declined'} your request: ${REQ[q.kind].en}`, `খাবো আপনার অনুরোধে ${yes ? 'হ্যাঁ' : 'না'} বলেছে: ${REQ[q.kind].bn}`));
+      (yes ? toast.success : toast.error)(t(`Khaoya ${yes ? 'said yes to' : 'declined'} your request: ${REQ[q.kind].en}`, `খাওয়া আপনার অনুরোধে ${yes ? 'হ্যাঁ' : 'না'} বলেছে: ${REQ[q.kind].bn}`));
     });
   }, [db, me, i, t]);
 }
@@ -94,7 +94,7 @@ export function RestGate({ view, rid, children }: { view: string; rid?: string; 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rid0, ok, view]);
   if (!r) return (
-    <div className="pg"><div className="card empty" style={{ marginTop: 24 }}><Ico n="storefront" /><b>{t('This restaurant is not on khabo any more', 'এই রেস্টুরেন্ট আর খাবোতে নেই')}</b>
+    <div className="pg"><div className="card empty" style={{ marginTop: 24 }}><Ico n="storefront" /><b>{t('This restaurant is not on Khaoya any more', 'এই রেস্টুরেন্ট আর খাওয়া-তে নেই')}</b>
       {p.area === 'admin' ? <Link className="btn sm" href={`/${i.lang}/admin/restaurants`} style={{ marginTop: 12 }}>{t('All restaurants', 'সব রেস্টুরেন্ট')}</Link> : null}</div></div>
   );
   if (!ok) return <NoAccess what={t(`this page for ${r.name.en}`, `${r.name.bn}-এর এই পেজ`)} />;

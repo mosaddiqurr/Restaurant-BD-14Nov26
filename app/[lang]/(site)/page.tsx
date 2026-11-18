@@ -8,7 +8,7 @@ import { PriceSec } from '@/components/home/price';
 import { isLang } from '@/lib/i18n/core';
 
 /* Home: the photo wall and search, partners, cravings, open around you, the map, browse every way,
-   Ask khabo, see it before you go, deals, events and the price check. The home page is for diners;
+   Ask Mama, see it before you go, deals, events and the price check. The home page is for diners;
    restaurant owners have their own page (/business).
    Everything that needs the whole catalog is worked out on the server (components/home/data.ts). */
 export default async function Home({ params }: PageProps<'/[lang]'>) {

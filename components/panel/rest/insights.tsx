@@ -22,7 +22,7 @@ export function Insights() {
   const above = cmp.filter(x => x.pct > 10).length, below = cmp.filter(x => x.pct < -10).length;
   const city = C.cities[r.city] || { en: r.city, bn: r.city };
   return (
-    <Page title={t('Price insights', 'দামের তুলনা')} sub={t(`How your prices compare with the same kind of dish elsewhere in ${city.en}. Only you and the khabo team see this.`, `${city.bn}-এর অন্য জায়গায় একই ধরনের খাবারের সঙ্গে আপনার দাম কেমন। শুধু আপনি আর খাবো টিম এটা দেখেন।`)}>
+    <Page title={t('Price insights', 'দামের তুলনা')} sub={t(`How your prices compare with the same kind of dish elsewhere in ${city.en}. Only you and the Khaoya team see this.`, `${city.bn}-এর অন্য জায়গায় একই ধরনের খাবারের সঙ্গে আপনার দাম কেমন। শুধু আপনি আর খাওয়া টিম এটা দেখেন।`)}>
       <div className="grid g3">
         <div className="card stat"><div className="k"><Ico n="chart-line-up" sm />{t('Dishes compared', 'তুলনা করা খাবার')}</div><div className="v num">{i.N(cmp.length)}</div><div className="d">{t(`of ${rows.length} single-portion dishes`, `${i.N(rows.length)}টি এক প্লেটের খাবারের মধ্যে`)}</div></div>
         <div className="card stat"><div className="k"><Ico n="arrow-up" sm />{t('Priced above typical', 'সাধারণের চেয়ে বেশি দাম')}</div><div className="v num">{i.N(above)}</div><div className="d">{t(`more than 10% over the ${city.en} middle price`, `${city.bn}-এর মাঝামাঝি দামের চেয়ে ১০%-এর বেশি`)}</div></div>

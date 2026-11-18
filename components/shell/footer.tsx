@@ -18,7 +18,7 @@ export function Footer() {
       <div className="wrap">
         <div className="cols">
           <div>
-            <span className="logo"><Logo />khabo</span>
+            <span className="logo"><Logo /></span>
             <p style={{ marginTop: 10, maxWidth: '34ch' }}>{i.t('footer_line')}</p>
             <div style={{ marginTop: 16 }}>
               <Seg id="f-lang" cls="dark" items={[['en', 'English'], ['bn', 'বাংলা']]} value={i.lang}
@@ -28,7 +28,7 @@ export function Footer() {
           <div><b>{i.L(C.cities.dhaka)}</b>{areas('dhaka')}</div>
           <div><b>{i.L(C.cities.bogura)}</b>{areas('bogura')}<Link href={href('/dishes')}>{i.t('nav_dishes')}</Link><Link href={href('/deals')}>{i.t('nav_deals')}</Link></div>
           <div>
-            <b>khabo</b>
+            <b>Khaoya</b>
             <Link href={href('/restaurants')}>{i.t('nav_restaurants')}</Link>
             <Link href={href('/prices')}>{i.tx('prices')}</Link>
             <Link href={href('/events')}>{i.tx('events')}</Link>
@@ -44,8 +44,8 @@ export function Footer() {
             <Link href={href('/partner')}>{i.t('partner_sign_in')}</Link>
           </div>
         </div>
-        <div className="word" aria-hidden="true">khabo</div>
-        <div className="base"><span>© 2026 khabo</span><span style={{ display: 'flex', gap: 16 }}><Link href={href('/business')}>{i.t('terms')}</Link><Link href={href('/business')}>{i.t('privacy')}</Link></span></div>
+        <div className="word" aria-hidden="true">khaoya</div>
+        <div className="base"><span>© 2026 Khaoya</span><span style={{ display: 'flex', gap: 16 }}><Link href={href('/business')}>{i.t('terms')}</Link><Link href={href('/business')}>{i.t('privacy')}</Link></span></div>
       </div>
     </footer>
   );

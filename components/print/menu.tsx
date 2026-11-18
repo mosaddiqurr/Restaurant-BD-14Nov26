@@ -1,10 +1,10 @@
 /* Printable menus (ported from archive/prototype/panel/print.js). No hooks, so it draws on the server and in the browser.
    The restaurant picks one of the designs in MENUS (saved as r.printMenu by its panel); the paper is filled from
-   its real menu, so paper always matches khabo. The look of each design lives in styles/print-menu.css (.pm-<id>).
+   its real menu, so paper always matches Khaoya. The look of each design lives in styles/print-menu.css (.pm-<id>).
    To add a design: a line in MENUS and a CSS block there.
    Dish photos are an option on every design (o.pics): none, beside each dish, photo cards, big photos in the
    corners, or a strip down the side. The photo designs simply start with one of those switched on.
-   Prices are menu prices only; the footer says VAT and service come on top, as on every khabo menu. */
+   Prices are menu prices only; the footer says VAT and service come on top, as on every Khaoya menu. */
 import clsx from 'clsx';
 import type { CSSProperties, ReactNode } from 'react';
 import { areaOf, src } from '@/lib/khabo';
@@ -126,7 +126,7 @@ export function MenuSheet({ r, o: o0, qr }: { r: Restaurant; o: Partial<PmOpts>;
           <span className={bnFirst ? 'bn' : undefined}>{note}</span>
           <span className={bnFirst ? 'bn' : undefined}>{bnFirst ? r.address?.bn || r.address?.en : r.address?.en}{r.phone ? ' · ' + (bnFirst ? bnNum(r.phone) : r.phone) : ''}</span>
         </div>
-        <div className="pm-by">khabo</div>
+        <div className="pm-by">Khaoya</div>
       </footer>
     </article>
   );

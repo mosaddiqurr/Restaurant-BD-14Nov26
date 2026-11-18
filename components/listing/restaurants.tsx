@@ -5,7 +5,7 @@ import { CutleryScroll } from '@/components/ui/cutlery-scroll';
 import { useMemo, useState } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
-import { I, Num, Rise, useMounted } from '@/components/ui/bits';
+import { I, MamaMark, Num, Rise, useMounted } from '@/components/ui/bits';
 import { AreaPop, Choose } from '@/components/ui/choose';
 import { RCard } from '@/components/cards/cards';
 import { LongGrid } from './long-grid';
@@ -93,7 +93,7 @@ export function RestaurantsView({ cards: cards0 }: { cards: RestaurantCard[] }) 
               <p>{i.t('nothing_sub')}</p>
               <div className="empty-a">
                 <button className="btn btn-line" onClick={clear}>{i.t('clear_all')}</button>
-                <button className="btn btn-pri" onClick={() => set({ ai: { q: f.q || '' } })}><I n="sparkle" f />{i.t('ask_ai')}</button>
+                <button className="btn btn-pri" onClick={() => set({ ai: { q: f.q || '' } })}><MamaMark />{i.t('ask_ai')}</button>
               </div>
             </m.div>
           )}

@@ -6,9 +6,9 @@
    image), so they also work offline. */
 
 /** whose colours and logo the game wears. On the table menu this is that restaurant only, never another one.
-    With no logo, draw `mono` (the restaurant's initials) or, with neither, khabo's own plate mark */
+    With no logo, draw `mono` (the restaurant's initials) or, with neither, Khaoya's own plate mark */
 export type Brand = {
-  deep: string;      // main dark colour (e.g. '#123B28' for khabo green)
+  deep: string;      // main dark colour (e.g. '#123B28' for Khaoya green)
   accent: string;    // bright colour (e.g. '#E0A42E' marigold)
   logo?: string | null; // same-site image URL (svg or png) of the restaurant's logo
   mono?: string;     // initials when there is no logo

@@ -30,5 +30,5 @@ css = css.replace(/--sans: Figtree, "Noto Sans Bengali", system-ui, sans-serif; 
 css = css.replace(/font-family: Figtree, "Noto Sans Bengali", sans-serif/g, 'font-family: var(--sans)');
 
 const left = (css.match(/\.app\b|@container|data-view/g) || []);
-fs.writeFileSync(path.resolve(here, '../styles/khabo.css'), '/* khabo styles, brought over from the prototype (archive/prototype/app/app.css) and tuned for the real site. */\n' + css);
+fs.writeFileSync(path.resolve(here, '../styles/khabo.css'), '/* Khaoya styles, brought over from the prototype (archive/prototype/app/app.css) and tuned for the real site. */\n' + css);
 console.log('written styles/khabo.css', css.length, 'bytes; leftovers:', left.length);

@@ -33,7 +33,7 @@ export function Team() {
     <Page title={t('Team & account', 'টিম ও অ্যাকাউন্ট')} sub={t('People who can sign in and change this restaurant.', 'যাঁরা সাইন ইন করে এই রেস্টুরেন্ট বদলাতে পারেন।')}
       acts={<button className="btn pri" onClick={() => setAdd(true)}><Ico n="plus" sm />{t('Add a team member', 'টিমে একজন যোগ করুন')}</button>}>
       <div className="card" id="requests" style={{ marginBottom: 16 }}>
-        <div className="card-h"><h2>{t('Requests to khabo', 'খাবোর কাছে অনুরোধ')}</h2><span className="r"><button className="btn sm" onClick={() => setAsk(true)}><Ico n="paper-plane-right" sm />{t('Ask for a change', 'বদলাতে বলুন')}</button></span></div>
+        <div className="card-h"><h2>{t('Requests to Khaoya', 'খাওয়া-র কাছে অনুরোধ')}</h2><span className="r"><button className="btn sm" onClick={() => setAsk(true)}><Ico n="paper-plane-right" sm />{t('Ask for a change', 'বদলাতে বলুন')}</button></span></div>
         <div className="rows" style={{ padding: '4px 0' }}>
           {reqs.length ? reqs.map(q => {
             const [lbl, cls] = REQ_STATE[q.state];
@@ -43,11 +43,11 @@ export function Team() {
                 <div><b>{i.L(REQ[q.kind])}</b>
                   <span className="rq-w">{q.kind === 'name' ? t(`New name: “${q.data.en}”`, `নতুন নাম: “${q.data.bn || q.data.en}”`) : q.data.text}</span>
                   <span className="meta">{t(`Asked ${ago(q.at)}`, `চাওয়া হয়েছে ${ago(q.at)}`)}{q.state !== 'open' && q.doneAt ? ` · ${t(`answered ${ago(q.doneAt)}`, `উত্তর ${ago(q.doneAt)}`)}` : ''}</span>
-                  {q.reply ? <span className="rq-reply"><Ico n="chat-circle-dots" sm /><span><b>{t('khabo:', 'খাবো:')}</b> {q.reply}</span></span> : null}
+                  {q.reply ? <span className="rq-reply"><Ico n="chat-circle-dots" sm /><span><b>{t('Khaoya:', 'খাওয়া:')}</b> {q.reply}</span></span> : null}
                 </div>
                 <span className="rq-a"><span className={`badge ${cls}`}>{i.L(lbl)}</span>
                   {q.state === 'open' ? <button className="btn sm ghost" onClick={async () => {
-                    if (await confirm({ title: t('Cancel this request?', 'এই অনুরোধ বাতিল করবেন?'), text: t('The khabo team will no longer see it.', 'খাবো টিম আর এটা দেখবে না।'), ok: t('Cancel request', 'অনুরোধ বাতিল') }) && cancelRequest(q.id)) toast.success(t('Request cancelled.', 'অনুরোধ বাতিল হয়েছে।'));
+                    if (await confirm({ title: t('Cancel this request?', 'এই অনুরোধ বাতিল করবেন?'), text: t('The Khaoya team will no longer see it.', 'খাওয়া টিম আর এটা দেখবে না।'), ok: t('Cancel request', 'অনুরোধ বাতিল') }) && cancelRequest(q.id)) toast.success(t('Request cancelled.', 'অনুরোধ বাতিল হয়েছে।'));
                   }}>{t('Cancel', 'বাতিল')}</button> : null}</span>
               </div>
             );
@@ -84,7 +84,7 @@ export function Team() {
               <button className="btn pri" style={{ justifySelf: 'start' }}>{t('Update password', 'পাসওয়ার্ড বদলান')}</button>
             </div>
           </form>
-        ) : <div className="alert info"><Ico n="info" /><div><b>{t('Only the owner changes their own password', 'শুধু মালিক নিজের পাসওয়ার্ড বদলান')}</b><div className="meta">{t('The khabo team can reset an account to a new invite code under Team & users.', 'খাবো টিম "টিম ও ব্যবহারকারী" থেকে অ্যাকাউন্টকে নতুন আমন্ত্রণ কোডে রিসেট করতে পারে।')}</div></div></div>}
+        ) : <div className="alert info"><Ico n="info" /><div><b>{t('Only the owner changes their own password', 'শুধু মালিক নিজের পাসওয়ার্ড বদলান')}</b><div className="meta">{t('The Khaoya team can reset an account to a new invite code under Team & users.', 'খাওয়া টিম "টিম ও ব্যবহারকারী" থেকে অ্যাকাউন্টকে নতুন আমন্ত্রণ কোডে রিসেট করতে পারে।')}</div></div></div>}
       </div>
       <UserModal open={add} onClose={() => setAdd(false)} rid={r.id} lockRole done={x => setInv(x)} />
       <InviteCard inv={inv} onClose={() => setInv(null)} />

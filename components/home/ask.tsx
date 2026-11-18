@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, m, useInView, useReducedMotion } from 'motion/react';
 import { useI } from '@/components/providers/i18n';
-import { I, Rise } from '@/components/ui/bits';
+import { I, MamaMark, Rise } from '@/components/ui/bits';
 import { useApp } from '@/lib/store';
 import { EASE } from '@/lib/khabo';
 import type { AskAnswer } from '@/lib/ask';
@@ -71,10 +71,10 @@ export function AiSec({ q, a }: { q: string; a: AskAnswer }) {
             </m.button>
           ))}
         </div>
-        <button className="btn btn-pri btn-lg" onClick={() => set({ ai: { q: '' } })}><I n="sparkle" f />{i.t('ask_title')}</button>
+        <button className="btn btn-pri btn-lg" onClick={() => set({ ai: { q: '' } })}><MamaMark />{i.t('ask_title')}</button>
       </div>
       <div className="ai-win">
-        <div className="ai-win-h"><span className="orb"><I n="sparkle" f /></span><b>{i.t('ask_title')}</b><span className="meta">{i.t('ask_langs')}</span></div>
+        <div className="ai-win-h"><span className="orb"><MamaMark /></span><b>{i.t('ask_title')}</b><span className="meta">{i.t('ask_langs')}</span></div>
         <div className="ai-body" ref={ref}>{inView ? <AiDemo q={q} a={a} /> : null}</div>
       </div>
     </div></section>

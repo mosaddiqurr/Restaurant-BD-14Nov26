@@ -85,7 +85,7 @@ const make: GameFactory = (o) => {
   const lam = (c: string, extra: THREE.MeshLambertMaterialParameters = {}) => new THREE.MeshLambertMaterial({ color: c, flatShading: true, ...extra });
 
   /* the restaurant's mark, drawn into canvases: the big board and a small decal for its cups. Its logo (same-site
-     image only), else its initials and name on its deep colour with its accent, else khabo's plate mark */
+     image only), else its initials and name on its deep colour with its accent, else Khaoya's plate mark */
   const font = (() => {
     try { return getComputedStyle(document.body).fontFamily || 'system-ui, sans-serif'; } catch { return 'system-ui, sans-serif'; }
   })();

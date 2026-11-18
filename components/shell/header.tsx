@@ -9,7 +9,7 @@ import { AnimatePresence, m, useReducedMotion } from 'motion/react';
 import { useThemeFlip } from '@/components/ui/theme-flip';
 import { toast } from '@/lib/toast';
 import { useI } from '@/components/providers/i18n';
-import { I, Logo, Pic, Pill, Tk } from '@/components/ui/bits';
+import { I, Logo, MamaMark, Pic, Pill, Tk } from '@/components/ui/bits';
 import { useApp } from '@/lib/store';
 import { C, EASE } from '@/lib/khabo';
 import type { Nav } from '@/lib/data/catalog';
@@ -218,7 +218,7 @@ export function Header({ nav }: { nav: Nav }) {
     <ViewTransition name="hdr">
       <header className={clsx('hdr', over && 'over')}>
         <div className="wrap">
-          <Link href={href('/')} className="logo"><Logo />khabo</Link>
+          <Link href={href('/')} className="logo" aria-label="Khaoya"><Logo /></Link>
           <nav className="hnav" aria-label="Main">
             <RestMenu nav={nav} on={page === 'restaurants'} />
             <DishMenu nav={nav} on={page === 'dishes'} />
@@ -263,7 +263,7 @@ export function TabBar() {
       <nav className="tabbar">
         {b('home', '/', 'house', i.t('tab_home'))}
         {b('restaurants', '/restaurants', 'storefront', i.t('nav_restaurants'))}
-        <button onClick={() => set({ ai: { q: '' } })}><span className="orb"><I n="sparkle" f /></span>{i.t('tab_ask')}</button>
+        <button onClick={() => set({ ai: { q: '' } })}><span className="orb"><MamaMark /></span>{i.t('tab_ask')}</button>
         {b('dishes', '/dishes', 'bowl-food', i.t('tab_dishes'))}
         {b('deals', '/deals', 'tag', i.t('nav_deals'))}
       </nav>

@@ -42,7 +42,7 @@ export function leadFix(x: Lead): LeadX {
     if (!('next' in o)) y.next = s.d || (s.n != null ? isoDay(s.n) : '');
     if (!('plan' in o)) y.plan = s.plan || '';
   }
-  if (!y.hist) y.hist = y.note ? [{ at: y.upd || y.at, who: 'khabo team', what: y.note, bn: LEAD_SEED[y.id]?.bn }] : [];
+  if (!y.hist) y.hist = y.note ? [{ at: y.upd || y.at, who: 'Khaoya team', what: y.note, bn: LEAD_SEED[y.id]?.bn }] : [];
   y.next = y.next || ''; y.plan = y.plan || '';
   return y;
 }

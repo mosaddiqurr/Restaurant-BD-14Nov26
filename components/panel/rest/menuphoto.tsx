@@ -1,6 +1,6 @@
 'use client';
 /* Menu from a photo (RD-6, ported from archive/prototype/panel/menuphoto.js).
-   The owner or the khabo team uploads photos of the paper menu. The AI reads dishes, prices and categories into a draft.
+   The owner or the Khaoya team uploads photos of the paper menu. The AI reads dishes, prices and categories into a draft.
    A person checks the draft and confirms. For an update, only the changes are shown, each with a tick box.
    Nothing goes live without a person confirming. Every price change goes into price history with who confirmed it.
 

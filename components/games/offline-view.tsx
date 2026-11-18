@@ -27,7 +27,7 @@ export function OfflineView() {
     : { h: 'No internet connection', p: 'Try again when you have signal. Until then, have a little game.', again: 'Try again' };
   return (
     <main className="errv wrap off-v" role="alert">
-      <span className="logo off-logo"><Logo />khabo</span>
+      <span className="logo off-logo"><Logo /></span>
       <div className="errv-ic" aria-hidden="true"><I n="wifi-slash" /></div>
       <h1 className="h2">{w.h}</h1>
       <p className="sub">{w.p}</p>

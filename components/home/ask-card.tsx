@@ -1,6 +1,6 @@
 'use client';
 /* One answer card from Ask khabo: a meal plan (tap to load it as your bill), a dish, or a restaurant.
-   Used by the home page demo and by the Ask khabo sheet. */
+   Used by the home page demo and by the Ask Mama sheet. */
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { m } from 'motion/react';

@@ -1,6 +1,6 @@
 'use client';
 /* A QR code for the "For restaurants" page, in one of the table-card looks. It uses the same tested drawing as
-   every other khabo QR (components/qr/qr-core), so what owners see here is what scans on their tables. */
+   every other Khaoya QR (components/qr/qr-core), so what owners see here is what scans on their tables. */
 import { useMemo } from 'react';
 import { QR_LOOKS, qrSvg } from '@/components/qr/qr-core';
 

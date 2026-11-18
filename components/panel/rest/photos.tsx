@@ -60,7 +60,7 @@ export function Photos() {
       })}
       <div className="alert info" style={{ marginTop: 16 }}><Ico n="cube" /><div><b>{t('360° tour and film', '৩৬০° ট্যুর আর ভিডিও')}</b>
         <div className="meta">{tour.length ? t(`Your tour has ${tour.length} room${tour.length > 1 ? 's' : ''}: ${tour.map(x => x.en).join(', ')}.`, `আপনার ট্যুরে ${i.N(tour.length)}টি ঘর: ${tour.map(x => x.bn || x.en).join(', ')}।`) : t('No 360° tour yet.', 'এখনো ৩৬০° ট্যুর নেই।')}{' '}
-          {r.film ? t('Your page has a short film.', 'আপনার পেজে একটি ছোট ভিডিও আছে।') : ''} {t('The khabo team films these; ask us to reshoot any time.', 'এগুলো খাবো টিম ধারণ করে; যেকোনো সময় আবার ধারণ করতে বলুন।')}</div></div></div>
+          {r.film ? t('Your page has a short film.', 'আপনার পেজে একটি ছোট ভিডিও আছে।') : ''} {t('The Khaoya team films these; ask us to reshoot any time.', 'এগুলো খাওয়া টিম ধারণ করে; যেকোনো সময় আবার ধারণ করতে বলুন।')}</div></div></div>
     </Page>
   );
 }

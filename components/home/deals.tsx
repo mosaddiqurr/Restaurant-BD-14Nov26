@@ -1,6 +1,6 @@
 'use client';
 /* Deals and events on the home page. Premium partners' deals get the big slider, every other live deal
-   is in the rail below, in the order the khabo team set (inside each plan). */
+   is in the rail below, in the order the Khaoya team set (inside each plan). */
 import { useMemo } from 'react';
 import Link from 'next/link';
 import { useI } from '@/components/providers/i18n';
@@ -15,7 +15,7 @@ import { useMinute } from './util';
 
 const W = {
   today: { en: "Today's deals", bn: 'আজকের অফার' },
-  sub: { en: 'Offers running now at restaurants on khabo', bn: 'খাবোর রেস্টুরেন্টগুলোতে এখন চলা অফার' },
+  sub: { en: 'Offers running now at restaurants on Khaoya', bn: 'খাওয়া-র রেস্টুরেন্টগুলোতে এখন চলা অফার' },
 };
 
 export function HomeDeals({ rows }: { rows: HomeData['deals'] }) {

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: LayoutProps<'/[lang]'>): Prom
   const { lang } = await params;
   const bn = lang === 'bn';
   return {
-    title: { default: bn ? 'খাবো · না জেনে আর বাইরে খেতে যাবেন না' : 'khabo · Eat out without the guesswork', template: bn ? '%s · খাবো' : '%s · khabo' },
+    title: { default: bn ? 'খাওয়া · না জেনে আর বাইরে খেতে যাবেন না' : 'Khaoya · Eat out without the guesswork', template: bn ? '%s · খাওয়া' : '%s · Khaoya' },
     description: bn ? 'বের হওয়ার আগেই আসল মেনু, আসল দাম আর ভেতরটা দেখে নিন।' : 'Real menus, real prices and a real look inside, before you leave home.',
     alternates: { languages: { en: '/en', bn: '/bn' } },
   };

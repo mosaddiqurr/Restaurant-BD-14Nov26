@@ -1,6 +1,6 @@
 'use client';
 /* Print menu (ported from archive/prototype/panel/print.js).
-   Pick a design; it is filled from the menu on khabo, so a fresh print always has today's dishes, prices and photos.
+   Pick a design; it is filled from the menu on Khaoya, so a fresh print always has today's dishes, prices and photos.
    Every choice goes into the draft (r.printMenu) and is saved with Save changes; the preview shows it at once. */
 import { memo, useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
@@ -100,7 +100,7 @@ export function PrintMenu() {
 
   return (
     <Page title={t('Print menu', 'মেনু প্রিন্ট')}
-      sub={t('Pick a design. It is filled from your menu on khabo, so a fresh print always has today’s dishes, prices and photos.', 'একটি ডিজাইন বেছে নিন। এটি খাবোতে থাকা আপনার মেনু দিয়েই ভরা হয়, তাই নতুন প্রিন্টে সবসময় আজকের খাবার, দাম আর ছবি থাকে।')}
+      sub={t('Pick a design. It is filled from your menu on Khaoya, so a fresh print always has today’s dishes, prices and photos.', 'একটি ডিজাইন বেছে নিন। এটি খাওয়া-তে থাকা আপনার মেনু দিয়েই ভরা হয়, তাই নতুন প্রিন্টে সবসময় আজকের খাবার, দাম আর ছবি থাকে।')}
       acts={<>
         <button type="button" className="btn" onClick={() => go(false)}><Ico n="arrow-up-right" sm />{t('Open full size', 'পুরো মাপে খুলুন')}</button>
         <button type="button" className="btn pri" onClick={() => go(true)}><Ico n="printer" sm />{t('Print', 'প্রিন্ট')}</button>

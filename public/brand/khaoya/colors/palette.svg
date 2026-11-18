@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 420" width="960" height="420" role="img" font-family="Figtree, system-ui, sans-serif">
+<title>Khaoya colour palette</title>
+<rect width="960" height="420" fill="#FFFFFF"/>
+<text x="40" y="52" font-size="26" font-weight="800" fill="#0C5A3E">Khaoya colours</text>
+<g font-size="15">
+<rect x="40" y="80" width="200" height="140" rx="14" fill="#0C5A3E"/><text x="56" y="196" fill="#F7F1DE" font-weight="800">Khaoya Green</text><text x="56" y="250" fill="#1A1300">#0C5A3E</text><text x="56" y="272" fill="#555">Main colour, words</text>
+<rect x="260" y="80" width="200" height="140" rx="14" fill="#F4B91A"/><text x="276" y="196" fill="#1A1300" font-weight="800">Marigold</text><text x="276" y="250" fill="#1A1300">#F4B91A</text><text x="276" y="272" fill="#555">Smile, plate, accents</text>
+<rect x="480" y="80" width="200" height="140" rx="14" fill="#F7F1DE" stroke="#E2D9BE"/><text x="496" y="196" fill="#0C5A3E" font-weight="800">Cream</text><text x="496" y="250" fill="#1A1300">#F7F1DE</text><text x="496" y="272" fill="#555">Warm background</text>
+<rect x="700" y="80" width="200" height="140" rx="14" fill="#0B3B29"/><text x="716" y="196" fill="#F7F1DE" font-weight="800">Deep Green</text><text x="716" y="250" fill="#1A1300">#0B3B29</text><text x="716" y="272" fill="#555">Dark backgrounds</text>
+<rect x="40" y="300" width="200" height="70" rx="12" fill="#1C6E4C"/><text x="56" y="342" fill="#F7F1DE" font-weight="800">Light Green #1C6E4C</text>
+<rect x="260" y="300" width="200" height="70" rx="12" fill="#E3EFE7"/><text x="276" y="342" fill="#0C5A3E" font-weight="800">Soft Green #E3EFE7</text>
+<rect x="480" y="300" width="200" height="70" rx="12" fill="#8A5E00"/><text x="496" y="342" fill="#FFFFFF" font-weight="800">Marigold Text #8A5E00</text>
+<rect x="700" y="300" width="200" height="70" rx="12" fill="#1A1300"/><text x="716" y="342" fill="#F4B91A" font-weight="800">Ink #1A1300</text>
+</g>
+</svg>

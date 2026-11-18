@@ -57,7 +57,7 @@ const w = (i: I18n, o: Text, v: Record<string, string> = {}) => i.L(o).replace(/
 function placeTitle(i: I18n, d: string, f: Scope) {
   if (f.area) return i.bn ? `${i.L(areaOf(f.area))} এলাকায় ${d}` : `${d} in ${i.L(areaOf(f.area))}`;
   if (f.city) return i.bn ? `${i.L(C.cities[f.city])} শহরে ${d}` : `${d} in ${i.L(C.cities[f.city])}`;
-  return i.bn ? `খাবোর সব জায়গায় ${d}` : `${d} everywhere on khabo`;
+  return i.bn ? `খাওয়া-র সব জায়গায় ${d}` : `${d} everywhere on Khaoya`;
 }
 /** "about 6% higher than 6 months ago" (lower case, to follow a title) */
 function moveText(i: I18n, pct: number) {
@@ -253,11 +253,11 @@ function PriceIndex({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; 
     const c = shareCanvas(shareRows, words(), await canvasFonts());
     c.toBlob(async b => {
       if (!b) return;
-      const f = new File([b], 'khabo-kacchi-report.png', { type: 'image/png' });
+      const f = new File([b], 'khaoya-kacchi-report.png', { type: 'image/png' });
       try {
         if (navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f], title: i.tx('pi_title') }); return; }
       } catch { return; }
-      const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'khabo-kacchi-report.png'; a.click();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'khaoya-kacchi-report.png'; a.click();
       setTimeout(() => URL.revokeObjectURL(a.href), 4000);
       toast(i.tx('dl_img'));
     });
@@ -303,7 +303,7 @@ function PriceIndex({ pf, setP, cx }: { pf: PF; setP: (o: Partial<PF>) => void; 
               : <div className="sk" style={{ aspectRatio: '1080 / 1350', borderRadius: 18 }} />}
             <div className="pxi-btns">
               <button className="btn btn-pri" onClick={share} disabled={!ready}><I n="share-network" />{i.tx('share_img')}</button>
-              {img ? <a className="btn btn-line" href={img} download="khabo-kacchi-report.png"><I n="download-simple" />{i.tx('dl_img')}</a> : null}
+              {img ? <a className="btn btn-line" href={img} download="khaoya-kacchi-report.png"><I n="download-simple" />{i.tx('dl_img')}</a> : null}
             </div>
           </div>
         </div>

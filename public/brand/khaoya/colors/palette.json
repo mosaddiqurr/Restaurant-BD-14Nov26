@@ -1,0 +1,17 @@
+{
+  "brand": "Khaoya",
+  "colors": [
+    { "name": "Khaoya Green", "token": "--khaoya-green", "hex": "#0C5A3E", "rgb": "12, 90, 62", "use": "Main brand colour: logo words, buttons, headers" },
+    { "name": "Deep Green", "token": "--khaoya-green-deep", "hex": "#0B3B29", "rgb": "11, 59, 41", "use": "Dark backgrounds, footer, text on marigold" },
+    { "name": "Light Green", "token": "--khaoya-green-light", "hex": "#1C6E4C", "rgb": "28, 110, 76", "use": "Green in dark mode, hover states" },
+    { "name": "Soft Green", "token": "--khaoya-green-soft", "hex": "#E3EFE7", "rgb": "227, 239, 231", "use": "Pale tint for chips and soft panels" },
+    { "name": "Marigold", "token": "--khaoya-marigold", "hex": "#F4B91A", "rgb": "244, 185, 26", "use": "Accent: the smile, the plate, highlights. Not for body text" },
+    { "name": "Marigold Text", "token": "--khaoya-marigold-text", "hex": "#8A5E00", "rgb": "138, 94, 0", "use": "Readable marigold for small text on light backgrounds" },
+    { "name": "Cream", "token": "--khaoya-cream", "hex": "#F7F1DE", "rgb": "247, 241, 222", "use": "Warm background behind the logo, cards, menus" },
+    { "name": "Ink", "token": "--khaoya-ink", "hex": "#1A1300", "rgb": "26, 19, 0", "use": "Text on marigold" }
+  ],
+  "fonts": {
+    "english": { "family": "Figtree", "logo_weight": 800, "source": "https://fonts.google.com/specimen/Figtree" },
+    "bangla": { "family": "Noto Sans Bengali", "logo_weight": 800, "source": "https://fonts.google.com/noto/specimen/Noto+Sans+Bengali" }
+  }
+}

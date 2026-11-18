@@ -61,7 +61,7 @@ function Card({ x, onMove, onConvert, lift, ghost }: {
       </div>
       {x.stage === 'won' ? (x.rid && getR(db, x.rid)
         ? <Link className="btn sm ghost ld-cta" href={a(`r/${x.rid}`)} onClick={stop} onPointerDown={e => e.stopPropagation()}><Ico n="storefront" sm />{t('Open restaurant', 'রেস্টুরেন্ট খুলুন')}</Link>
-        : onConvert ? <button type="button" className="btn sm gold ld-cta" onClick={e => { stop(e); onConvert(); }} onPointerDown={e => e.stopPropagation()}><Ico n="plus" sm />{t('Add to khabo', 'খাবোতে যোগ করুন')}</button> : null) : null}
+        : onConvert ? <button type="button" className="btn sm gold ld-cta" onClick={e => { stop(e); onConvert(); }} onPointerDown={e => e.stopPropagation()}><Ico n="plus" sm />{t('Add to Khaoya', 'খাওয়া-তে যোগ করুন')}</button> : null) : null}
     </article>
   );
 }
@@ -128,7 +128,7 @@ export function Leads() {
 
   const setStage = (x: LeadX, k: Stage) => {
     if (!moveLead(x.id, k, me.name)) return;
-    if (k === 'won') toast.success(t(`${x.name} signed. Add them to khabo when you are ready.`, `${x.name} যুক্ত হয়েছে। প্রস্তুত হলে খাবোতে যোগ করুন।`));
+    if (k === 'won') toast.success(t(`${x.name} signed. Add them to Khaoya when you are ready.`, `${x.name} যুক্ত হয়েছে। প্রস্তুত হলে খাওয়া-তে যোগ করুন।`));
   };
   const move = (x: LeadX, d: number) => { const k = STAGES.findIndex(s => s.k === x.stage) + d; if (STAGES[k]) setStage(x, STAGES[k].k); };
   const convert = (x: LeadX) => setConv({ name: x.name, area: x.area, phone: x.phone, person: x.person, lead: x.id });
@@ -148,7 +148,7 @@ export function Leads() {
       <div className="ld-stats">
         {stat(t('In talks', 'আলোচনায়'), i.N(openL.length), t(`${fresh7} new this week`, `এই সপ্তাহে ${i.N(fresh7)}টি নতুন`))}
         {stat(t('Call back today', 'আজ ফোন করুন'), i.N(due), due ? t('Including overdue', 'সময় পার হওয়াগুলোসহ') : t('All caught up', 'সব ঠিকঠাক'), due ? 'due' : '')}
-        {stat(t('Signed', 'যুক্ত হয়েছে'), i.N(won), t('Joined khabo', 'খাবোতে এসেছে'))}
+        {stat(t('Signed', 'যুক্ত হয়েছে'), i.N(won), t('Joined Khaoya', 'খাওয়া-তে এসেছে'))}
         {stat(t('Signed out of all', 'মোটের মধ্যে যুক্ত'), `${i.N(all.length ? Math.round((won / all.length) * 100) : 0)}%`, t(`${won} of ${all.length} leads`, `${i.N(all.length)}টি লিডের ${i.N(won)}টি`))}
       </div>
       <div className="ld-bar">
@@ -264,7 +264,7 @@ function LeadDrawer({ open, x: xIn, onClose }: { open: boolean; x: LeadX | null;
       </div>
       {x && x.hist.length ? (
         <div className="ld-hist"><span className="lbl">{t('History', 'আগের কথা')}</span>
-          {x.hist.map((h, k) => <div key={k}><i /><p>{i.bn ? h.bn || h.what : h.what}</p><span className="meta">{h.who === 'khabo team' ? t('khabo team', 'খাবো টিম') : h.who} · {ago(h.at)}</span></div>)}
+          {x.hist.map((h, k) => <div key={k}><i /><p>{i.bn ? h.bn || h.what : h.what}</p><span className="meta">{h.who === 'Khaoya team' ? t('Khaoya team', 'খাওয়া টিম') : h.who} · {ago(h.at)}</span></div>)}
         </div>
       ) : null}
     </Drawer>

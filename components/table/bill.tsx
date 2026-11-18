@@ -49,7 +49,7 @@ export function TableBill({ r, mini, x, open, onClose, table, theme }: { r: Rest
   const ppl = (n: number) => set({ people: Math.max(1, Math.min(40, n)) });
   const text = () => {
     const rows = x.lines.map(l => `${i.L(l.d.name)} × ${i.N(l.q)} = ${i.tk(l.line)}`).join('\n');
-    return `${i.L(r.name)}${table ? ` · ${i.t('table_n', { n: i.dg(table) })}` : ''} (khabo)\n${rows}\n${i.t('total_all_in')}: ${i.tk(x.total)}\n${i.t('each_person')} (${i.N(x.people)}): ${i.tk(x.pp)}`;
+    return `${i.L(r.name)}${table ? ` · ${i.t('table_n', { n: i.dg(table) })}` : ''} (Khaoya)\n${rows}\n${i.t('total_all_in')}: ${i.tk(x.total)}\n${i.t('each_person')} (${i.N(x.people)}): ${i.tk(x.pp)}`;
   };
   const title = table ? fillW(i.L(W.tableBill), { n: i.dg(table) }) : i.t('bill_title');
   return (

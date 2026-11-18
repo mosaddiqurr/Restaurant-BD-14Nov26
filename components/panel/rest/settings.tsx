@@ -62,7 +62,7 @@ export function AdminSettings() {
   /* ---------- visibility and labels ---------- */
   const setLive = (on: boolean) => {
     const nr = clone(r); if (on) delete nr.hidden; else nr.hidden = true;
-    saved(nr, on ? msg('Put the page live', 'পেজটি চালু করেছেন') : msg('Hid the page from khabo', 'পেজটি খাবো থেকে লুকিয়েছেন'), on ? msg('The page is live.', 'পেজটি চালু হয়েছে।') : msg('The page is hidden from khabo.', 'পেজটি খাবো থেকে লুকানো হয়েছে।'));
+    saved(nr, on ? msg('Put the page live', 'পেজটি চালু করেছেন') : msg('Hid the page from Khaoya', 'পেজটি খাওয়া থেকে লুকিয়েছেন'), on ? msg('The page is live.', 'পেজটি চালু হয়েছে।') : msg('The page is hidden from Khaoya.', 'পেজটি খাওয়া থেকে লুকানো হয়েছে।'));
   };
   const setFlag = (k: 'featured' | 'founding', on: boolean) => {
     const nr = clone(r); if (on) nr[k] = true; else delete nr[k];
@@ -135,7 +135,7 @@ export function AdminSettings() {
 
   /* ---------- delete ---------- */
   const del = async () => {
-    if (!await confirm({ title: t(`Delete ${r.name.en}?`, `${r.name.bn} মুছবেন?`), text: t('The page, menu and deals leave khabo and its accounts are turned off. This cannot be undone.', 'পেজ, মেনু আর অফার খাবো থেকে চলে যাবে, আর এর অ্যাকাউন্টগুলো বন্ধ হবে। এটা ফেরানো যাবে না।'), ok: t('Delete restaurant', 'রেস্টুরেন্ট মুছুন'), danger: true })) return;
+    if (!await confirm({ title: t(`Delete ${r.name.en}?`, `${r.name.bn} মুছবেন?`), text: t('The page, menu and deals leave Khaoya and its accounts are turned off. This cannot be undone.', 'পেজ, মেনু আর অফার খাওয়া থেকে চলে যাবে, আর এর অ্যাকাউন্টগুলো বন্ধ হবে। এটা ফেরানো যাবে না।'), ok: t('Delete restaurant', 'রেস্টুরেন্ট মুছুন'), danger: true })) return;
     const name = r.name;
     if (!deleteR(r.id)) return;
     toast.success(t(`${name.en} was deleted.`, `${name.bn} মুছে ফেলা হয়েছে।`));
@@ -144,13 +144,13 @@ export function AdminSettings() {
 
   const st = BILL_STATUS[b.status];
   return (
-    <Page title={t('Admin settings', 'অ্যাডমিন সেটিংস')} sub={t('Only the khabo team sees this tab. Owners cannot change anything here.', 'এই ট্যাব শুধু খাবো টিম দেখে। মালিকেরা এখানে কিছু বদলাতে পারেন না।')}
+    <Page title={t('Admin settings', 'অ্যাডমিন সেটিংস')} sub={t('Only the Khaoya team sees this tab. Owners cannot change anything here.', 'এই ট্যাব শুধু খাওয়া টিম দেখে। মালিকেরা এখানে কিছু বদলাতে পারেন না।')}
       acts={<span className="badge ind">{i.L(levelName(me))}</span>}>
       <div className="grid g2" style={{ alignItems: 'start' }}>
         {admin ? (
           <Card title={t('Visibility and labels', 'দেখা যাবে কি না, আর লেবেল')}>
             <div className="card-b" style={{ paddingTop: 4, paddingBottom: 4 }}>
-              <SwRow label={t('Live on khabo', 'খাবোতে চালু')} hint={t('Off hides the page, its dishes and its deals from the whole site', 'বন্ধ করলে পেজ, এর খাবার আর অফার পুরো সাইট থেকে লুকানো থাকে')} on={!r.hidden} onChange={setLive} />
+              <SwRow label={t('Live on Khaoya', 'খাওয়া-তে চালু')} hint={t('Off hides the page, its dishes and its deals from the whole site', 'বন্ধ করলে পেজ, এর খাবার আর অফার পুরো সাইট থেকে লুকানো থাকে')} on={!r.hidden} onChange={setLive} />
               <SwRow label={t('Featured', 'ফিচার্ড')} hint={t('Shown first in lists, with a “Featured” label', 'তালিকায় আগে দেখায়, “ফিচার্ড” লেবেলসহ')} on={!!r.featured} onChange={v => setFlag('featured', v)} />
               <SwRow label={t('Founding Partner', 'ফাউন্ডিং পার্টনার')} hint={t('One of the first 50 restaurants', 'প্রথম ৫০টি রেস্টুরেন্টের একটি')} on={!!r.founding} onChange={v => setFlag('founding', v)} />
               {head ? <SwRow label={t('Deal of the week', 'সপ্তাহের অফার')} hint={t(`Puts “${head.en}” on the home page. Only one restaurant at a time.`, `“${head.bn || head.en}” হোম পেজে দেখায়। একবারে শুধু একটি রেস্টুরেন্ট।`)} on={!!head.week} onChange={setWeek} /> : null}
@@ -180,7 +180,7 @@ export function AdminSettings() {
                   <img className="thumb" src={thumbOf(x)} alt="" />
                   <div style={{ display: 'grid', gap: 4, minWidth: 0 }}>
                     <RoomName room={x} onSave={(en, bn) => renameRoom(k, en, bn)} />
-                    <span className="meta">{x.img ? t('Uploaded here', 'এখানে আপলোড করা') : t('Shot by the khabo team', 'খাবো টিমের তোলা')}{x.day ? t(' · day and night', ' · দিন আর রাত') : ''}</span>
+                    <span className="meta">{x.img ? t('Uploaded here', 'এখানে আপলোড করা') : t('Shot by the Khaoya team', 'খাওয়া টিমের তোলা')}{x.day ? t(' · day and night', ' · দিন আর রাত') : ''}</span>
                   </div>
                   <span className="ro-b">
                     <button type="button" className="ibtn sm" disabled={!k} onClick={() => moveRoom(k, -1)} aria-label={t('Move up', 'ওপরে নিন')}><Ico n="caret-up" sm /></button>
@@ -208,7 +208,7 @@ export function AdminSettings() {
               ) : <p className="meta">{t('No film. The page opens with its cover photos.', 'ভিডিও নেই। পেজটি কভার ছবি দিয়ে খোলে।')}</p>}
               <div className="field"><label htmlFor="st-film">{t('Film link (MP4)', 'ভিডিওর লিংক (MP4)')}</label>
                 <input className="inp" id="st-film" value={film} onChange={e => setFilm(e.target.value)} placeholder="https://.../film.mp4" autoCapitalize="off" spellCheck={false} />
-                <span className="hint">{t('A short silent film, 10 to 30 seconds. Use a link from khabo’s video storage.', '১০ থেকে ৩০ সেকেন্ডের ছোট, শব্দহীন ভিডিও। খাবোর ভিডিও স্টোরেজের লিংক দিন।')}</span></div>
+                <span className="hint">{t('A short silent film, 10 to 30 seconds. Use a link from Khaoya’s video storage.', '১০ থেকে ৩০ সেকেন্ডের ছোট, শব্দহীন ভিডিও। খাওয়া-র ভিডিও স্টোরেজের লিংক দিন।')}</span></div>
               <button type="button" className="btn sm" style={{ justifySelf: 'start' }} onClick={saveFilm}>{t('Use this film', 'এই ভিডিও নিন')}</button>
             </div>
           </Card>
@@ -235,7 +235,7 @@ export function AdminSettings() {
         {can('rest.delete', me) ? (
           <Card title={t('Delete restaurant', 'রেস্টুরেন্ট মুছুন')} red>
             <div className="card-b stack">
-              <p className="meta">{t('Removes the page, menu and deals from khabo and turns off its sign-in accounts. This cannot be undone.', 'খাবো থেকে পেজ, মেনু আর অফার সরিয়ে দেয় আর এর সাইন-ইন অ্যাকাউন্ট বন্ধ করে। এটা ফেরানো যাবে না।')}</p>
+              <p className="meta">{t('Removes the page, menu and deals from Khaoya and turns off its sign-in accounts. This cannot be undone.', 'খাওয়া থেকে পেজ, মেনু আর অফার সরিয়ে দেয় আর এর সাইন-ইন অ্যাকাউন্ট বন্ধ করে। এটা ফেরানো যাবে না।')}</p>
               <button type="button" className="btn danger" style={{ justifySelf: 'start' }} onClick={del}>{t(`Delete ${r.name.en}`, `${r.name.bn} মুছুন`)}</button>
             </div>
           </Card>

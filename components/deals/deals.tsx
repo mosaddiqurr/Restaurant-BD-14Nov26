@@ -1,6 +1,6 @@
 'use client';
 /* /deals: the slider of Premium partners' deals, then every live deal. Premium first, then Pro, then Starter;
-   the khabo team's order inside each plan comes from this browser's saved deal order.
+   the Khaoya team's order inside each plan comes from this browser's saved deal order.
    Ported from archive/prototype/app/app.js (Deals). */
 import { useMemo, useState } from 'react';
 import { AnimatePresence, m } from 'motion/react';

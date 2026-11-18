@@ -54,7 +54,7 @@ export function Activity() {
       if ((f.who === 'team' && x.role !== 'admin') || (f.who === 'rest' && x.role !== 'restaurant')) return false;
       if (place && (!r || (f.city !== 'all' && r.city !== f.city) || (f.area !== 'all' && r.area !== f.area) || (f.cu !== 'all' && !(r.cuisines || []).includes(f.cu)))) return false;
       if (lim && x.at < lim) return false;
-      if (q && !`${x.who} ${x.what} ${x.bn || ''} ${r ? `${r.name.en} ${r.name.bn} ${areaOf(r.area).en} ${areaOf(r.area).bn}` : 'khabo খাবো'}`.toLowerCase().includes(q)) return false;
+      if (q && !`${x.who} ${x.what} ${x.bn || ''} ${r ? `${r.name.en} ${r.name.bn} ${areaOf(r.area).en} ${areaOf(r.area).bn}` : 'Khaoya খাওয়া'}`.toLowerCase().includes(q)) return false;
       return true;
     });
   }, [all, db, f, now]);
@@ -82,7 +82,7 @@ export function Activity() {
     const part = h < 4 ? 'রাত' : h < 12 ? 'সকাল' : h < 16 ? 'দুপুর' : h < 18 ? 'বিকেল' : h < 20 ? 'সন্ধ্যা' : 'রাত';
     return `${part} ${i.dg(`${h12}:${m}`)}`;
   };
-  const grp = (x: Log) => f.sort === 'rest' ? (rn(x) === '~khabo' ? t('khabo, no restaurant', 'খাবো, কোনো রেস্টুরেন্ট নয়') : rn(x)) : f.sort === 'who' ? x.who : dayLabel(x.at);
+  const grp = (x: Log) => f.sort === 'rest' ? (rn(x) === '~khabo' ? t('Khaoya, no restaurant', 'খাওয়া, কোনো রেস্টুরেন্ট নয়') : rn(x)) : f.sort === 'who' ? x.who : dayLabel(x.at);
   const reset = async () => {
     if (!await confirm({ title: t('Reset all demo data?', 'সব ডেমো ডেটা আগের মতো করবেন?'), text: t('Every change made in the panels is undone: menus, photos, users, reviews and billing go back to the start. Everyone is signed out.', 'প্যানেলে করা সব বদল মুছে যাবে: মেনু, ছবি, ব্যবহারকারী, রিভিউ আর বিল শুরুর মতো হবে। সবাই সাইন আউট হবেন।'), ok: t('Reset everything', 'সব আগের মতো করুন'), danger: true })) return;
     if (resetAll()) { signOut(); location.reload(); }
@@ -97,7 +97,7 @@ export function Activity() {
       <div className="ac-it" key={k}>
         <Av name={x.who} sm style={x.role === 'restaurant' && r ? { background: r.theme.deep, color: r.theme.accent } : undefined} />
         <div className="ac-m">
-          <div className="ac-who"><b><Hl s={x.who} q={f.q} /></b><span className={clsx('ac-role', x.role === 'admin' && 'team')}>{x.role === 'admin' ? t('khabo team', 'খাবো টিম') : x.role === 'restaurant' ? t('Restaurant', 'রেস্টুরেন্ট') : t('System', 'সিস্টেম')}</span></div>
+          <div className="ac-who"><b><Hl s={x.who} q={f.q} /></b><span className={clsx('ac-role', x.role === 'admin' && 'team')}>{x.role === 'admin' ? t('Khaoya team', 'খাওয়া টিম') : x.role === 'restaurant' ? t('Restaurant', 'রেস্টুরেন্ট') : t('System', 'সিস্টেম')}</span></div>
           <p><Hl s={logWhat(i.bn, x)} q={f.q} /></p>
           <div className="ac-tags">
             {r ? <button type="button" className="ac-r" onClick={() => up({ rid: r.id })} title={t(`Show only ${r.name.en}`, `শুধু ${r.name.bn} দেখান`)}><MonoR r={r} /><Hl s={i.L(r.name)} q={f.q} /><span className="meta">{i.L(areaOf(r.area))}</span></button> : null}
@@ -118,7 +118,7 @@ export function Activity() {
             <input className="inp" type="search" placeholder={t('Search what changed, who, or a restaurant', 'কী বদলেছে, কে, বা কোন রেস্টুরেন্ট')} value={qIn} onChange={e => setQIn(e.target.value)} /></label>
           <select className="sel" value={f.rid} onChange={e => up({ rid: e.target.value })} aria-label={t('Restaurant', 'রেস্টুরেন্ট')}>
             <option value="all">{t('All restaurants', 'সব রেস্টুরেন্ট')}</option>
-            <option value="none">{t('khabo only (no restaurant)', 'শুধু খাবো (কোনো রেস্টুরেন্ট নয়)')}</option>
+            <option value="none">{t('Khaoya only (no restaurant)', 'শুধু খাওয়া (কোনো রেস্টুরেন্ট নয়)')}</option>
             {rests.map(r => <option key={r.id} value={r.id}>{i.L(r.name)}</option>)}
           </select>
           <select className="sel" value={f.sort} onChange={e => up({ sort: e.target.value })} aria-label={t('Sort', 'সাজান')}>
@@ -128,7 +128,7 @@ export function Activity() {
         </div>
         <button type="button" className="btn sm ac-ftog" aria-expanded={open} onClick={() => setOpen(o => !o)}><Ico n="sliders-horizontal" sm /><span>{open ? t('Fewer filters', 'কম ফিল্টার') : t('More filters', 'আরও ফিল্টার')}</span></button>
         <div className="ac-row2">
-          <div className="ac-g"><span className="lbl">{t('Who', 'কে')}</span><Seg2 v={f.who} set={v => up({ who: v })} opts={[['all', t('Everyone', 'সবাই')], ['team', t('khabo team', 'খাবো টিম')], ['rest', t('Restaurants', 'রেস্টুরেন্ট')]]} /></div>
+          <div className="ac-g"><span className="lbl">{t('Who', 'কে')}</span><Seg2 v={f.who} set={v => up({ who: v })} opts={[['all', t('Everyone', 'সবাই')], ['team', t('Khaoya team', 'খাওয়া টিম')], ['rest', t('Restaurants', 'রেস্টুরেন্ট')]]} /></div>
           <div className="ac-g"><span className="lbl">{t('When', 'কখন')}</span><Seg2 v={f.when} set={v => up({ when: v })} opts={[['all', t('Any time', 'যেকোনো সময়')], ['today', t('Today', 'আজ')], ['d7', t('7 days', '৭ দিন')], ['d30', t('30 days', '৩০ দিন')]]} /></div>
           <div className="ac-g"><span className="lbl">{t('City', 'শহর')}</span><Seg2 v={f.city} set={v => up({ city: v, area: v !== 'all' && f.area !== 'all' && areaOf(f.area).city !== v ? 'all' : f.area })} opts={[['all', t('All', 'সব')], ...Object.keys(C.cities).map(k => [k, i.L(C.cities[k])] as [string, string])]} /></div>
           <div className="ac-g"><span className="lbl">{t('Area', 'এলাকা')}</span>

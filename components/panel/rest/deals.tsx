@@ -1,7 +1,7 @@
 'use client';
 /* Deals: as many offers as the owner likes, each with a first and last day; they show and hide by themselves.
    The list order is the order diners see. Ported from archive/prototype/panel/rest.js (V.deals, dealDrawer).
-   On the khabo Deals page, Premium restaurants' deals still come first, then Pro, then Starter. */
+   On the Khaoya Deals page, Premium restaurants' deals still come first, then Pro, then Starter. */
 import { useState, type CSSProperties } from 'react';
 import clsx from 'clsx';
 import { toast } from 'sonner';
@@ -25,7 +25,7 @@ export const saveOf = (price: number, was: number) => (was > price && price > 0 
 function SaveLine({ price, was }: { price: number; was: number }) {
   const i = useI(), t = useT();
   const sv = saveOf(price, was);
-  if (!price || !was) return <p className="full dsave">{t('Add the usual price and khabo works out the saving for you.', 'সাধারণ দাম দিন, খাবো নিজেই হিসাব করবে কত বাঁচছে।')}</p>;
+  if (!price || !was) return <p className="full dsave">{t('Add the usual price and Khaoya works out the saving for you.', 'সাধারণ দাম দিন, খাওয়া নিজেই হিসাব করবে কত বাঁচছে।')}</p>;
   if (!sv) return <p className="full dsave bad"><Ico n="warning" sm />{t('The usual price should be higher than the deal price.', 'সাধারণ দাম অফারের দামের চেয়ে বেশি হতে হবে।')}</p>;
   return (
     <p className="full dsave ok"><Ico n="tag" sm />
@@ -66,7 +66,7 @@ export function Deals() {
   const tog = (k: number) => {
     const nr = clone(r), d = nr.deals![k];
     if (d.off) delete d.off; else d.off = true;
-    save(nr, `${d.off ? 'Paused' : 'Showed'} deal: ${d.en}`, `অফার ${d.off ? 'থামিয়েছেন' : 'চালু করেছেন'}: ${d.bn}`, d.off ? ['Deal paused.', 'অফার থামানো হয়েছে।'] : ['Deal is live on khabo.', 'অফারটি খাবোতে দেখা যাচ্ছে।']);
+    save(nr, `${d.off ? 'Paused' : 'Showed'} deal: ${d.en}`, `অফার ${d.off ? 'থামিয়েছেন' : 'চালু করেছেন'}: ${d.bn}`, d.off ? ['Deal paused.', 'অফার থামানো হয়েছে।'] : ['Deal is live on Khaoya.', 'অফারটি খাওয়া-তে দেখা যাচ্ছে।']);
   };
   const move = (k: number, j: number) => {
     const nr = clone(r), list = nr.deals!; const [d] = list.splice(k, 1); list.splice(j, 0, d);
@@ -106,7 +106,7 @@ export function Deals() {
           })}
         </div>
       </> : (
-        <div className="card"><Empty icon="tag" title={t('No deals yet', 'এখনো কোনো অফার নেই')}>{t('A deal shows on your page and on the khabo Deals page.', 'অফার আপনার পেজে আর খাবোর অফার পেজে দেখায়।')}
+        <div className="card"><Empty icon="tag" title={t('No deals yet', 'এখনো কোনো অফার নেই')}>{t('A deal shows on your page and on the Khaoya Deals page.', 'অফার আপনার পেজে আর খাওয়া-র অফার পেজে দেখায়।')}
           <div><button className="btn pri" style={{ marginTop: 12 }} onClick={() => setEdit({ d: null })}><Ico n="plus" sm />{t('Add your first deal', 'প্রথম অফার যোগ করুন')}</button></div></Empty></div>
       )}
       <DealEdit open={edit} onClose={() => setEdit(null)} />
@@ -144,7 +144,7 @@ function DealEdit({ open, onClose }: { open: { d: Deal | null } | null; onClose:
     const nr = clone(r); nr.deals = nr.deals || [];
     if (isNew) nr.deals.push(o); else nr.deals = nr.deals.map(z => (z.id === d!.id ? o : z));
     if (saved(nr, { en: `${isNew ? 'Added' : 'Updated'} deal: ${o.en}`, bn: `অফার ${isNew ? 'যোগ করেছেন' : 'বদলেছেন'}: ${o.bn}` },
-      o.off ? { en: 'Deal saved and paused.', bn: 'অফার রাখা হয়েছে, থামানো আছে।' } : { en: 'Deal is live on khabo.', bn: 'অফারটি খাবোতে দেখা যাচ্ছে।' })) onClose();
+      o.off ? { en: 'Deal saved and paused.', bn: 'অফার রাখা হয়েছে, থামানো আছে।' } : { en: 'Deal is live on Khaoya.', bn: 'অফারটি খাওয়া-তে দেখা যাচ্ছে।' })) onClose();
   };
   const remove = async () => {
     if (!d || !await confirm({ title: t('Delete this deal?', 'এই অফার মুছবেন?'), text: t('It disappears from your page and the Deals page.', 'এটা আপনার পেজ আর অফার পেজ থেকে চলে যাবে।'), ok: t('Delete', 'মুছুন'), danger: true })) return;
@@ -168,7 +168,7 @@ function DealEdit({ open, onClose }: { open: { d: Deal | null } | null; onClose:
         <TextF full label={t('What is included (English)', 'যা থাকছে (ইংরেজি)')} value={f.desc} onChange={up('desc')} />
         <TextF full bn label={t('What is included (Bangla)', 'যা থাকছে (বাংলা)')} value={f.descbn} onChange={up('descbn')} />
         <SelF full label={t('Kind of deal', 'অফারের ধরন')} value={f.tag} onChange={up('tag')} opts={Object.entries(C.dealTags).map(([k, v]) => [k, i.L(v)])}
-          hint={d?.week ? t('This one is the khabo Deal of the week, so it shows as that.', 'এটি খাবোর সপ্তাহের অফার, তাই সেভাবেই দেখায়।') : t('Shown on the gold seal and above the price.', 'সোনালি সিলে আর দামের ওপরে দেখায়।')} />
+          hint={d?.week ? t('This one is the Khaoya Deal of the week, so it shows as that.', 'এটি খাওয়া-র সপ্তাহের অফার, তাই সেভাবেই দেখায়।') : t('Shown on the gold seal and above the price.', 'সোনালি সিলে আর দামের ওপরে দেখায়।')} />
         <TextF type="date" label={t('First day', 'প্রথম দিন')} value={f.from} onChange={up('from')} hint={t('Leave empty to start now', 'এখনই শুরু করতে খালি রাখুন')} />
         <TextF type="date" label={t('Last day', 'শেষ দিন')} value={f.to} onChange={up('to')} hint={t('Leave empty to keep it running. After this day it hides by itself.', 'চালু রাখতে খালি রাখুন। এই দিনের পরে নিজে থেকেই লুকিয়ে যাবে।')} />
         <TextF label={t('Days and times (English)', 'দিন আর সময় (ইংরেজি)')} value={f.when} onChange={up('when')} ph="Sunday to Thursday, 12pm to 4pm" />
@@ -178,7 +178,7 @@ function DealEdit({ open, onClose }: { open: { d: Deal | null } | null; onClose:
         {/* the saving is worked out from the two prices, never typed in, so it is always right */}
         <SaveLine price={Number(f.price) || 0} was={Number(f.was) || 0} />
       </div>
-      <div className="card" style={{ padding: '0 16px' }}><SwRow label={t('Show this deal on khabo', 'এই অফার খাবোতে দেখান')} on={f.on} onChange={up('on')} /></div>
+      <div className="card" style={{ padding: '0 16px' }}><SwRow label={t('Show this deal on Khaoya', 'এই অফার খাওয়া-তে দেখান')} on={f.on} onChange={up('on')} /></div>
       <p className="dw-sub">{t('Preview', 'যেমন দেখাবে')}</p>
       {x.en ? <DealLook r={r} x={x} /> : <div className="card"><Empty icon="tag" title={t('Your deal', 'আপনার অফার')}>{t('Fill in the offer to see it.', 'দেখতে অফারের নাম লিখুন।')}</Empty></div>}
     </Drawer>

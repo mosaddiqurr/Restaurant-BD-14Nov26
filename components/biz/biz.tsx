@@ -1,6 +1,6 @@
 'use client';
 /* /business, "For restaurants": what a restaurant gets, how it goes live in about a week, the plans and the
-   lead form. Restaurants are khabo's only paying customers; diners never pay.
+   lead form. Restaurants are Khaoya's only paying customers; diners never pay.
    Ported from archive/prototype/app/app.js (Biz, BPLANS, Faq). */
 import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import Link from 'next/link';
@@ -113,7 +113,7 @@ export function BizView({ sh, picks }: { sh: BizShow; picks: BizPick[] }) {
         <Rise as="h2" className="h2">{i.t('vs_title')}</Rise>
         <div className="vs">
           <Rise className="vs-c old"><h3>{i.t('vs_old')}</h3><ul>{['vs_o1', 'vs_o2', 'vs_o3', 'vs_o4'].map(k => <li key={k}><I n="x-circle" />{i.t(k)}</li>)}</ul></Rise>
-          <Rise d={1} className="vs-c new"><h3>{i.t('vs_new', { b: 'khabo' })}</h3><ul>{['vs_n1', 'vs_n2', 'vs_n3', 'vs_n4'].map(k => <li key={k}><I n="check-circle" f />{i.t(k)}</li>)}</ul></Rise>
+          <Rise d={1} className="vs-c new"><h3>{i.t('vs_new', { b: 'Khaoya' })}</h3><ul>{['vs_n1', 'vs_n2', 'vs_n3', 'vs_n4'].map(k => <li key={k}><I n="check-circle" f />{i.t(k)}</li>)}</ul></Rise>
         </div>
       </section>
 

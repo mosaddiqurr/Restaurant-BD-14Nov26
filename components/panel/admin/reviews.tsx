@@ -31,14 +31,14 @@ export function AdminReviews() {
   const hide = (v: RV) => {
     const was = !!v.hidden;
     if (setRev(v, { hidden: !was, flagged: false }, was ? { en: `Showed the review by ${v.who}`, bn: `${v.who}-এর রিভিউ আবার দেখানো হয়েছে` } : { en: `Hid the review by ${v.who}`, bn: `${v.who}-এর রিভিউ লুকিয়েছেন` }))
-      toast.success(was ? t('Review is visible again.', 'রিভিউটি আবার দেখা যাচ্ছে।') : t('Review hidden from khabo.', 'রিভিউটি খাবো থেকে লুকানো হয়েছে।'));
+      toast.success(was ? t('Review is visible again.', 'রিভিউটি আবার দেখা যাচ্ছে।') : t('Review hidden from Khaoya.', 'রিভিউটি খাওয়া থেকে লুকানো হয়েছে।'));
   };
   const clear = (v: RV) => {
     if (setRev(v, { flagged: false }, { en: `Cleared the report on the review by ${v.who}`, bn: `${v.who}-এর রিভিউয়ের অভিযোগ মুছেছেন` }))
       toast.success(t('Report cleared. The review stays.', 'অভিযোগ মোছা হয়েছে। রিভিউটি থাকছে।'));
   };
   return (
-    <Page title={t('Reviews', 'রিভিউ')} sub={t('Every review on khabo. Hide reviews that break the rules; owners reply from their panel.', 'খাবোর সব রিভিউ। নিয়ম ভাঙা রিভিউ লুকান; মালিকেরা নিজের প্যানেল থেকে উত্তর দেন।')}>
+    <Page title={t('Reviews', 'রিভিউ')} sub={t('Every review on Khaoya. Hide reviews that break the rules; owners reply from their panel.', 'খাওয়া-র সব রিভিউ। নিয়ম ভাঙা রিভিউ লুকান; মালিকেরা নিজের প্যানেল থেকে উত্তর দেন।')}>
       <div className="card">
         <div className="toolbar">
           <div className="fchips" role="radiogroup" aria-label={t('Show', 'দেখান')}>
