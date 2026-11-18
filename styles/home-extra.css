@@ -335,3 +335,7 @@
 @media (max-width: 480px) { .ai-new { width: 36px; padding: 0; justify-content: center; } .ai-new span { display: none; } }
 /* phones: Send is just the arrow, so the question gets the width */
 @media (max-width: 480px) { .ai-form .ai-send { width: 44px; padding: 0; justify-content: center; } .ai-form .ai-send-t { display: none; } }
+/* mic language switch: বাং or EN, next to the mic */
+.ai-hear { width: 36px; height: 44px; flex: none; border-radius: 10px; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: var(--ink-2); }
+.ai-hear:hover { color: var(--ink); background: var(--card, transparent); }
+.ai-form .ai-hear + .ai-mic { margin-left: -8px; }

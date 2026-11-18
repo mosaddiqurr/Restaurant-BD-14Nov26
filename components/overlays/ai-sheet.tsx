@@ -26,6 +26,8 @@ const W = {
   again: { en: 'Ask this again', bn: 'আবার জিজ্ঞেস করুন' },
   mic: { en: 'Speak your question', bn: 'বলে জিজ্ঞেস করুন' },
   stop: { en: 'Stop listening', bn: 'শোনা বন্ধ করুন' },
+  hearBn: { en: 'Voice typing listens for Bangla. Tap for English.', bn: 'মাইক বাংলা শুনছে। ইংরেজির জন্য চাপুন।' },
+  hearEn: { en: 'Voice typing listens for English. Tap for Bangla.', bn: 'মাইক ইংরেজি শুনছে। বাংলার জন্য চাপুন।' },
   listenTap: { en: 'Listening… tap the mic again to stop', bn: 'শুনছি… থামাতে আবার মাইকে চাপুন' },
 };
 /** why voice typing could not start, in words a diner understands */
@@ -36,6 +38,12 @@ const MIC_ERR = {
 };
 type MicErr = keyof typeof MIC_ERR;
 const KEY = 'khaoya-mama-chat';
+/* which language the mic listens for. Most people speak Bangla even on the English site, so Bangla is the start;
+   the choice is remembered on this device. It is free: the browser's own voice typing does the listening. */
+const HEAR_KEY = 'khaoya-mic-lang';
+type Hear = 'bn' | 'en';
+const HEAR_CODE: Record<Hear, string> = { bn: 'bn-BD', en: 'en-IN' };
+const loadHear = (): Hear => { try { return localStorage.getItem(HEAR_KEY) === 'en' ? 'en' : 'bn'; } catch { return 'bn'; } };
 /** the chat saved for this visit; error lines are not kept */
 const load = (): Msg[] => { try { const v = JSON.parse(sessionStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
 const save = (m: Msg[]) => { try { sessionStorage.setItem(KEY, JSON.stringify(m.filter(x => !('err' in x)).slice(-40))); } catch { /* private window: the chat is just not kept */ } };
@@ -68,6 +76,13 @@ export function AiSheet() {
   }, [q]);
   /* voice typing state that must survive the browser's own restarts: does the diner still want it on, the words
      already final, and how many restarts in a row heard nothing (so a broken mic cannot loop forever) */
+  const [hear, setHear] = useState<Hear>(loadHear), hearRef = useRef(hear);
+  const flipHear = () => {
+    const n: Hear = hear === 'bn' ? 'en' : 'bn';
+    setHear(n); hearRef.current = n;
+    try { localStorage.setItem(HEAR_KEY, n); } catch { /* not kept, fine */ }
+    rec.current?.stop(); // while listening: the next session starts in the new language
+  };
   const want = useRef(false), said = useRef(''), fails = useRef(0);
   useEffect(() => () => { want.current = false; rec.current?.abort(); }, []);
   useEffect(() => { save(msgs); }, [msgs]);
@@ -146,7 +161,7 @@ export function AiSheet() {
     const join = (...p: string[]) => p.map(x => x.trim()).filter(Boolean).join(' ');
     const run = () => {
       const r = new R();
-      r.lang = i.lang === 'bn' ? 'bn-BD' : 'en-US';
+      r.lang = HEAR_CODE[hearRef.current];
       /* Android Chrome repeats words in continuous mode, so there each session is one phrase and we restart */
       r.interimResults = true; r.continuous = !/Android/i.test(navigator.userAgent);
       const began = Date.now();
@@ -247,6 +262,7 @@ export function AiSheet() {
           <form className="ai-form" onSubmit={ev => { ev.preventDefault(); ask(q); }}>
             <textarea ref={input} rows={1} value={q} onChange={ev => setQ(ev.target.value)} placeholder={i.t('ai_ph')} aria-label={i.t('ask_title')} enterKeyHint="send" autoComplete="off"
               onKeyDown={ev => { if (ev.key === 'Enter' && !ev.shiftKey && !ev.nativeEvent.isComposing) { ev.preventDefault(); if (!busy) ask(q); } }} />
+            {canMic ? <button type="button" className="ai-hear" onClick={flipHear} aria-label={i.L(hear === 'bn' ? W.hearBn : W.hearEn)} title={i.L(hear === 'bn' ? W.hearBn : W.hearEn)}>{hear === 'bn' ? 'বাং' : 'EN'}</button> : null}
             {canMic ? <button type="button" className={mic ? 'ai-mic on' : 'ai-mic'} onClick={listen} aria-pressed={mic} aria-label={i.L(mic ? W.stop : W.mic)} title={i.L(mic ? W.stop : W.mic)}><I n="microphone" f={mic} b={!mic} /></button> : null}
             <mo.button className="btn btn-pri ai-send" type="submit" aria-label={i.t('send')} disabled={!q.trim() || busy} whileTap={{ scale: 0.97 }}><I n="paper-plane-right" f /><span className="ai-send-t">{i.t('send')}</span></mo.button>
           </form>
