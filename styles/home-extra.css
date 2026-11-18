@@ -316,3 +316,20 @@
 .dd .dd-big b { display: block; font-size: 14.5px; }
 .dd .dd-big small { display: block; font-size: 12.5px; color: var(--ink-3); }
 .dd .dd-big:hover { background: var(--line); }
+
+/* Ask Mama: copy and ask-again under each message, New chat, microphone */
+.ai-turn { display: grid; gap: 2px; }
+.ai-turn.mine { justify-self: end; justify-items: end; max-width: 86%; }
+.ai-turn.mine .me { max-width: 100%; }
+.ai-tools { display: flex; gap: 2px; }
+.ai-tools button { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: var(--ink-3); font-size: 16px; }
+.ai-tools button:hover { background: var(--sunk); color: var(--ink); }
+.ai-new { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 18px; background: var(--sunk); color: var(--ink); font-weight: 600; font-size: 14px; white-space: nowrap; }
+.ai-new:hover { color: var(--brand); }
+.ai-mic { width: 44px; height: 44px; flex: none; border-radius: 10px; display: grid; place-items: center; color: var(--ink-2); font-size: 20px; }
+.ai-mic:hover { color: var(--ink); }
+.ai-mic.on { background: var(--gold); color: var(--on-gold); }
+.ai-mic-note { margin: 0 16px 8px; font-size: 14px; color: var(--ink-2); }
+.ai-mic-note.bad { color: var(--bad); }
+.ai-body .bot, .ai-body .me { user-select: text; -webkit-user-select: text; }
+@media (max-width: 480px) { .ai-new { width: 36px; padding: 0; justify-content: center; } .ai-new span { display: none; } }
