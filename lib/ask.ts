@@ -26,7 +26,10 @@ export type AskQuery = {
 
 /** what the person asked for: how many people, budget, area or city, kind of dish, and a few wishes */
 export function parseQ(q0: string): AskQuery {
-  const q = toAscii(q0).toLowerCase();
+  /* "2 hajar", "2.5k", "২ হাজার" = 2000 / 2500; "5 sho", "৫ শো" = 500 */
+  const q = toAscii(q0).toLowerCase()
+    .replace(/(\d+(?:\.\d+)?)\s*(?:hajar|hazar|haj|k|হাজার)(?![a-z])/g, (_, n) => String(Math.round(+n * 1000)) + ' taka')
+    .replace(/(\d+)\s*(?:sho|shoo|shot|শো|শ)(?![a-z])/g, (_, n) => String(+n * 100) + ' taka');
   const p: AskQuery = { people: 0, budget: 0, area: null, city: null, type: null, family: false, rooftop: false, open: false, late: false };
   for (const m of q.matchAll(/(\d[\d,]*)\s*(taka|tk|টাকা|৳)?/g)) {
     const v = +m[1].replace(/,/g, '');

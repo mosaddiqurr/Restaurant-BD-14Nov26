@@ -4,7 +4,7 @@
    which place you are looking at. If no language model is free, the built-in planner (lib/ask.ts) answers. */
 import 'server-only';
 import { C, areaOf, dhakaAt, isOpen, liveDealsOf, toMini } from '@/lib/khabo';
-import { answer, meal, type AskAnswer, type AskCard, type AskRest, type PlanLine } from '@/lib/ask';
+import { answer, meal, parseQ, type AskAnswer, type AskCard, type AskRest, type PlanLine } from '@/lib/ask';
 import type { Lang, Restaurant } from '@/lib/data/types';
 import { askModels, type Turn } from './llm';
 import { BANGLISH_WORDS, DICTIONARY } from './words';
@@ -62,6 +62,7 @@ RULES
 4. Prices: write them like ${tk(420)}. A dish price is the menu price. Do not mention VAT or service unless you give a total for a group or the person asks about the bill.
 5. Respect every limit the person gives: budget (a budget with no group means per plate), area, city, kind of dish, spice, time of day (at night means open at night, check the hours), open now. Only recommend what fits. If nothing fits, say so plainly and name the closest option with its real price and place.
    Words that mean "except" or "other than" (chara, chhara, bade, baade, baad diye, ছাড়া, বাদে, বাদ দিয়ে, except, other than, without, besides, not) remove that thing: "kacchi chara ki ache" means dishes that are NOT kacchi.
+   Budgets: compare numbers carefully. A group total with VAT and service that is above the budget is NOT within it: say plainly it is over and by how much, or suggest a cheaper plate (for example a half portion) that fits. Never call a number above the budget "within" or "moddhe".
    A short follow-up keeps the place, area, budget and group from earlier messages unless the person changes them ("Bogura te kacchi" then "kacchi chara r ki" means other dishes in Bogura).
 6. Language: look only at the person's LAST message. Bangla script: answer in Bangla. English words: answer in English. Banglish (Bangla words in English letters, like "amra 4 jon"): answer in Banglish. This applies to refusals too. If unclear, use ${lang === 'bn' ? 'Bangla' : 'English'}.
 7. Style: warm, plain, short. One to four sentences. No markdown, no bullet lists, no emojis, no long dashes. The cards under your reply show each place, so you do not need to repeat every price.
@@ -72,7 +73,7 @@ WORDS PEOPLE USE (Banglish, Bangla and English; "=" gives the meaning, [x] is th
 ${DICTIONARY}
 
 NOW in Dhaka: ${dhakaNow(now)}
-${hint ? `\nPLANNER NOTE (correct sums from the menus, use them if they help): ${hint}\n` : ''}
+${hint ? `\nPLANNER NOTE (correct sums worked out from the menus; use these numbers, never add up a bill yourself): ${hint}\n` : ''}
 DATA
 ${data}`;
 }
@@ -111,7 +112,13 @@ export async function mama({ q, lang, rid, history = [] }: AskIn, all: Restauran
 
   const talk = speech(q, lang);
   const turns: Turn[] = [...history.slice(-6), { role: 'user', text: `${q}\n\n(Reply in ${SAY[talk]}.)` }];
-  const res = await askModels(system(lang, lines.join('\n'), here, plan.cards.length ? plan.text : '', now), turns, SCHEMA);
+  /* the sums, worked out here: models are not reliable at adding up a bill */
+  const p = parseQ(q);
+  const sums = plan.cards.flatMap(c => c.kind === 'plan'
+    ? [`${c.r.name.en}: ${c.people} people, ${c.lines.map(([d, k]) => `${k} x ${d.name.en} ${tk(d.price)}`).join(' + ')} = ${tk(c.total)} with VAT and service (${tk(c.pp)} each)${p.budget ? (c.total <= p.budget ? `, FITS the ${tk(p.budget)} budget` : `, OVER the ${tk(p.budget)} budget by ${tk(c.total - p.budget)}`) : ''}`]
+    : []);
+  const hint = plan.cards.length ? [plan.text, ...sums].join('\n') : '';
+  const res = await askModels(system(lang, lines.join('\n'), here, hint, now), turns, SCHEMA);
   if (!res) return plan;
   const o = res.json as Out;
   if (!o || typeof o.reply !== 'string' || !o.reply.trim()) return plan;
@@ -128,8 +135,12 @@ export async function mama({ q, lang, rid, history = [] }: AskIn, all: Restauran
   for (const id of o.restaurant_ids || []) {
     const r = byId.get(String(id));
     if (!r || cards.length >= MAX_CARDS || cards.some(c => c.kind !== 'dish' && c.r.id === r.id) || (here && r.id === here.id && cards.length)) continue;
-    const old = plan.cards.find(c => c.kind === 'plan' && c.r.id === r.id);
-    const m = !old && ppl ? meal(r, ppl) : null;
+    /* a meal plan card only when it fits the budget the person gave, so the card never disagrees with Mama */
+    const fits = (t: number) => !p.budget || t <= p.budget;
+    const old0 = plan.cards.find(c => c.kind === 'plan' && c.r.id === r.id);
+    const old = old0 && old0.kind === 'plan' && fits(old0.total) ? old0 : undefined;
+    const m1 = !old && ppl ? meal(r, ppl) : null;
+    const m = m1 && fits(m1.total) ? m1 : null;
     /* a dish from this place is already shown: no second card for the same restaurant (a meal plan still shows) */
     if (!old && !m && cards.some(c => c.kind === 'dish' && c.d.r === r.id)) continue;
     const ar: AskRest = { ...toMini(r), hero: r.hero[0] || null, ppl: r.ppl };
