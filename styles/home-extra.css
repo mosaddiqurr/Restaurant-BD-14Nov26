@@ -303,13 +303,6 @@
 }
 
 /* ---------- header drop-downs: sliding deals, every kind of dish ---------- */
-.dd .mg-deals { display: grid; gap: 10px; align-content: start; min-width: 0; }
-.mg-dx { display: grid; overflow: hidden; border-radius: 14px; }
-.mg-dw { grid-area: 1 / 1; min-width: 0; }
-.mg-dots { display: flex; gap: 6px; justify-content: center; }
-.dd .mg-dots button { width: 7px; height: 7px; padding: 0; border-radius: 99px; background: var(--line-2); transition: width .3s var(--ease), background .3s; }
-.dd .mg-dots button[aria-current="true"] { width: 20px; background: var(--hl); }
-.dd .mg-dots button:hover { background: var(--ink-3); }
 .dd .dd-all { color: var(--link); font-weight: 650; }
 .dd .dd-all i { color: currentColor; margin-left: auto; }
 .dd.dd-dish { grid-template-columns: minmax(0, 1fr) 220px; gap: 18px; width: min(860px, calc(100vw - 48px)); }

@@ -1,5 +1,5 @@
 'use client';
-/* One answer card from Ask khabo: a meal plan (tap to load it as your bill), a dish, or a restaurant.
+/* One answer card from Ask Mama: a meal plan (tap to load it as your bill), a dish, or a restaurant.
    Used by the home page demo and by the Ask Mama sheet. */
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -35,6 +35,12 @@ export function applyPlan(c: Extract<AskCard, { kind: 'plan' }>, i: I18n, go: (p
   setTimeout(() => S().set({ billOpen: r.id }), 900);
 }
 
+/** the rating, and "Featured" when the place pays to be shown first, so a diner can always tell */
+function Meta({ r }: { r: { rating: number; featured?: boolean } }) {
+  const i = useI();
+  return <span className="opt-meta"><I n="star" f cls="opt-star" />{i.N(r.rating)}{r.featured ? <> · <span className="opt-feat">{i.t('featured')}</span></> : null}</span>;
+}
+
 export function AiCard({ c }: { c: AskCard }) {
   const i = useI(), href = useHref(), router = useRouter();
   const set = useApp(s => s.set);
@@ -56,7 +62,7 @@ export function AiCard({ c }: { c: AskCard }) {
     return (
       <m.button className="opt-c" whileTap={{ scale: 0.97 }} onClick={() => { set({ ai: null }); openDish(r, c.d); }}>
         <Pic id={c.d.p} w={120} tone={r.theme} icon={C.types[c.d.type]?.i} sizes="52px" />
-        <span><b>{i.L(c.d.name)}</b><small>{i.L(r.name)}, {i.L(areaOf(r.area))}</small></span>
+        <span><b>{i.L(c.d.name)}</b><small>{i.L(r.name)}, {i.L(areaOf(r.area))}<Meta r={r} /></small></span>
         <span className="price-w"><Tk v={c.d.price} /><small>{i.L(c.d.por)}</small></span>
       </m.button>
     );
@@ -64,7 +70,7 @@ export function AiCard({ c }: { c: AskCard }) {
   return (
     <MLink className="opt-c" href={href('/r/' + c.r.id)} onClick={() => set({ ai: null })} whileTap={{ scale: 0.97 }}>
       <Pic id={c.r.hero} w={120} tone={c.r.theme} sizes="52px" />
-      <span><b>{i.L(c.r.name)}</b><small>{where(i, c.r)}</small></span>
+      <span><b>{i.L(c.r.name)}</b><small>{where(i, c.r)}<Meta r={c.r} /></small></span>
       <span className="price-w"><Tk v={c.r.ppl[0]} to={c.r.ppl[1]} /><small>{i.t('per_person')}</small></span>
     </MLink>
   );

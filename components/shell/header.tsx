@@ -114,26 +114,37 @@ const AREA_CAP = 8;
 /** the most kinds of dish listed under a cuisine */
 const TYPE_CAP = 5;
 
-/* the drop-down's deals, one at a time: they slide on by themselves every few seconds (not while the mouse is
-   on them, never with reduced motion), and the dots jump to any of them */
+/* the drop-down's deals, one at a time: they slide on by themselves every few seconds (paused while the mouse
+   is on them, never with reduced motion). Drag or swipe the card, scroll sideways on a trackpad, or tap a dot */
 function MegaDeals({ list, close }: { list: Nav['deals']; close: () => void }) {
   const i = useI(), href = useHref();
-  const [k, setK] = useState(0), [hold, setHold] = useState(false);
+  const [k, setK] = useState(0), [dir, setDir] = useState(1), [hold, setHold] = useState(false);
   const reduce = useReducedMotion();
   const n = list.length;
+  /* a drag must not also open the deal when the mouse is let go */
+  const dragged = useRef(false), wheelAt = useRef(0);
+  const go = (d: number) => { setDir(d); setK(x => (x + d + n) % n); };
   useEffect(() => {
     if (hold || reduce || n < 2) return;
-    const tm = setTimeout(() => setK(x => (x + 1) % n), 4200);
+    const tm = setTimeout(() => { setDir(1); setK(x => (x + 1) % n); }, 4200);
     return () => clearTimeout(tm);
   }, [k, hold, reduce, n]);
   if (!n) return null;
   const z = list[k % n];
   return (
     <div className="mg-deals" onMouseEnter={() => setHold(true)} onMouseLeave={() => setHold(false)}>
-      <div className="mg-dx">
-        <AnimatePresence initial={false} mode="popLayout">
-          <m.div key={z.k} className="mg-dw" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24, transition: { duration: 0.16 } }} transition={{ duration: 0.32, ease: EASE }}>
-            <Link className="mg-card" href={href('/r/' + z.rid) + '#deals'} onClick={close}>
+      <div className="mg-dx" onWheel={e => {
+        if (n < 2 || Math.abs(e.deltaX) < 12 || Math.abs(e.deltaX) < Math.abs(e.deltaY) || Date.now() - wheelAt.current < 450) return;
+        wheelAt.current = Date.now(); go(e.deltaX > 0 ? 1 : -1);
+      }}>
+        <AnimatePresence initial={false} mode="popLayout" custom={dir}>
+          <m.div key={z.k} className="mg-dw" custom={dir}
+            variants={{ in: (d: number) => ({ opacity: 0, x: 24 * d }), show: { opacity: 1, x: 0 }, out: (d: number) => ({ opacity: 0, x: -24 * d, transition: { duration: 0.16 } }) }}
+            initial="in" animate="show" exit="out" transition={{ duration: 0.32, ease: EASE }}
+            drag={n > 1 ? 'x' : false} dragConstraints={{ left: 0, right: 0 }} dragElastic={0.35} dragSnapToOrigin
+            onDragStart={() => { dragged.current = true; }}
+            onDragEnd={(_, p) => { if (Math.abs(p.offset.x) > 40 || Math.abs(p.velocity.x) > 400) go(p.offset.x < 0 ? 1 : -1); setTimeout(() => { dragged.current = false; }, 0); }}>
+            <Link className="mg-card" href={href('/r/' + z.rid) + '#deals'} draggable={false} onClick={e => { if (dragged.current) { e.preventDefault(); return; } close(); }}>
               <Pic id={z.p} w={520} />
               <span><small>{i.L(z.week ? MW.week : z.plan === 'premium' ? MW.premium : MW.deal)}</small><b>{i.L(z.deal)}</b><span>{i.L(z.rname)}, <Tk v={z.price} /></span></span>
             </Link>
@@ -142,7 +153,7 @@ function MegaDeals({ list, close }: { list: Nav['deals']; close: () => void }) {
       </div>
       {n > 1 ? (
         <div className="mg-dots">
-          {list.map((d, ix) => <button key={d.k} type="button" aria-label={i.L(d.deal)} aria-current={ix === k % n} onClick={() => setK(ix)} />)}
+          {list.map((d, ix) => <button key={d.k} type="button" aria-label={i.L(d.deal)} aria-current={ix === k % n} onClick={() => { setDir(ix >= k % n ? 1 : -1); setK(ix); }} />)}
         </div>
       ) : null}
     </div>

@@ -156,6 +156,16 @@ number-flow-react { --number-flow-char-height: .92em; }
 .dd .mg-card small { color: var(--gold-text); font-weight: 700; font-size: 12.5px; display: block; }
 .dd .mg-card b { display: block; font-size: 15px; line-height: 1.25; }
 .dd .mg-card span span { font-size: 13.5px; color: var(--ink-2); }
+/* the drop-down deals slider (header, every page): drag, swipe or scroll sideways; dots jump */
+.dd .mg-deals { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.mg-dx { display: grid; overflow: hidden; border-radius: 14px; touch-action: pan-y; }
+.mg-dw { grid-area: 1 / 1; min-width: 0; cursor: grab; }
+.mg-dw:active { cursor: grabbing; }
+.mg-dw img { -webkit-user-drag: none; user-select: none; }
+.mg-dots { display: flex; gap: 6px; justify-content: center; }
+.dd .mg-dots button { width: 7px; height: 7px; padding: 0; border-radius: 99px; background: var(--line-2); transition: width .3s var(--ease), background .3s; }
+.dd .mg-dots button[aria-current="true"] { width: 20px; background: var(--hl); }
+.dd .mg-dots button:hover { background: var(--ink-3); }
 .hr { margin-left: auto; display: flex; align-items: center; gap: 8px; }
 .hsearch { display: inline-flex; align-items: center; gap: 10px; height: 42px; width: 300px; padding: 0 8px 0 14px; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line-2); color: var(--ink-3); font-size: 14.5px; transition: box-shadow .2s, background .3s; }
 .hsearch:hover { box-shadow: inset 0 0 0 1px var(--ink-3); }
@@ -318,7 +328,10 @@ number-flow-react { --number-flow-char-height: .92em; }
 .opt-c .pic { width: 52px; height: 52px; border-radius: 12px; }
 .opt-c b { display: block; font-weight: 700; color: var(--ink); }
 .opt-c small { color: var(--ink-3); font-size: 13.5px; display: block; }
-.opt-c .price-w { text-align: right; }
+.opt-c small .opt-star { font-size: 12px; color: var(--gold); vertical-align: -1px; margin-right: 2px; }
+.opt-c small .opt-feat { color: var(--gold-text); font-weight: 650; }
+.opt-c .price-w { text-align: right; max-width: 120px; }
+.opt-c small .opt-meta { display: block; margin-top: 1px; }
 .opt-c .price-w .price { display: block; font-size: 19px; color: var(--ink); }
 .opt-c .price-w small { font-size: 12.5px; }
 @media (max-width: 860px) { .ai-s { grid-template-columns: minmax(0, 1fr); } }
